@@ -1,6 +1,6 @@
 {
   "name": "@posthog/hedgehogs",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "PostHog's hedgehog illustration library — React components, raw SVGs, and searchable metadata. Bundled, offline, zero runtime CDN.",
   "license": "SEE LICENSE IN LICENSE",
   "author": "PostHog <hey@posthog.com>",
