@@ -4,13 +4,13 @@
   "description": "PostHog's hedgehog illustration library — React components, raw SVGs, and searchable metadata. Bundled, offline, zero runtime CDN.",
   "license": "SEE LICENSE IN LICENSE",
   "author": "PostHog <hey@posthog.com>",
-  "homepage": "https://github.com/PostHog/posthog-hedgehogs#readme",
+  "homepage": "https://github.com/PostHog/hedgehogs#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/PostHog/posthog-hedgehogs.git"
+    "url": "git+https://github.com/PostHog/hedgehogs.git"
   },
   "bugs": {
-    "url": "https://github.com/PostHog/posthog-hedgehogs/issues"
+    "url": "https://github.com/PostHog/hedgehogs/issues"
   },
   "keywords": [
     "posthog",

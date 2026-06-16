@@ -1,5 +1,9 @@
 name: Sync art
 
+# Pulls new art from the pipeline daily and commits it (plus a changeset)
+# straight to main — no PR. The changeset commit triggers the Release workflow,
+# which gates publishing behind Slack approval.
+
 on:
   schedule:
     - cron: "0 6 * * *" # daily at 06:00 UTC
@@ -8,24 +12,29 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: sync
+  cancel-in-progress: false
+
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      # A dedicated GitHub App (per the PostHog SDK release handbook) so the PR
-      # is authored by an identity that can trigger CI and is exempt from rulesets.
-      - uses: actions/create-github-app-token@v2
-        id: app-token
+      - name: Get GitHub App token
+        id: releaser
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
-          app-id: ${{ vars.RELEASER_APP_ID }}
-          private-key: ${{ secrets.RELEASER_PRIVATE_KEY }}
+          app-id: ${{ secrets.GH_APP_POSTHOG_HEDGEHOGS_RELEASER_APP_ID }}
+          private-key: ${{ secrets.GH_APP_POSTHOG_HEDGEHOGS_RELEASER_PRIVATE_KEY }}
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          token: ${{ steps.app-token.outputs.token }}
+          ref: main
+          fetch-depth: 0
+          token: ${{ steps.releaser.outputs.token }}
 
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 24
           cache: pnpm
@@ -35,29 +44,36 @@ jobs:
       - name: Sync catalog from the art pipeline
         run: pnpm sync
 
+      - name: Detect changes
+        id: changes
+        run: |
+          if [ -n "$(git status --porcelain assets)" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No catalog changes — nothing to commit."
+          fi
+
       - name: Validate the synced catalog builds and passes tests
+        if: steps.changes.outputs.changed == 'true'
         run: |
           pnpm codegen
           pnpm test
           pnpm build
 
       - name: Write changeset describing the changes
+        if: steps.changes.outputs.changed == 'true'
         run: node scripts/write-sync-changeset.ts
 
-      - name: Open or update the sync PR
-        uses: peter-evans/create-pull-request@v7
+      # Commit assets + the changeset directly to main (verified API commit, no PR).
+      # This push triggers the Release workflow via its .changeset/*.md path filter.
+      - name: Commit catalog to main
+        if: steps.changes.outputs.changed == 'true'
+        uses: planetscale/ghcommit-action@25309d8005ac7c3bcd61d3fe19b69e0fe47dbdde
         with:
-          token: ${{ steps.app-token.outputs.token }}
-          branch: chore/art-sync
-          title: "chore: sync hedgehog catalog"
-          commit-message: "chore: sync hedgehog catalog"
-          labels: art-sync
-          body: |
-            Automated sync of the hedgehog catalog from the art pipeline.
-
-            Review the asset changes under `assets/`, then add the `release`
-            label when you're ready to publish. See the changeset for the
-            added/removed/re-delivered summary.
-          add-paths: |
-            assets/**
-            .changeset/**
+          commit_message: "chore: sync hedgehog catalog"
+          repo: ${{ github.repository }}
+          branch: main
+          file_pattern: "assets .changeset"
+        env:
+          GITHUB_TOKEN: ${{ steps.releaser.outputs.token }}

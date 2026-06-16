@@ -1,6 +1,6 @@
 // Writes a changeset describing what the latest sync changed, by diffing the
 // working catalog against the committed one. No-op (and no file) when nothing
-// changed. Used by the sync workflow before opening its PR.
+// changed. Used by the sync workflow before it commits to main.
 
 import { execSync } from "node:child_process";
 import { readFile, writeFile } from "node:fs/promises";
@@ -33,7 +33,22 @@ const reDelivered = [...currBySlug.entries()]
   .map(([s, e]) => `${s} (${prevBySlug.get(s)!.delivery} → ${e.delivery})`)
   .sort();
 
-if (added.length === 0 && removed.length === 0 && reDelivered.length === 0) {
+// Metadata-only changes (same delivery, different tags/caption/etc.) still warrant
+// a release so consumers get the update.
+const updated = [...currBySlug.entries()]
+  .filter(([s, e]) => {
+    const prev = prevBySlug.get(s);
+    return prev && prev.delivery === e.delivery && JSON.stringify(prev) !== JSON.stringify(e);
+  })
+  .map(([s]) => s)
+  .sort();
+
+if (
+  added.length === 0 &&
+  removed.length === 0 &&
+  reDelivered.length === 0 &&
+  updated.length === 0
+) {
   console.log("No catalog changes — skipping changeset.");
   process.exit(0);
 }
@@ -42,6 +57,7 @@ const body: string[] = ["Sync hedgehog catalog from the art pipeline.", ""];
 if (added.length) body.push(`- Added ${added.length}: ${added.join(", ")}`);
 if (removed.length) body.push(`- Removed ${removed.length}: ${removed.join(", ")}`);
 if (reDelivered.length) body.push(`- Re-delivered: ${reDelivered.join(", ")}`);
+if (updated.length) body.push(`- Updated metadata ${updated.length}: ${updated.join(", ")}`);
 
 const slug = process.env.GITHUB_RUN_ID ?? `${current.entries.length}`;
 const file = join(ROOT, ".changeset", `art-sync-${slug}.md`);

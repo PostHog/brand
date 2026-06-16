@@ -1,78 +1,197 @@
 name: Release
 
+# Direct-push release (no version PR), modeled on PostHog/posthog-rs but using
+# changesets. A changeset landing on main triggers this; a human approves via the
+# Release environment, then the version bump is committed straight to main and the
+# package is published to npm with trusted publishing (OIDC).
+
 on:
   push:
     branches: [main]
-
-concurrency: release-${{ github.ref }}
+    paths:
+      - ".changeset/*.md"
+  workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: release
+  cancel-in-progress: false
+
 jobs:
-  release:
+  check-changesets:
+    name: Check for changesets
     runs-on: ubuntu-latest
-    # The Release environment gates publishing behind required reviewers
-    # (@PostHog/client-libraries-approvers), per the SDK release handbook.
-    environment: Release
+    outputs:
+      has-changesets: ${{ steps.check.outputs.has-changesets }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Check for changesets
+        id: check
+        run: |
+          count=$(find .changeset -name '*.md' ! -name 'README.md' 2>/dev/null | wc -l)
+          if [ "$count" -gt 0 ]; then
+            echo "has-changesets=true" >> "$GITHUB_OUTPUT"
+            echo "Found $count changeset(s), ready to release"
+          else
+            echo "has-changesets=false" >> "$GITHUB_OUTPUT"
+            echo "No changesets to release"
+          fi
+
+  notify-approval-needed:
+    name: Notify Slack - Approval Needed
+    needs: check-changesets
+    if: needs.check-changesets.outputs.has-changesets == 'true'
+    uses: posthog/.github/.github/workflows/notify-approval-needed.yml@5fc4680761e8ac29a61b212756230eba0e276d8c
+    with:
+      slack_channel_id: ${{ vars.SLACK_APPROVALS_CLIENT_LIBRARIES_CHANNEL_ID }}
+      slack_user_group_id: ${{ vars.GROUP_CLIENT_LIBRARIES_SLACK_GROUP_ID }}
+    secrets:
+      slack_bot_token: ${{ secrets.SLACK_CLIENT_LIBRARIES_BOT_TOKEN }}
+      posthog_project_api_key: ${{ secrets.POSTHOG_PROJECT_API_KEY }}
+
+  release:
+    name: Release and publish
+    needs: [check-changesets, notify-approval-needed]
+    if: always() && needs.check-changesets.outputs.has-changesets == 'true'
+    runs-on: ubuntu-latest
+    environment: Release # required reviewers gate (client-libraries-approvers)
     permissions:
-      contents: write # push tags / version commit
-      pull-requests: write # open the "Version Packages" PR
+      contents: write # commit the version bump + create the release/tag
       id-token: write # npm trusted publishing (OIDC)
     outputs:
-      published: ${{ steps.changesets.outputs.published }}
+      published: ${{ steps.publish.outputs.published }}
+      version: ${{ steps.version.outputs.new_version }}
     steps:
-      - uses: actions/create-github-app-token@v2
-        id: app-token
+      - name: Notify Slack - Approved
+        if: needs.notify-approval-needed.outputs.slack_ts != ''
+        uses: posthog/.github/.github/actions/slack-thread-reply@5fc4680761e8ac29a61b212756230eba0e276d8c
         with:
-          app-id: ${{ vars.RELEASER_APP_ID }}
-          private-key: ${{ secrets.RELEASER_PRIVATE_KEY }}
+          slack_bot_token: ${{ secrets.SLACK_CLIENT_LIBRARIES_BOT_TOKEN }}
+          slack_channel_id: ${{ vars.SLACK_APPROVALS_CLIENT_LIBRARIES_CHANNEL_ID }}
+          thread_ts: ${{ needs.notify-approval-needed.outputs.slack_ts }}
+          message: "✅ Release approved! Version bump in progress..."
+          emoji_reaction: "white_check_mark"
 
-      - uses: actions/checkout@v4
+      - name: Get GitHub App token
+        id: releaser
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
-          token: ${{ steps.app-token.outputs.token }}
+          app-id: ${{ secrets.GH_APP_POSTHOG_HEDGEHOGS_RELEASER_APP_ID }}
+          private-key: ${{ secrets.GH_APP_POSTHOG_HEDGEHOGS_RELEASER_PRIVATE_KEY }}
 
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ steps.releaser.outputs.token }}
+
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
           cache: pnpm
 
+      - name: Ensure npm supports trusted publishing (OIDC)
+        run: npm install -g npm@latest
+
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
 
-      # When changesets exist on main, this opens/updates a "Version Packages" PR.
-      # When that PR is merged (no changesets remain), it runs `pnpm release`
-      # (= `changeset publish`) to publish via npm trusted publishing.
-      - name: Version or publish
-        id: changesets
-        uses: changesets/action@v1
+      - name: Bump version and changelog
+        id: version
+        run: |
+          pnpm changeset version
+          new_version=$(node -p "require('./package.json').version")
+          echo "new_version=$new_version" >> "$GITHUB_OUTPUT"
+          echo "Releasing v$new_version"
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet; then
+            echo "committed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "committed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Commit the version bump + changelog directly to main (verified API commit,
+      # no PR). [skip ci] avoids re-triggering CI for the bump itself.
+      - name: Commit version bump to main
+        if: steps.changes.outputs.committed == 'true'
+        uses: planetscale/ghcommit-action@25309d8005ac7c3bcd61d3fe19b69e0fe47dbdde
         with:
-          version: pnpm changeset version
-          publish: pnpm release
-          commit: "chore: release"
-          title: "chore: release"
+          commit_message: "chore: release v${{ steps.version.outputs.new_version }} [skip ci]"
+          repo: ${{ github.repository }}
+          branch: main
         env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          GITHUB_TOKEN: ${{ steps.releaser.outputs.token }}
+
+      # ghcommit committed via the API, so the local tree is still dirty and ahead
+      # is on the remote. Reset to the just-pushed commit before publishing.
+      - name: Sync local repository
+        run: |
+          git checkout -- .
+          git pull origin main
+
+      - name: Publish to npm (trusted publishing)
+        id: publish
+        run: |
+          pnpm changeset publish
+          echo "published=true" >> "$GITHUB_OUTPUT"
+        env:
           NPM_CONFIG_PROVENANCE: "true"
+          GITHUB_TOKEN: ${{ steps.releaser.outputs.token }}
 
-  migration-report:
-    needs: release
-    if: needs.release.outputs.published == 'true'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-
-      - name: Post SVG-vs-PNG migration TLDR to Slack
-        run: pnpm migration-report
+      - name: Create GitHub Release
+        if: steps.publish.outputs.published == 'true'
         env:
-          SLACK_HEDGEHOGS_WEBHOOK_URL: ${{ secrets.SLACK_HEDGEHOGS_WEBHOOK_URL }}
+          GITHUB_TOKEN: ${{ steps.releaser.outputs.token }}
+          NEW_VERSION: ${{ steps.version.outputs.new_version }}
+        run: |
+          CHANGELOG_ENTRY=$(awk -v defText="see CHANGELOG.md" '/^## /{if (flag) exit; flag=1; next} flag; END{if (!flag) print defText}' CHANGELOG.md | sed '/[^[:space:]]/,$!d' | tac | sed '/[^[:space:]]/,$!d' | tac)
+          gh release create "v$NEW_VERSION" --target main --title "v$NEW_VERSION" --notes "$CHANGELOG_ENTRY"
+
+      - name: Send failure event to PostHog
+        if: ${{ failure() }}
+        uses: PostHog/posthog-github-action@58dea254b598fb5d469c0699c98af8288a7f7650 # v1.2.0
+        with:
+          posthog-token: ${{ secrets.POSTHOG_PROJECT_API_KEY }}
+          event: "hedgehogs-github-release-workflow-failure"
+          properties: >-
+            {
+              "commitSha": "${{ github.sha }}",
+              "jobStatus": "${{ job.status }}",
+              "ref": "${{ github.ref }}",
+              "version": "${{ steps.version.outputs.new_version }}"
+            }
+
+      - name: Notify Slack - Failed
+        if: ${{ failure() && needs.notify-approval-needed.outputs.slack_ts != '' }}
+        uses: posthog/.github/.github/actions/slack-thread-reply@5fc4680761e8ac29a61b212756230eba0e276d8c
+        with:
+          slack_bot_token: ${{ secrets.SLACK_CLIENT_LIBRARIES_BOT_TOKEN }}
+          slack_channel_id: ${{ vars.SLACK_APPROVALS_CLIENT_LIBRARIES_CHANNEL_ID }}
+          thread_ts: ${{ needs.notify-approval-needed.outputs.slack_ts }}
+          message: "❌ Failed to release `@posthog/hedgehogs@${{ steps.version.outputs.new_version }}`! <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>"
+          emoji_reaction: "x"
+
+  notify-released:
+    name: Notify Slack - Released
+    needs: [check-changesets, notify-approval-needed, release]
+    runs-on: ubuntu-latest
+    if: always() && needs.release.result == 'success' && needs.notify-approval-needed.outputs.slack_ts != ''
+    steps:
+      - name: Notify Slack - Released
+        uses: posthog/.github/.github/actions/slack-thread-reply@5fc4680761e8ac29a61b212756230eba0e276d8c
+        with:
+          slack_bot_token: ${{ secrets.SLACK_CLIENT_LIBRARIES_BOT_TOKEN }}
+          slack_channel_id: ${{ vars.SLACK_APPROVALS_CLIENT_LIBRARIES_CHANNEL_ID }}
+          thread_ts: ${{ needs.notify-approval-needed.outputs.slack_ts }}
+          message: "🚀 `@posthog/hedgehogs@${{ needs.release.outputs.version }}` released successfully!"
+          emoji_reaction: "rocket"

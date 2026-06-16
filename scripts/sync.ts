@@ -23,7 +23,7 @@ import type {
 } from "./lib/catalog.ts";
 import { optimizeSvg } from "./lib/svg.ts";
 
-const BASE = "https://posthog-art-library.vercel.app";
+const BASE = "https://posthog-art-library.vercel.app"; // TODO: Point to a better URL once there is one
 const INDEX_URL = `${BASE}/data/index.json`;
 const TAGS_URL = `${BASE}/data/tags.json`;
 
@@ -113,6 +113,8 @@ async function processAsset(entry: IndexEntry): Promise<CatalogEntry> {
     const res = await fetchRetry(entry.files.vector);
     const declared = Number(res.headers.get("content-length") ?? "0");
     if (declared > MAX_RAW_FOR_INLINE) {
+      // Record the source size (for the migration report) but skip the download.
+      rawVectorBytes = declared;
       await res.body?.cancel();
     } else {
       const raw = await res.text();

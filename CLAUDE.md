@@ -28,6 +28,10 @@ art-pipeline (public catalog)  --sync.ts-->  assets/  --codegen.ts-->  src/gener
 
 ## Releases
 
-Daily `sync.yml` opens an art-sync PR. `release.yml` follows the PostHog SDK handbook
-(Releaser GitHub App, `Release` environment, npm trusted publishing via OIDC). A
-post-publish job posts an SVG-vs-PNG migration TLDR to Slack.
+No PRs — everything is committed directly to `main` (verified API commits via the
+Releaser GitHub App). Daily `sync.yml` commits new art + a changeset to `main`; that
+triggers `release.yml`, which (gated by the `Release` environment + Slack approval, per
+the PostHog SDK handbook) runs `changeset version`, commits the bump to `main`, and
+publishes to npm via trusted publishing (OIDC). `migration-report.yml` produces an
+SVG-vs-PNG status report (job output + step summary) every Monday, only if there were
+commits that week.

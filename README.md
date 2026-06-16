@@ -73,8 +73,7 @@ Most illustrations are auto-traced vectors that are multiple megabytes each, so 
 every SVG isn't viable. Each asset therefore ships in the best form that fits the budget:
 
 - `delivery: "svg"` — a true vector, optimized and inlined (crisp, scalable).
-- `delivery: "png"` — a 768px PNG rendered from the same source (the trace came _from_ that
-  raster, so fidelity matches).
+- `delivery: "png"` — a 768px PNG rendered from the same source (the trace came _from_ that raster, so fidelity matches).
 
 Either way the API is identical and everything is bundled — no runtime CDN calls. Filter
 by `delivery` in `findHedgehogs`, or read `Component.meta.delivery`. We're steadily
@@ -86,12 +85,16 @@ migrating assets toward `"svg"`.
 ## How art gets here
 
 Illustrations live in PostHog's art pipeline and are published to a public catalog.
-A daily GitHub Action syncs that catalog into this repo (`assets/`), regenerates the
-components, and opens a PR. Releases follow the
+A daily GitHub Action syncs that catalog into this repo (`assets/`) and commits the
+changes — plus a [changeset](https://github.com/changesets/changesets) — straight to
+`main` (no PR). That triggers the release workflow, which bumps the version, commits it
+back to `main`, and publishes to npm with trusted publishing (OIDC) — gated behind Slack
+approval, per the
 [PostHog SDK release process](https://posthog.com/handbook/engineering/sdks/releases).
 
 Every asset ships as an optimized SVG when it's a true vector under budget, otherwise as a
-768px PNG rendered from the same source. We're migrating everything toward true SVGs.
+768px PNG rendered from the same source. We're migrating everything toward true SVGs, and a
+weekly workflow reports progress.
 
 ## License
 
