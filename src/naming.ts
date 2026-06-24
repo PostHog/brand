@@ -39,7 +39,7 @@ export function slugify(name: string): string {
  * `getComponentName`, adding a word here keeps the generated export and the runtime
  * lookup in agreement — this is the one place that controls identifier casing.
  */
-export const ACRONYMS: ReadonlySet<string> = new Set(["ai"])
+export const ACRONYMS: ReadonlySet<string> = new Set(["ai", "na", "eu"])
 
 /** "doctor-hog" -> "DoctorHog", "9-9-6" -> "996", "ai-gateway" -> "AIGateway". */
 export function slugToPascal(slug: string): string {
