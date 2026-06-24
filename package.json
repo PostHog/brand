@@ -1,6 +1,6 @@
 {
   "name": "@posthog/brand",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "PostHog's brand assets — hedgehog illustrations, logos, team crests, and brand colors as React components, raw SVGs, PNG URLs, and tokens. Bundled, offline, tree-shakeable.",
   "license": "SEE LICENSE IN LICENSE",
   "author": "PostHog <hey@posthog.com>",

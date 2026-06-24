@@ -1,6 +1,6 @@
 {
   "name": "@posthog/brand-site",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "Showcase site for @posthog/brand — exercises the real package components.",
   "type": "module",
