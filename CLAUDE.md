@@ -102,4 +102,7 @@ by slug (`getComponentName` + a namespace import of the barrel — `site/src/ass
 `assets-crests.ts`), and the heavy catalog routes are `React.lazy` code-split so the initial bundle
 stays small. The site is themed from the package's own `colorsCss` tokens. It is NOT published to
 npm; it deploys to Cloudflare Pages via the dashboard's Git integration (root dir = repo root,
-build = `pnpm build:site`, output = `site/dist`, `NODE_VERSION=20`).
+build = `pnpm build:site`, output = `site/dist`). Node is pinned via `.nvmrc` (≥22.18):
+the build runs the `.ts` scripts in `scripts/` directly through Node's native TS
+type-stripping, which is only on-by-default from Node 22.18/23.6 — older Node throws
+`ERR_UNKNOWN_FILE_EXTENSION` on `codegen.ts`.
