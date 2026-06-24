@@ -4,19 +4,19 @@
   "description": "PostHog's brand assets — hedgehog illustrations, logos, team crests, and brand colors as React components, raw SVGs, PNG URLs, and tokens. Bundled, offline, tree-shakeable.",
   "license": "SEE LICENSE IN LICENSE",
   "author": "PostHog <hey@posthog.com>",
-  "homepage": "https://github.com/PostHog/hedgehogs#readme",
+  "homepage": "https://github.com/PostHog/brand#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/PostHog/hedgehogs.git"
+    "url": "git+https://github.com/PostHog/brand.git"
   },
   "bugs": {
-    "url": "https://github.com/PostHog/hedgehogs/issues"
+    "url": "https://github.com/PostHog/brand/issues"
   },
   "keywords": [
     "posthog",
     "brand",
     "hedgehog",
-    "hedgehogs",
+    "hoggies",
     "logo",
     "crest",
     "colors",
