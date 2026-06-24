@@ -1,8 +1,8 @@
-name: Sync art
+name: Sync brand assets
 
-# Pulls new art from the pipeline daily and commits it (plus a changeset)
-# straight to main — no PR. The changeset commit triggers the Release workflow,
-# which gates publishing behind Slack approval.
+# Pulls new brand assets from the Figma brand book daily and commits them (plus a
+# changeset) straight to main — no PR. The changeset commit triggers the Release
+# workflow, which gates publishing behind Slack approval.
 
 on:
   schedule:
@@ -24,8 +24,8 @@ jobs:
         id: releaser
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
-          app-id: ${{ secrets.GH_APP_POSTHOG_HEDGEHOGS_RELEASER_APP_ID }}
-          private-key: ${{ secrets.GH_APP_POSTHOG_HEDGEHOGS_RELEASER_PRIVATE_KEY }}
+          app-id: ${{ secrets.GH_APP_POSTHOG_BRAND_RELEASER_APP_ID }}
+          private-key: ${{ secrets.GH_APP_POSTHOG_BRAND_RELEASER_PRIVATE_KEY }}
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
@@ -41,8 +41,13 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Sync catalog from the art pipeline
+      - name: Sync assets from the Figma brand book
         run: pnpm sync
+        env:
+          FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
+          # Pace metered Figma API calls at ~9 req/min (one every 6.667s) to stay
+          # safely under the seat's rate limit and avoid 429/backoff churn.
+          FIGMA_MIN_INTERVAL_MS: 6667
 
       - name: Detect changes
         id: changes
@@ -54,7 +59,7 @@ jobs:
             echo "No catalog changes — nothing to commit."
           fi
 
-      - name: Validate the synced catalog builds and passes tests
+      - name: Validate the synced assets build and pass tests
         if: steps.changes.outputs.changed == 'true'
         run: |
           pnpm codegen
@@ -67,11 +72,11 @@ jobs:
 
       # Commit assets + the changeset directly to main (verified API commit, no PR).
       # This push triggers the Release workflow via its .changeset/*.md path filter.
-      - name: Commit catalog to main
+      - name: Commit assets to main
         if: steps.changes.outputs.changed == 'true'
         uses: planetscale/ghcommit-action@25309d8005ac7c3bcd61d3fe19b69e0fe47dbdde
         with:
-          commit_message: "chore: sync hedgehog catalog"
+          commit_message: "chore: sync brand assets"
           repo: ${{ github.repository }}
           branch: main
           file_pattern: "assets .changeset"

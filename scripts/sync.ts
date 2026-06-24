@@ -1,267 +1,400 @@
-// Sync the public art-library catalog into ./assets.
+// Sync the PostHog brand-book Figma file into ./assets.
 //
-// The ONLY networked script. Downloads a 768px PNG for every asset and the source
-// SVG for assets that optimize under the inline budget, then writes catalog.json,
-// tags.json, and sync-state.json. Run with `pnpm sync` (Node 24, no transpile step).
+// The ONLY networked script. Walks the configured Figma pages, renders every asset to
+// BOTH an optimized inline SVG and a bundled PNG, and writes one catalog.json per
+// namespace plus sync-state.json. Assets whose Figma subtree is unchanged since the last
+// sync are reused untouched, so a typical run re-renders only what actually changed.
+// (The brand color palette is a fixed, hand-maintained list in static/colors.ts — not
+// synced from Figma.) Run with `pnpm sync`.
 //
 // Flags:
-//   --check   Report drift vs the committed catalog and exit 1 if any; download nothing.
+//   --check   Report drift vs the committed catalogs and exit 1 if any; render nothing.
+//   --force   Re-render every asset, ignoring sync-state (e.g. after a render-engine change).
 
-import { createHash } from "node:crypto";
-import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
-import { existsSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
-import pLimit from "p-limit";
-import type {
-  Catalog,
-  CatalogEntry,
-  IndexEntry,
-  SearchIndex,
-  SyncState,
-  TagsIndex,
-} from "./lib/catalog.ts";
-import { optimizeSvg } from "./lib/svg.ts";
+import { createHash } from "node:crypto"
+import { existsSync } from "node:fs"
+import { mkdir, readFile, rm, writeFile } from "node:fs/promises"
+import { dirname, join } from "node:path"
+import { fileURLToPath } from "node:url"
+import pLimit from "p-limit"
+import type { AssetMeta, CrestTier, Namespace } from "../src/types.ts"
+import { dedupeSlugs, slugify } from "../src/naming.ts"
+import { FigmaClient, type FigmaNode } from "./lib/figma.ts"
+import { optimizeSvg } from "./lib/svg.ts"
+import { optimizePng } from "./lib/png.ts"
+import { FIGMA_FILE_KEY, ILLUSTRATION_PAGES, type IllustrationPage } from "./lib/figma-pages.ts"
+import type { Catalog, CatalogEntry, SyncState, SyncStateEntry } from "./lib/catalog.ts"
 
-const BASE = "https://posthog-art-library.vercel.app"; // TODO: Point to a better URL once there is one
-const INDEX_URL = `${BASE}/data/index.json`;
-const TAGS_URL = `${BASE}/data/tags.json`;
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..")
+const ASSETS = join(ROOT, "assets")
+const DOWNLOAD_CONCURRENCY = 8
 
-// r2.dev rejects non-browser User-Agents with 403, so we present a browser one.
-const UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36";
-
-const INLINE_BUDGET = 512 * 1024; // optimized SVG must fit this to ship as a vector
-const MAX_RAW_FOR_INLINE = 2 * 1024 * 1024; // skip downloading vectors larger than this
-const CONCURRENCY = 8;
-
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const ASSETS = join(ROOT, "assets");
-const VECTORS = join(ASSETS, "vectors");
-const PNGS = join(ASSETS, "png");
-
-interface SyncSummary {
-  added: string[];
-  updated: string[];
-  removed: string[];
-  unchanged: number;
-  svgCount: number;
-  pngCount: number;
+/** A discovered asset before rendering: its identity + the Figma node to render. */
+interface DiscoveredAsset {
+  meta: AssetMeta
+  node: FigmaNode
+  /** Hash of the node subtree, for change detection. */
+  hash: string
 }
 
-async function fetchRetry(url: string, attempts = 3): Promise<Response> {
-  let lastErr: unknown;
-  for (let i = 0; i < attempts; i++) {
-    try {
-      const res = await fetch(url, { headers: { "User-Agent": UA } });
-      if (res.ok) return res;
-      lastErr = new Error(`${res.status} ${res.statusText} for ${url}`);
-    } catch (err) {
-      lastErr = err;
-    }
-    await new Promise((r) => setTimeout(r, 1000 * 2 ** i));
+interface NamespaceSummary {
+  namespace: Namespace
+  added: string[]
+  updated: string[]
+  removed: string[]
+  unchanged: number
+}
+
+function nsDir(namespace: Namespace): string {
+  return join(ASSETS, namespace)
+}
+
+/** The on-disk folder for an asset's files: tiered crests nest under `<ns>/<tier>/`. */
+function assetDir(namespace: Namespace, tier?: CrestTier): string {
+  return tier ? join(nsDir(namespace), tier) : nsDir(namespace)
+}
+
+/** Stable key identifying an asset within the sync state / a catalog map (slug + tier). */
+function assetKey(slug: string, tier?: CrestTier): string {
+  return tier ? `${tier}/${slug}` : slug
+}
+
+function stateKey(namespace: Namespace, slug: string, tier?: CrestTier): string {
+  return `${namespace}/${assetKey(slug, tier)}`
+}
+
+function hashNode(node: FigmaNode): string {
+  return createHash("sha256").update(JSON.stringify(node)).digest("hex").slice(0, 16)
+}
+
+function titleCase(s: string): string {
+  return s
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ")
+}
+
+function stripName(page: IllustrationPage, name: string): string {
+  return page.stripPrefix ? name.replace(page.stripPrefix, "").trim() : name.trim()
+}
+
+/** "Orientation=Landscape, Logomark=Color (gradient)" -> { Orientation, Logomark }. */
+function parseVariant(name: string): Record<string, string> {
+  const out: Record<string, string> = {}
+  for (const pair of name.split(",")) {
+    const eq = pair.indexOf("=")
+    if (eq === -1) continue
+    out[pair.slice(0, eq).trim()] = pair.slice(eq + 1).trim()
   }
-  throw lastErr;
+  return out
 }
 
-async function fetchJson<T>(url: string): Promise<T> {
-  return (await (await fetchRetry(url)).json()) as T;
+/** Build the base slug + display name (+ tier) for a COMPONENT_SET variant or bare COMPONENT. */
+function identity(
+  page: IllustrationPage,
+  setName: string,
+  setId: string,
+  variant: Record<string, string> | undefined,
+): { slug: string; name: string; tier?: CrestTier } {
+  const stripped = stripName(page, setName)
+
+  // Tier pages (crests): lift "Default"/"Mini" out of the slug into `tier`. Any other
+  // value of the tier property (e.g. "plant") is a real variant and stays in the slug.
+  if (page.tierVariantProp) {
+    const tierVal = variant?.[page.tierVariantProp]
+    const tier: CrestTier = tierVal?.toLowerCase() === "mini" ? "mini" : "full"
+    const extras = Object.entries(variant ?? {})
+      .filter(([k, v]) => {
+        if (k !== page.tierVariantProp) return true
+        const lv = v.toLowerCase()
+        return lv !== "default" && lv !== "mini"
+      })
+      .map(([, v]) => v)
+    const baseName = titleCase([stripped, ...extras].join(" "))
+    const slug = [slugify(stripped), ...extras.map(slugify)].filter(Boolean).join("-")
+    return { slug, name: tier === "mini" ? `${baseName} Mini` : baseName, tier }
+  }
+
+  if (!variant) {
+    return { slug: slugify(stripped), name: titleCase(stripped) }
+  }
+
+  // Preserve Figma's variant-property order (as it appears in the node name) so logo
+  // slugs read naturally, e.g. "landscape-color-gradient" not "color-gradient-landscape".
+  const propValues = Object.keys(variant).map((k) => variant[k]!)
+
+  if (page.setPrefixes) {
+    const prefix = page.setPrefixes[setId] ?? slugify(stripped)
+    const slug = [prefix, ...propValues.map(slugify)].filter(Boolean).join("-")
+    const name = titleCase([prefix, ...propValues].filter(Boolean).join(" "))
+    return { slug, name }
+  }
+
+  // Fallback for a variant page without setPrefixes/tierVariantProp: base slug with
+  // non-"Default" variant values appended.
+  const extras = propValues.filter((v) => v.toLowerCase() !== "default")
+  const slug = [slugify(stripped), ...extras.map(slugify)].filter(Boolean).join("-")
+  const name = titleCase([stripped, ...extras].join(" "))
+  return { slug, name }
 }
 
-function hashEntry(entry: IndexEntry): string {
-  return createHash("sha256").update(JSON.stringify(entry)).digest("hex").slice(0, 16);
+/** Walk a page container and flatten its COMPONENT / COMPONENT_SET nodes into assets. */
+function discoverPage(page: IllustrationPage, container: FigmaNode): DiscoveredAsset[] {
+  const raw: {
+    slug: string
+    name: string
+    node: FigmaNode
+    variant?: Record<string, string>
+    tier?: CrestTier
+  }[] = []
+
+  for (const child of container.children ?? []) {
+    if (child.type === "COMPONENT_SET") {
+      for (const variantNode of child.children ?? []) {
+        if (variantNode.type !== "COMPONENT") continue
+        const variant = parseVariant(variantNode.name)
+        const { slug, name, tier } = identity(page, child.name, child.id, variant)
+        raw.push({ slug, name, node: variantNode, variant, tier })
+      }
+    } else if (child.type === "COMPONENT") {
+      const { slug, name, tier } = identity(page, child.name, child.id, undefined)
+      raw.push({ slug, name, node: child, tier })
+    }
+  }
+
+  // Deterministic order, then disambiguate duplicate slugs *within each tier* — a full
+  // and a mini crest sharing a base slug are distinct assets, not a collision.
+  raw.sort((a, b) => a.slug.localeCompare(b.slug) || a.node.id.localeCompare(b.node.id))
+  const finalSlugs: string[] = []
+  for (const tier of new Set(raw.map((r) => r.tier))) {
+    const idx = raw.map((_, i) => i).filter((i) => raw[i]!.tier === tier)
+    const deduped = dedupeSlugs(idx.map((i) => raw[i]!.slug))
+    idx.forEach((i, k) => (finalSlugs[i] = deduped[k]!))
+  }
+
+  return raw.map((r, i) => {
+    const slug = finalSlugs[i]!
+    if (slug !== r.slug) {
+      console.warn(`  ! duplicate name in ${page.namespace}: "${r.name}" -> slug "${slug}"`)
+    }
+    // The tier property lives in `tier`, not `variant`; drop it so it isn't duplicated.
+    const variant = r.variant
+      ? Object.fromEntries(Object.entries(r.variant).filter(([k]) => k !== page.tierVariantProp))
+      : undefined
+    const hasVariant = variant && Object.keys(variant).length > 0
+    const meta: AssetMeta = {
+      slug,
+      name: r.name,
+      namespace: page.namespace,
+      ...(r.tier ? { tier: r.tier } : {}),
+      figmaNodeId: r.node.id,
+      aspectRatio: 1,
+      ...(hasVariant ? { variant } : {}),
+    }
+    return { meta, node: r.node, hash: hashNode(r.node) }
+  })
 }
 
-/** Reads width/height from a PNG's IHDR chunk → aspect ratio. */
-function pngAspectRatio(bytes: Uint8Array): number {
-  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
-  const width = view.getUint32(16);
-  const height = view.getUint32(20);
-  return width && height ? width / height : 1;
-}
-
-async function readExistingCatalog(): Promise<Map<string, CatalogEntry>> {
-  const path = join(ASSETS, "catalog.json");
-  if (!existsSync(path)) return new Map();
-  const catalog = JSON.parse(await readFile(path, "utf8")) as Catalog;
-  return new Map(catalog.entries.map((e) => [e.slug, e]));
+/** Map of catalog entries keyed by slug+tier (slug alone isn't unique across crest tiers). */
+async function readCatalog(namespace: Namespace): Promise<Map<string, CatalogEntry>> {
+  const path = join(nsDir(namespace), "catalog.json")
+  if (!existsSync(path)) return new Map()
+  const catalog = JSON.parse(await readFile(path, "utf8")) as Catalog
+  return new Map(catalog.entries.map((e) => [assetKey(e.slug, e.tier), e]))
 }
 
 async function readSyncState(): Promise<SyncState> {
-  const path = join(ASSETS, "sync-state.json");
-  if (!existsSync(path)) return { source: "", entries: {} };
-  return JSON.parse(await readFile(path, "utf8")) as SyncState;
+  const path = join(ASSETS, "sync-state.json")
+  if (!existsSync(path)) return { figmaFileKey: "", figmaVersion: "", entries: {} }
+  return JSON.parse(await readFile(path, "utf8")) as SyncState
 }
 
-/** Downloads + classifies one asset, writing its PNG (always) and SVG (if it fits). */
-async function processAsset(entry: IndexEntry): Promise<CatalogEntry> {
-  const { slug } = entry;
+function filesPresent(namespace: Namespace, slug: string, tier?: CrestTier): boolean {
+  return (
+    existsSync(join(assetDir(namespace, tier), "vectors", `${slug}.svg`)) &&
+    existsSync(join(assetDir(namespace, tier), "png", `${slug}.png`))
+  )
+}
 
-  // 1. PNG (every asset) — the universal offline fallback.
-  const pngRes = await fetchRetry(entry.files.md);
-  const pngBytes = new Uint8Array(await pngRes.arrayBuffer());
-  await writeFile(join(PNGS, `${slug}.png`), pngBytes);
+/** Render + download + optimize one asset, writing its SVG and PNG. */
+async function renderAsset(
+  client: FigmaClient,
+  asset: DiscoveredAsset,
+  svgUrl: string,
+  pngUrl: string,
+): Promise<CatalogEntry> {
+  const { namespace, slug, tier } = asset.meta
+  const dir = assetDir(namespace, tier)
+  await mkdir(join(dir, "vectors"), { recursive: true })
+  await mkdir(join(dir, "png"), { recursive: true })
 
-  // 2. SVG (best effort). Skip the download entirely when the source is huge.
-  let delivery: "svg" | "png" = "png";
-  let rawVectorBytes: number | null = null;
-  let inlineVectorBytes: number | null = null;
-  let aspectRatio = pngAspectRatio(pngBytes);
-  const vectorPath = join(VECTORS, `${slug}.svg`);
-  await rm(vectorPath, { force: true }); // clear any stale vector before re-deciding
+  const rawSvg = await client.downloadText(svgUrl)
+  const optimized = optimizeSvg(rawSvg, `${namespace}-${slug}`)
+  await writeFile(join(dir, "vectors", `${slug}.svg`), optimized.svg)
 
-  try {
-    const res = await fetchRetry(entry.files.vector);
-    const declared = Number(res.headers.get("content-length") ?? "0");
-    if (declared > MAX_RAW_FOR_INLINE) {
-      // Record the source size (for the migration report) but skip the download.
-      rawVectorBytes = declared;
-      await res.body?.cancel();
-    } else {
-      const raw = await res.text();
-      rawVectorBytes = Buffer.byteLength(raw);
-      if (rawVectorBytes <= MAX_RAW_FOR_INLINE) {
-        const optimized = optimizeSvg(raw, slug);
-        const optimizedBytes = Buffer.byteLength(optimized.svg);
-        if (optimizedBytes <= INLINE_BUDGET) {
-          await writeFile(vectorPath, optimized.svg);
-          delivery = "svg";
-          inlineVectorBytes = optimizedBytes;
-          aspectRatio = optimized.aspectRatio;
-        }
-      }
-    }
-  } catch (err) {
-    // A missing/broken vector is fine — we still have the PNG.
-    console.warn(`  ! vector skipped for ${slug}: ${(err as Error).message}`);
-  }
+  const rawPng = await client.downloadBytes(pngUrl)
+  const png = await optimizePng(rawPng)
+  await writeFile(join(dir, "png", `${slug}.png`), png)
 
   return {
-    slug,
-    name: entry.name,
-    version: entry.version,
-    imageType: entry.imageType,
-    usageType: entry.usageType,
-    team: entry.team,
-    caption: entry.caption,
-    tags: entry.tags,
-    pathTags: entry.pathTags,
-    colors: entry.colors,
-    hedgehogs: entry.hedgehogs,
-    verified: entry.verified,
-    delivery,
-    aspectRatio: Math.round(aspectRatio * 10000) / 10000,
-    files: entry.files,
-    rawVectorBytes,
-    inlineVectorBytes,
-    pngBytes: pngBytes.byteLength,
-  };
+    ...asset.meta,
+    aspectRatio: Math.round(optimized.aspectRatio * 10000) / 10000,
+    svgBytes: Buffer.byteLength(optimized.svg),
+    pngBytes: png.byteLength,
+  }
 }
 
 async function main(): Promise<void> {
-  const checkOnly = process.argv.includes("--check");
+  const checkOnly = process.argv.includes("--check")
+  const force = process.argv.includes("--force")
+  const client = new FigmaClient()
 
-  await mkdir(VECTORS, { recursive: true });
-  await mkdir(PNGS, { recursive: true });
+  const fileMeta = await client.getFileMeta(FIGMA_FILE_KEY)
+  const prevState = await readSyncState()
+  console.log(
+    `Figma "${fileMeta.name}" version ${fileMeta.version} (last modified ${fileMeta.lastModified})`,
+  )
 
-  const [index, tags] = await Promise.all([
-    fetchJson<SearchIndex>(INDEX_URL),
-    fetchJson<TagsIndex>(TAGS_URL),
-  ]);
-
-  const upstream = [...index.assets].sort((a, b) => a.slug.localeCompare(b.slug));
-  const prevCatalog = await readExistingCatalog();
-  const prevState = await readSyncState();
-
-  const summary: SyncSummary = {
-    added: [],
-    updated: [],
-    removed: [],
-    unchanged: 0,
-    svgCount: 0,
-    pngCount: 0,
-  };
-
-  const upstreamSlugs = new Set(upstream.map((e) => e.slug));
-  for (const slug of prevCatalog.keys()) {
-    if (!upstreamSlugs.has(slug)) summary.removed.push(slug);
+  // Early exit: nothing in the file changed and we already have a full sync on disk.
+  if (
+    !force &&
+    !checkOnly &&
+    prevState.figmaVersion === fileMeta.version &&
+    prevState.figmaVersion
+  ) {
+    console.log("Figma version unchanged since last sync — nothing to do.")
+    return
   }
 
-  // Decide per-asset work.
-  const toProcess: IndexEntry[] = [];
-  const reused = new Map<string, CatalogEntry>();
-  for (const entry of upstream) {
-    const hash = hashEntry(entry);
-    const prior = prevState.entries[entry.slug];
-    const prevEntry = prevCatalog.get(entry.slug);
-    const filesPresent =
-      prevEntry != null &&
-      existsSync(join(PNGS, `${entry.slug}.png`)) &&
-      (prevEntry.delivery !== "svg" || existsSync(join(VECTORS, `${entry.slug}.svg`)));
-    if (prior?.indexHash === hash && filesPresent && prevEntry) {
-      reused.set(entry.slug, prevEntry);
-      summary.unchanged++;
-    } else {
-      toProcess.push(entry);
-      if (prevEntry) summary.updated.push(entry.slug);
-      else summary.added.push(entry.slug);
+  // Discovery: one getNodes call per illustration container. Colors are a fixed,
+  // hand-maintained palette (static/colors.ts), not synced from Figma.
+  const containerIds = ILLUSTRATION_PAGES.map((p) => p.containerId)
+  const nodes = await client.getNodes(FIGMA_FILE_KEY, containerIds)
+
+  const newState: SyncState = {
+    figmaFileKey: FIGMA_FILE_KEY,
+    figmaVersion: fileMeta.version,
+    entries: {},
+  }
+  const summaries: NamespaceSummary[] = []
+  const limit = pLimit(DOWNLOAD_CONCURRENCY)
+
+  for (const page of ILLUSTRATION_PAGES) {
+    const container = nodes[page.containerId]
+    if (!container)
+      throw new Error(`Container ${page.containerId} (${page.namespace}) not found in file.`)
+
+    const discovered = discoverPage(page, container)
+    const prevCatalog = await readCatalog(page.namespace)
+    const summary: NamespaceSummary = {
+      namespace: page.namespace,
+      added: [],
+      updated: [],
+      removed: [],
+      unchanged: 0,
     }
+
+    // Removed = previously catalogued assets (slug+tier) no longer discovered.
+    const discoveredKeys = new Set(discovered.map((d) => assetKey(d.meta.slug, d.meta.tier)))
+    const removed: { slug: string; tier?: CrestTier }[] = []
+    for (const [key, entry] of prevCatalog) {
+      if (!discoveredKeys.has(key)) removed.push({ slug: entry.slug, tier: entry.tier })
+    }
+    summary.removed = removed.map((r) => assetKey(r.slug, r.tier))
+
+    // Decide which assets need re-rendering.
+    const toRender: DiscoveredAsset[] = []
+    const reused: CatalogEntry[] = []
+    for (const asset of discovered) {
+      const { slug, tier } = asset.meta
+      const prior = prevState.entries[stateKey(page.namespace, slug, tier)]
+      const prevEntry = prevCatalog.get(assetKey(slug, tier))
+      const unchanged =
+        !force &&
+        prior?.nodeHash === asset.hash &&
+        prevEntry != null &&
+        filesPresent(page.namespace, slug, tier)
+      newState.entries[stateKey(page.namespace, slug, tier)] = {
+        figmaNodeId: asset.meta.figmaNodeId,
+        nodeHash: asset.hash,
+      } satisfies SyncStateEntry
+      if (unchanged) {
+        reused.push(prevEntry)
+        summary.unchanged++
+      } else {
+        toRender.push(asset)
+        if (prevEntry) summary.updated.push(assetKey(slug, tier))
+        else summary.added.push(assetKey(slug, tier))
+      }
+    }
+
+    summaries.push(summary)
+
+    if (checkOnly) continue
+
+    await mkdir(nsDir(page.namespace), { recursive: true })
+
+    // Remove dropped assets' files (tier-aware paths).
+    for (const { slug, tier } of removed) {
+      await rm(join(assetDir(page.namespace, tier), "vectors", `${slug}.svg`), { force: true })
+      await rm(join(assetDir(page.namespace, tier), "png", `${slug}.png`), { force: true })
+    }
+
+    let entries: CatalogEntry[] = [...reused]
+    if (toRender.length) {
+      const ids = toRender.map((a) => a.meta.figmaNodeId)
+      console.log(`${page.namespace}: rendering ${toRender.length} asset(s)…`)
+      const [svgUrls, pngUrls] = await Promise.all([
+        client.renderImages(FIGMA_FILE_KEY, ids, "svg"),
+        client.renderImages(FIGMA_FILE_KEY, ids, "png", { scale: page.pngScale }),
+      ])
+      const rendered = await Promise.all(
+        toRender.map((asset) =>
+          limit(async () => {
+            const svgUrl = svgUrls[asset.meta.figmaNodeId]
+            const pngUrl = pngUrls[asset.meta.figmaNodeId]
+            if (!svgUrl || !pngUrl) {
+              console.warn(`  ! skipped ${asset.meta.slug}: Figma returned no image`)
+              return null
+            }
+            const entry = await renderAsset(client, asset, svgUrl, pngUrl)
+            console.log(`  ✓ ${page.namespace}/${asset.meta.slug}`)
+            return entry
+          }),
+        ),
+      )
+      entries = [...entries, ...rendered.filter((e): e is CatalogEntry => e != null)]
+    }
+
+    entries.sort(
+      (a, b) => a.slug.localeCompare(b.slug) || (a.tier ?? "").localeCompare(b.tier ?? ""),
+    )
+    const catalog: Catalog = {
+      generatedAt: fileMeta.lastModified, // stable per Figma version → no spurious diffs
+      figmaFileKey: FIGMA_FILE_KEY,
+      figmaVersion: fileMeta.version,
+      namespace: page.namespace,
+      entries,
+    }
+    await writeFile(
+      join(nsDir(page.namespace), "catalog.json"),
+      `${JSON.stringify(catalog, null, 2)}\n`,
+    )
   }
 
   if (checkOnly) {
-    const drift = summary.added.length + summary.updated.length + summary.removed.length;
-    console.log(JSON.stringify({ ...summary, drift }, null, 2));
-    process.exit(drift > 0 ? 1 : 0);
+    const drift = summaries.reduce(
+      (n, s) => n + s.added.length + s.updated.length + s.removed.length,
+      0,
+    )
+    console.log(JSON.stringify({ summaries, drift }, null, 2))
+    process.exit(drift > 0 ? 1 : 0)
   }
 
-  // Process changed assets with bounded concurrency.
-  const limit = pLimit(CONCURRENCY);
-  const processed = await Promise.all(
-    toProcess.map((entry) =>
-      limit(async () => {
-        const result = await processAsset(entry);
-        console.log(`  ${result.delivery === "svg" ? "SVG" : "PNG"}  ${entry.slug}`);
-        return result;
-      }),
-    ),
-  );
+  await writeFile(join(ASSETS, "sync-state.json"), `${JSON.stringify(newState, null, 2)}\n`)
 
-  // Remove dropped assets' files.
-  for (const slug of summary.removed) {
-    await rm(join(VECTORS, `${slug}.svg`), { force: true });
-    await rm(join(PNGS, `${slug}.png`), { force: true });
-  }
-
-  // Merge reused + freshly processed, sorted by slug.
-  const entries: CatalogEntry[] = [...reused.values(), ...processed].sort((a, b) =>
-    a.slug.localeCompare(b.slug),
-  );
-  summary.svgCount = entries.filter((e) => e.delivery === "svg").length;
-  summary.pngCount = entries.length - summary.svgCount;
-
-  const catalog: Catalog = {
-    generatedAt: index.generatedAt,
-    source: index.generatedAt,
-    entries,
-  };
-  const state: SyncState = {
-    source: index.generatedAt,
-    entries: Object.fromEntries(
-      upstream.map((e) => [
-        e.slug,
-        { indexHash: hashEntry(e), delivery: catalogDelivery(entries, e.slug) },
-      ]),
-    ),
-  };
-
-  await writeFile(join(ASSETS, "catalog.json"), `${JSON.stringify(catalog, null, 2)}\n`);
-  await writeFile(join(ASSETS, "tags.json"), `${JSON.stringify(tags, null, 2)}\n`);
-  await writeFile(join(ASSETS, "sync-state.json"), `${JSON.stringify(state, null, 2)}\n`);
-
-  console.log(`\nSync summary:\n${JSON.stringify(summary, null, 2)}`);
+  console.log(`\nSync summary:\n${JSON.stringify(summaries, null, 2)}`)
 }
 
-function catalogDelivery(entries: CatalogEntry[], slug: string): "svg" | "png" {
-  return entries.find((e) => e.slug === slug)?.delivery ?? "png";
-}
-
-await main();
+await main()

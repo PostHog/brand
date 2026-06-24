@@ -1,4 +1,4 @@
-import { defineConfig } from "vitest/config";
+import { defineConfig } from "vitest/config"
 
 export default defineConfig({
   test: {
@@ -7,4 +7,4 @@ export default defineConfig({
     // Components are rendered with react-dom/server (no DOM needed); only the
     // few tests that touch the browser opt into jsdom via a per-file pragma.
   },
-});
+})

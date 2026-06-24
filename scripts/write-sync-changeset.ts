@@ -1,65 +1,63 @@
-// Writes a changeset describing what the latest sync changed, by diffing the
-// working catalog against the committed one. No-op (and no file) when nothing
-// changed. Used by the sync workflow before it commits to main.
+// Writes a changeset describing what the latest sync changed, by diffing the working
+// catalogs against the committed ones (per namespace). No-op (and no file) when nothing
+// changed. Used by the sync workflow before it commits to main. (Colors are a fixed,
+// hand-maintained palette in static/colors.ts — not synced, so not diffed here.)
 
-import { execSync } from "node:child_process";
-import { readFile, writeFile } from "node:fs/promises";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
-import type { Catalog } from "./lib/catalog.ts";
+import { execSync } from "node:child_process"
+import { readFile, writeFile } from "node:fs/promises"
+import { existsSync } from "node:fs"
+import { dirname, join } from "node:path"
+import { fileURLToPath } from "node:url"
+import type { Catalog } from "./lib/catalog.ts"
+import { NAMESPACES } from "../src/types.ts"
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const CATALOG = join(ROOT, "assets", "catalog.json");
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..")
 
-function committedCatalog(): Catalog | null {
+function committed<T>(relPath: string): T | null {
   try {
-    const raw = execSync("git show HEAD:assets/catalog.json", { cwd: ROOT, encoding: "utf8" });
-    return JSON.parse(raw) as Catalog;
+    const raw = execSync(`git show HEAD:${relPath}`, { cwd: ROOT, encoding: "utf8" })
+    return JSON.parse(raw) as T
   } catch {
-    return null; // first sync — no committed catalog yet
+    return null // first sync, or file didn't exist at HEAD
   }
 }
 
-const current = JSON.parse(await readFile(CATALOG, "utf8")) as Catalog;
-const previous = committedCatalog();
+const body: string[] = ["Sync brand assets from Figma.", ""]
 
-const prevBySlug = new Map((previous?.entries ?? []).map((e) => [e.slug, e]));
-const currBySlug = new Map(current.entries.map((e) => [e.slug, e]));
+for (const ns of NAMESPACES) {
+  const rel = `assets/${ns}/catalog.json`
+  const path = join(ROOT, rel)
+  if (!existsSync(path)) continue
+  const current = JSON.parse(await readFile(path, "utf8")) as Catalog
+  const previous = committed<Catalog>(rel)
 
-const added = [...currBySlug.keys()].filter((s) => !prevBySlug.has(s)).sort();
-const removed = [...prevBySlug.keys()].filter((s) => !currBySlug.has(s)).sort();
-const reDelivered = [...currBySlug.entries()]
-  .filter(([s, e]) => prevBySlug.get(s) && prevBySlug.get(s)!.delivery !== e.delivery)
-  .map(([s, e]) => `${s} (${prevBySlug.get(s)!.delivery} → ${e.delivery})`)
-  .sort();
+  // Key by slug+tier: crest full and mini variants share a slug but are distinct assets.
+  const key = (e: { slug: string; tier?: string }) => (e.tier ? `${e.tier}/${e.slug}` : e.slug)
+  const prev = new Map((previous?.entries ?? []).map((e) => [key(e), e]))
+  const curr = new Map(current.entries.map((e) => [key(e), e]))
 
-// Metadata-only changes (same delivery, different tags/caption/etc.) still warrant
-// a release so consumers get the update.
-const updated = [...currBySlug.entries()]
-  .filter(([s, e]) => {
-    const prev = prevBySlug.get(s);
-    return prev && prev.delivery === e.delivery && JSON.stringify(prev) !== JSON.stringify(e);
-  })
-  .map(([s]) => s)
-  .sort();
+  const added = [...curr.keys()].filter((s) => !prev.has(s)).sort()
+  const removed = [...prev.keys()].filter((s) => !curr.has(s)).sort()
+  const updated = [...curr.entries()]
+    .filter(([s, e]) => prev.get(s) && JSON.stringify(prev.get(s)) !== JSON.stringify(e))
+    .map(([s]) => s)
+    .sort()
 
-if (
-  added.length === 0 &&
-  removed.length === 0 &&
-  reDelivered.length === 0 &&
-  updated.length === 0
-) {
-  console.log("No catalog changes — skipping changeset.");
-  process.exit(0);
+  if (added.length || removed.length || updated.length) {
+    body.push(`**${ns}**`)
+    if (added.length) body.push(`- Added ${added.length}: ${added.join(", ")}`)
+    if (removed.length) body.push(`- Removed ${removed.length}: ${removed.join(", ")}`)
+    if (updated.length) body.push(`- Updated ${updated.length}: ${updated.join(", ")}`)
+    body.push("")
+  }
 }
 
-const body: string[] = ["Sync hedgehog catalog from the art pipeline.", ""];
-if (added.length) body.push(`- Added ${added.length}: ${added.join(", ")}`);
-if (removed.length) body.push(`- Removed ${removed.length}: ${removed.join(", ")}`);
-if (reDelivered.length) body.push(`- Re-delivered: ${reDelivered.join(", ")}`);
-if (updated.length) body.push(`- Updated metadata ${updated.length}: ${updated.join(", ")}`);
+if (body.length <= 2) {
+  console.log("No catalog changes — skipping changeset.")
+  process.exit(0)
+}
 
-const slug = process.env.GITHUB_RUN_ID ?? `${current.entries.length}`;
-const file = join(ROOT, ".changeset", `art-sync-${slug}.md`);
-await writeFile(file, `---\n"@posthog/hedgehogs": minor\n---\n\n${body.join("\n")}\n`);
-console.log(`Wrote ${file}:\n${body.join("\n")}`);
+const slug = process.env.GITHUB_RUN_ID ?? "local"
+const file = join(ROOT, ".changeset", `brand-sync-${slug}.md`)
+await writeFile(file, `---\n"@posthog/brand": minor\n---\n\n${body.join("\n").trim()}\n`)
+console.log(`Wrote ${file}:\n${body.join("\n")}`)

@@ -1,46 +1,60 @@
-import { describe, expect, it } from "vitest";
-import { findHedgehogs, getHedgehog } from "../src/search.ts";
-import { hedgehogs } from "../src/generated/manifest.ts";
+import { describe, expect, it } from "vitest"
+import { findAssets, getAsset } from "../src/search.ts"
+import { allAssets } from "../src/generated/manifest.ts"
 
-describe("findHedgehogs", () => {
+describe("findAssets", () => {
   it("returns the whole manifest with no filter", () => {
-    expect(findHedgehogs()).toHaveLength(hedgehogs.length);
-  });
+    expect(findAssets()).toHaveLength(allAssets.length)
+  })
 
-  it("filters by delivery", () => {
-    const svg = findHedgehogs({ delivery: "svg" });
-    expect(svg.length).toBeGreaterThan(0);
-    expect(svg.every((h) => h.delivery === "svg")).toBe(true);
-  });
+  it("filters by a single namespace and by a list", () => {
+    const hoggies = findAssets({ namespace: "hoggies" })
+    expect(hoggies.length).toBeGreaterThan(0)
+    expect(hoggies.every((a) => a.namespace === "hoggies")).toBe(true)
 
-  it("filters by a single version and by a list", () => {
-    const v3 = findHedgehogs({ version: "v3" });
-    expect(v3.every((h) => h.version === "v3")).toBe(true);
-    const multi = findHedgehogs({ version: ["v2", "v3"] });
-    expect(multi.every((h) => h.version === "v2" || h.version === "v3")).toBe(true);
-    expect(multi.length).toBeGreaterThanOrEqual(v3.length);
-  });
+    const multi = findAssets({ namespace: ["hoggies", "crests"] })
+    expect(multi.every((a) => a.namespace === "hoggies" || a.namespace === "crests")).toBe(true)
+    expect(multi.length).toBeGreaterThanOrEqual(hoggies.length)
+  })
 
-  it("matches tags with any vs all semantics", () => {
-    const sample = hedgehogs.find((h) => h.tags.length >= 2)!;
-    const [a, b] = sample.tags;
-    const any = findHedgehogs({ tags: [a!, "definitely-not-a-real-tag"], tagsMode: "any" });
-    expect(any.some((h) => h.slug === sample.slug)).toBe(true);
-    const all = findHedgehogs({ tags: [a!, b!], tagsMode: "all" });
-    expect(all.every((h) => h.tags.includes(a!) && h.tags.includes(b!))).toBe(true);
-  });
+  it("filters crests by tier", () => {
+    const full = findAssets({ namespace: "crests", tier: "full" })
+    const mini = findAssets({ namespace: "crests", tier: "mini" })
+    expect(full.length).toBeGreaterThan(0)
+    expect(mini.length).toBeGreaterThan(0)
+    expect(full.every((a) => a.tier === "full")).toBe(true)
+    expect(mini.every((a) => a.tier === "mini")).toBe(true)
+  })
 
-  it("does a case-insensitive text search across name/caption/tags", () => {
-    const sample = hedgehogs[0]!;
-    const word = sample.name.split(/\s+/)[0]!;
-    const hits = findHedgehogs({ text: word.toUpperCase() });
-    expect(hits.some((h) => h.slug === sample.slug)).toBe(true);
-  });
-});
+  it("filters by variant props", () => {
+    const withVariant = allAssets.find((a) => a.variant && Object.keys(a.variant).length > 0)
+    if (!withVariant) return // no bundled asset carries Figma variant props in this build
+    const [key, value] = Object.entries(withVariant.variant!)[0]!
+    const hits = findAssets({ variant: { [key]: value } })
+    expect(hits.some((a) => a.slug === withVariant.slug)).toBe(true)
+    expect(hits.every((a) => a.variant?.[key] === value)).toBe(true)
+  })
 
-describe("getHedgehog", () => {
-  it("finds a known slug and returns undefined for an unknown one", () => {
-    expect(getHedgehog(hedgehogs[0]!.slug)?.slug).toBe(hedgehogs[0]!.slug);
-    expect(getHedgehog("nope-not-real")).toBeUndefined();
-  });
-});
+  it("does a case-insensitive text search across name/slug", () => {
+    const sample = allAssets[0]!
+    const word = sample.name.split(/\s+/)[0]!
+    const hits = findAssets({ text: word.toUpperCase() })
+    expect(hits.some((a) => a.slug === sample.slug)).toBe(true)
+  })
+})
+
+describe("getAsset", () => {
+  it("finds a known asset and returns undefined for an unknown one", () => {
+    const sample = allAssets[0]!
+    expect(getAsset(sample.namespace, sample.slug)?.slug).toBe(sample.slug)
+    expect(getAsset("hoggies", "nope-not-real")).toBeUndefined()
+  })
+
+  it("disambiguates a shared crest slug by tier", () => {
+    const mini = allAssets.find((a) => a.namespace === "crests" && a.tier === "mini")
+    if (!mini) return // no crests bundled in this build
+    expect(getAsset("crests", mini.slug, "mini")?.tier).toBe("mini")
+    const full = getAsset("crests", mini.slug, "full")
+    if (full) expect(full.tier).toBe("full")
+  })
+})

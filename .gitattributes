@@ -1,7 +1,6 @@
 # Synced art is generated output — collapse diffs and keep it out of language stats.
 assets/** linguist-generated=true
-assets/catalog.json -diff
-assets/tags.json -diff
+assets/**/catalog.json -diff
 assets/sync-state.json -diff
-assets/png/** binary
+assets/**/png/** binary
 pnpm-lock.yaml -diff

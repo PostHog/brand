@@ -1,0 +1,1034 @@
+{
+  "generatedAt": "2026-06-23T17:56:49Z",
+  "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
+  "figmaVersion": "2368341320330201069",
+  "namespace": "hoggies",
+  "entries": [
+    {
+      "slug": "70s-dance-hog",
+      "name": "70's Dance Hog",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:3163",
+      "aspectRatio": 1,
+      "svgBytes": 274923,
+      "pngBytes": 46885
+    },
+    {
+      "slug": "9-9-6",
+      "name": "9-9-6",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161716",
+      "aspectRatio": 1,
+      "svgBytes": 138235,
+      "pngBytes": 45151
+    },
+    {
+      "slug": "angel",
+      "name": "Angel",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161725",
+      "aspectRatio": 1,
+      "svgBytes": 150891,
+      "pngBytes": 43592
+    },
+    {
+      "slug": "ape",
+      "name": "Ape",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161639",
+      "aspectRatio": 1,
+      "svgBytes": 120266,
+      "pngBytes": 42843
+    },
+    {
+      "slug": "art-thief",
+      "name": "Art Thief",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161657",
+      "aspectRatio": 1,
+      "svgBytes": 173240,
+      "pngBytes": 51492
+    },
+    {
+      "slug": "back-to-the-future",
+      "name": "Back To The Future",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161704",
+      "aspectRatio": 1,
+      "svgBytes": 238897,
+      "pngBytes": 59572
+    },
+    {
+      "slug": "ball-hog",
+      "name": "Ball Hog",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161695",
+      "aspectRatio": 1,
+      "svgBytes": 134332,
+      "pngBytes": 47728
+    },
+    {
+      "slug": "basketball-coach",
+      "name": "Basketball Coach",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161641",
+      "aspectRatio": 1,
+      "svgBytes": 172013,
+      "pngBytes": 53080
+    },
+    {
+      "slug": "beaker",
+      "name": "Beaker",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161658",
+      "aspectRatio": 1,
+      "svgBytes": 197739,
+      "pngBytes": 35928
+    },
+    {
+      "slug": "boombox-hog",
+      "name": "Boombox Hog",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161729",
+      "aspectRatio": 1,
+      "svgBytes": 134345,
+      "pngBytes": 43695
+    },
+    {
+      "slug": "business-evolution",
+      "name": "Business Evolution",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161720",
+      "aspectRatio": 1,
+      "svgBytes": 163270,
+      "pngBytes": 48094
+    },
+    {
+      "slug": "cake",
+      "name": "Cake",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161722",
+      "aspectRatio": 1,
+      "svgBytes": 237959,
+      "pngBytes": 49290
+    },
+    {
+      "slug": "campfire-cowboy",
+      "name": "Campfire Cowboy",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161702",
+      "aspectRatio": 1,
+      "svgBytes": 211491,
+      "pngBytes": 49881
+    },
+    {
+      "slug": "card-hog",
+      "name": "Card Hog",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161687",
+      "aspectRatio": 1,
+      "svgBytes": 201330,
+      "pngBytes": 44467
+    },
+    {
+      "slug": "caveman",
+      "name": "Caveman",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161733",
+      "aspectRatio": 1,
+      "svgBytes": 116661,
+      "pngBytes": 46134
+    },
+    {
+      "slug": "cereal",
+      "name": "Cereal",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161664",
+      "aspectRatio": 1,
+      "svgBytes": 126065,
+      "pngBytes": 39017
+    },
+    {
+      "slug": "chart-hog",
+      "name": "Chart Hog",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161675",
+      "aspectRatio": 1,
+      "svgBytes": 259367,
+      "pngBytes": 49158
+    },
+    {
+      "slug": "chef",
+      "name": "Chef",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161666",
+      "aspectRatio": 1,
+      "svgBytes": 130566,
+      "pngBytes": 39619
+    },
+    {
+      "slug": "code-bubble",
+      "name": "Code Bubble",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161723",
+      "aspectRatio": 1,
+      "svgBytes": 1004119,
+      "pngBytes": 115571
+    },
+    {
+      "slug": "coding-group",
+      "name": "Coding Group",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161710",
+      "aspectRatio": 1,
+      "svgBytes": 377281,
+      "pngBytes": 67905
+    },
+    {
+      "slug": "coffee-cup",
+      "name": "Coffee Cup",
+      "namespace": "hoggies",
+      "figmaNodeId": "108:5001",
+      "aspectRatio": 1,
+      "svgBytes": 131897,
+      "pngBytes": 34499
+    },
+    {
+      "slug": "coffee-run",
+      "name": "Coffee Run",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161707",
+      "aspectRatio": 1,
+      "svgBytes": 310173,
+      "pngBytes": 52684
+    },
+    {
+      "slug": "construction-1",
+      "name": "Construction 1",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161696",
+      "aspectRatio": 1,
+      "svgBytes": 126580,
+      "pngBytes": 50888
+    },
+    {
+      "slug": "construction-2",
+      "name": "Construction 2",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161682",
+      "aspectRatio": 1,
+      "svgBytes": 116222,
+      "pngBytes": 38060
+    },
+    {
+      "slug": "cowboy-lasso",
+      "name": "Cowboy Lasso",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161701",
+      "aspectRatio": 1,
+      "svgBytes": 206708,
+      "pngBytes": 60027
+    },
+    {
+      "slug": "croissant",
+      "name": "Croissant",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161645",
+      "aspectRatio": 1,
+      "svgBytes": 109152,
+      "pngBytes": 40963
+    },
+    {
+      "slug": "cursor-hog",
+      "name": "Cursor Hog",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161674",
+      "aspectRatio": 1,
+      "svgBytes": 107314,
+      "pngBytes": 42043
+    },
+    {
+      "slug": "dadd-ai-l",
+      "name": "Dadd-ai L",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161665",
+      "aspectRatio": 1,
+      "svgBytes": 69996,
+      "pngBytes": 53886
+    },
+    {
+      "slug": "dadd-ai-r",
+      "name": "Dadd-ai R",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161655",
+      "aspectRatio": 1,
+      "svgBytes": 71630,
+      "pngBytes": 55675
+    },
+    {
+      "slug": "data-thief",
+      "name": "Data Thief",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161635",
+      "aspectRatio": 1,
+      "svgBytes": 157285,
+      "pngBytes": 46179
+    },
+    {
+      "slug": "director",
+      "name": "Director",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161647",
+      "aspectRatio": 1,
+      "svgBytes": 140403,
+      "pngBytes": 43415
+    },
+    {
+      "slug": "dj",
+      "name": "Dj",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161640",
+      "aspectRatio": 1,
+      "svgBytes": 157399,
+      "pngBytes": 41122
+    },
+    {
+      "slug": "doctor-2",
+      "name": "Doctor 2",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161727",
+      "aspectRatio": 1,
+      "svgBytes": 177045,
+      "pngBytes": 48206
+    },
+    {
+      "slug": "doctor-hog",
+      "name": "Doctor Hog",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161728",
+      "aspectRatio": 1,
+      "svgBytes": 147635,
+      "pngBytes": 50365
+    },
+    {
+      "slug": "doll-house",
+      "name": "Doll House",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161681",
+      "aspectRatio": 1,
+      "svgBytes": 143184,
+      "pngBytes": 44724
+    },
+    {
+      "slug": "dr-manhattan",
+      "name": "Dr. Manhattan",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161692",
+      "aspectRatio": 1,
+      "svgBytes": 284355,
+      "pngBytes": 37748
+    },
+    {
+      "slug": "drake-nah",
+      "name": "Drake Nah",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161685",
+      "aspectRatio": 1,
+      "svgBytes": 184491,
+      "pngBytes": 47765
+    },
+    {
+      "slug": "drake-yah",
+      "name": "Drake Yah",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161673",
+      "aspectRatio": 1,
+      "svgBytes": 134518,
+      "pngBytes": 46964
+    },
+    {
+      "slug": "driving-hogzilla",
+      "name": "Driving Hogzilla",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161662",
+      "aspectRatio": 1,
+      "svgBytes": 469334,
+      "pngBytes": 67223
+    },
+    {
+      "slug": "dynamite",
+      "name": "Dynamite",
+      "namespace": "hoggies",
+      "figmaNodeId": "108:5002",
+      "aspectRatio": 1,
+      "svgBytes": 144819,
+      "pngBytes": 32210
+    },
+    {
+      "slug": "einstein",
+      "name": "Einstein",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161646",
+      "aspectRatio": 1,
+      "svgBytes": 162028,
+      "pngBytes": 30378
+    },
+    {
+      "slug": "einstein-group",
+      "name": "Einstein Group",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161654",
+      "aspectRatio": 1,
+      "svgBytes": 655445,
+      "pngBytes": 46810
+    },
+    {
+      "slug": "evel",
+      "name": "Evel",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161651",
+      "aspectRatio": 1,
+      "svgBytes": 559040,
+      "pngBytes": 74200
+    },
+    {
+      "slug": "experiment",
+      "name": "Experiment",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161683",
+      "aspectRatio": 1,
+      "svgBytes": 155314,
+      "pngBytes": 49429
+    },
+    {
+      "slug": "final-evolution",
+      "name": "Final Evolution",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161690",
+      "aspectRatio": 1,
+      "svgBytes": 133028,
+      "pngBytes": 32646
+    },
+    {
+      "slug": "float",
+      "name": "Float",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161705",
+      "aspectRatio": 1,
+      "svgBytes": 112436,
+      "pngBytes": 39210
+    },
+    {
+      "slug": "football-coach",
+      "name": "Football Coach",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161656",
+      "aspectRatio": 1,
+      "svgBytes": 169873,
+      "pngBytes": 52707
+    },
+    {
+      "slug": "gardeners",
+      "name": "Gardeners",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161663",
+      "aspectRatio": 1,
+      "svgBytes": 244724,
+      "pngBytes": 50781
+    },
+    {
+      "slug": "gladiator-1",
+      "name": "Gladiator 1",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161638",
+      "aspectRatio": 1,
+      "svgBytes": 147062,
+      "pngBytes": 43646
+    },
+    {
+      "slug": "gladiator-2",
+      "name": "Gladiator 2",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161730",
+      "aspectRatio": 1,
+      "svgBytes": 153478,
+      "pngBytes": 48024
+    },
+    {
+      "slug": "greek",
+      "name": "Greek",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161693",
+      "aspectRatio": 1,
+      "svgBytes": 133855,
+      "pngBytes": 24350
+    },
+    {
+      "slug": "haha-bizzniss",
+      "name": "Haha Bizzniss",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161714",
+      "aspectRatio": 1,
+      "svgBytes": 209660,
+      "pngBytes": 56370
+    },
+    {
+      "slug": "hand-clasp",
+      "name": "Hand Clasp",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161700",
+      "aspectRatio": 1,
+      "svgBytes": 249342,
+      "pngBytes": 54490
+    },
+    {
+      "slug": "hipster-hog",
+      "name": "Hipster Hog",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161689",
+      "aspectRatio": 1,
+      "svgBytes": 170543,
+      "pngBytes": 55197
+    },
+    {
+      "slug": "hogpatch",
+      "name": "Hogpatch",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161671",
+      "aspectRatio": 1,
+      "svgBytes": 190439,
+      "pngBytes": 46097
+    },
+    {
+      "slug": "hoot",
+      "name": "Hoot",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161652",
+      "aspectRatio": 1,
+      "svgBytes": 171376,
+      "pngBytes": 39944
+    },
+    {
+      "slug": "hourglass",
+      "name": "Hourglass",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161719",
+      "aspectRatio": 1,
+      "svgBytes": 127856,
+      "pngBytes": 47304
+    },
+    {
+      "slug": "im-the-driver",
+      "name": "I'm The Driver",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161644",
+      "aspectRatio": 1,
+      "svgBytes": 196973,
+      "pngBytes": 43201
+    },
+    {
+      "slug": "ipad",
+      "name": "Ipad",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161637",
+      "aspectRatio": 1,
+      "svgBytes": 214134,
+      "pngBytes": 51314
+    },
+    {
+      "slug": "judge",
+      "name": "Judge",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161721",
+      "aspectRatio": 1,
+      "svgBytes": 169710,
+      "pngBytes": 45792
+    },
+    {
+      "slug": "lemon-wrangler-1",
+      "name": "Lemon Wrangler 1",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161699",
+      "aspectRatio": 1,
+      "svgBytes": 296740,
+      "pngBytes": 54394
+    },
+    {
+      "slug": "lemon-wrangler-2",
+      "name": "Lemon Wrangler 2",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161688",
+      "aspectRatio": 1,
+      "svgBytes": 258346,
+      "pngBytes": 51032
+    },
+    {
+      "slug": "lemon-wrangler-3",
+      "name": "Lemon Wrangler 3",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161680",
+      "aspectRatio": 1,
+      "svgBytes": 158906,
+      "pngBytes": 48008
+    },
+    {
+      "slug": "magnifying-glass",
+      "name": "Magnifying Glass",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161670",
+      "aspectRatio": 1,
+      "svgBytes": 129899,
+      "pngBytes": 50864
+    },
+    {
+      "slug": "magnifying-glass-2",
+      "name": "Magnifying Glass 2",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161724",
+      "aspectRatio": 1,
+      "svgBytes": 112870,
+      "pngBytes": 36905
+    },
+    {
+      "slug": "megaphone",
+      "name": "Megaphone",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161711",
+      "aspectRatio": 1,
+      "svgBytes": 162694,
+      "pngBytes": 43504
+    },
+    {
+      "slug": "money",
+      "name": "Money",
+      "namespace": "hoggies",
+      "figmaNodeId": "107:4996",
+      "aspectRatio": 1,
+      "svgBytes": 216755,
+      "pngBytes": 35648
+    },
+    {
+      "slug": "mountie",
+      "name": "Mountie",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161698",
+      "aspectRatio": 1,
+      "svgBytes": 159522,
+      "pngBytes": 51054
+    },
+    {
+      "slug": "mr-potato-head-1",
+      "name": "Mr Potato Head 1",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161703",
+      "aspectRatio": 1,
+      "svgBytes": 170359,
+      "pngBytes": 31103
+    },
+    {
+      "slug": "mr-potato-head-2",
+      "name": "Mr Potato Head 2",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161694",
+      "aspectRatio": 1,
+      "svgBytes": 100018,
+      "pngBytes": 36783
+    },
+    {
+      "slug": "noir-hog",
+      "name": "Noir Hog",
+      "namespace": "hoggies",
+      "figmaNodeId": "106:4985",
+      "aspectRatio": 1,
+      "svgBytes": 150163,
+      "pngBytes": 38730
+    },
+    {
+      "slug": "office-worker",
+      "name": "Office Worker",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161709",
+      "aspectRatio": 1,
+      "svgBytes": 140341,
+      "pngBytes": 38156
+    },
+    {
+      "slug": "oprah",
+      "name": "Oprah",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161706",
+      "aspectRatio": 1,
+      "svgBytes": 251273,
+      "pngBytes": 46046
+    },
+    {
+      "slug": "panic",
+      "name": "Panic",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161632",
+      "aspectRatio": 1,
+      "svgBytes": 127431,
+      "pngBytes": 39404
+    },
+    {
+      "slug": "party-hog",
+      "name": "Party Hog",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161697",
+      "aspectRatio": 1,
+      "svgBytes": 159998,
+      "pngBytes": 38808
+    },
+    {
+      "slug": "pearl-necklace",
+      "name": "Pearl Necklace",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161732",
+      "aspectRatio": 1,
+      "svgBytes": 150140,
+      "pngBytes": 41327
+    },
+    {
+      "slug": "phone-call",
+      "name": "Phone Call",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161669",
+      "aspectRatio": 1,
+      "svgBytes": 152741,
+      "pngBytes": 50644
+    },
+    {
+      "slug": "pinata-hog",
+      "name": "Piñata Hog",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161731",
+      "aspectRatio": 1,
+      "svgBytes": 144537,
+      "pngBytes": 38130
+    },
+    {
+      "slug": "pope",
+      "name": "Pope",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161661",
+      "aspectRatio": 1,
+      "svgBytes": 257329,
+      "pngBytes": 45747
+    },
+    {
+      "slug": "puzzle",
+      "name": "Puzzle",
+      "namespace": "hoggies",
+      "figmaNodeId": "108:5004",
+      "aspectRatio": 1,
+      "svgBytes": 197410,
+      "pngBytes": 36032
+    },
+    {
+      "slug": "quick-call",
+      "name": "Quick Call",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161679",
+      "aspectRatio": 1,
+      "svgBytes": 103311,
+      "pngBytes": 43768
+    },
+    {
+      "slug": "reading-is-magic",
+      "name": "Reading Is Magic",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161678",
+      "aspectRatio": 1,
+      "svgBytes": 168265,
+      "pngBytes": 57794
+    },
+    {
+      "slug": "remote-work",
+      "name": "Remote Work",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161718",
+      "aspectRatio": 1,
+      "svgBytes": 128846,
+      "pngBytes": 37172
+    },
+    {
+      "slug": "reporter",
+      "name": "Reporter",
+      "namespace": "hoggies",
+      "figmaNodeId": "201:2875",
+      "aspectRatio": 1,
+      "svgBytes": 140948,
+      "pngBytes": 41338
+    },
+    {
+      "slug": "robo-hog",
+      "name": "Robo Hog",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161643",
+      "aspectRatio": 1,
+      "svgBytes": 137260,
+      "pngBytes": 39437
+    },
+    {
+      "slug": "rocket",
+      "name": "Rocket",
+      "namespace": "hoggies",
+      "figmaNodeId": "107:4995",
+      "aspectRatio": 1,
+      "svgBytes": 109344,
+      "pngBytes": 29286
+    },
+    {
+      "slug": "roller-coaster",
+      "name": "Roller Coaster",
+      "namespace": "hoggies",
+      "figmaNodeId": "201:2872",
+      "aspectRatio": 1,
+      "svgBytes": 188104,
+      "pngBytes": 48216
+    },
+    {
+      "slug": "rose",
+      "name": "Rose",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161672",
+      "aspectRatio": 1,
+      "svgBytes": 172741,
+      "pngBytes": 39173
+    },
+    {
+      "slug": "sailor-hog",
+      "name": "Sailor Hog",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161636",
+      "aspectRatio": 1,
+      "svgBytes": 163904,
+      "pngBytes": 51482
+    },
+    {
+      "slug": "scientist",
+      "name": "Scientist",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161726",
+      "aspectRatio": 1,
+      "svgBytes": 208985,
+      "pngBytes": 35448
+    },
+    {
+      "slug": "scorpion",
+      "name": "Scorpion",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161713",
+      "aspectRatio": 1,
+      "svgBytes": 252417,
+      "pngBytes": 56251
+    },
+    {
+      "slug": "shocked",
+      "name": "Shocked",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161677",
+      "aspectRatio": 1,
+      "svgBytes": 104756,
+      "pngBytes": 37582
+    },
+    {
+      "slug": "sitting",
+      "name": "Sitting",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161686",
+      "aspectRatio": 1,
+      "svgBytes": 112828,
+      "pngBytes": 40023
+    },
+    {
+      "slug": "soapbox",
+      "name": "Soapbox",
+      "namespace": "hoggies",
+      "figmaNodeId": "107:4998",
+      "aspectRatio": 1,
+      "svgBytes": 165582,
+      "pngBytes": 42789
+    },
+    {
+      "slug": "soccer-coach",
+      "name": "Soccer Coach",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161648",
+      "aspectRatio": 1,
+      "svgBytes": 181588,
+      "pngBytes": 48053
+    },
+    {
+      "slug": "speaker",
+      "name": "Speaker",
+      "namespace": "hoggies",
+      "figmaNodeId": "201:2878",
+      "aspectRatio": 1,
+      "svgBytes": 159053,
+      "pngBytes": 39939
+    },
+    {
+      "slug": "speaker-hog",
+      "name": "Speaker Hog",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161668",
+      "aspectRatio": 1,
+      "svgBytes": 155814,
+      "pngBytes": 51833
+    },
+    {
+      "slug": "stamp-approved",
+      "name": "Stamp Approved",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161712",
+      "aspectRatio": 1,
+      "svgBytes": 140198,
+      "pngBytes": 47225
+    },
+    {
+      "slug": "stamp-denied",
+      "name": "Stamp Denied",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161660",
+      "aspectRatio": 1,
+      "svgBytes": 139792,
+      "pngBytes": 47999
+    },
+    {
+      "slug": "steve-jobs",
+      "name": "Steve Jobs",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161676",
+      "aspectRatio": 1,
+      "svgBytes": 108536,
+      "pngBytes": 37768
+    },
+    {
+      "slug": "stop",
+      "name": "Stop",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161631",
+      "aspectRatio": 1,
+      "svgBytes": 126233,
+      "pngBytes": 40667
+    },
+    {
+      "slug": "terminator",
+      "name": "Terminator",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161650",
+      "aspectRatio": 1,
+      "svgBytes": 191120,
+      "pngBytes": 21786
+    },
+    {
+      "slug": "town-crier",
+      "name": "Town Crier",
+      "namespace": "hoggies",
+      "figmaNodeId": "107:5000",
+      "aspectRatio": 1,
+      "svgBytes": 232124,
+      "pngBytes": 53485
+    },
+    {
+      "slug": "traffic-controller",
+      "name": "Traffic Controller",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161717",
+      "aspectRatio": 1,
+      "svgBytes": 137738,
+      "pngBytes": 48792
+    },
+    {
+      "slug": "traffic-police",
+      "name": "Traffic Police",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161691",
+      "aspectRatio": 1,
+      "svgBytes": 188259,
+      "pngBytes": 51344
+    },
+    {
+      "slug": "transformer",
+      "name": "Transformer",
+      "namespace": "hoggies",
+      "figmaNodeId": "201:2882",
+      "aspectRatio": 1,
+      "svgBytes": 256694,
+      "pngBytes": 57442
+    },
+    {
+      "slug": "trenchcoat",
+      "name": "Trenchcoat",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161684",
+      "aspectRatio": 1,
+      "svgBytes": 228329,
+      "pngBytes": 58113
+    },
+    {
+      "slug": "waiter-server",
+      "name": "Waiter, Server",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161667",
+      "aspectRatio": 1,
+      "svgBytes": 135194,
+      "pngBytes": 37900
+    },
+    {
+      "slug": "will-smith",
+      "name": "Will Smith",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161659",
+      "aspectRatio": 1,
+      "svgBytes": 146643,
+      "pngBytes": 39451
+    },
+    {
+      "slug": "wizard-blank",
+      "name": "Wizard Blank",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161642",
+      "aspectRatio": 1,
+      "svgBytes": 172096,
+      "pngBytes": 36549
+    },
+    {
+      "slug": "wizard-hog",
+      "name": "Wizard Hog",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161634",
+      "aspectRatio": 1,
+      "svgBytes": 353691,
+      "pngBytes": 48427
+    },
+    {
+      "slug": "wizard-hog-2",
+      "name": "Wizard Hog",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161649",
+      "aspectRatio": 1,
+      "svgBytes": 175689,
+      "pngBytes": 37077
+    },
+    {
+      "slug": "workflows",
+      "name": "Workflows",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161633",
+      "aspectRatio": 1,
+      "svgBytes": 243775,
+      "pngBytes": 39704
+    },
+    {
+      "slug": "x-ray",
+      "name": "X-ray",
+      "namespace": "hoggies",
+      "figmaNodeId": "63:161715",
+      "aspectRatio": 1,
+      "svgBytes": 244954,
+      "pngBytes": 57685
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
-  "name": "@posthog/hedgehogs",
-  "version": "0.1.2",
-  "description": "PostHog's hedgehog illustration library — React components, raw SVGs, and searchable metadata. Bundled, offline, zero runtime CDN.",
+  "name": "@posthog/brand",
+  "version": "0.0.1",
+  "description": "PostHog's brand assets — hedgehog illustrations, logos, team crests, and brand colors as React components, raw SVGs, PNG URLs, and tokens. Bundled, offline, tree-shakeable.",
   "license": "SEE LICENSE IN LICENSE",
   "author": "PostHog <hey@posthog.com>",
   "homepage": "https://github.com/PostHog/hedgehogs#readme",
@@ -14,8 +14,12 @@
   },
   "keywords": [
     "posthog",
+    "brand",
     "hedgehog",
     "hedgehogs",
+    "logo",
+    "crest",
+    "colors",
     "illustrations",
     "svg",
     "react",
@@ -31,25 +35,93 @@
       "types": "./dist/index.d.mts",
       "default": "./dist/index.mjs"
     },
-    "./svg": {
-      "types": "./dist/svg.d.mts",
-      "default": "./dist/svg.mjs"
+    "./hoggies": {
+      "types": "./dist/generated/hoggies/components/index.d.mts",
+      "default": "./dist/generated/hoggies/components/index.mjs"
     },
-    "./svg/*": {
-      "types": "./dist/generated/svg/*.d.mts",
-      "default": "./dist/generated/svg/*.mjs"
+    "./hoggies/svg": {
+      "types": "./dist/generated/hoggies/svg/index.d.mts",
+      "default": "./dist/generated/hoggies/svg/index.mjs"
     },
-    "./png": {
-      "types": "./dist/png.d.mts",
-      "default": "./dist/png.mjs"
+    "./hoggies/svg/*": {
+      "types": "./dist/generated/hoggies/svg/*.d.mts",
+      "default": "./dist/generated/hoggies/svg/*.mjs"
     },
-    "./png/*": {
-      "types": "./dist/generated/png/*.d.mts",
-      "default": "./dist/generated/png/*.mjs"
+    "./hoggies/png": {
+      "types": "./dist/generated/hoggies/png/index.d.mts",
+      "default": "./dist/generated/hoggies/png/index.mjs"
     },
-    "./metadata": {
-      "types": "./dist/metadata.d.mts",
-      "default": "./dist/metadata.mjs"
+    "./hoggies/png/*": {
+      "types": "./dist/generated/hoggies/png/*.d.mts",
+      "default": "./dist/generated/hoggies/png/*.mjs"
+    },
+    "./hoggies/metadata": {
+      "types": "./dist/generated/hoggies/manifest.d.mts",
+      "default": "./dist/generated/hoggies/manifest.mjs"
+    },
+    "./logo": {
+      "types": "./dist/logo/index.d.mts",
+      "default": "./dist/logo/index.mjs"
+    },
+    "./crests": {
+      "types": "./dist/generated/crests/index.d.mts",
+      "default": "./dist/generated/crests/index.mjs"
+    },
+    "./crests/full": {
+      "types": "./dist/generated/crests/full/components/index.d.mts",
+      "default": "./dist/generated/crests/full/components/index.mjs"
+    },
+    "./crests/full/svg": {
+      "types": "./dist/generated/crests/full/svg/index.d.mts",
+      "default": "./dist/generated/crests/full/svg/index.mjs"
+    },
+    "./crests/full/svg/*": {
+      "types": "./dist/generated/crests/full/svg/*.d.mts",
+      "default": "./dist/generated/crests/full/svg/*.mjs"
+    },
+    "./crests/full/png": {
+      "types": "./dist/generated/crests/full/png/index.d.mts",
+      "default": "./dist/generated/crests/full/png/index.mjs"
+    },
+    "./crests/full/png/*": {
+      "types": "./dist/generated/crests/full/png/*.d.mts",
+      "default": "./dist/generated/crests/full/png/*.mjs"
+    },
+    "./crests/full/metadata": {
+      "types": "./dist/generated/crests/full/manifest.d.mts",
+      "default": "./dist/generated/crests/full/manifest.mjs"
+    },
+    "./crests/mini": {
+      "types": "./dist/generated/crests/mini/components/index.d.mts",
+      "default": "./dist/generated/crests/mini/components/index.mjs"
+    },
+    "./crests/mini/svg": {
+      "types": "./dist/generated/crests/mini/svg/index.d.mts",
+      "default": "./dist/generated/crests/mini/svg/index.mjs"
+    },
+    "./crests/mini/svg/*": {
+      "types": "./dist/generated/crests/mini/svg/*.d.mts",
+      "default": "./dist/generated/crests/mini/svg/*.mjs"
+    },
+    "./crests/mini/png": {
+      "types": "./dist/generated/crests/mini/png/index.d.mts",
+      "default": "./dist/generated/crests/mini/png/index.mjs"
+    },
+    "./crests/mini/png/*": {
+      "types": "./dist/generated/crests/mini/png/*.d.mts",
+      "default": "./dist/generated/crests/mini/png/*.mjs"
+    },
+    "./crests/mini/metadata": {
+      "types": "./dist/generated/crests/mini/manifest.d.mts",
+      "default": "./dist/generated/crests/mini/manifest.mjs"
+    },
+    "./colors": {
+      "types": "./dist/colors.d.mts",
+      "default": "./dist/colors.mjs"
+    },
+    "./colors/css": {
+      "types": "./dist/colors-css.d.mts",
+      "default": "./dist/colors-css.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -62,10 +134,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
-    "lint": "oxlint . && prettier --check .",
-    "format": "prettier --write .",
+    "lint": "oxlint . && oxfmt --check .",
+    "format": "oxfmt --write .",
     "size": "node scripts/size-report.ts",
-    "migration-report": "node scripts/migration-report.ts",
     "changeset": "changeset",
     "release": "changeset publish"
   },
@@ -80,12 +151,13 @@
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.3",
     "@changesets/cli": "^2.31.0",
+    "@napi-rs/image": "^1.12.1",
     "@types/node": "^25.9.3",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
+    "oxfmt": "^0.55.0",
     "oxlint": "^1.70.0",
     "p-limit": "^7.3.0",
-    "prettier": "^3.8.4",
     "publint": "^0.3.21",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",

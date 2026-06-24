@@ -1,0 +1,1198 @@
+{
+  "generatedAt": "2026-06-23T17:56:49Z",
+  "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
+  "figmaVersion": "2368341320330201069",
+  "namespace": "crests",
+  "entries": [
+    {
+      "slug": "agents",
+      "name": "Agents",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "40:2185",
+      "aspectRatio": 1,
+      "svgBytes": 765793,
+      "pngBytes": 19560
+    },
+    {
+      "slug": "agents",
+      "name": "Agents Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "40:2187",
+      "aspectRatio": 1,
+      "svgBytes": 10515,
+      "pngBytes": 2243
+    },
+    {
+      "slug": "ai-gateway",
+      "name": "AI Gateway",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "180:3990",
+      "aspectRatio": 1,
+      "svgBytes": 441926,
+      "pngBytes": 21624
+    },
+    {
+      "slug": "ai-gateway",
+      "name": "AI Gateway Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "180:3992",
+      "aspectRatio": 1,
+      "svgBytes": 3709,
+      "pngBytes": 1630
+    },
+    {
+      "slug": "ai-research",
+      "name": "AI Research",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "180:5202",
+      "aspectRatio": 1,
+      "svgBytes": 89828,
+      "pngBytes": 20083
+    },
+    {
+      "slug": "ai-research",
+      "name": "AI Research Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "180:5204",
+      "aspectRatio": 1,
+      "svgBytes": 14438,
+      "pngBytes": 2239
+    },
+    {
+      "slug": "analytics-platform",
+      "name": "Analytics Platform",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "26:11164",
+      "aspectRatio": 1,
+      "svgBytes": 107512,
+      "pngBytes": 15484
+    },
+    {
+      "slug": "analytics-platform",
+      "name": "Analytics Platform Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "26:11166",
+      "aspectRatio": 1,
+      "svgBytes": 5191,
+      "pngBytes": 1027
+    },
+    {
+      "slug": "array",
+      "name": "Array",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:6120",
+      "aspectRatio": 1,
+      "svgBytes": 109388,
+      "pngBytes": 24025
+    },
+    {
+      "slug": "array",
+      "name": "Array Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:6984",
+      "aspectRatio": 1,
+      "svgBytes": 24696,
+      "pngBytes": 3475
+    },
+    {
+      "slug": "batch-exports",
+      "name": "Batch Exports",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:17603",
+      "aspectRatio": 1,
+      "svgBytes": 132205,
+      "pngBytes": 18957
+    },
+    {
+      "slug": "batch-exports",
+      "name": "Batch Exports Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:17861",
+      "aspectRatio": 1,
+      "svgBytes": 3112,
+      "pngBytes": 1830
+    },
+    {
+      "slug": "billing",
+      "name": "Billing",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "26:8964",
+      "aspectRatio": 1,
+      "svgBytes": 101555,
+      "pngBytes": 19939
+    },
+    {
+      "slug": "billing",
+      "name": "Billing Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "26:8966",
+      "aspectRatio": 1,
+      "svgBytes": 3139,
+      "pngBytes": 2512
+    },
+    {
+      "slug": "blank-crest",
+      "name": "Blank Crest",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "24:738",
+      "aspectRatio": 1,
+      "svgBytes": 84986,
+      "pngBytes": 18970
+    },
+    {
+      "slug": "blank-crest",
+      "name": "Blank Crest Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "24:1369",
+      "aspectRatio": 1,
+      "svgBytes": 7419,
+      "pngBytes": 2338
+    },
+    {
+      "slug": "blitzscale",
+      "name": "Blitzscale",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:8",
+      "aspectRatio": 1,
+      "svgBytes": 93547,
+      "pngBytes": 15773
+    },
+    {
+      "slug": "blitzscale",
+      "name": "Blitzscale Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:392",
+      "aspectRatio": 1,
+      "svgBytes": 5345,
+      "pngBytes": 1134
+    },
+    {
+      "slug": "book-and-cursor",
+      "name": "Book And Cursor",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:5320",
+      "aspectRatio": 1,
+      "svgBytes": 136374,
+      "pngBytes": 20086
+    },
+    {
+      "slug": "book-and-cursor",
+      "name": "Book And Cursor Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:6090",
+      "aspectRatio": 1,
+      "svgBytes": 5596,
+      "pngBytes": 2374
+    },
+    {
+      "slug": "brand",
+      "name": "Brand",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "24:8",
+      "aspectRatio": 1,
+      "svgBytes": 111684,
+      "pngBytes": 22259
+    },
+    {
+      "slug": "brand",
+      "name": "Brand Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "24:10",
+      "aspectRatio": 1,
+      "svgBytes": 5476,
+      "pngBytes": 2747
+    },
+    {
+      "slug": "buisness-sales",
+      "name": "Buisness Sales",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:11512",
+      "aspectRatio": 1,
+      "svgBytes": 61160,
+      "pngBytes": 15832
+    },
+    {
+      "slug": "buisness-sales",
+      "name": "Buisness Sales Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:11788",
+      "aspectRatio": 1,
+      "svgBytes": 3510,
+      "pngBytes": 1975
+    },
+    {
+      "slug": "clickhouse",
+      "name": "Clickhouse",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:1310",
+      "aspectRatio": 1,
+      "svgBytes": 123914,
+      "pngBytes": 21425
+    },
+    {
+      "slug": "clickhouse",
+      "name": "Clickhouse Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:1558",
+      "aspectRatio": 1,
+      "svgBytes": 2636,
+      "pngBytes": 451
+    },
+    {
+      "slug": "client-libraries",
+      "name": "Client Libraries",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "24:1998",
+      "aspectRatio": 1,
+      "svgBytes": 404069,
+      "pngBytes": 19608
+    },
+    {
+      "slug": "client-libraries",
+      "name": "Client Libraries Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "24:2000",
+      "aspectRatio": 1,
+      "svgBytes": 1761,
+      "pngBytes": 809
+    },
+    {
+      "slug": "conversations",
+      "name": "Conversations",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "35:2046",
+      "aspectRatio": 1,
+      "svgBytes": 148464,
+      "pngBytes": 22102
+    },
+    {
+      "slug": "customer-analytics",
+      "name": "Customer Analytics",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:18942",
+      "aspectRatio": 1,
+      "svgBytes": 55119,
+      "pngBytes": 16647
+    },
+    {
+      "slug": "customer-analytics",
+      "name": "Customer Analytics Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:19095",
+      "aspectRatio": 1,
+      "svgBytes": 4299,
+      "pngBytes": 2051
+    },
+    {
+      "slug": "customer-success",
+      "name": "Customer Success",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "26:10370",
+      "aspectRatio": 1,
+      "svgBytes": 107566,
+      "pngBytes": 16174
+    },
+    {
+      "slug": "customer-success",
+      "name": "Customer Success Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "26:10372",
+      "aspectRatio": 1,
+      "svgBytes": 3127,
+      "pngBytes": 999
+    },
+    {
+      "slug": "customer-success-eu",
+      "name": "Customer Success EU",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "180:4763",
+      "aspectRatio": 1,
+      "svgBytes": 309453,
+      "pngBytes": 20469
+    },
+    {
+      "slug": "customer-success-eu",
+      "name": "Customer Success EU Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "180:4765",
+      "aspectRatio": 1,
+      "svgBytes": 5878,
+      "pngBytes": 2216
+    },
+    {
+      "slug": "customer-success-na",
+      "name": "Customer Success NA",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "180:5059",
+      "aspectRatio": 1,
+      "svgBytes": 188154,
+      "pngBytes": 20879
+    },
+    {
+      "slug": "customer-success-na",
+      "name": "Customer Success NA Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "180:5061",
+      "aspectRatio": 1,
+      "svgBytes": 15416,
+      "pngBytes": 2990
+    },
+    {
+      "slug": "data-modelling",
+      "name": "Data Modelling",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "24:3214",
+      "aspectRatio": 1,
+      "svgBytes": 485684,
+      "pngBytes": 14215
+    },
+    {
+      "slug": "data-modelling",
+      "name": "Data Modelling Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "24:3216",
+      "aspectRatio": 1,
+      "svgBytes": 14621,
+      "pngBytes": 3325
+    },
+    {
+      "slug": "data-tools",
+      "name": "Data Tools",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "26:7146",
+      "aspectRatio": 1,
+      "svgBytes": 845147,
+      "pngBytes": 18791
+    },
+    {
+      "slug": "data-tools",
+      "name": "Data Tools Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "26:7148",
+      "aspectRatio": 1,
+      "svgBytes": 6222,
+      "pngBytes": 1452
+    },
+    {
+      "slug": "data-warehouse",
+      "name": "Data Warehouse",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:11277",
+      "aspectRatio": 1,
+      "svgBytes": 45612,
+      "pngBytes": 25390
+    },
+    {
+      "slug": "data-warehouse",
+      "name": "Data Warehouse Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:11394",
+      "aspectRatio": 1,
+      "svgBytes": 8710,
+      "pngBytes": 1692
+    },
+    {
+      "slug": "demand-gen",
+      "name": "Demand Gen",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:18817",
+      "aspectRatio": 1,
+      "svgBytes": 31313,
+      "pngBytes": 18595
+    },
+    {
+      "slug": "demand-gen",
+      "name": "Demand Gen Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:18879",
+      "aspectRatio": 1,
+      "svgBytes": 5297,
+      "pngBytes": 2136
+    },
+    {
+      "slug": "dev-experience",
+      "name": "Dev Experience",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:8543",
+      "aspectRatio": 1,
+      "svgBytes": 1365635,
+      "pngBytes": 19877
+    },
+    {
+      "slug": "dev-experience",
+      "name": "Dev Experience Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:10215",
+      "aspectRatio": 1,
+      "svgBytes": 7924,
+      "pngBytes": 1412
+    },
+    {
+      "slug": "docs-and-wizard",
+      "name": "Docs And Wizard",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:20470",
+      "aspectRatio": 1,
+      "svgBytes": 4183425,
+      "pngBytes": 23128
+    },
+    {
+      "slug": "docs-and-wizard",
+      "name": "Docs And Wizard Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:22936",
+      "aspectRatio": 1.0087,
+      "svgBytes": 20550,
+      "pngBytes": 2628
+    },
+    {
+      "slug": "error-tracking",
+      "name": "Error Tracking",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:2289",
+      "aspectRatio": 1,
+      "svgBytes": 92451,
+      "pngBytes": 19708
+    },
+    {
+      "slug": "error-tracking",
+      "name": "Error Tracking Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:2705",
+      "aspectRatio": 1,
+      "svgBytes": 3394,
+      "pngBytes": 2595
+    },
+    {
+      "slug": "experiments",
+      "name": "Experiments",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "24:469",
+      "aspectRatio": 1,
+      "svgBytes": 59214,
+      "pngBytes": 16765
+    },
+    {
+      "slug": "experiments",
+      "name": "Experiments Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "24:471",
+      "aspectRatio": 1,
+      "svgBytes": 2561,
+      "pngBytes": 1414
+    },
+    {
+      "slug": "feature-flags",
+      "name": "Feature Flags",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:15004",
+      "aspectRatio": 1,
+      "svgBytes": 131835,
+      "pngBytes": 14368
+    },
+    {
+      "slug": "feature-flags",
+      "name": "Feature Flags Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:15324",
+      "aspectRatio": 1,
+      "svgBytes": 2517,
+      "pngBytes": 1619
+    },
+    {
+      "slug": "flags-platform",
+      "name": "Flags Platform",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:4446",
+      "aspectRatio": 1,
+      "svgBytes": 1025916,
+      "pngBytes": 26151
+    },
+    {
+      "slug": "flags-platform",
+      "name": "Flags Platform Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:5294",
+      "aspectRatio": 1,
+      "svgBytes": 5606,
+      "pngBytes": 1448
+    },
+    {
+      "slug": "forward-deployed-engineer",
+      "name": "Forward Deployed Engineer",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:7256",
+      "aspectRatio": 1,
+      "svgBytes": 480278,
+      "pngBytes": 20702
+    },
+    {
+      "slug": "forward-deployed-engineer",
+      "name": "Forward Deployed Engineer Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:7433",
+      "aspectRatio": 1,
+      "svgBytes": 64117,
+      "pngBytes": 2921
+    },
+    {
+      "slug": "graphics",
+      "name": "Graphics",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "24:2822",
+      "aspectRatio": 1,
+      "svgBytes": 729203,
+      "pngBytes": 20013
+    },
+    {
+      "slug": "graphics",
+      "name": "Graphics Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "24:2824",
+      "aspectRatio": 1,
+      "svgBytes": 19299,
+      "pngBytes": 2821
+    },
+    {
+      "slug": "growth",
+      "name": "Growth Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:3239",
+      "aspectRatio": 1,
+      "svgBytes": 8452,
+      "pngBytes": 2552
+    },
+    {
+      "slug": "growth-plant",
+      "name": "Growth Plant",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:2731",
+      "aspectRatio": 1,
+      "svgBytes": 132705,
+      "pngBytes": 23312
+    },
+    {
+      "slug": "infrastructure",
+      "name": "Infrastructure",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:1931",
+      "aspectRatio": 1,
+      "svgBytes": 130853,
+      "pngBytes": 17809
+    },
+    {
+      "slug": "infrastructure",
+      "name": "Infrastructure Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:2269",
+      "aspectRatio": 1,
+      "svgBytes": 6777,
+      "pngBytes": 1737
+    },
+    {
+      "slug": "ingestion",
+      "name": "Ingestion",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "26:9879",
+      "aspectRatio": 1,
+      "svgBytes": 111951,
+      "pngBytes": 19672
+    },
+    {
+      "slug": "ingestion",
+      "name": "Ingestion Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "26:9881",
+      "aspectRatio": 1,
+      "svgBytes": 2745,
+      "pngBytes": 1918
+    },
+    {
+      "slug": "irl-events",
+      "name": "IRL Events",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:3259",
+      "aspectRatio": 1,
+      "svgBytes": 392311,
+      "pngBytes": 20630
+    },
+    {
+      "slug": "irl-events",
+      "name": "IRL Events Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:3879",
+      "aspectRatio": 1,
+      "svgBytes": 4961,
+      "pngBytes": 1094
+    },
+    {
+      "slug": "llm",
+      "name": "Llm",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "26:9397",
+      "aspectRatio": 1,
+      "svgBytes": 189287,
+      "pngBytes": 20253
+    },
+    {
+      "slug": "llm",
+      "name": "Llm Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "26:9399",
+      "aspectRatio": 1,
+      "svgBytes": 3053,
+      "pngBytes": 3195
+    },
+    {
+      "slug": "logs",
+      "name": "Logs",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "35:2047",
+      "aspectRatio": 1,
+      "svgBytes": 80633,
+      "pngBytes": 16192
+    },
+    {
+      "slug": "marketing",
+      "name": "Marketing",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "26:8090",
+      "aspectRatio": 1,
+      "svgBytes": 136253,
+      "pngBytes": 28094
+    },
+    {
+      "slug": "marketing",
+      "name": "Marketing Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "26:8092",
+      "aspectRatio": 1,
+      "svgBytes": 6135,
+      "pngBytes": 3072
+    },
+    {
+      "slug": "mobile",
+      "name": "Mobile",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "26:6722",
+      "aspectRatio": 1,
+      "svgBytes": 87424,
+      "pngBytes": 18057
+    },
+    {
+      "slug": "mobile",
+      "name": "Mobile Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "26:6724",
+      "aspectRatio": 1,
+      "svgBytes": 3457,
+      "pngBytes": 2680
+    },
+    {
+      "slug": "onboarding",
+      "name": "Onboarding",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:3892",
+      "aspectRatio": 1,
+      "svgBytes": 90735,
+      "pngBytes": 15891
+    },
+    {
+      "slug": "onboarding",
+      "name": "Onboarding Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:4422",
+      "aspectRatio": 1,
+      "svgBytes": 2975,
+      "pngBytes": 2219
+    },
+    {
+      "slug": "pencil",
+      "name": "Pencil",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:12950",
+      "aspectRatio": 1,
+      "svgBytes": 102289,
+      "pngBytes": 15391
+    },
+    {
+      "slug": "pencil",
+      "name": "Pencil Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:13312",
+      "aspectRatio": 1,
+      "svgBytes": 6852,
+      "pngBytes": 2110
+    },
+    {
+      "slug": "people-and-ops",
+      "name": "People And Ops",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:424",
+      "aspectRatio": 1,
+      "svgBytes": 106552,
+      "pngBytes": 18528
+    },
+    {
+      "slug": "people-and-ops",
+      "name": "People And Ops Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:818",
+      "aspectRatio": 1,
+      "svgBytes": 4383,
+      "pngBytes": 1487
+    },
+    {
+      "slug": "platform-features",
+      "name": "Platform Features",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "26:10865",
+      "aspectRatio": 1,
+      "svgBytes": 94995,
+      "pngBytes": 16835
+    },
+    {
+      "slug": "platform-features",
+      "name": "Platform Features Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "26:10867",
+      "aspectRatio": 1,
+      "svgBytes": 4835,
+      "pngBytes": 1268
+    },
+    {
+      "slug": "platform-ux",
+      "name": "Platform UX",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "26:8347",
+      "aspectRatio": 1,
+      "svgBytes": 166137,
+      "pngBytes": 23256
+    },
+    {
+      "slug": "platform-ux",
+      "name": "Platform UX Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "26:8349",
+      "aspectRatio": 1,
+      "svgBytes": 5813,
+      "pngBytes": 2261
+    },
+    {
+      "slug": "posthog-ai",
+      "name": "Posthog Ai",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:13675",
+      "aspectRatio": 1,
+      "svgBytes": 117705,
+      "pngBytes": 15479
+    },
+    {
+      "slug": "posthog-ai",
+      "name": "Posthog Ai Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:14339",
+      "aspectRatio": 1,
+      "svgBytes": 5581,
+      "pngBytes": 3289
+    },
+    {
+      "slug": "posthog-code",
+      "name": "Posthog Code",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "26:7473",
+      "aspectRatio": 1,
+      "svgBytes": 344953,
+      "pngBytes": 19509
+    },
+    {
+      "slug": "posthog-code",
+      "name": "Posthog Code Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "26:7475",
+      "aspectRatio": 1,
+      "svgBytes": 12085,
+      "pngBytes": 2279
+    },
+    {
+      "slug": "product-analytics",
+      "name": "Product Analytics",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:15645",
+      "aspectRatio": 1,
+      "svgBytes": 103380,
+      "pngBytes": 17319
+    },
+    {
+      "slug": "product-analytics",
+      "name": "Product Analytics Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:16113",
+      "aspectRatio": 1,
+      "svgBytes": 8954,
+      "pngBytes": 2215
+    },
+    {
+      "slug": "product-lead-sales-east",
+      "name": "Product Lead Sales East",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:25403",
+      "aspectRatio": 1,
+      "svgBytes": 313554,
+      "pngBytes": 17724
+    },
+    {
+      "slug": "product-lead-sales-east",
+      "name": "Product Lead Sales East Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:25885",
+      "aspectRatio": 1,
+      "svgBytes": 5582,
+      "pngBytes": 1249
+    },
+    {
+      "slug": "product-led-sales",
+      "name": "Product Led Sales",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:12065",
+      "aspectRatio": 1,
+      "svgBytes": 91342,
+      "pngBytes": 16004
+    },
+    {
+      "slug": "product-led-sales",
+      "name": "Product Led Sales Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:12507",
+      "aspectRatio": 1,
+      "svgBytes": 5312,
+      "pngBytes": 1266
+    },
+    {
+      "slug": "query-performance",
+      "name": "Query Performance",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:10232",
+      "aspectRatio": 1,
+      "svgBytes": 368623,
+      "pngBytes": 22002
+    },
+    {
+      "slug": "query-performance",
+      "name": "Query Performance Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:10754",
+      "aspectRatio": 1,
+      "svgBytes": 8539,
+      "pngBytes": 1377
+    },
+    {
+      "slug": "query-performance-2",
+      "name": "Query Performance",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:7449",
+      "aspectRatio": 1,
+      "svgBytes": 466167,
+      "pngBytes": 21142
+    },
+    {
+      "slug": "query-performance-2",
+      "name": "Query Performance Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:8205",
+      "aspectRatio": 1,
+      "svgBytes": 4417,
+      "pngBytes": 1773
+    },
+    {
+      "slug": "security",
+      "name": "Security",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:8217",
+      "aspectRatio": 1,
+      "svgBytes": 509744,
+      "pngBytes": 20055
+    },
+    {
+      "slug": "security",
+      "name": "Security Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:8528",
+      "aspectRatio": 1,
+      "svgBytes": 6521,
+      "pngBytes": 1592
+    },
+    {
+      "slug": "session-reply",
+      "name": "Session Reply",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:19249",
+      "aspectRatio": 1,
+      "svgBytes": 274969,
+      "pngBytes": 21493
+    },
+    {
+      "slug": "session-reply",
+      "name": "Session Reply Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:19859",
+      "aspectRatio": 1,
+      "svgBytes": 5913,
+      "pngBytes": 1939
+    },
+    {
+      "slug": "signals",
+      "name": "Signals",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "35:2048",
+      "aspectRatio": 1,
+      "svgBytes": 85766,
+      "pngBytes": 19089
+    },
+    {
+      "slug": "support",
+      "name": "Support",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:841",
+      "aspectRatio": 1,
+      "svgBytes": 209345,
+      "pngBytes": 16451
+    },
+    {
+      "slug": "support",
+      "name": "Support Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:1285",
+      "aspectRatio": 0.9914,
+      "svgBytes": 6334,
+      "pngBytes": 2097
+    },
+    {
+      "slug": "surveys",
+      "name": "Surveys",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:1571",
+      "aspectRatio": 1,
+      "svgBytes": 88314,
+      "pngBytes": 14548
+    },
+    {
+      "slug": "surveys",
+      "name": "Surveys Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:1919",
+      "aspectRatio": 1,
+      "svgBytes": 3009,
+      "pngBytes": 2069
+    },
+    {
+      "slug": "talent",
+      "name": "Talent",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:7047",
+      "aspectRatio": 1,
+      "svgBytes": 57098,
+      "pngBytes": 13992
+    },
+    {
+      "slug": "talent",
+      "name": "Talent Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:7245",
+      "aspectRatio": 1,
+      "svgBytes": 5014,
+      "pngBytes": 1906
+    },
+    {
+      "slug": "warehouse-sources",
+      "name": "Warehouse Sources",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "24:2570",
+      "aspectRatio": 1,
+      "svgBytes": 303276,
+      "pngBytes": 17199
+    },
+    {
+      "slug": "warehouse-sources",
+      "name": "Warehouse Sources Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "24:2572",
+      "aspectRatio": 1,
+      "svgBytes": 3470,
+      "pngBytes": 1299
+    },
+    {
+      "slug": "warlock",
+      "name": "Warlock",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "35:2050",
+      "aspectRatio": 1,
+      "svgBytes": 537636,
+      "pngBytes": 18429
+    },
+    {
+      "slug": "web-analytics",
+      "name": "Web Analytics",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:16582",
+      "aspectRatio": 1,
+      "svgBytes": 114026,
+      "pngBytes": 25035
+    },
+    {
+      "slug": "web-analytics",
+      "name": "Web Analytics Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:17092",
+      "aspectRatio": 1,
+      "svgBytes": 4948,
+      "pngBytes": 1295
+    },
+    {
+      "slug": "workflows",
+      "name": "Workflows",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:18120",
+      "aspectRatio": 1,
+      "svgBytes": 107239,
+      "pngBytes": 20138
+    },
+    {
+      "slug": "workflows",
+      "name": "Workflows Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:18468",
+      "aspectRatio": 1,
+      "svgBytes": 2751,
+      "pngBytes": 2333
+    },
+    {
+      "slug": "youtube",
+      "name": "Youtube",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "35:2049",
+      "aspectRatio": 1,
+      "svgBytes": 97050,
+      "pngBytes": 15068
+    }
+  ]
+}

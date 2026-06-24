@@ -1,88 +1,82 @@
 // Framework-agnostic types. Deliberately free of any React import so that the
-// `/metadata` and `/svg` (string) entry points work with zero React present.
+// `/metadata`, `/svg` (string), and `/colors` entry points work with zero React present.
 
-/** Illustration style era. v3 is the newest. */
-export type HedgehogVersion = "v1" | "v2" | "v3";
+/** The asset families sourced from the brand-book Figma file, each its own export namespace. */
+export type Namespace = "hoggies" | "crests"
 
-export type ImageType =
-  | "isolated-hedgehog"
-  | "full-scene"
-  | "sticker"
-  | "spot-illustration"
-  | "pattern"
-  | "icon"
-  | "object";
-
-export type UsageType = "public" | "team-specific" | "internal" | "event";
+/** Every namespace, in a stable order. */
+export const NAMESPACES: readonly Namespace[] = ["hoggies", "crests"]
 
 /**
- * How this asset is bundled:
- * - `"svg"`: shipped as an optimized inline vector (crisp, scalable).
- * - `"png"`: shipped as a 768px raster (the source was too large to inline as SVG).
- *
- * We're migrating everything toward `"svg"`.
+ * Crests come in two size tiers: the full-detail illustration (`full`) and the
+ * simplified badge (`mini`). Each tier is its own export subpath (`crests/full`,
+ * `crests/mini`) and its own on-disk folder under `assets/crests/<tier>/`.
  */
-export type Delivery = "svg" | "png";
+export type CrestTier = "full" | "mini"
 
-export interface HedgehogPose {
-  pose: string;
-  expression: string;
-  outfit: string[];
-  accessories: string[];
-  activity: string;
-}
+/** Every crest tier, in a stable order. */
+export const CREST_TIERS: readonly CrestTier[] = ["full", "mini"]
 
-export interface HedgehogColors {
-  /** Up to five dominant colors as hex strings. */
-  dominant: string[];
-  /** e.g. "warm", "cool", "pastel", "monochrome". */
-  palette: string;
-}
-
-/** Absolute CDN URLs for the original art (raster variants + source vector). */
-export interface HedgehogFiles {
-  /** 256px raster (Cloudflare Images). */
-  thumb: string;
-  /** 768px raster (Cloudflare Images). This is the variant bundled into the package. */
-  md: string;
-  /** 1536px raster (Cloudflare Images). */
-  lg: string;
-  /** Source-resolution raster (Cloudflare Images). */
-  original: string;
-  /** Source SVG on R2. */
-  vector: string;
-}
-
-/** All metadata for a single hedgehog. Carried on each component as `.meta`. */
-export interface HedgehogMeta {
-  slug: string;
-  name: string;
-  version: HedgehogVersion;
-  imageType: ImageType;
-  usageType: UsageType;
-  team: string | null;
-  caption: string;
-  tags: string[];
-  pathTags: string[];
-  colors: HedgehogColors;
-  hedgehogs: HedgehogPose[];
-  verified: boolean;
-  delivery: Delivery;
+/**
+ * Metadata for a single illustration asset. Carried on each component as `.meta`.
+ * Every asset ships as BOTH an inline SVG and a bundled PNG, so there is no
+ * per-asset delivery field.
+ */
+export interface AssetMeta {
+  /**
+   * Unique within its namespace — or, for crests, within its (namespace, tier).
+   * E.g. "doctor-hog", "landscape-color-gradient", "array".
+   */
+  slug: string
+  /** Friendly display name derived from the Figma node, e.g. "Doctor Hog". */
+  name: string
+  /** Which family this asset belongs to. */
+  namespace: Namespace
+  /** Crest size tier. Set only on `crests` assets; absent elsewhere. */
+  tier?: CrestTier
+  /** The Figma node id this asset was rendered from, e.g. "63:161728". */
+  figmaNodeId: string
   /** Intrinsic aspect ratio (width / height) of the bundled image. */
-  aspectRatio: number;
-  files: HedgehogFiles;
+  aspectRatio: number
+  /** Figma COMPONENT_SET variant properties (e.g. `{ Orientation: "Landscape" }`), when any. */
+  variant?: Record<string, string>
 }
 
-/** A Cloudflare Images raster variant. */
-export type RasterVariant = "thumb" | "md" | "lg" | "original";
-
-/** Tag vocabulary across the whole catalog; each field maps a value to its count. */
-export interface TagVocabulary {
-  freeform: Record<string, number>;
-  poses: Record<string, number>;
-  expressions: Record<string, number>;
-  outfits: Record<string, number>;
-  accessories: Record<string, number>;
-  teams: Record<string, number>;
-  pathTags: Record<string, number>;
+/**
+ * An export group: the unit that produces one set of generated modules and one
+ * family of subpath exports (`@posthog/brand/<path>`, `/<path>/svg`, `/<path>/png`,
+ * `/<path>/metadata`). Most namespaces are a single group whose path equals the
+ * namespace; `crests` fans out into two groups, one per tier.
+ */
+export interface AssetGroup {
+  /** Export subpath and generated directory, e.g. "hoggies", "crests/full". */
+  path: string
+  /** The public family this group belongs to. */
+  namespace: Namespace
+  /** The crest tier this group renders, when it is a tier of `crests`. */
+  tier?: CrestTier
 }
+
+/** Every export group, in a stable order. The codegen and exports iterate this. */
+export const ASSET_GROUPS: readonly AssetGroup[] = [
+  { path: "hoggies", namespace: "hoggies" },
+  { path: "crests/full", namespace: "crests", tier: "full" },
+  { path: "crests/mini", namespace: "crests", tier: "mini" },
+]
+
+/** A single brand color and its tonal ramp. Hex strings include the leading `#`. */
+export interface BrandColor {
+  /** Human name, e.g. "blue", "corn blue". */
+  name: string
+  /** The primary/core swatch. */
+  core: string
+  /** A lighter tint. */
+  lighter: string
+  /** A darker shade. */
+  darker: string
+  /** The brand gradient stops for this color, `[from, to]`. */
+  gradient: [string, string]
+}
+
+/** All brand colors keyed by slug (e.g. `blue`, `corn-blue`). */
+export type BrandColors = Record<string, BrandColor>

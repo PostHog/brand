@@ -1,5 +1,0 @@
-dist
-node_modules
-src/generated
-assets
-pnpm-lock.yaml

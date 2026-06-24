@@ -81,8 +81,8 @@ jobs:
         id: releaser
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
-          app-id: ${{ secrets.GH_APP_POSTHOG_HEDGEHOGS_RELEASER_APP_ID }}
-          private-key: ${{ secrets.GH_APP_POSTHOG_HEDGEHOGS_RELEASER_PRIVATE_KEY }}
+          app-id: ${{ secrets.GH_APP_POSTHOG_BRAND_RELEASER_APP_ID }}
+          private-key: ${{ secrets.GH_APP_POSTHOG_BRAND_RELEASER_PRIVATE_KEY }}
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
@@ -178,7 +178,7 @@ jobs:
           slack_bot_token: ${{ secrets.SLACK_CLIENT_LIBRARIES_BOT_TOKEN }}
           slack_channel_id: ${{ vars.SLACK_APPROVALS_CLIENT_LIBRARIES_CHANNEL_ID }}
           thread_ts: ${{ needs.notify-approval-needed.outputs.slack_ts }}
-          message: "❌ Failed to release `@posthog/hedgehogs@${{ steps.version.outputs.new_version }}`! <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>"
+          message: "❌ Failed to release `@posthog/brand@${{ steps.version.outputs.new_version }}`! <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>"
           emoji_reaction: "x"
 
   notify-released:
@@ -193,5 +193,5 @@ jobs:
           slack_bot_token: ${{ secrets.SLACK_CLIENT_LIBRARIES_BOT_TOKEN }}
           slack_channel_id: ${{ vars.SLACK_APPROVALS_CLIENT_LIBRARIES_CHANNEL_ID }}
           thread_ts: ${{ needs.notify-approval-needed.outputs.slack_ts }}
-          message: "🚀 `@posthog/hedgehogs@${{ needs.release.outputs.version }}` released successfully!"
+          message: "🚀 `@posthog/brand@${{ needs.release.outputs.version }}` released successfully!"
           emoji_reaction: "rocket"

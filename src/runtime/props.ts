@@ -1,26 +1,24 @@
 // Shared prop types for the generated components. Imported only by the React
-// entry points, so `/svg` (strings) and `/metadata` stay React-free.
+// component entry points, so `/<namespace>/svg` (strings), `/<namespace>/png`
+// (urls), and `/<namespace>/metadata` stay React-free.
 
-import type { ComponentPropsWithoutRef } from "react";
+import type { ComponentPropsWithoutRef } from "react"
 
-interface CommonHedgehogProps {
+interface CommonAssetProps {
   /**
    * Convenience sizing: sets the rendered width. Height follows from the
    * illustration's intrinsic aspect ratio. Accepts a number (px) or any CSS length.
    */
-  size?: number | string;
+  size?: number | string
   /**
    * Accessible label. When provided the image is announced to assistive tech
-   * (SVG `<title>` / `<img alt>`); when omitted the image is treated as decorative.
+   * (via an SVG `<title>`); when omitted the image is treated as decorative.
    */
-  title?: string;
+  title?: string
 }
 
-/** Props for an SVG-delivered hedgehog (renders an `<svg>`). */
-export type HedgehogSvgProps = Omit<ComponentPropsWithoutRef<"svg">, "title"> & CommonHedgehogProps;
+/** Props for an inline-SVG asset component (renders an `<svg>`). */
+export type AssetSvgProps = Omit<ComponentPropsWithoutRef<"svg">, "title"> & CommonAssetProps
 
-/** Props for a PNG-delivered hedgehog (renders an `<img>`). */
-export type HedgehogImgProps = Omit<ComponentPropsWithoutRef<"img">, "title"> & CommonHedgehogProps;
-
-/** The common prop surface; both delivery kinds accept `size`, `title`, `className`, `style`. */
-export type HedgehogProps = HedgehogSvgProps;
+/** The common prop surface; accepts `size`, `title`, `className`, `style`, … */
+export type AssetProps = AssetSvgProps
