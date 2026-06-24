@@ -40,6 +40,12 @@ export function createSvgAsset(opts: {
       ref,
       xmlns: "http://www.w3.org/2000/svg",
       viewBox,
+      // Every source SVG carries `fill="none"` on its root <svg>; `body` is the inner
+      // markup with that root tag stripped, so we must reinstate it here. Without it,
+      // any path that omits its own `fill` inherits the SVG default (black) and the
+      // whole asset renders as a black silhouette. Placed before `...rest` so callers
+      // can still override the fill.
+      fill: "none",
       role: title ? "img" : undefined,
       "aria-hidden": title ? undefined : true,
       ...sizing,
