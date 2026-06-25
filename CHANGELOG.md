@@ -1,5 +1,15 @@
 # @posthog/brand
 
+## 0.2.0
+
+### Minor Changes
+
+- 0e760b7: Sync brand assets from Figma (7 added).
+
+  **hoggies**
+
+  - Added 7: Doc Brown, Jack Dawson, Lemonade, Lifeguard, Scott Pilgrim, Survey, The Bride
+
 ## 0.1.0
 
 ### Minor Changes
