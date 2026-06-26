@@ -27,7 +27,7 @@ export function HoggiesPage() {
         <input
           className="input"
           type="search"
-          placeholder="Search hoggies…"
+          placeholder="Search hoggies by name or tag…"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />

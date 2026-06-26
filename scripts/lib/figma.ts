@@ -42,6 +42,26 @@ export interface FigmaFileMeta {
   lastModified: string
 }
 
+/** Metadata for a COMPONENT / COMPONENT_SET (only the fields we use). */
+export interface FigmaComponentMeta {
+  key: string
+  name: string
+  /** The editable description shown in Figma's right panel — where we read tags from. */
+  description: string
+  componentSetId?: string
+}
+
+/** Result of {@link FigmaClient.getNodes}: the requested subtrees + their component metadata. */
+export interface FigmaNodesResult {
+  /** Requested root id → its document subtree. */
+  nodes: Record<string, FigmaNode>
+  /**
+   * Every COMPONENT and COMPONENT_SET found within the requested subtrees, keyed by node
+   * id (Figma's `components` and `componentSets` maps merged — both carry `description`).
+   */
+  components: Record<string, FigmaComponentMeta>
+}
+
 export type ImageFormat = "svg" | "png"
 
 const sleep = (ms: number): Promise<void> => new Promise((r) => setTimeout(r, ms))
@@ -112,23 +132,36 @@ export class FigmaClient {
     return { name: data.name, version: data.version, lastModified: data.lastModified }
   }
 
-  /** Fetch one or more node subtrees. Returns a map of node id -> document node. */
+  /**
+   * Fetch one or more node subtrees. Returns each requested root's document plus the
+   * merged COMPONENT / COMPONENT_SET metadata (incl. descriptions) found within them.
+   */
   async getNodes(
     key: string,
     ids: string[],
     opts: { depth?: number; geometry?: "paths" } = {},
-  ): Promise<Record<string, FigmaNode>> {
+  ): Promise<FigmaNodesResult> {
     const params = new URLSearchParams({ ids: ids.join(",") })
     if (opts.depth != null) params.set("depth", String(opts.depth))
     if (opts.geometry) params.set("geometry", opts.geometry)
-    const data = await this.#request<{ nodes: Record<string, { document: FigmaNode } | null> }>(
-      `/files/${key}/nodes?${params}`,
-    )
-    const out: Record<string, FigmaNode> = {}
+    const data = await this.#request<{
+      nodes: Record<
+        string,
+        {
+          document: FigmaNode
+          components?: Record<string, FigmaComponentMeta>
+          componentSets?: Record<string, FigmaComponentMeta>
+        } | null
+      >
+    }>(`/files/${key}/nodes?${params}`)
+    const nodes: Record<string, FigmaNode> = {}
+    const components: Record<string, FigmaComponentMeta> = {}
     for (const [id, entry] of Object.entries(data.nodes)) {
-      if (entry?.document) out[id] = entry.document
+      if (!entry?.document) continue
+      nodes[id] = entry.document
+      Object.assign(components, entry.components, entry.componentSets)
     }
-    return out
+    return { nodes, components }
   }
 
   /**

@@ -41,6 +41,24 @@ describe("findAssets", () => {
     const hits = findAssets({ text: word.toUpperCase() })
     expect(hits.some((a) => a.slug === sample.slug)).toBe(true)
   })
+
+  it("matches tags via free text and via the `tags` filter", () => {
+    const tagged = allAssets.find((a) => a.tags && a.tags.length > 0)
+    if (!tagged) return // no bundled asset carries tags in this build (none synced yet)
+    const tag = tagged.tags![0]!
+
+    const byText = findAssets({ text: tag.toUpperCase() })
+    expect(byText.some((a) => a.slug === tagged.slug)).toBe(true)
+
+    const byTag = findAssets({ tags: tag })
+    expect(byTag.some((a) => a.slug === tagged.slug)).toBe(true)
+    expect(
+      byTag.every((a) => (a.tags ?? []).some((t) => t.toLowerCase() === tag.toLowerCase())),
+    ).toBe(true)
+
+    // A tag that no asset has yields nothing.
+    expect(findAssets({ tags: "definitely-not-a-real-tag-xyz" })).toHaveLength(0)
+  })
 })
 
 describe("getAsset", () => {

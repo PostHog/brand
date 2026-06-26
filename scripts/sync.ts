@@ -19,7 +19,8 @@ import { fileURLToPath } from "node:url"
 import pLimit from "p-limit"
 import type { AssetMeta, CrestTier, Namespace } from "../src/types.ts"
 import { dedupeSlugs, slugify } from "../src/naming.ts"
-import { FigmaClient, type FigmaNode } from "./lib/figma.ts"
+import { FigmaClient, type FigmaComponentMeta, type FigmaNode } from "./lib/figma.ts"
+import { parseTags } from "./lib/tags.ts"
 import { optimizeSvg } from "./lib/svg.ts"
 import { optimizePng } from "./lib/png.ts"
 import { FIGMA_FILE_KEY, ILLUSTRATION_PAGES, type IllustrationPage } from "./lib/figma-pages.ts"
@@ -43,6 +44,8 @@ interface NamespaceSummary {
   updated: string[]
   removed: string[]
   unchanged: number
+  /** How many discovered assets carry at least one tag (sanity-check the description sync). */
+  tagged: number
 }
 
 function nsDir(namespace: Namespace): string {
@@ -140,26 +143,39 @@ function identity(
 }
 
 /** Walk a page container and flatten its COMPONENT / COMPONENT_SET nodes into assets. */
-function discoverPage(page: IllustrationPage, container: FigmaNode): DiscoveredAsset[] {
+function discoverPage(
+  page: IllustrationPage,
+  container: FigmaNode,
+  components: Record<string, FigmaComponentMeta>,
+): DiscoveredAsset[] {
   const raw: {
     slug: string
     name: string
     node: FigmaNode
     variant?: Record<string, string>
     tier?: CrestTier
+    tags: string[]
   }[] = []
 
   for (const child of container.children ?? []) {
     if (child.type === "COMPONENT_SET") {
+      // Tags live on the set's description; a variant may override with its own.
       for (const variantNode of child.children ?? []) {
         if (variantNode.type !== "COMPONENT") continue
         const variant = parseVariant(variantNode.name)
         const { slug, name, tier } = identity(page, child.name, child.id, variant)
-        raw.push({ slug, name, node: variantNode, variant, tier })
+        const desc = components[variantNode.id]?.description || components[child.id]?.description
+        raw.push({ slug, name, node: variantNode, variant, tier, tags: parseTags(desc) })
       }
     } else if (child.type === "COMPONENT") {
       const { slug, name, tier } = identity(page, child.name, child.id, undefined)
-      raw.push({ slug, name, node: child, tier })
+      raw.push({
+        slug,
+        name,
+        node: child,
+        tier,
+        tags: parseTags(components[child.id]?.description),
+      })
     }
   }
 
@@ -191,6 +207,7 @@ function discoverPage(page: IllustrationPage, container: FigmaNode): DiscoveredA
       figmaNodeId: r.node.id,
       aspectRatio: 1,
       ...(hasVariant ? { variant } : {}),
+      ...(r.tags.length ? { tags: r.tags } : {}),
     }
     return { meta, node: r.node, hash: hashNode(r.node) }
   })
@@ -270,7 +287,7 @@ async function main(): Promise<void> {
   // Discovery: one getNodes call per illustration container. Colors are a fixed,
   // hand-maintained palette (static/colors.ts), not synced from Figma.
   const containerIds = ILLUSTRATION_PAGES.map((p) => p.containerId)
-  const nodes = await client.getNodes(FIGMA_FILE_KEY, containerIds)
+  const { nodes, components } = await client.getNodes(FIGMA_FILE_KEY, containerIds)
 
   const newState: SyncState = {
     figmaFileKey: FIGMA_FILE_KEY,
@@ -285,7 +302,7 @@ async function main(): Promise<void> {
     if (!container)
       throw new Error(`Container ${page.containerId} (${page.namespace}) not found in file.`)
 
-    const discovered = discoverPage(page, container)
+    const discovered = discoverPage(page, container, components)
     const prevCatalog = await readCatalog(page.namespace)
     const summary: NamespaceSummary = {
       namespace: page.namespace,
@@ -293,6 +310,7 @@ async function main(): Promise<void> {
       updated: [],
       removed: [],
       unchanged: 0,
+      tagged: discovered.filter((d) => d.meta.tags?.length).length,
     }
 
     // Removed = previously catalogued assets (slug+tier) no longer discovered.
@@ -320,7 +338,15 @@ async function main(): Promise<void> {
         nodeHash: asset.hash,
       } satisfies SyncStateEntry
       if (unchanged) {
-        reused.push(prevEntry)
+        // The rendered image is unchanged, but tags come from the component description,
+        // which lives outside the hashed node subtree. Rebuild from the freshly discovered
+        // meta (picks up tag add/change/remove) while keeping render-derived numbers.
+        reused.push({
+          ...asset.meta,
+          aspectRatio: prevEntry.aspectRatio,
+          svgBytes: prevEntry.svgBytes,
+          pngBytes: prevEntry.pngBytes,
+        })
         summary.unchanged++
       } else {
         toRender.push(asset)

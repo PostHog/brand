@@ -40,6 +40,12 @@ export interface AssetMeta {
   aspectRatio: number
   /** Figma COMPONENT_SET variant properties (e.g. `{ Orientation: "Landscape" }`), when any. */
   variant?: Record<string, string>
+  /**
+   * Free-form search tags, parsed from the component's Figma description (a
+   * comma-separated list). Trimmed and de-duplicated, in author order. Omitted when the
+   * component has none. Folded into `findAssets`' free-text search and the `tags` filter.
+   */
+  tags?: string[]
 }
 
 /**

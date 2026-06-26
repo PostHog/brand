@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-06-25T00:23:59Z",
+  "generatedAt": "2026-06-25T22:49:42Z",
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2368788211683854552",
+  "figmaVersion": "2369155865715396376",
   "namespace": "hoggies",
   "entries": [
     {
@@ -10,6 +10,14 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:3163",
       "aspectRatio": 1,
+      "tags": [
+        "LinkedIn",
+        "Solo",
+        "Saturday Night Hog",
+        "travolta",
+        "leisure suit",
+        "disco"
+      ],
       "svgBytes": 274923,
       "pngBytes": 46885
     },
@@ -19,6 +27,16 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161716",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "group",
+        "evolution 4",
+        "996",
+        "coder",
+        "yellow shirt",
+        "orange hat"
+      ],
       "svgBytes": 138235,
       "pngBytes": 45151
     },
@@ -28,6 +46,13 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161725",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "halo",
+        "angel",
+        "white robe"
+      ],
       "svgBytes": 150891,
       "pngBytes": 43592
     },
@@ -37,6 +62,15 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161639",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "group",
+        "evolution 1",
+        "ape",
+        "monkey",
+        "banana"
+      ],
       "svgBytes": 120266,
       "pngBytes": 42843
     },
@@ -46,6 +80,22 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161657",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "thief",
+        "steal",
+        "burglar",
+        "crime",
+        "art",
+        "money",
+        "mask",
+        "hat",
+        "mona lisa",
+        "money bag",
+        "striped clothes",
+        "stripes"
+      ],
       "svgBytes": 173240,
       "pngBytes": 51492
     },
@@ -55,6 +105,18 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161704",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "group",
+        "back to the future",
+        "bttf",
+        "marty",
+        "doc",
+        "mcfly",
+        "great scott",
+        "gigawatt",
+        "puffer vest"
+      ],
       "svgBytes": 238897,
       "pngBytes": 59572
     },
@@ -64,6 +126,13 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161695",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "naked",
+        "ball",
+        "game"
+      ],
       "svgBytes": 134332,
       "pngBytes": 47728
     },
@@ -73,6 +142,17 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161641",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "coach",
+        "sports",
+        "basketball",
+        "clipboard",
+        "mustache",
+        "green shirt",
+        "belt"
+      ],
       "svgBytes": 172013,
       "pngBytes": 53080
     },
@@ -82,6 +162,16 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161658",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "beaker",
+        "pink",
+        "liquid",
+        "drown",
+        "science",
+        "chemistry"
+      ],
       "svgBytes": 197739,
       "pngBytes": 35928
     },
@@ -91,6 +181,16 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161729",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "boombox hog",
+        "radio",
+        "say anything",
+        "john cusack",
+        "trench coat",
+        "brown coat"
+      ],
       "svgBytes": 134345,
       "pngBytes": 43695
     },
@@ -100,6 +200,15 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161720",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "group",
+        "evolution 3",
+        "business",
+        "orange phone",
+        "yellow tie"
+      ],
       "svgBytes": 163270,
       "pngBytes": 48094
     },
@@ -109,6 +218,15 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161722",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "cake",
+        "party",
+        "headdress",
+        "pop out",
+        "confetti"
+      ],
       "svgBytes": 237959,
       "pngBytes": 49290
     },
@@ -118,6 +236,21 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161702",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "campfire",
+        "cowboy",
+        "roasting",
+        "fire",
+        "cooking",
+        "boots",
+        "spurs",
+        "blue hat",
+        "green shirt",
+        "log",
+        "bug"
+      ],
       "svgBytes": 211491,
       "pngBytes": 49881
     },
@@ -127,6 +260,18 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161687",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "cards",
+        "poker",
+        "playing",
+        "orange",
+        "blue",
+        "hiding",
+        "close to vest",
+        "full house"
+      ],
       "svgBytes": 201330,
       "pngBytes": 44467
     },
@@ -136,6 +281,14 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161733",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "group",
+        "evolution 2",
+        "caveman",
+        "club"
+      ],
       "svgBytes": 116661,
       "pngBytes": 46134
     },
@@ -145,6 +298,14 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161664",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "eating",
+        "cereal",
+        "breakfast",
+        "skeptical"
+      ],
       "svgBytes": 126065,
       "pngBytes": 39017
     },
@@ -154,6 +315,18 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161675",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "chart",
+        "product analytics",
+        "easel",
+        "bar chart",
+        "sweater vest",
+        "teal",
+        "clipboard",
+        "pointer"
+      ],
       "svgBytes": 259367,
       "pngBytes": 49158
     },
@@ -163,6 +336,18 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161666",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "chef",
+        "chef hat",
+        "white coat",
+        "prawn",
+        "shrimp",
+        "tomato",
+        "kerchief",
+        "seafood"
+      ],
       "svgBytes": 130566,
       "pngBytes": 39619
     },
@@ -172,6 +357,15 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161723",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "bubble",
+        "zen",
+        "code",
+        "closed eyes",
+        "meditation"
+      ],
       "svgBytes": 1004119,
       "pngBytes": 115571
     },
@@ -181,6 +375,18 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161710",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "group",
+        "coding party",
+        "on-site",
+        "talking bubbles",
+        "editable",
+        "laptop",
+        "four",
+        "hat",
+        "mug"
+      ],
       "svgBytes": 377281,
       "pngBytes": 67905
     },
@@ -190,6 +396,18 @@
       "namespace": "hoggies",
       "figmaNodeId": "108:5001",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "coffee",
+        "coffee cup",
+        "in your cups",
+        "suit",
+        "tie",
+        "smirk",
+        "happy",
+        "mug"
+      ],
       "svgBytes": 131897,
       "pngBytes": 34499
     },
@@ -199,6 +417,17 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161707",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "coffee run",
+        "croissant",
+        "latte",
+        "shopping",
+        "coffee",
+        "bag",
+        "red shirt"
+      ],
       "svgBytes": 310173,
       "pngBytes": 52684
     },
@@ -208,6 +437,16 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161696",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "group",
+        "construction",
+        "can be paired with construction 2",
+        "pipe",
+        "hi-vis",
+        "hard hat"
+      ],
       "svgBytes": 126580,
       "pngBytes": 50888
     },
@@ -217,6 +456,16 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161682",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "group",
+        "construction",
+        "can be paired with construction 1",
+        "pipe",
+        "hi-vis",
+        "hard hat"
+      ],
       "svgBytes": 116222,
       "pngBytes": 38060
     },
@@ -226,6 +475,15 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161701",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "cowboy",
+        "red hat",
+        "lasso",
+        "spurs",
+        "belt buckle"
+      ],
       "svgBytes": 206708,
       "pngBytes": 60027
     },
@@ -235,6 +493,13 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161645",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "croissant",
+        "drool",
+        "blue shirt"
+      ],
       "svgBytes": 109152,
       "pngBytes": 40963
     },
@@ -244,6 +509,15 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161674",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "naked",
+        "arrow",
+        "cursor",
+        "holding",
+        "smiling"
+      ],
       "svgBytes": 107314,
       "pngBytes": 42043
     },
@@ -253,6 +527,19 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161665",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "dadd-ai",
+        "daddai",
+        "daddy",
+        "left",
+        "hawaiian shirt",
+        "sunglasses",
+        "gold chain",
+        "P",
+        "speedo"
+      ],
       "svgBytes": 69996,
       "pngBytes": 53886
     },
@@ -262,6 +549,19 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161655",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "dadd-ai",
+        "daddai",
+        "daddy",
+        "right",
+        "hawaiian shirt",
+        "sunglasses",
+        "gold chain",
+        "P",
+        "speedo"
+      ],
       "svgBytes": 71630,
       "pngBytes": 55675
     },
@@ -271,6 +571,18 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161635",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "thief",
+        "data theft",
+        "data",
+        "bag",
+        "hat",
+        "mask",
+        "stripes",
+        "striped clothes"
+      ],
       "svgBytes": 157285,
       "pngBytes": 46179
     },
@@ -280,6 +592,19 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161647",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "director",
+        "movie",
+        "action",
+        "art",
+        "replay",
+        "truman show",
+        "beret",
+        "sunglasses",
+        "director chair"
+      ],
       "svgBytes": 140403,
       "pngBytes": 43415
     },
@@ -289,6 +614,17 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161640",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "dj",
+        "laptop",
+        "music",
+        "hoodie",
+        "hacker",
+        "blue shirt",
+        "headphones"
+      ],
       "svgBytes": 157399,
       "pngBytes": 41122
     },
@@ -298,6 +634,17 @@
       "namespace": "hoggies",
       "figmaNodeId": "209:7400",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "endpoints",
+        "connection",
+        "electric",
+        "plugs",
+        "scientist",
+        "doc",
+        "back to the future"
+      ],
       "svgBytes": 163763,
       "pngBytes": 49942
     },
@@ -307,6 +654,15 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161727",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "lab coat",
+        "stethoscope",
+        "doctor",
+        "nurse",
+        "glasses"
+      ],
       "svgBytes": 177045,
       "pngBytes": 48206
     },
@@ -316,6 +672,14 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161728",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "lab coat",
+        "stethoscope",
+        "doctor",
+        "nurse"
+      ],
       "svgBytes": 147635,
       "pngBytes": 50365
     },
@@ -325,6 +689,15 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161681",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "house",
+        "doll house",
+        "see inside",
+        "open",
+        "naked"
+      ],
       "svgBytes": 143184,
       "pngBytes": 44724
     },
@@ -334,6 +707,16 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161692",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "meme",
+        "dr",
+        "manhattan",
+        "blue",
+        "brain explode",
+        "watchmen"
+      ],
       "svgBytes": 284355,
       "pngBytes": 37748
     },
@@ -343,6 +726,14 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161685",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "drake",
+        "no",
+        "bad",
+        "orange coat"
+      ],
       "svgBytes": 184491,
       "pngBytes": 47765
     },
@@ -352,6 +743,14 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161673",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "drake",
+        "yes",
+        "good",
+        "orange coat"
+      ],
       "svgBytes": 134518,
       "pngBytes": 46964
     },
@@ -361,6 +760,18 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161662",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "car",
+        "hot rod",
+        "classic car",
+        "hogzilla",
+        "fire",
+        "hat",
+        "driving",
+        "self driving"
+      ],
       "svgBytes": 469334,
       "pngBytes": 67223
     },
@@ -370,6 +781,18 @@
       "namespace": "hoggies",
       "figmaNodeId": "108:5002",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "dynamite",
+        "flying",
+        "ahhhhh",
+        "blast",
+        "red",
+        "firework",
+        "fuse",
+        "short fuse"
+      ],
       "svgBytes": 144819,
       "pngBytes": 32210
     },
@@ -379,6 +802,13 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161646",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "einstein",
+        "chalk board",
+        "duplicates"
+      ],
       "svgBytes": 162028,
       "pngBytes": 30378
     },
@@ -388,6 +818,13 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161654",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "group",
+        "einstein",
+        "chalk board",
+        "duplicates"
+      ],
       "svgBytes": 655445,
       "pngBytes": 46810
     },
@@ -397,6 +834,15 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161651",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "riding bike",
+        "cape motorcycle",
+        "evel",
+        "stunt",
+        "jump"
+      ],
       "svgBytes": 559040,
       "pngBytes": 74200
     },
@@ -406,6 +852,18 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161683",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "experiments",
+        "science",
+        "beaker",
+        "chemistry",
+        "lab",
+        "test tube",
+        "pink",
+        "naked"
+      ],
       "svgBytes": 155314,
       "pngBytes": 49429
     },
@@ -415,6 +873,14 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161690",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "group",
+        "evolution 5",
+        "flying",
+        "final level"
+      ],
       "svgBytes": 133028,
       "pngBytes": 32646
     },
@@ -424,6 +890,19 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161705",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "beach",
+        "inner tube",
+        "laptop",
+        "remote",
+        "offsite",
+        "summer",
+        "float trip",
+        "remote work",
+        "sunglasses"
+      ],
       "svgBytes": 112436,
       "pngBytes": 39210
     },
@@ -433,6 +912,18 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161656",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "football",
+        "American",
+        "sweatsuit",
+        "headband",
+        "coach",
+        "pointing",
+        "whistle",
+        "sports"
+      ],
       "svgBytes": 169873,
       "pngBytes": 52707
     },
@@ -442,6 +933,15 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161663",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "group",
+        "gardener",
+        "plant",
+        "water",
+        "dig",
+        "apron"
+      ],
       "svgBytes": 244724,
       "pngBytes": 50781
     },
@@ -451,6 +951,17 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161638",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "soldier",
+        "roman",
+        "toga",
+        "shield",
+        "sword",
+        "gladiator",
+        "russel crowe"
+      ],
       "svgBytes": 147062,
       "pngBytes": 43646
     },
@@ -460,6 +971,19 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161730",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "soldier",
+        "roman",
+        "toga",
+        "shield",
+        "sword",
+        "gladiator",
+        "3000",
+        "sparta",
+        "gerard butler"
+      ],
       "svgBytes": 153478,
       "pngBytes": 48024
     },
@@ -469,6 +993,18 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161693",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "scroll",
+        "greek",
+        "roman",
+        "philosopher",
+        "list",
+        "ceasar",
+        "reading",
+        "news"
+      ],
       "svgBytes": 133855,
       "pngBytes": 24350
     },
@@ -478,6 +1014,18 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161714",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "suit",
+        "blue",
+        "tie",
+        "polka dot",
+        "cell phone",
+        "haha bizzniss",
+        "business",
+        "meme"
+      ],
       "svgBytes": 209660,
       "pngBytes": 56370
     },
@@ -487,6 +1035,14 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161700",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "group",
+        "meme",
+        "hand clasp",
+        "plaid shirt",
+        "friends"
+      ],
       "svgBytes": 249342,
       "pngBytes": 54490
     },
@@ -496,6 +1052,16 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161689",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "hipster hog",
+        "coffee",
+        "music",
+        "mustache",
+        "beanie",
+        "record"
+      ],
       "svgBytes": 170543,
       "pngBytes": 55197
     },
@@ -505,6 +1071,16 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161671",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "desk",
+        "plant",
+        "hogpatch",
+        "YC",
+        "happy",
+        "wave"
+      ],
       "svgBytes": 190439,
       "pngBytes": 46097
     },
@@ -514,6 +1090,16 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161652",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "owl",
+        "hoot",
+        "who",
+        "bird",
+        "branch",
+        "feather"
+      ],
       "svgBytes": 171376,
       "pngBytes": 39944
     },
@@ -523,6 +1109,15 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161719",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "time out",
+        "hourglass",
+        "sand",
+        "time",
+        "timer"
+      ],
       "svgBytes": 127856,
       "pngBytes": 47304
     },
@@ -532,6 +1127,13 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161644",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "i'm the driver",
+        "jumping car",
+        "red car"
+      ],
       "svgBytes": 196973,
       "pngBytes": 43201
     },
@@ -541,6 +1143,13 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161637",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "ipad",
+        "apple",
+        "surprised"
+      ],
       "svgBytes": 214134,
       "pngBytes": 51314
     },
@@ -550,6 +1159,17 @@
       "namespace": "hoggies",
       "figmaNodeId": "209:7403",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "drawing",
+        "titanic",
+        "leo",
+        "leonardo",
+        "dicaprio",
+        "white shirt",
+        "easel"
+      ],
       "svgBytes": 174559,
       "pngBytes": 50463
     },
@@ -559,6 +1179,16 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161721",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "judge",
+        "judge judy",
+        "justice",
+        "court",
+        "legal",
+        "gavel"
+      ],
       "svgBytes": 169710,
       "pngBytes": 45792
     },
@@ -568,6 +1198,15 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161699",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "cowboy",
+        "lemon",
+        "lemon wrangler",
+        "blue hat",
+        "green shirt"
+      ],
       "svgBytes": 296740,
       "pngBytes": 54394
     },
@@ -577,6 +1216,16 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161688",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "group",
+        "cowboy",
+        "lemon",
+        "lemon wrangler",
+        "green hat",
+        "red shirt"
+      ],
       "svgBytes": 258346,
       "pngBytes": 51032
     },
@@ -586,6 +1235,16 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161680",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "group",
+        "cowboy",
+        "lemon",
+        "lemon wrangler",
+        "green hat",
+        "red shirt"
+      ],
       "svgBytes": 158906,
       "pngBytes": 48008
     },
@@ -595,6 +1254,17 @@
       "namespace": "hoggies",
       "figmaNodeId": "209:7399",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "lemonade",
+        "spill",
+        "lemon",
+        "when life gives you lemons",
+        "pour",
+        "costume",
+        "drink"
+      ],
       "svgBytes": 346367,
       "pngBytes": 47076
     },
@@ -604,6 +1274,15 @@
       "namespace": "hoggies",
       "figmaNodeId": "209:7404",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "lifeguard",
+        "baywatch",
+        "support",
+        "binoculars",
+        "life preserver"
+      ],
       "svgBytes": 188594,
       "pngBytes": 45386
     },
@@ -613,6 +1292,13 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161670",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "magnifying glass",
+        "searching",
+        "research"
+      ],
       "svgBytes": 129899,
       "pngBytes": 50864
     },
@@ -622,6 +1308,14 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161724",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "magnifying glass",
+        "searching",
+        "research",
+        "naked"
+      ],
       "svgBytes": 112870,
       "pngBytes": 36905
     },
@@ -631,6 +1325,16 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161711",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "yelling",
+        "announcement",
+        "megaphone",
+        "bull horn",
+        "naked",
+        "loud"
+      ],
       "svgBytes": 162694,
       "pngBytes": 43504
     },
@@ -640,6 +1344,17 @@
       "namespace": "hoggies",
       "figmaNodeId": "107:4996",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "money",
+        "dollars",
+        "rich",
+        "green",
+        "payment",
+        "dollar",
+        "currency"
+      ],
       "svgBytes": 216755,
       "pngBytes": 35648
     },
@@ -649,6 +1364,17 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161698",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "mountie",
+        "RCMP",
+        "canada",
+        "canadian",
+        "flag",
+        "red coat",
+        "hat"
+      ],
       "svgBytes": 159522,
       "pngBytes": 51054
     },
@@ -658,6 +1384,16 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161703",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "group",
+        "mr potato head",
+        "pieces",
+        "toy",
+        "fail",
+        "falling apart"
+      ],
       "svgBytes": 170359,
       "pngBytes": 31103
     },
@@ -667,6 +1403,14 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161694",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "group",
+        "mr potato head",
+        "pieces",
+        "toy"
+      ],
       "svgBytes": 100018,
       "pngBytes": 36783
     },
@@ -676,6 +1420,19 @@
       "namespace": "hoggies",
       "figmaNodeId": "106:4985",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "detective",
+        "noir",
+        "old-timey",
+        "gray scale",
+        "black and white",
+        "mystery",
+        "crime",
+        "magnifying glass",
+        "searching"
+      ],
       "svgBytes": 150163,
       "pngBytes": 38730
     },
@@ -685,6 +1442,14 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161709",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "file folder",
+        "filing",
+        "worker",
+        "office"
+      ],
       "svgBytes": 140341,
       "pngBytes": 38156
     },
@@ -694,6 +1459,16 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161706",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "oprah",
+        "you get a car",
+        "talk show",
+        "host",
+        "red suit",
+        "earrings"
+      ],
       "svgBytes": 251273,
       "pngBytes": 46046
     },
@@ -703,6 +1478,18 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161632",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "naked",
+        "stop sign",
+        "traffic cone",
+        "construction",
+        "panic sign",
+        "error tracking",
+        "you shall not pass",
+        "panic hog"
+      ],
       "svgBytes": 127431,
       "pngBytes": 39404
     },
@@ -712,6 +1499,15 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161697",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "party",
+        "celebrate",
+        "confetti",
+        "birthday",
+        "party hat"
+      ],
       "svgBytes": 159998,
       "pngBytes": 38808
     },
@@ -721,6 +1517,14 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161732",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "pearl necklace",
+        "shocked",
+        "surprised",
+        "naked"
+      ],
       "svgBytes": 150140,
       "pngBytes": 41327
     },
@@ -730,6 +1534,17 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161669",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "phone",
+        "business",
+        "blue shirt",
+        "tie",
+        "quick call",
+        "blue phone",
+        "white shirt"
+      ],
       "svgBytes": 152741,
       "pngBytes": 50644
     },
@@ -739,6 +1554,17 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161731",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "blindfold",
+        "bat",
+        "baseball",
+        "swing",
+        "piñata",
+        "pink",
+        "pinata"
+      ],
       "svgBytes": 144537,
       "pngBytes": 38130
     },
@@ -748,6 +1574,15 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161661",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "pope",
+        "big hat",
+        "robe",
+        "cardinal",
+        "priest"
+      ],
       "svgBytes": 257329,
       "pngBytes": 45747
     },
@@ -757,6 +1592,18 @@
       "namespace": "hoggies",
       "figmaNodeId": "108:5004",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "group",
+        "puzzle",
+        "pieces",
+        "together",
+        "fit",
+        "purple",
+        "hold hands",
+        "team",
+        "pair"
+      ],
       "svgBytes": 197410,
       "pngBytes": 36032
     },
@@ -766,6 +1613,16 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161679",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "phone",
+        "business",
+        "blue shirt",
+        "tie",
+        "quick call",
+        "red phone"
+      ],
       "svgBytes": 103311,
       "pngBytes": 43768
     },
@@ -775,6 +1632,17 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161678",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "book",
+        "magic",
+        "enchanted",
+        "knowledge",
+        "reading",
+        "glowing",
+        "stars"
+      ],
       "svgBytes": 168265,
       "pngBytes": 57794
     },
@@ -784,6 +1652,21 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161718",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "beach",
+        "relax",
+        "vacation",
+        "laptop",
+        "remote",
+        "pool",
+        "hat",
+        "orange hat",
+        "pink float",
+        "floatie",
+        "apple"
+      ],
       "svgBytes": 128846,
       "pngBytes": 37172
     },
@@ -793,6 +1676,18 @@
       "namespace": "hoggies",
       "figmaNodeId": "201:2875",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "suit",
+        "presenter",
+        "reporter",
+        "news",
+        "mic",
+        "microphone",
+        "weather",
+        "meteorologist"
+      ],
       "svgBytes": 140948,
       "pngBytes": 41338
     },
@@ -802,6 +1697,16 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161643",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "llm analytics",
+        "robot",
+        "rosie",
+        "satellite",
+        "wires",
+        "wheel"
+      ],
       "svgBytes": 137260,
       "pngBytes": 39437
     },
@@ -811,6 +1716,16 @@
       "namespace": "hoggies",
       "figmaNodeId": "107:4995",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "startup",
+        "rocket",
+        "flying",
+        "space",
+        "blast",
+        "red"
+      ],
       "svgBytes": 109344,
       "pngBytes": 29286
     },
@@ -820,6 +1735,19 @@
       "namespace": "hoggies",
       "figmaNodeId": "201:2872",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "hot wheels",
+        "rollercoaster",
+        "cart",
+        "speed",
+        "drive",
+        "car",
+        "fun",
+        "naked",
+        "arms up"
+      ],
       "svgBytes": 188104,
       "pngBytes": 48216
     },
@@ -829,6 +1757,19 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161672",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "titanic",
+        "french girl hog",
+        "painting",
+        "pouting",
+        "sexy",
+        "wink",
+        "rose",
+        "kate winslet",
+        "heart of the ocean"
+      ],
       "svgBytes": 172741,
       "pngBytes": 39173
     },
@@ -838,6 +1779,16 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161636",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "sailor",
+        "captain",
+        "navy",
+        "steering",
+        "smoking",
+        "pipe"
+      ],
       "svgBytes": 163904,
       "pngBytes": 51482
     },
@@ -847,6 +1798,13 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161726",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "scientist",
+        "microscope",
+        "researcher"
+      ],
       "svgBytes": 208985,
       "pngBytes": 35448
     },
@@ -856,6 +1814,15 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161713",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "scorpion",
+        "cowboy",
+        "green hat",
+        "red shirt",
+        "wrangler"
+      ],
       "svgBytes": 252417,
       "pngBytes": 56251
     },
@@ -865,6 +1832,18 @@
       "namespace": "hoggies",
       "figmaNodeId": "209:7401",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "guitar",
+        "scott pilgrim",
+        "against the world",
+        "rock",
+        "music",
+        "musician",
+        "green shirt",
+        "heart"
+      ],
       "svgBytes": 326749,
       "pngBytes": 49438
     },
@@ -874,6 +1853,13 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161677",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "naked",
+        "shocked",
+        "surprised"
+      ],
       "svgBytes": 104756,
       "pngBytes": 37582
     },
@@ -883,6 +1869,15 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161686",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "sitting",
+        "naked",
+        "neutral",
+        "seated",
+        "take a seat"
+      ],
       "svgBytes": 112828,
       "pngBytes": 40023
     },
@@ -892,6 +1887,17 @@
       "namespace": "hoggies",
       "figmaNodeId": "107:4998",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "soapbox",
+        "soap box",
+        "crier",
+        "announcement",
+        "megaphone",
+        "maroon tie",
+        "town square"
+      ],
       "svgBytes": 165582,
       "pngBytes": 42789
     },
@@ -901,6 +1907,20 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161648",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "soccer coach",
+        "coach",
+        "whistle",
+        "stopwatch",
+        "football",
+        "hat",
+        "jersey",
+        "step stool",
+        "ladder",
+        "sports"
+      ],
       "svgBytes": 181588,
       "pngBytes": 48053
     },
@@ -910,6 +1930,17 @@
       "namespace": "hoggies",
       "figmaNodeId": "201:2878",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "speaker",
+        "microphone",
+        "talk",
+        "business",
+        "white shirt",
+        "blue tie",
+        "reporter"
+      ],
       "svgBytes": 159053,
       "pngBytes": 39939
     },
@@ -919,6 +1950,18 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161668",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "speaker",
+        "motivation",
+        "motivational speaker",
+        "announcement",
+        "microphone",
+        "suit",
+        "happy",
+        "smile"
+      ],
       "svgBytes": 155814,
       "pngBytes": 51833
     },
@@ -928,6 +1971,13 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161712",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "stamp",
+        "approved",
+        "naked"
+      ],
       "svgBytes": 140198,
       "pngBytes": 47225
     },
@@ -937,6 +1987,14 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161660",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "stamp",
+        "denied",
+        "mad",
+        "naked"
+      ],
       "svgBytes": 139792,
       "pngBytes": 47999
     },
@@ -946,6 +2004,19 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161676",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "turtleneck",
+        "steve jobs",
+        "tech",
+        "demo",
+        "glasses",
+        "black shirt",
+        "blue pants",
+        "meme",
+        "apple"
+      ],
       "svgBytes": 108536,
       "pngBytes": 37768
     },
@@ -955,6 +2026,17 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161631",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "naked",
+        "stop sign",
+        "traffic cone",
+        "construction",
+        "error tracking",
+        "you shall not pass",
+        "stop hog"
+      ],
       "svgBytes": 126233,
       "pngBytes": 40667
     },
@@ -964,6 +2046,22 @@
       "namespace": "hoggies",
       "figmaNodeId": "209:7398",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "group",
+        "survey",
+        "green",
+        "yellow",
+        "red",
+        "stop light",
+        "choose",
+        "naked",
+        "happy",
+        "yes",
+        "no",
+        "maybe",
+        "poll"
+      ],
       "svgBytes": 149474,
       "pngBytes": 44595
     },
@@ -973,6 +2071,17 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161650",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "scene",
+        "workflow",
+        "terminator",
+        "gun",
+        "automatic",
+        "sunglasses",
+        "black clothes"
+      ],
       "svgBytes": 191120,
       "pngBytes": 21786
     },
@@ -982,6 +2091,20 @@
       "namespace": "hoggies",
       "figmaNodeId": "209:7402",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "katana",
+        "sword",
+        "jumpsuit",
+        "blonde",
+        "bride",
+        "uma thurman",
+        "black mamba",
+        "bruce lee",
+        "enter the dragon",
+        "fighter"
+      ],
       "svgBytes": 211661,
       "pngBytes": 43775
     },
@@ -991,6 +2114,20 @@
       "namespace": "hoggies",
       "figmaNodeId": "107:5000",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "town crier",
+        "crier",
+        "announcement",
+        "maroon tie",
+        "town square",
+        "ring bell",
+        "sign",
+        "blank",
+        "revolutionary",
+        "old-timey"
+      ],
       "svgBytes": 232124,
       "pngBytes": 53485
     },
@@ -1000,6 +2137,18 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161717",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "traffic controller",
+        "safety hog",
+        "air traffic",
+        "light wand",
+        "ear muffs",
+        "headphones",
+        "safety vest",
+        "hi vis"
+      ],
       "svgBytes": 137738,
       "pngBytes": 48792
     },
@@ -1009,6 +2158,15 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161691",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "traffic police",
+        "stop sign",
+        "cop",
+        "utility belt",
+        "blank"
+      ],
       "svgBytes": 188259,
       "pngBytes": 51344
     },
@@ -1018,6 +2176,21 @@
       "namespace": "hoggies",
       "figmaNodeId": "201:2882",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "transformer",
+        "car",
+        "robot",
+        "autobot",
+        "gundam",
+        "in disguise",
+        "optimus",
+        "prime",
+        "driver",
+        "red",
+        "super hero"
+      ],
       "svgBytes": 256694,
       "pngBytes": 57442
     },
@@ -1027,6 +2200,18 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161684",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "trenchcoat",
+        "post-its",
+        "tips",
+        "notes",
+        "undercover",
+        "flasher",
+        "hat",
+        "trench coat"
+      ],
       "svgBytes": 228329,
       "pngBytes": 58113
     },
@@ -1036,6 +2221,21 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161667",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "waiter",
+        "server",
+        "restaurant",
+        "food",
+        "beverage",
+        "drink",
+        "hostess",
+        "naked",
+        "wine",
+        "snacks",
+        "towel"
+      ],
       "svgBytes": 135194,
       "pngBytes": 37900
     },
@@ -1045,6 +2245,15 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161659",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "will smith",
+        "suit",
+        "meme",
+        "black clothes",
+        "tie"
+      ],
       "svgBytes": 146643,
       "pngBytes": 39451
     },
@@ -1054,6 +2263,19 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161642",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "wizard",
+        "blue hat",
+        "computer",
+        "laptop",
+        "mr wizard",
+        "name plate",
+        "coffee",
+        "wand",
+        "blank"
+      ],
       "svgBytes": 172096,
       "pngBytes": 36549
     },
@@ -1063,6 +2285,20 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161634",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "wizard hog",
+        "staff",
+        "star",
+        "sparkles",
+        "magic",
+        "old",
+        "wise",
+        "gandalf",
+        "blue robe",
+        "beard"
+      ],
       "svgBytes": 353691,
       "pngBytes": 48427
     },
@@ -1072,6 +2308,18 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161649",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "wizard",
+        "blue hat",
+        "computer",
+        "laptop",
+        "mr wizard",
+        "name plate",
+        "coffee",
+        "wand"
+      ],
       "svgBytes": 175689,
       "pngBytes": 37077
     },
@@ -1081,6 +2329,16 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161633",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "workflow",
+        "workflows",
+        "chart",
+        "yellow shirt",
+        "blue pants",
+        "happy"
+      ],
       "svgBytes": 243775,
       "pngBytes": 39704
     },
@@ -1090,6 +2348,17 @@
       "namespace": "hoggies",
       "figmaNodeId": "63:161715",
       "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "group",
+        "x-ray",
+        "doctor",
+        "nurse",
+        "patient",
+        "lab coat",
+        "gown",
+        "skeleton"
+      ],
       "svgBytes": 244954,
       "pngBytes": 57685
     }

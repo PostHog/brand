@@ -46,7 +46,7 @@ export function CrestsPage() {
         <input
           className="input"
           type="search"
-          placeholder="Search crests…"
+          placeholder="Search crests by name or tag…"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />

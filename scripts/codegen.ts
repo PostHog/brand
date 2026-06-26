@@ -281,6 +281,7 @@ async function writeMeta(group: AssetGroup, entry: GeneratedEntry): Promise<void
     figmaNodeId: entry.figmaNodeId,
     aspectRatio: entry.aspectRatio,
     ...(entry.variant ? { variant: entry.variant } : {}),
+    ...(entry.tags?.length ? { tags: entry.tags } : {}),
   }
   await writeOut(
     `${group.path}/meta/${entry.slug}.ts`,
