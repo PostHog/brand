@@ -1,5 +1,21 @@
 # @posthog/brand
 
+## 0.3.0
+
+### Minor Changes
+
+- 54f1f05: Add searchable tags to assets. Each illustration's Figma component description (a
+  comma-separated list, optionally behind a `Tags:` label) is now parsed during `sync` and
+  carried on `AssetMeta.tags`. `findAssets` folds tags into its free-text search and gains a
+  `tags` filter (match assets carrying all of the given tags, case-insensitive). Tag-only
+  description edits are picked up on the next sync even when the rendered image is unchanged.
+- 54f1f05: Make tag parsing tolerant of inconsistent Figma description separators. Tag lists are now
+  split on slashes and periods in addition to commas and newlines, so descriptions like
+  `hog/ solo` or `meme. black clothes` become separate tags instead of one. Splitting is
+  intentionally greedy (a stray `Dr. Manhattan` yields `Dr`/`Manhattan`) since over-splitting
+  only adds harmless extra tags, while under-splitting hides assets from search; hyphens and
+  spaces are left intact (`hi-vis`, `lab coat`).
+
 ## 0.2.0
 
 ### Minor Changes
