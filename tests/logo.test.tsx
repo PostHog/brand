@@ -108,4 +108,25 @@ describe("<Logo.Logomark>", () => {
     expect(renderMark({ title: "PostHog" })).toContain("<title>PostHog</title>")
     expect(renderMark()).toContain('aria-hidden="true"')
   })
+
+  it.each([
+    ["christmas", "#FF474D"], // the Santa hat stays red
+    ["halloween", "#8927AF"], // the witch hat stays purple
+  ] as const)("wears the %s accessory on the head, unclipped", (holiday, _hatColor) => {
+    const html = renderMark({ holiday })
+    expect(html).toContain(`data-logo-accessory="${holiday}"`)
+    const headGroup = html.slice(html.indexOf('data-logo-part="head"'))
+    expect(headGroup).toContain("data-logo-accessory") // the hat rides the head group
+    expect(html).toContain("overflow:visible") // ...and pokes past the silhouette, so no clip
+  })
+
+  it.each([
+    ["christmas", "#FF474D"],
+    ["halloween", "#8927AF"],
+  ] as const)("keeps the %s accessory's festive colors even in mono", (holiday, hatColor) => {
+    const html = renderMark({ holiday, variant: "mono", color: "#fff" })
+    expect(html).toContain("currentColor") // the mark itself is recolored
+    expect(html).toContain(hatColor) // ...but the accessory keeps its own color
+    expect(html).toContain("color:#fff")
+  })
 })

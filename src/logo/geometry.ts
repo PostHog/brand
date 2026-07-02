@@ -6,7 +6,7 @@
 // bodies are the single-fill black artwork with `#111` swapped for `currentColor` so the
 // mark takes the `color` prop (or inherits the ambient CSS color).
 
-import type { LogoLayout, LogoVariant } from "./types.ts"
+import type { LogoHoliday, LogoLayout, LogoVariant } from "./types.ts"
 
 /** Intrinsic viewBox of each lockup form. */
 export const LOGO_VIEW_BOX: Record<LogoLayout, string> = {
@@ -86,6 +86,22 @@ export const LOGOMARK_PARTS: Record<LogoVariant, LogomarkParts> = {
   gradient: partsGradient,
   print: partsPrint,
   mono: monoParts(partsPrint),
+}
+
+// ---------------------------------------------------------------------------------------
+// Holiday accessories — decorations rendered inside the head group (so they ride along
+// when the mark jumps), in logomark viewBox coordinates. The Santa hat is ported from the
+// PostHog app (frontend/src/lib/brand/Logomark.tsx), re-fitted to this head; the witch hat
+// is hand-drawn. Accessories keep their festive colors in every variant, including mono.
+
+const christmasHat = `<g data-logo-accessory="christmas" transform="translate(-28.6 -12.3) scale(0.0816)"><path fill="#FF474D" d="M760.44221,350.78547l105.09131,-63.59165c2.99786,-1.81373 3.53866,-6.05832 1.09756,-8.61203l-74.51149,-77.93921c-8.68281,-9.08152 -23.24768,-7.66116 -30.12961,2.93974l-42.29777,65.15048c-2.27949,3.511 2.05301,7.56212 5.21072,4.87178l27.51804,-23.44101v95.87485c0,4.25098 4.47015,6.8964 8.02125,4.74706z"/><path fill="#fff" stroke="#000" stroke-width="12" d="M748.13994,352.44425v-32.45923c0,-2.87648 1.45099,-5.54575 3.82903,-7.04497l91.41712,-57.60028c3.09288,-1.94944 7.06755,-1.50563 9.68623,1.07927l23.26986,22.977c3.87165,3.8228 3.07691,10.41935 -1.58416,13.14544l-114.68697,67.08341c-5.32797,3.11581 -11.93107,-0.85826 -11.93107,-7.18066z"/><path fill="#fff" stroke="#000" stroke-width="12" d="M745.94127,261.57323c0,8.54877 -6.71144,15.47909 -14.99021,15.47909c-8.27877,0 -14.99019,-6.93033 -14.99019,-15.47909c0,-8.54877 6.71142,-15.47909 14.99019,-15.47909c8.27877,0 14.99021,6.93033 14.99021,15.47909z"/></g>`
+
+const halloweenHat = `<g data-logo-accessory="halloween" transform="translate(36 13.2) rotate(-18) scale(0.95)"><ellipse cx="0" cy="0" rx="6.4" ry="1.7" fill="#8927AF" stroke="#fff" stroke-width="0.45"/><path fill="#8927AF" stroke="#fff" stroke-width="0.45" stroke-linejoin="round" d="M-3.9 -0.6 C-2.3 -2.2 -1.5 -4.4 -1 -7 C-0.85 -7.9 -0.5 -9.1 0.7 -9.7 C1.6 -10.1 2.1 -9.4 1.4 -8.8 C0.9 -8.4 0.75 -7.5 0.8 -6.6 C1 -3.9 2.2 -1.9 3.9 -0.6 Z"/><path fill="#FF5C1C" d="M-3.15 -1.15 L3.1 -1.15 L3.9 -0.35 L-3.9 -0.35 Z"/><rect x="-0.8" y="-1.55" width="1.7" height="1.5" rx="0.25" fill="#FFB70F"/><rect x="-0.35" y="-1.15" width="0.8" height="0.75" rx="0.12" fill="#8927AF"/></g>`
+
+/** Holiday decorations, keyed by holiday. Injected inside the logomark's head group. */
+export const LOGO_HOLIDAY_ACCESSORIES: Record<LogoHoliday, string> = {
+  christmas: christmasHat,
+  halloween: halloweenHat,
 }
 
 /**

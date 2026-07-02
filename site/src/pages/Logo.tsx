@@ -97,6 +97,31 @@ export function LogoPage() {
       </section>
 
       <section className="section">
+        <h2>Holidays</h2>
+        <p>
+          Dress the logomark up for a festive season with the <code>holiday</code> prop. Nothing
+          switches by date — render the one you want, when you want it. It composes with{" "}
+          <code>jumpOnClick</code>, so the hat jumps too.
+        </p>
+        <div className="grid grid-cards">
+          <LogoCell code={`<Logo.Logomark holiday="christmas" />`}>
+            <Logo.Logomark size={72} holiday="christmas" title="PostHog logomark — Christmas" />
+          </LogoCell>
+          <LogoCell code={`<Logo.Logomark holiday="halloween" />`}>
+            <Logo.Logomark size={72} holiday="halloween" title="PostHog logomark — Halloween" />
+          </LogoCell>
+          <LogoCell code={`<Logo.Logomark holiday="christmas" jumpOnClick />`}>
+            <Logo.Logomark
+              size={72}
+              holiday="christmas"
+              jumpOnClick
+              title="PostHog logomark — Christmas, click to jump"
+            />
+          </LogoCell>
+        </div>
+      </section>
+
+      <section className="section">
         <h2>Wordmark</h2>
         <div className="grid grid-cards">
           <LogoCell code={`<Logo.Wordmark />`}>
