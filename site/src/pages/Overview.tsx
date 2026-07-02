@@ -56,6 +56,14 @@ export function OverviewPage() {
             <p>One parametric &lt;Logo&gt; — every lockup, gradient/print/mono, any color.</p>
           </Link>
 
+          <Link to="/fonts" className="card nav-card">
+            <div className="nav-card-preview" aria-hidden>
+              <span style={{ fontWeight: 800, fontSize: 40, letterSpacing: "-0.02em" }}>Aa</span>
+            </div>
+            <h3>Fonts →</h3>
+            <p>RoundHog, the brand typeface — eight bundled woff2 faces, ready to inject.</p>
+          </Link>
+
           <Link to="/colors" className="card nav-card">
             <div className="nav-card-preview">
               {Object.values(colors)
