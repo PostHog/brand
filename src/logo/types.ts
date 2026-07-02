@@ -83,16 +83,51 @@ export interface LogoProps extends AssetSvgProps {
 }
 
 /**
- * Props for {@link Logo.Logomark} — a {@link Logo} pinned to `layout="logomark"` (the
- * hedgehog icon only). Same as {@link LogoProps} without `layout`.
+ * Props for {@link Logo.Logomark} — the hedgehog icon on its own (a {@link Logo} without
+ * `layout`). Static by default; it can also **jump** like the logomark in the PostHog app —
+ * its 3 spikes and head spring up one after the other. Opt in with {@link jumpOnClick}
+ * and/or {@link autoJumpMs}; tune it with {@link jumpHeight} / {@link airtimeMs}. Every
+ * native `<svg>` prop (`className`, `style`, `onClick`, `ref` → the `<svg>`, …) works too.
+ *
+ * Jumping respects `prefers-reduced-motion` (jumps become no-ops).
  *
  * @example
  * ```tsx
- * <Logo.Logomark size={32} />
- * <Logo.Logomark variant="mono" color="#fff" />
+ * <Logo.Logomark size={32} />                              // static icon
+ * <Logo.Logomark variant="mono" color="#fff" />            // single color
+ * <Logo.Logomark jumpOnClick />                            // click me! (clicks escalate)
+ * <Logo.Logomark autoJumpMs={3000} />                      // jumps every 3s
  * ```
  */
-export type LogomarkProps = Omit<LogoProps, "layout">
+export interface LogomarkProps extends Omit<LogoProps, "layout"> {
+  /**
+   * Jump when clicked. Rapid successive clicks escalate the height along the same curve as
+   * the PostHog app (`1.5 ** ((n % 8) - 2)` — builds up, then cycles back down).
+   *
+   * @default false
+   */
+  jumpOnClick?: boolean
+  /**
+   * Jump automatically every this-many milliseconds (e.g. `5000` for every 5s). Omit for
+   * no auto-jumping.
+   */
+  autoJumpMs?: number
+  /**
+   * Baseline jump height, in viewBox units (the mark is 28 tall, so the default `12` is a
+   * bit under half its height). Scales with the rendered size, and is multiplied by the
+   * per-jump magnitude of the click escalation.
+   *
+   * @default 12
+   */
+  jumpHeight?: number
+  /**
+   * Duration of one jump (up and back down) in milliseconds. The spike stagger is derived
+   * from it, so shortening the airtime tightens the whole animation.
+   *
+   * @default 400
+   */
+  airtimeMs?: number
+}
 
 /**
  * Props for {@link Logo.Wordmark} — a {@link Logo} pinned to `layout="wordmark"` (the

@@ -63,3 +63,49 @@ describe("<Logo>", () => {
     expect(render()).toContain('aria-hidden="true"')
   })
 })
+
+describe("<Logo.Logomark>", () => {
+  const renderMark = (props?: Record<string, unknown>): string =>
+    renderToStaticMarkup(createElement(Logo.Logomark, props))
+
+  it("renders the logomark as 4 animatable parts, head last", () => {
+    const html = renderMark()
+    expect(html).toContain('viewBox="0 0 52 28"')
+    const parts = [...html.matchAll(/data-logo-part="([a-z]+)"/g)].map((m) => m[1])
+    expect(parts).toEqual(["blue", "red", "yellow", "head"])
+  })
+
+  it("supports every logomark variant", () => {
+    expect(renderMark()).toContain("<linearGradient") // gradient is the default
+    expect(renderMark({ variant: "print" })).toContain("#0054ff")
+
+    const monoHtml = renderMark({ variant: "mono", color: "#fff" })
+    expect(monoHtml).toContain("currentColor")
+    expect(monoHtml).not.toContain("#111")
+    expect(monoHtml).toContain("color:#fff")
+  })
+
+  it("is static by default — no jump affordances", () => {
+    const html = renderMark()
+    expect(html).not.toContain("cursor:pointer")
+    expect(html).not.toContain("overflow:visible") // clips to its box like a plain icon
+  })
+
+  it("opts into jumping via jumpOnClick / autoJumpMs", () => {
+    // Click-to-jump is pointer-cursored and lets the parts escape the viewBox mid-jump.
+    const clicky = renderMark({ jumpOnClick: true })
+    expect(clicky).toContain("cursor:pointer")
+    expect(clicky).toContain("overflow:visible")
+
+    // Auto-jumping needs the overflow too, but isn't clickable — so no pointer cursor.
+    const auto = renderMark({ autoJumpMs: 3000 })
+    expect(auto).toContain("overflow:visible")
+    expect(auto).not.toContain("cursor:pointer")
+  })
+
+  it("maps `size` to width and stays accessible", () => {
+    expect(renderMark({ size: 64 })).toContain('width="64"')
+    expect(renderMark({ title: "PostHog" })).toContain("<title>PostHog</title>")
+    expect(renderMark()).toContain('aria-hidden="true"')
+  })
+})

@@ -12,9 +12,16 @@
 //   <Logo variant="print" layout="stacked" /> // 4-color / CMYK, portrait lockup
 //   <Logo.Logomark />                          // the hedgehog icon only
 //   <Logo.Wordmark variant="mono" />           // the "PostHog" wordmark only
+//   <Logo.Logomark jumpOnClick />              // the logomark, but it jumps when clicked
 //
 // Every form also takes `size`, `title` (accessible label), `className`, `style`, … .
 
 export { Logo } from "./logo.tsx"
 export type { LogoComponent } from "./logo.tsx"
-export type { LogoProps, LogomarkProps, WordmarkProps, LogoVariant, LogoLayout } from "./types.ts"
+export type {
+  LogoProps,
+  LogomarkProps,
+  WordmarkProps,
+  LogoVariant,
+  LogoLayout,
+} from "./types.ts"

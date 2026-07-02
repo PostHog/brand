@@ -72,6 +72,31 @@ export function LogoPage() {
       ))}
 
       <section className="section">
+        <h2>Jumping</h2>
+        <p>
+          The logomark can jump — the same <code>Logo.Logomark</code>, opted in with{" "}
+          <code>jumpOnClick</code> (each rapid click jumps higher) or <code>autoJumpMs</code>.
+        </p>
+        <div className="grid grid-cards">
+          <LogoCell code={`<Logo.Logomark jumpOnClick />`}>
+            <Logo.Logomark size={72} jumpOnClick title="PostHog logomark — click to jump" />
+          </LogoCell>
+          <LogoCell code={`<Logo.Logomark autoJumpMs={3000} />`}>
+            <Logo.Logomark size={72} autoJumpMs={3000} title="PostHog logomark — auto-jumping" />
+          </LogoCell>
+          <LogoCell code={`<Logo.Logomark jumpOnClick variant="mono" color="#fff" />`} dark>
+            <Logo.Logomark
+              size={72}
+              jumpOnClick
+              variant="mono"
+              color="#fff"
+              title="PostHog logomark — mono, click to jump"
+            />
+          </LogoCell>
+        </div>
+      </section>
+
+      <section className="section">
         <h2>Wordmark</h2>
         <div className="grid grid-cards">
           <LogoCell code={`<Logo.Wordmark />`}>
