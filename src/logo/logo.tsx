@@ -1,6 +1,7 @@
 import { createElement, forwardRef } from "react"
 import type { ForwardRefExoticComponent, RefAttributes } from "react"
 import { LOGO_BODY, LOGO_VIEW_BOX } from "./geometry.ts"
+import { Logomark } from "./logomark.tsx"
 import type { LogoProps, LogomarkProps, WordmarkProps } from "./types.ts"
 
 function escapeXml(value: string): string {
@@ -61,12 +62,6 @@ const LogoBase: ForwardRefExoticComponent<LogoProps & RefAttributes<SVGSVGElemen
 
 LogoBase.displayName = "Logo"
 
-const Logomark: ForwardRefExoticComponent<LogomarkProps & RefAttributes<SVGSVGElement>> =
-  forwardRef<SVGSVGElement, LogomarkProps>(function Logomark(props, ref) {
-    return createElement(LogoBase, { ...props, ref, layout: "logomark" })
-  })
-Logomark.displayName = "Logo.Logomark"
-
 const Wordmark: ForwardRefExoticComponent<WordmarkProps & RefAttributes<SVGSVGElement>> =
   forwardRef<SVGSVGElement, WordmarkProps>(function Wordmark(props, ref) {
     return createElement(LogoBase, { ...props, ref, layout: "wordmark" })
@@ -78,12 +73,16 @@ export interface LogoComponent extends ForwardRefExoticComponent<
   LogoProps & RefAttributes<SVGSVGElement>
 > {
   /**
-   * The hedgehog icon only — shorthand for `<Logo layout="logomark">`. See {@link LogomarkProps}.
+   * The hedgehog icon on its own. Static by default, but it can also **jump** like the
+   * logomark in the PostHog app — set `jumpOnClick` and/or `autoJumpMs`. See
+   * {@link LogomarkProps}.
    *
    * @example
    * ```tsx
-   * <Logo.Logomark size={32} />
+   * <Logo.Logomark size={32} />                  // static icon
    * <Logo.Logomark variant="mono" color="#fff" />
+   * <Logo.Logomark jumpOnClick />                // click me! (successive clicks jump higher)
+   * <Logo.Logomark autoJumpMs={3000} />          // jumps every 3s
    * ```
    */
   Logomark: ForwardRefExoticComponent<LogomarkProps & RefAttributes<SVGSVGElement>>
@@ -132,4 +131,7 @@ export interface LogoComponent extends ForwardRefExoticComponent<
  *
  * @see {@link LogoProps} for the full prop reference.
  */
-export const Logo: LogoComponent = Object.assign(LogoBase, { Logomark, Wordmark })
+export const Logo: LogoComponent = Object.assign(LogoBase, {
+  Logomark,
+  Wordmark,
+})

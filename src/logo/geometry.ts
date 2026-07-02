@@ -6,7 +6,7 @@
 // bodies are the single-fill black artwork with `#111` swapped for `currentColor` so the
 // mark takes the `color` prop (or inherits the ambient CSS color).
 
-import type { LogoLayout, LogoVariant } from "./types.ts"
+import type { LogoHoliday, LogoLayout, LogoVariant } from "./types.ts"
 
 /** Intrinsic viewBox of each lockup form. */
 export const LOGO_VIEW_BOX: Record<LogoLayout, string> = {
@@ -28,16 +28,90 @@ const stackedPrint = `<g clip-path="url(#logo-portrait-color-4-color-clip0_56_10
 
 const stackedBlack = `<g fill="#111" clip-path="url(#logo-portrait-black-clip0_56_1043)"><path d="m92.77 43.29-.63-.08a8.3 8.3 0 0 1-4.92-2.46l-21.23-22a.93.93 0 0 0-1.6.65L64.4 51c0 .52.42.94.93.94h25.56a4.96 4.96 0 0 0 4.96-4.96v-.2a3.5 3.5 0 0 0-3.1-3.5zm-20.05.39a3.3 3.3 0 1 1 0-6.61 3.3 3.3 0 0 1 0 6.6M0 47.13a4.8 4.8 0 0 0 4.8 4.8h9.7c.8 0 1.22-.95.68-1.55L1.6 35.5a.93.93 0 0 0-1.61.63zm34.9 3.24a.93.93 0 0 1-.68 1.56H21.08a1 1 0 0 1-.7-.31l-3.8-4.32L.24 29.35a1 1 0 0 1-.24-.63V16.24a.93.93 0 0 1 1.6-.64zM0 4.97C0 .52 5.4-1.68 8.5 1.5L56 50.36a.93.93 0 0 1-.67 1.57h-14.4a1 1 0 0 1-.69-.3l-3.89-4.33L.51 9.83C.18 9.49 0 9.03 0 8.55zm19.92 0a4.95 4.95 0 0 1 8.5-3.46L60.3 34.28l.92.94v13.54c0 .82-1 1.24-1.59.65l-2.1-2.11L20.98 9.7a3.7 3.7 0 0 1-1.05-2.58zm41.3 8.86v14.5a.93.93 0 0 1-1.59.64L41.8 10.63a3.7 3.7 0 0 1-1.05-2.58V4.97c0-4.45 5.4-6.65 8.5-3.46z"/></g><path fill="#111" d="M1.22 80.7C.55 80.7 0 80.13 0 79.46v-16.3c0-.68.55-1.23 1.22-1.23h6.55c3.89 0 6.38 2.3 6.38 5.87s-2.5 5.87-6.38 5.87H4.23v5.8c0 .67-.54 1.22-1.22 1.22zm3.01-11.87c0 .68.55 1.22 1.23 1.22h1.88c1.6 0 2.57-.85 2.57-2.25s-.96-2.25-2.57-2.25H5.46c-.68 0-1.23.55-1.23 1.23zM21 80.9c-4.18 0-7.12-2.94-7.12-6.96s2.94-6.97 7.12-6.97c4.13 0 7.13 2.95 7.13 6.97s-3 6.97-7.13 6.97m-3.21-6.96c0 2.14 1.28 3.62 3.21 3.62 1.9 0 3.2-1.48 3.2-3.62s-1.3-3.62-3.2-3.62c-1.93 0-3.21 1.48-3.21 3.62M34.1 80.9a6.2 6.2 0 0 1-5.53-2.98c-.34-.56-.02-1.25.6-1.49l.78-.3c.68-.27 1.43.15 1.9.73a2.8 2.8 0 0 0 2.25 1.07c1.05 0 1.74-.5 1.74-1.26 0-2.12-7.15-.7-7.15-5.81 0-2.12 1.85-3.89 4.82-3.89 2.26 0 4.2.9 5.16 2.3.36.52.05 1.18-.54 1.43l-.85.35c-.68.28-1.44-.14-1.99-.63a2.5 2.5 0 0 0-1.64-.63c-.89 0-1.5.37-1.5.96 0 2.14 7.26.38 7.26 5.84 0 2.33-2.15 4.32-5.3 4.32m14.6-1.31c.05.56-.3 1.1-.85 1.2q-.6.1-1.27.1c-2.92 0-5.14-1.55-5.14-4.82v-5.62h-.92c-.68 0-1.23-.55-1.23-1.23v-.82c0-.68.55-1.22 1.23-1.22h.92v-2.7c0-.67.54-1.22 1.22-1.22h1.49c.68 0 1.22.55 1.22 1.23v2.69h2.05c.68 0 1.22.54 1.22 1.22v.82c0 .68-.54 1.23-1.22 1.23h-2.05v5.11c0 1.2.65 1.9 1.61 1.9.75 0 1.6.51 1.65 1.25zm13.01-16.44c0-.68.55-1.23 1.22-1.23h1.81c.68 0 1.23.55 1.23 1.23v16.3c0 .68-.55 1.23-1.23 1.23h-1.8c-.69 0-1.23-.55-1.23-1.22v-5.4c0-.68-.55-1.23-1.23-1.23h-5c-.67 0-1.22.55-1.22 1.22v5.4c0 .68-.55 1.23-1.23 1.23h-1.78c-.68 0-1.23-.55-1.23-1.22V63.16c0-.68.55-1.23 1.23-1.23h1.78c.68 0 1.23.55 1.23 1.23V68c0 .67.55 1.22 1.22 1.22h5c.68 0 1.23-.55 1.23-1.22zM74.57 80.9c-4.18 0-7.13-2.94-7.13-6.96s2.95-6.97 7.13-6.97c4.13 0 7.13 2.95 7.13 6.97s-3 6.97-7.13 6.97m-3.22-6.96c0 2.14 1.3 3.62 3.22 3.62 1.9 0 3.19-1.48 3.19-3.62s-1.29-3.62-3.19-3.62c-1.93 0-3.22 1.48-3.22 3.62m17.15 6.31c-3.84 0-6.2-2.57-6.2-6.64s2.36-6.65 6.12-6.65c1.58 0 2.8.54 3.53 1.37 0-.64.52-1.15 1.15-1.15h1.51c.68 0 1.23.54 1.23 1.22v11.32c0 3.61-2.76 6.05-6.92 6.05-2.63 0-4.88-1.2-5.83-3.07-.31-.61.16-1.28.84-1.38l1.15-.18c.66-.1 1.28.4 1.77.84.5.46 1.26.71 2.07.71 1.85 0 3.06-1.04 3.06-2.55v-1.28c-.7.88-2.01 1.4-3.48 1.4m-2.36-6.64c0 2 1.18 3.3 3 3.3 1.85 0 3.03-1.3 3.03-3.3 0-2.01-1.18-3.3-3.03-3.3-1.82 0-3 1.29-3 3.3"/><defs><clipPath id="logo-portrait-black-clip0_56_1043"><path fill="#fff" d="M0 0h95.85v51.93H0z"/></clipPath></defs>`
 
-const logomarkGradient = `<g clip-path="url(#logo-logomark-color-gradient-clip0_56_954)"><path fill="#111" d="M51.66 25.22A1.9 1.9 0 0 0 50 23.33l-.34-.04c-1-.13-1.94-.6-2.65-1.33L33.28 7.75V28H49a2.66 2.66 0 0 0 2.67-2.67zM39.2 23.54h-.09a1.78 1.78 0 1 1 .1 0"/><path fill="url(#logo-logomark-color-gradient-paint0_linear_56_954)" d="M21.96 2.67v4.96l11.3 11.6h.02V7.75L26.63.85a2.8 2.8 0 0 0-2-.85 2.67 2.67 0 0 0-2.67 2.67"/><path fill="url(#logo-logomark-color-gradient-paint1_linear_56_954)" d="M21.96 7.63v11.05L31.03 28h2.25v-8.75z"/><path fill="url(#logo-logomark-color-gradient-paint2_linear_56_954)" d="M21.96 28h9.07l-9.07-9.32z"/><path fill="url(#logo-logomark-color-gradient-paint3_linear_56_954)" d="M10.74 2.66v4.5l11.22 11.52V7.63L15.3.8a2.66 2.66 0 0 0-4.56 1.86"/><path fill="url(#logo-logomark-color-gradient-paint4_linear_56_954)" d="M10.74 28h8.96l-8.96-9.32z"/><path fill="url(#logo-logomark-color-gradient-paint5_linear_56_954)" d="M10.74 7.16v11.52L19.7 28h2.26v-9.32z"/><path fill="url(#logo-logomark-color-gradient-paint6_linear_56_954)" d="M10.74 7.16 4.54.8A2.66 2.66 0 0 0 0 2.66V7.5l10.74 11.18z"/><path fill="url(#logo-logomark-color-gradient-paint7_linear_56_954)" d="M9.19 28h1.55v-9.32L0 7.5v10.73z"/><path fill="url(#logo-logomark-color-gradient-paint8_linear_56_954)" d="M0 25.41A2.6 2.6 0 0 0 2.58 28H9.2L0 18.23z"/></g><defs><linearGradient id="logo-logomark-color-gradient-paint0_linear_56_954" x1="21.96" x2="33.28" y1="9.62" y2="9.62" gradientUnits="userSpaceOnUse"><stop stop-color="#ffd849"/><stop offset=".96" stop-color="#fbae01"/></linearGradient><linearGradient id="logo-logomark-color-gradient-paint1_linear_56_954" x1="21.96" x2="33.28" y1="17.81" y2="17.81" gradientUnits="userSpaceOnUse"><stop stop-color="#ffb700"/><stop offset="1" stop-color="#f9aa01"/></linearGradient><linearGradient id="logo-logomark-color-gradient-paint2_linear_56_954" x1="21.96" x2="31.03" y1="23.34" y2="23.34" gradientUnits="userSpaceOnUse"><stop stop-color="#ff9500"/><stop offset="1" stop-color="#f8aa00"/></linearGradient><linearGradient id="logo-logomark-color-gradient-paint3_linear_56_954" x1="10.74" x2="21.96" y1="9.34" y2="9.34" gradientUnits="userSpaceOnUse"><stop stop-color="#ff651e"/><stop offset="1" stop-color="#e4400a"/></linearGradient><linearGradient id="logo-logomark-color-gradient-paint4_linear_56_954" x1="10.74" x2="19.7" y1="23.34" y2="23.34" gradientUnits="userSpaceOnUse"><stop stop-color="#c42c00"/><stop offset="1" stop-color="#d63600"/></linearGradient><linearGradient id="logo-logomark-color-gradient-paint5_linear_56_954" x1="10.74" x2="21.96" y1="17.58" y2="17.58" gradientUnits="userSpaceOnUse"><stop stop-color="#ef3c00"/><stop offset="1" stop-color="#d63601"/></linearGradient><linearGradient id="logo-logomark-color-gradient-paint6_linear_56_954" x1="0" x2="10.74" y1="9.34" y2="9.34" gradientUnits="userSpaceOnUse"><stop stop-color="#3f80ff"/><stop offset="1" stop-color="#084fe0"/></linearGradient><linearGradient id="logo-logomark-color-gradient-paint7_linear_56_954" x1="0" x2="10.74" y1="17.75" y2="17.75" gradientUnits="userSpaceOnUse"><stop stop-color="#0255ff"/><stop offset="1" stop-color="#0145d2"/></linearGradient><linearGradient id="logo-logomark-color-gradient-paint8_linear_56_954" x1="0" x2="9.19" y1="23.11" y2="23.11" gradientUnits="userSpaceOnUse"><stop stop-color="#0041c6"/><stop offset="1" stop-color="#0045d0"/></linearGradient><clipPath id="logo-logomark-color-gradient-clip0_56_954"><path fill="#fff" d="M0 0h51.67v28H0z"/></clipPath></defs>`
-
-const logomarkPrint = `<g clip-path="url(#logo-logomark-4-color-clip0_56_987)"><path fill="#111" d="m50 23.34-.35-.05A4.5 4.5 0 0 1 47 21.97L35.56 10.1c-.3-.33-.86-.1-.86.35V27.5c0 .27.22.5.5.5h13.78c1.48 0 2.67-1.2 2.67-2.67v-.1a1.9 1.9 0 0 0-1.67-1.89zm-10.81.2a1.8 1.8 0 1 1 0-3.58 1.8 1.8 0 0 1 0 3.58"/><path fill="#0054ff" d="M.87 19.13a.5.5 0 0 0-.87.34v5.94a2.6 2.6 0 0 0 2.59 2.58H7.8a.5.5 0 0 0 .37-.84zM.86 8.4c-.3-.32-.86-.1-.86.36v6.73q0 .2.13.34l8.81 9.68 1.8 2.06v-8.82zM4.59.82A2.67 2.67 0 0 0 0 2.68v1.93q0 .4.27.69l10.47 10.95v-9.1z"/><path fill="#ff5506" d="M11.36 28h7.08a.5.5 0 0 0 .36-.85l-8.05-8.4v8.8l.23.28q.16.17.38.17m-.61-11.76 8.84 9.25 2.1 2.33q.1.11.27.14V18.7L10.75 7.15zm0-13.7v1.41a2 2 0 0 0 .55 1.28L21.96 16.2V7.65L15.32.8a2.67 2.67 0 0 0-4.57 1.71z"/><path fill="#ffb70f" d="M22.06 28h7.76a.5.5 0 0 0 .36-.86l-8.22-8.45v9.27l.09.02zM31 25.49l1.13 1.14c.32.31.85.09.85-.35v-7.3l-.49-.51L21.96 7.64v8.55zM22.52 5.73l9.62 9.89c.3.32.86.1.86-.35V7.46L26.56.82a2.67 2.67 0 0 0-4.59 1.84v1.7c0 .51.2 1 .57 1.37z"/></g><defs><clipPath id="logo-logomark-4-color-clip0_56_987"><path fill="#fff" d="M0 0h51.67v28H0z"/></clipPath></defs>`
-
-const logomarkBlack = `<g fill="#111" clip-path="url(#logo-logomark-black-clip0_56_973)"><path d="m50.02 23.34-.34-.04c-1-.13-1.95-.6-2.66-1.33L35.58 10.11a.5.5 0 0 0-.86.35V27.5c0 .28.22.5.5.5H49c1.48 0 2.67-1.2 2.67-2.67v-.1a1.9 1.9 0 0 0-1.66-1.9m-10.81.2a1.78 1.78 0 1 1 0-3.56 1.78 1.78 0 0 1 0 3.57M0 25.41A2.6 2.6 0 0 0 2.59 28h5.22a.5.5 0 0 0 .37-.84L.87 19.13a.5.5 0 0 0-.87.34zm18.81 1.74a.5.5 0 0 1-.36.85h-7.09a.5.5 0 0 1-.37-.17L8.94 25.5.13 15.82A.5.5 0 0 1 0 15.5V8.75a.5.5 0 0 1 .86-.34zM0 2.68C0 .28 2.92-.91 4.59.82l25.6 26.33a.5.5 0 0 1-.36.85h-7.76a.5.5 0 0 1-.37-.17l-2.1-2.33L.28 5.3A1 1 0 0 1 0 4.6zm10.74 0c0-2.4 2.92-3.59 4.59-1.87L32.5 18.48l.5.51v7.3a.5.5 0 0 1-.85.35l-1.13-1.14L11.3 5.23a2 2 0 0 1-.57-1.4zM33 7.46v7.8a.5.5 0 0 1-.85.36l-9.61-9.89a2 2 0 0 1-.57-1.4V2.69c0-2.4 2.92-3.59 4.59-1.86z"/></g><defs><clipPath id="logo-logomark-black-clip0_56_973"><path fill="#fff" d="M0 0h51.67v28H0z"/></clipPath></defs>`
-
 const wordmarkBlack = `<path fill="#111" d="M1.23 18.88c-.68 0-1.23-.56-1.23-1.24V1.24C0 .54.55 0 1.23 0h6.59c3.91 0 6.42 2.32 6.42 5.9 0 3.6-2.51 5.91-6.42 5.91H4.26v5.83c0 .68-.55 1.24-1.23 1.24zM4.26 6.94c0 .68.55 1.23 1.23 1.23h1.9c1.62 0 2.59-.86 2.59-2.26S9 3.64 7.38 3.64H5.5c-.68 0-1.23.55-1.23 1.23zM21.14 19.1c-4.2 0-7.18-2.97-7.18-7.02s2.97-7.01 7.18-7.01c4.15 0 7.17 2.97 7.17 7.01 0 4.05-3.02 7.01-7.17 7.01m-3.24-7.02c0 2.16 1.3 3.64 3.24 3.64 1.91 0 3.2-1.48 3.2-3.64s-1.29-3.64-3.2-3.64c-1.94 0-3.24 1.48-3.24 3.64m16.42 7.03a6.3 6.3 0 0 1-5.57-3.01c-.34-.57-.01-1.26.6-1.5l.79-.3c.69-.27 1.44.15 1.9.73a2.9 2.9 0 0 0 2.28 1.08c1.05 0 1.75-.51 1.75-1.27 0-2.13-7.2-.7-7.2-5.85 0-2.13 1.86-3.91 4.86-3.91 2.27 0 4.22.9 5.19 2.3.36.53.04 1.2-.55 1.45l-.85.36c-.69.28-1.45-.14-2-.64a2.5 2.5 0 0 0-1.66-.64c-.89 0-1.5.38-1.5.97 0 2.16 7.3.38 7.3 5.88 0 2.35-2.16 4.34-5.34 4.34m14.7-1.31c.05.57-.3 1.1-.85 1.2q-.61.1-1.28.11c-2.94 0-5.18-1.56-5.18-4.85V8.58h-.92c-.68 0-1.24-.56-1.24-1.24v-.82c0-.68.56-1.23 1.24-1.23h.92v-2.7c0-.69.55-1.24 1.23-1.24h1.5c.68 0 1.24.55 1.24 1.23v2.7h2.05c.68 0 1.24.56 1.24 1.24v.82c0 .68-.56 1.24-1.24 1.24h-2.05v5.15c0 1.2.64 1.91 1.61 1.91.75 0 1.6.51 1.66 1.26zM62.11 1.23c0-.68.55-1.23 1.23-1.23h1.83c.68 0 1.23.55 1.23 1.23v16.41c0 .68-.55 1.24-1.23 1.24h-1.83c-.68 0-1.23-.56-1.23-1.24v-5.43c0-.68-.55-1.23-1.23-1.23h-5.03c-.68 0-1.23.55-1.23 1.23v5.43c0 .68-.56 1.24-1.24 1.24h-1.8c-.67 0-1.23-.56-1.23-1.24V1.24c0-.69.56-1.24 1.24-1.24h1.8c.67 0 1.23.55 1.23 1.23V6.1c0 .68.55 1.23 1.23 1.23h5.03c.68 0 1.23-.55 1.23-1.23zM75.05 19.1c-4.2 0-7.18-2.97-7.18-7.02s2.97-7.01 7.18-7.01c4.15 0 7.17 2.97 7.17 7.01 0 4.05-3.02 7.01-7.17 7.01m-3.24-7.02c0 2.16 1.3 3.64 3.24 3.64 1.91 0 3.2-1.48 3.2-3.64s-1.29-3.64-3.2-3.64c-1.94 0-3.24 1.48-3.24 3.64m17.25 6.37c-3.85 0-6.23-2.58-6.23-6.68s2.38-6.69 6.15-6.69c1.6 0 2.83.54 3.56 1.37 0-.64.52-1.15 1.16-1.15h1.52c.68 0 1.23.55 1.23 1.23V17.9c0 3.64-2.78 6.09-6.96 6.09-2.65 0-4.91-1.2-5.87-3.09-.31-.62.16-1.29.85-1.4l1.15-.18c.67-.1 1.29.4 1.79.86s1.26.7 2.08.7c1.87 0 3.08-1.04 3.08-2.55v-1.3c-.7.9-2.02 1.4-3.5 1.4m-2.37-6.68c0 2.02 1.19 3.31 3.02 3.31 1.86 0 3.05-1.29 3.05-3.31s-1.19-3.32-3.05-3.32c-1.83 0-3.02 1.3-3.02 3.32"/>`
 
 /** Recolor single-fill black artwork so it inherits `currentColor`. */
 const mono = (black: string): string => black.replaceAll("#111", "currentColor")
+
+// ---------------------------------------------------------------------------------------
+// Logomark parts — the logomark artwork split into its 4 pieces (the blue, red, and yellow
+// spikes, plus the head) so each piece can be animated independently (see logomark.tsx).
+// This is the single source of the logomark geometry: the static whole-body logomark in
+// LOGO_BODY.logomark is derived from it (see `wholeLogomark` below), so the path data lives
+// here once. The only thing dropped vs. the Figma export is the clip-path, which equalled
+// the full viewBox — a visual no-op statically, and it must be absent so parts can translate
+// outside the viewBox mid-jump.
+
+/** One logomark color treatment, split into independently transformable pieces. */
+export interface LogomarkParts {
+  /** The leftmost spike. */
+  blue: string
+  /** The middle spike. */
+  red: string
+  /** The rightmost spike. */
+  yellow: string
+  /** The hedgehog head (jumps first). */
+  head: string
+  /** Shared `<defs>` markup appended after the parts (`""` when none). */
+  defs: string
+}
+
+const partsGradient: LogomarkParts = {
+  blue: `<path fill="url(#logo-jump-p6)" d="M10.74 7.16 4.54.8A2.66 2.66 0 0 0 0 2.66V7.5l10.74 11.18z"/><path fill="url(#logo-jump-p7)" d="M9.19 28h1.55v-9.32L0 7.5v10.73z"/><path fill="url(#logo-jump-p8)" d="M0 25.41A2.6 2.6 0 0 0 2.58 28H9.2L0 18.23z"/>`,
+  red: `<path fill="url(#logo-jump-p3)" d="M10.74 2.66v4.5l11.22 11.52V7.63L15.3.8a2.66 2.66 0 0 0-4.56 1.86"/><path fill="url(#logo-jump-p4)" d="M10.74 28h8.96l-8.96-9.32z"/><path fill="url(#logo-jump-p5)" d="M10.74 7.16v11.52L19.7 28h2.26v-9.32z"/>`,
+  yellow: `<path fill="url(#logo-jump-p0)" d="M21.96 2.67v4.96l11.3 11.6h.02V7.75L26.63.85a2.8 2.8 0 0 0-2-.85 2.67 2.67 0 0 0-2.67 2.67"/><path fill="url(#logo-jump-p1)" d="M21.96 7.63v11.05L31.03 28h2.25v-8.75z"/><path fill="url(#logo-jump-p2)" d="M21.96 28h9.07l-9.07-9.32z"/>`,
+  head: `<path fill="#111" d="M51.66 25.22A1.9 1.9 0 0 0 50 23.33l-.34-.04c-1-.13-1.94-.6-2.65-1.33L33.28 7.75V28H49a2.66 2.66 0 0 0 2.67-2.67zM39.2 23.54h-.09a1.78 1.78 0 1 1 .1 0"/>`,
+  defs: `<defs><linearGradient id="logo-jump-p0" x1="21.96" x2="33.28" y1="9.62" y2="9.62" gradientUnits="userSpaceOnUse"><stop stop-color="#ffd849"/><stop offset=".96" stop-color="#fbae01"/></linearGradient><linearGradient id="logo-jump-p1" x1="21.96" x2="33.28" y1="17.81" y2="17.81" gradientUnits="userSpaceOnUse"><stop stop-color="#ffb700"/><stop offset="1" stop-color="#f9aa01"/></linearGradient><linearGradient id="logo-jump-p2" x1="21.96" x2="31.03" y1="23.34" y2="23.34" gradientUnits="userSpaceOnUse"><stop stop-color="#ff9500"/><stop offset="1" stop-color="#f8aa00"/></linearGradient><linearGradient id="logo-jump-p3" x1="10.74" x2="21.96" y1="9.34" y2="9.34" gradientUnits="userSpaceOnUse"><stop stop-color="#ff651e"/><stop offset="1" stop-color="#e4400a"/></linearGradient><linearGradient id="logo-jump-p4" x1="10.74" x2="19.7" y1="23.34" y2="23.34" gradientUnits="userSpaceOnUse"><stop stop-color="#c42c00"/><stop offset="1" stop-color="#d63600"/></linearGradient><linearGradient id="logo-jump-p5" x1="10.74" x2="21.96" y1="17.58" y2="17.58" gradientUnits="userSpaceOnUse"><stop stop-color="#ef3c00"/><stop offset="1" stop-color="#d63601"/></linearGradient><linearGradient id="logo-jump-p6" x1="0" x2="10.74" y1="9.34" y2="9.34" gradientUnits="userSpaceOnUse"><stop stop-color="#3f80ff"/><stop offset="1" stop-color="#084fe0"/></linearGradient><linearGradient id="logo-jump-p7" x1="0" x2="10.74" y1="17.75" y2="17.75" gradientUnits="userSpaceOnUse"><stop stop-color="#0255ff"/><stop offset="1" stop-color="#0145d2"/></linearGradient><linearGradient id="logo-jump-p8" x1="0" x2="9.19" y1="23.11" y2="23.11" gradientUnits="userSpaceOnUse"><stop stop-color="#0041c6"/><stop offset="1" stop-color="#0045d0"/></linearGradient></defs>`,
+}
+
+const partsPrint: LogomarkParts = {
+  blue: `<path fill="#0054ff" d="M.87 19.13a.5.5 0 0 0-.87.34v5.94a2.6 2.6 0 0 0 2.59 2.58H7.8a.5.5 0 0 0 .37-.84zM.86 8.4c-.3-.32-.86-.1-.86.36v6.73q0 .2.13.34l8.81 9.68 1.8 2.06v-8.82zM4.59.82A2.67 2.67 0 0 0 0 2.68v1.93q0 .4.27.69l10.47 10.95v-9.1z"/>`,
+  red: `<path fill="#ff5506" d="M11.36 28h7.08a.5.5 0 0 0 .36-.85l-8.05-8.4v8.8l.23.28q.16.17.38.17m-.61-11.76 8.84 9.25 2.1 2.33q.1.11.27.14V18.7L10.75 7.15zm0-13.7v1.41a2 2 0 0 0 .55 1.28L21.96 16.2V7.65L15.32.8a2.67 2.67 0 0 0-4.57 1.71z"/>`,
+  yellow: `<path fill="#ffb70f" d="M22.06 28h7.76a.5.5 0 0 0 .36-.86l-8.22-8.45v9.27l.09.02zM31 25.49l1.13 1.14c.32.31.85.09.85-.35v-7.3l-.49-.51L21.96 7.64v8.55zM22.52 5.73l9.62 9.89c.3.32.86.1.86-.35V7.46L26.56.82a2.67 2.67 0 0 0-4.59 1.84v1.7c0 .51.2 1 .57 1.37z"/>`,
+  head: `<path fill="#111" d="m50 23.34-.35-.05A4.5 4.5 0 0 1 47 21.97L35.56 10.1c-.3-.33-.86-.1-.86.35V27.5c0 .27.22.5.5.5h13.78c1.48 0 2.67-1.2 2.67-2.67v-.1a1.9 1.9 0 0 0-1.67-1.89zm-10.81.2a1.8 1.8 0 1 1 0-3.58 1.8 1.8 0 0 1 0 3.58"/>`,
+  defs: "",
+}
+
+/** Recolor the flat print parts so every piece inherits `currentColor`. */
+const monoParts = (print: LogomarkParts): LogomarkParts => ({
+  blue: mono(print.blue.replaceAll("#0054ff", "currentColor")),
+  red: mono(print.red.replaceAll("#ff5506", "currentColor")),
+  yellow: mono(print.yellow.replaceAll("#ffb70f", "currentColor")),
+  head: mono(print.head),
+  defs: print.defs,
+})
+
+/** The logomark artwork split into 4 animatable parts, keyed by variant. */
+export const LOGOMARK_PARTS: Record<LogoVariant, LogomarkParts> = {
+  gradient: partsGradient,
+  print: partsPrint,
+  mono: monoParts(partsPrint),
+}
+
+// ---------------------------------------------------------------------------------------
+// Holiday accessories — decorations rendered inside the head group (so they ride along
+// when the mark jumps), in logomark viewBox coordinates. The Santa hat is ported from the
+// PostHog app (frontend/src/lib/brand/Logomark.tsx), re-fitted to this head; the witch hat
+// is hand-drawn. Accessories keep their festive colors in every variant, including mono.
+
+const christmasHat = `<g data-logo-accessory="christmas" transform="translate(-28.6 -12.3) scale(0.0816)"><path fill="#FF474D" d="M760.44221,350.78547l105.09131,-63.59165c2.99786,-1.81373 3.53866,-6.05832 1.09756,-8.61203l-74.51149,-77.93921c-8.68281,-9.08152 -23.24768,-7.66116 -30.12961,2.93974l-42.29777,65.15048c-2.27949,3.511 2.05301,7.56212 5.21072,4.87178l27.51804,-23.44101v95.87485c0,4.25098 4.47015,6.8964 8.02125,4.74706z"/><path fill="#fff" stroke="#000" stroke-width="12" d="M748.13994,352.44425v-32.45923c0,-2.87648 1.45099,-5.54575 3.82903,-7.04497l91.41712,-57.60028c3.09288,-1.94944 7.06755,-1.50563 9.68623,1.07927l23.26986,22.977c3.87165,3.8228 3.07691,10.41935 -1.58416,13.14544l-114.68697,67.08341c-5.32797,3.11581 -11.93107,-0.85826 -11.93107,-7.18066z"/><path fill="#fff" stroke="#000" stroke-width="12" d="M745.94127,261.57323c0,8.54877 -6.71144,15.47909 -14.99021,15.47909c-8.27877,0 -14.99019,-6.93033 -14.99019,-15.47909c0,-8.54877 6.71142,-15.47909 14.99019,-15.47909c8.27877,0 14.99021,6.93033 14.99021,15.47909z"/></g>`
+
+const halloweenHat = `<g data-logo-accessory="halloween" transform="translate(36 13.2) rotate(-18) scale(0.95)"><ellipse cx="0" cy="0" rx="6.4" ry="1.7" fill="#8927AF" stroke="#fff" stroke-width="0.45"/><path fill="#8927AF" stroke="#fff" stroke-width="0.45" stroke-linejoin="round" d="M-3.9 -0.6 C-2.3 -2.2 -1.5 -4.4 -1 -7 C-0.85 -7.9 -0.5 -9.1 0.7 -9.7 C1.6 -10.1 2.1 -9.4 1.4 -8.8 C0.9 -8.4 0.75 -7.5 0.8 -6.6 C1 -3.9 2.2 -1.9 3.9 -0.6 Z"/><path fill="#FF5C1C" d="M-3.15 -1.15 L3.1 -1.15 L3.9 -0.35 L-3.9 -0.35 Z"/><rect x="-0.8" y="-1.55" width="1.7" height="1.5" rx="0.25" fill="#FFB70F"/><rect x="-0.35" y="-1.15" width="0.8" height="0.75" rx="0.12" fill="#8927AF"/></g>`
+
+/** Holiday decorations, keyed by holiday. Injected inside the logomark's head group. */
+export const LOGO_HOLIDAY_ACCESSORIES: Record<LogoHoliday, string> = {
+  christmas: christmasHat,
+  halloween: halloweenHat,
+}
+
+/**
+ * Reassemble a {@link LogomarkParts} into the whole-body logomark markup — the 4 pieces in
+ * paint order followed by their shared defs. This is the static `<Logo layout="logomark">`
+ * form; the animated one keeps the pieces in separate groups (see logomark.tsx). Dropping the
+ * full-viewBox clip-path is a visual no-op (the outer `<svg>` clips to its viewport anyway).
+ */
+const wholeLogomark = ({ blue, red, yellow, head, defs }: LogomarkParts): string =>
+  blue + red + yellow + head + defs
 
 /**
  * Inner SVG markup keyed by [layout][variant]. The `wordmark` layout is type with no
@@ -46,7 +120,11 @@ const mono = (black: string): string => black.replaceAll("#111", "currentColor")
 export const LOGO_BODY: Record<LogoLayout, Record<LogoVariant, string>> = {
   landscape: { gradient: landscapeGradient, print: landscapePrint, mono: mono(landscapeBlack) },
   stacked: { gradient: stackedGradient, print: stackedPrint, mono: mono(stackedBlack) },
-  logomark: { gradient: logomarkGradient, print: logomarkPrint, mono: mono(logomarkBlack) },
+  logomark: {
+    gradient: wholeLogomark(LOGOMARK_PARTS.gradient),
+    print: wholeLogomark(LOGOMARK_PARTS.print),
+    mono: wholeLogomark(LOGOMARK_PARTS.mono),
+  },
   wordmark: {
     gradient: mono(wordmarkBlack),
     print: mono(wordmarkBlack),
