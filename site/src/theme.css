@@ -16,8 +16,8 @@
   --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
   /* RoundHog, the brand typeface — its @font-face rules are injected from
      @posthog/brand/fonts/css in main.tsx. System fonts stay as the fallback. */
-  --font-brand: "RoundHog", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
-    sans-serif;
+  --font-brand:
+    "RoundHog", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 * {

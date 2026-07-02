@@ -38,9 +38,9 @@ export function FontsPage() {
   return (
     <div>
       <PageHeader eyebrow="@posthog/brand/fonts" title="RoundHog">
-        PostHog's brand typeface, bundled offline as eight <code>woff2</code> faces
-        (Regular&nbsp;· Medium&nbsp;· SemiBold&nbsp;· Bold, each upright and italic). This entire
-        site is set in RoundHog — the <code>@font-face</code> rules come straight from{" "}
+        PostHog's brand typeface, bundled offline as eight <code>woff2</code> faces (Regular&nbsp;·
+        Medium&nbsp;· SemiBold&nbsp;· Bold, each upright and italic). This entire site is set in
+        RoundHog — the <code>@font-face</code> rules come straight from{" "}
         <code>@posthog/brand/fonts/css</code>. No CDN, no loader config.
       </PageHeader>
 
@@ -71,10 +71,7 @@ export function FontsPage() {
                   font-weight: {face.weight}; font-style: {face.style};
                 </code>
               </div>
-              <p
-                className="face-sample"
-                style={{ fontWeight: face.weight, fontStyle: face.style }}
-              >
+              <p className="face-sample" style={{ fontWeight: face.weight, fontStyle: face.style }}>
                 {PANGRAM}
               </p>
             </div>
