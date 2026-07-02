@@ -1,9 +1,9 @@
 # @posthog/brand
 
-PostHog's brand assets, as an npm package: the **logo**, the brand **colors**, the
-**hedgehog illustrations** ("hoggies"), and the **crests**. Everything ships as React
-components — plus raw SVGs, PNG URLs, and color tokens — bundled right into the package, so
-there are **zero runtime CDN calls**.
+PostHog's brand assets, as an npm package: the **logo**, the brand **colors**, the brand
+**font** (RoundHog), the **hedgehog illustrations** ("hoggies"), and the **crests**.
+Everything ships as React components — plus raw SVGs, PNG URLs, color tokens, and `woff2`
+font files — bundled right into the package, so there are **zero runtime CDN calls**.
 
 > 🦔 **Browse everything live at [brand.posthog.com](https://brand.posthog.com)** — every
 > logo lockup, color, hoggie, and crest, with the import you need for each one.
@@ -20,11 +20,12 @@ need from the matching subpath, and nothing else comes along for the ride:
 ```tsx
 import { Logo } from "@posthog/brand/logo"
 import { colors } from "@posthog/brand/colors"
+import { roundHogFontFaceCss } from "@posthog/brand/fonts/css"
 import { HedgehogDoctorHog } from "@posthog/brand/hoggies"
 import { ArrayCrest } from "@posthog/brand/crests"
 ```
 
-The four sections below walk through each one in turn. Every illustration is a React
+The five sections below walk through each one in turn. Every illustration is a React
 component that takes two friendly props:
 
 - **`size`** — the width (a number of px, or any CSS length). The height follows the
@@ -95,7 +96,45 @@ Drop the string into a `<style>` tag (or your CSS-in-JS) and reference the varia
 
 </details>
 
-## 3. Hoggies
+## 3. Fonts
+
+RoundHog — PostHog's brand typeface — ships bundled at `@posthog/brand/fonts` as eight
+`woff2` faces (Regular / Medium / SemiBold / Bold, each upright and italic). No CDN, no
+runtime fetch: the font files are emitted inside the package and their URLs are baked in
+(resolved via `import.meta.url`, exactly like the PNGs), so any modern bundler emits them.
+
+The quickest path is the ready-made `@font-face` string — drop it into a `<style>` tag and
+then reference `font-family: "RoundHog"`:
+
+```ts
+import { roundHogFontFaceCss } from "@posthog/brand/fonts/css"
+
+document.head.insertAdjacentHTML("beforeend", `<style>${roundHogFontFaceCss}</style>`)
+// now anywhere: font-family: "RoundHog", sans-serif
+```
+
+Weights map to PostHog's type scale: Regular → 400, Medium → 500, SemiBold → 700, Bold → 800.
+
+<details>
+<summary><strong>Want the raw metadata or a single face URL?</strong></summary>
+
+If you register faces yourself (a custom `@font-face`, a `<link rel="preload">`, a Next.js
+`localFont`, …), import the metadata or the individual URLs instead of the CSS string:
+
+```ts
+import { roundHog, roundHogRegularUrl } from "@posthog/brand/fonts"
+
+roundHog.family // "RoundHog"
+roundHog.faces // [{ weight, style, url, format }, …] — the eight bundled faces
+roundHogRegularUrl // the bundled woff2 URL for the 400 upright face
+```
+
+The raw files are also reachable by subpath — `@posthog/brand/fonts/RoundHog.woff2` — so a
+build step can `require.resolve` them (e.g. to copy into a server's static dir).
+
+</details>
+
+## 4. Hoggies
 
 The hedgehog illustrations live at `@posthog/brand/hoggies`. Each one is a React component
 named `Hedgehog<Name>`:
@@ -112,7 +151,7 @@ That's the whole story — pick the hoggie you want, give it a `size`, and you'r
 the full set (with the exact component name for each) at
 [brand.posthog.com](https://brand.posthog.com).
 
-## 4. Crests
+## 5. Crests
 
 The crests live at `@posthog/brand/crests`. Each crest comes in two sizes, paired together as
 one component: the **base** is the full illustration, and **`.Mini`** is a simplified badge
