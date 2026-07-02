@@ -1,5 +1,12 @@
 # @posthog/brand
 
+## 0.4.0
+
+### Minor Changes
+
+- 3dbf5fa: `Logo.Logomark` gains a `holiday` prop to dress the hedgehog up for a season — `"christmas"` (a Santa hat, the same one the PostHog app wears in December) or `"halloween"` (a witch hat). The accessory rides the head, so it keeps its festive colors in every variant (including `mono`) and jumps along when the mark jumps. Nothing is date-driven — the consumer decides when it's the season.
+- 58f3058: `Logo.Logomark` can now jump — the hedgehog springs up with the same staggered animation as the PostHog app (its 3 spikes and head take off one after the other). It's static by default; opt in with `jumpOnClick` (successive clicks escalate the height along the app's curve) and/or `autoJumpMs` for automatic jumps. Tune it with `jumpHeight` / `airtimeMs`; `prefers-reduced-motion` is respected. `Logo.Logomark` now renders as 4 animatable parts and forwards its `ref` to the `<svg>` like the rest of `Logo`.
+
 ## 0.3.0
 
 ### Minor Changes
