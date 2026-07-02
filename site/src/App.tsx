@@ -6,6 +6,7 @@ import { OverviewPage } from "./pages/Overview.tsx"
 // The asset-catalog pages each pull a large barrel of inline-SVG components, so they
 // load as their own route chunks instead of bloating the initial bundle.
 const LogoPage = lazy(() => import("./pages/Logo.tsx").then((m) => ({ default: m.LogoPage })))
+const FontsPage = lazy(() => import("./pages/Fonts.tsx").then((m) => ({ default: m.FontsPage })))
 const ColorsPage = lazy(() => import("./pages/Colors.tsx").then((m) => ({ default: m.ColorsPage })))
 const HoggiesPage = lazy(() =>
   import("./pages/Hoggies.tsx").then((m) => ({ default: m.HoggiesPage })),
@@ -18,6 +19,7 @@ const CrestDetailPage = lazy(() =>
 const NAV = [
   { to: "/", label: "Overview", end: true },
   { to: "/logo", label: "Logo", end: false },
+  { to: "/fonts", label: "Fonts", end: false },
   { to: "/colors", label: "Colors", end: false },
   { to: "/hoggies", label: "Hoggies", end: false },
   { to: "/crests", label: "Crests", end: false },
@@ -72,6 +74,7 @@ export function App() {
       <Routes>
         <Route path="/" element={<OverviewPage />} />
         <Route path="/logo" element={<LogoPage />} />
+        <Route path="/fonts" element={<FontsPage />} />
         <Route path="/colors" element={<ColorsPage />} />
         <Route path="/hoggies" element={<HoggiesPage />} />
         <Route path="/crests" element={<CrestsPage />} />

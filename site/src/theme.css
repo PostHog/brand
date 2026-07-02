@@ -14,6 +14,10 @@
   --maxw: 1100px;
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.06);
   --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  /* RoundHog, the brand typeface — its @font-face rules are injected from
+     @posthog/brand/fonts/css in main.tsx. System fonts stay as the fallback. */
+  --font-brand:
+    "RoundHog", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 * {
@@ -29,7 +33,7 @@ body {
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--font-brand);
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
 }
@@ -481,4 +485,47 @@ button.asset.copied .asset-slug {
 .nav-card-preview svg {
   max-height: 70px;
   width: auto;
+}
+
+/* ---- Fonts / specimen ---- */
+.font-specimen {
+  padding: 32px;
+}
+.font-specimen-big {
+  margin: 0;
+  font-size: clamp(56px, 12vw, 128px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.font-specimen-scale {
+  margin: 24px 0 0;
+  font-size: clamp(20px, 4vw, 34px);
+  line-height: 1.35;
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+.face-card {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.face-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.face-name {
+  font-weight: 700;
+  font-size: 15px;
+}
+.face-token {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.face-sample {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.3;
 }

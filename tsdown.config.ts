@@ -8,6 +8,8 @@ export default defineConfig({
     // The logo is hand-written (not Figma-synced / codegen'd); its geometry is inlined.
     "src/logo/**/*.ts",
     "src/logo/**/*.tsx",
+    // Fonts are hand-maintained too: RoundHog woff2 faces + the metadata to register them.
+    "src/fonts/**/*.ts",
     // Per-asset + per-namespace modules are emitted individually so deep imports
     // (@posthog/brand/<ns>/svg/<slug>, /<ns>/png/<slug>) and tree-shaking work.
     "src/generated/**/*.ts",
@@ -31,5 +33,10 @@ export default defineConfig({
     // Crests split per tier: each tier's PNGs sit beside its generated png modules.
     { from: "assets/crests/full/png", to: "dist/generated/crests/full" },
     { from: "assets/crests/mini/png", to: "dist/generated/crests/mini" },
+    // RoundHog woff2 faces sit beside the font modules (dist/fonts/) so their
+    // `new URL("./RoundHog*.woff2", import.meta.url)` references resolve. `copy`
+    // nests the `from` dir under `to` by its basename, so from=assets/fonts +
+    // to=dist yields dist/fonts/*.woff2 next to dist/fonts/*.mjs.
+    { from: "assets/fonts", to: "dist" },
   ],
 })

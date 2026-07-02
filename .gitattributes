@@ -3,4 +3,5 @@ assets/** linguist-generated=true
 assets/**/catalog.json -diff
 assets/sync-state.json -diff
 assets/**/png/** binary
+assets/fonts/*.woff2 binary
 pnpm-lock.yaml -diff
