@@ -38,6 +38,13 @@ Figma brand book  --sync.ts-->  assets/<namespace>/  --codegen.ts-->  src/genera
   the logo is a small, stable mark, so its SVG geometry is inlined in `src/logo/geometry.ts`
   and exposed as one generic, parametric compound component (`variant`/`layout`/`color`,
   plus `Logo.Logomark`/`Logo.Wordmark`). Hand-maintained — edit it directly (with a changeset).
+- **`src/fonts/`** — RoundHog, the brand typeface (`./fonts` + `./fonts/css` exports). NOT
+  Figma-synced or codegen'd: the eight `woff2` faces live in `assets/fonts/*.woff2` (committed,
+  hand-maintained) and are copied by `tsdown` to `dist/fonts/` next to the font modules, so the
+  `new URL("./RoundHog*.woff2", import.meta.url)` refs in `src/fonts/roundhog.ts` resolve the
+  same way the PNGs do. `./fonts` exports the face metadata + per-face URLs; `./fonts/css`
+  exports a ready-to-inject `@font-face` string; `./fonts/*` exposes the raw woff2 by subpath.
+  To change/add faces, drop the woff2 in `assets/fonts/` and edit `src/fonts/` (with a changeset).
 
 ## Conventions
 

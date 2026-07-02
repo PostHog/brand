@@ -115,6 +115,15 @@
       "types": "./dist/generated/crests/mini/manifest.d.mts",
       "default": "./dist/generated/crests/mini/manifest.mjs"
     },
+    "./fonts": {
+      "types": "./dist/fonts/index.d.mts",
+      "default": "./dist/fonts/index.mjs"
+    },
+    "./fonts/css": {
+      "types": "./dist/fonts/css.d.mts",
+      "default": "./dist/fonts/css.mjs"
+    },
+    "./fonts/*": "./dist/fonts/*",
     "./colors": {
       "types": "./dist/colors.d.mts",
       "default": "./dist/colors.mjs"
