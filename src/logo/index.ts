@@ -18,10 +18,4 @@
 
 export { Logo } from "./logo.tsx"
 export type { LogoComponent } from "./logo.tsx"
-export type {
-  LogoProps,
-  LogomarkProps,
-  WordmarkProps,
-  LogoVariant,
-  LogoLayout,
-} from "./types.ts"
+export type { LogoProps, LogomarkProps, WordmarkProps, LogoVariant, LogoLayout } from "./types.ts"
