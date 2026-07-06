@@ -13,7 +13,7 @@ import { Logo } from "../src/logo/index.ts"
 import type { LogomarkHandle } from "../src/logo/index.ts"
 
 const originalAnimate = Element.prototype.animate
-const animate = vi.fn(() => ({}) as Animation)
+const animate = vi.fn((_keyframes?: unknown, _options?: unknown) => ({}) as Animation)
 
 beforeAll(() => {
   // jsdom doesn't implement the Web Animations API; the jump probes `svg.animate` for support
@@ -78,8 +78,8 @@ describe("<Logo.Logomark> imperative handle", () => {
   it("scales the height with the magnitude argument", () => {
     const { ref, unmount } = mount({ jumpHeight: 10 })
     ref.current!.jump(3)
-    const keyframes = animate.mock.calls[0][0] as Array<{ transform: string }>
-    expect(keyframes[1].transform).toBe("translateY(-30px)") // 10 * 3
+    const keyframes = animate.mock.calls[0]?.[0] as Array<{ transform: string }>
+    expect(keyframes[1]?.transform).toBe("translateY(-30px)") // 10 * 3
     unmount()
   })
 

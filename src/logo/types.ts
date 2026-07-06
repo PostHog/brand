@@ -89,7 +89,7 @@ export interface LogoProps extends AssetSvgProps {
  * and/or {@link autoJumpMs}; tune it with {@link jumpHeight} / {@link airtimeMs}. It can also
  * dress up for a {@link holiday}. Every native `<svg>` prop (`className`, `style`, `onClick`,
  * …) works too; its `ref` exposes a {@link LogomarkHandle} — call `ref.current.jump()` to jump
- * it imperatively (the `<svg>` node is still there, on `ref.current.svg`).
+ * it imperatively (the `<svg>` node is on `ref.current.svg`).
  *
  * Jumping respects `prefers-reduced-motion` (jumps become no-ops).
  *
@@ -155,8 +155,8 @@ export interface LogomarkProps extends Omit<LogoProps, "layout"> {
  */
 export interface LogomarkHandle {
   /**
-   * The underlying `<svg>` element (`null` before mount / after unmount) — the same node a
-   * plain `ref` used to point at, so you can still measure or inspect it.
+   * The underlying `<svg>` element (`null` before mount / after unmount) — for measuring,
+   * focusing, or otherwise inspecting the node.
    */
   readonly svg: SVGSVGElement | null
   /**
