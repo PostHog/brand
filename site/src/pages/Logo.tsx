@@ -44,7 +44,9 @@ function ImperativeJumpCell() {
       </div>
       <div className="logo-label" style={{ display: "flex", justifyContent: "space-between" }}>
         <code>mark.current?.jump()</code>
-        <CopyButton value={`const mark = useRef<LogomarkHandle>(null)\n<Logo.Logomark ref={mark} />\n<button onClick={() => mark.current?.jump()}>Jump</button>`} />
+        <CopyButton
+          value={`const mark = useRef<LogomarkHandle>(null)\n<Logo.Logomark ref={mark} />\n<button onClick={() => mark.current?.jump()}>Jump</button>`}
+        />
       </div>
     </div>
   )

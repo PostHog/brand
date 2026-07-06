@@ -1,4 +1,11 @@
-import { createElement, forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from "react"
+import {
+  createElement,
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+} from "react"
 import type { ForwardRefExoticComponent, MouseEvent, RefAttributes } from "react"
 import { LOGO_HOLIDAY_ACCESSORIES, LOGO_VIEW_BOX, LOGOMARK_PARTS } from "./geometry.ts"
 import type { LogomarkHandle, LogomarkProps } from "./types.ts"
