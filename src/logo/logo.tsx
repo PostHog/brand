@@ -2,7 +2,7 @@ import { createElement, forwardRef } from "react"
 import type { ForwardRefExoticComponent, RefAttributes } from "react"
 import { LOGO_BODY, LOGO_VIEW_BOX } from "./geometry.ts"
 import { Logomark } from "./logomark.tsx"
-import type { LogoProps, LogomarkProps, WordmarkProps } from "./types.ts"
+import type { LogoProps, LogomarkHandle, LogomarkProps, WordmarkProps } from "./types.ts"
 
 function escapeXml(value: string): string {
   return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
@@ -74,8 +74,8 @@ export interface LogoComponent extends ForwardRefExoticComponent<
 > {
   /**
    * The hedgehog icon on its own. Static by default, but it can also **jump** like the
-   * logomark in the PostHog app — set `jumpOnClick` and/or `autoJumpMs`. See
-   * {@link LogomarkProps}.
+   * logomark in the PostHog app — set `jumpOnClick` and/or `autoJumpMs`, or drive it yourself
+   * through the {@link LogomarkHandle} on its `ref`. See {@link LogomarkProps}.
    *
    * @example
    * ```tsx
@@ -83,9 +83,12 @@ export interface LogoComponent extends ForwardRefExoticComponent<
    * <Logo.Logomark variant="mono" color="#fff" />
    * <Logo.Logomark jumpOnClick />                // click me! (successive clicks jump higher)
    * <Logo.Logomark autoJumpMs={3000} />          // jumps every 3s
+   *
+   * const mark = useRef<LogomarkHandle>(null)
+   * <Logo.Logomark ref={mark} />                 // ...then mark.current?.jump() whenever
    * ```
    */
-  Logomark: ForwardRefExoticComponent<LogomarkProps & RefAttributes<SVGSVGElement>>
+  Logomark: ForwardRefExoticComponent<LogomarkProps & RefAttributes<LogomarkHandle>>
   /**
    * The "PostHog" wordmark only — shorthand for `<Logo layout="wordmark">`. Always mono;
    * tint it with `color`. See {@link WordmarkProps}.

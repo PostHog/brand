@@ -1,7 +1,14 @@
-import { createElement, forwardRef, useCallback, useEffect, useRef } from "react"
+import {
+  createElement,
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+} from "react"
 import type { ForwardRefExoticComponent, MouseEvent, RefAttributes } from "react"
 import { LOGO_HOLIDAY_ACCESSORIES, LOGO_VIEW_BOX, LOGOMARK_PARTS } from "./geometry.ts"
-import type { LogomarkProps } from "./types.ts"
+import type { LogomarkHandle, LogomarkProps } from "./types.ts"
 
 function escapeXml(value: string): string {
   return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
@@ -27,10 +34,11 @@ const prefersReducedMotion = (): boolean =>
  * The mark always renders as 4 sibling groups (3 spikes + head). When it jumps, each group
  * springs up on a staggered vertical curve via the Web Animations API — no stylesheet
  * required. The head takes off first and the spikes follow right-to-left, matching the app.
- * Forwards `ref` to the underlying `<svg>` (like {@link Logo}), so there is no bespoke handle.
+ * Its `ref` is a {@link LogomarkHandle}: `ref.current.jump()` triggers a jump imperatively,
+ * and `ref.current.svg` is the underlying `<svg>` node (for measuring, focusing, …).
  */
-const LogomarkBase: ForwardRefExoticComponent<LogomarkProps & RefAttributes<SVGSVGElement>> =
-  forwardRef<SVGSVGElement, LogomarkProps>(function Logomark(props, ref) {
+const LogomarkBase: ForwardRefExoticComponent<LogomarkProps & RefAttributes<LogomarkHandle>> =
+  forwardRef<LogomarkHandle, LogomarkProps>(function Logomark(props, ref) {
     const {
       variant = "gradient",
       color,
@@ -48,20 +56,9 @@ const LogomarkBase: ForwardRefExoticComponent<LogomarkProps & RefAttributes<SVGS
       ...rest
     } = props
 
-    // We need our own handle on the <svg> to drive the animation, but the public ref is the
-    // element itself — so mirror the node into both our ref and the forwarded one.
+    // Our own handle on the <svg> to drive the animation. The public ref is a LogomarkHandle
+    // (see useImperativeHandle below), not the node — the node hangs off `handle.svg`.
     const svgRef = useRef<SVGSVGElement | null>(null)
-    const setRef = useCallback(
-      (node: SVGSVGElement | null): void => {
-        svgRef.current = node
-        if (typeof ref === "function") {
-          ref(node)
-        } else if (ref) {
-          ref.current = node
-        }
-      },
-      [ref],
-    )
 
     const airborneUntil = useRef(0)
     const clickIteration = useRef(0)
@@ -77,6 +74,9 @@ const LogomarkBase: ForwardRefExoticComponent<LogomarkProps & RefAttributes<SVGS
         if (now < airborneUntil.current) {
           return false // Don't interrupt an in-flight jump.
         }
+        // The declarative jump props set `overflow: visible` at render time; an imperative-only
+        // jump (no jumpOnClick/autoJumpMs) has to opt in here, or the parts clip at the viewBox.
+        svg.style.overflow = "visible"
         const parts = svg.querySelectorAll<SVGGElement>("[data-logo-part]")
         // Higher jumps stagger tighter, so the mark still reads as one hedgehog at magnitude 7.
         const stagger = (airtimeMs * STAGGER_RATIO) / Math.sqrt(magnitude)
@@ -95,6 +95,17 @@ const LogomarkBase: ForwardRefExoticComponent<LogomarkProps & RefAttributes<SVGS
         return true
       },
       [airtimeMs, jumpHeight],
+    )
+
+    useImperativeHandle(
+      ref,
+      () => ({
+        get svg(): SVGSVGElement | null {
+          return svgRef.current
+        },
+        jump,
+      }),
+      [jump],
     )
 
     useEffect(() => {
@@ -135,7 +146,7 @@ const LogomarkBase: ForwardRefExoticComponent<LogomarkProps & RefAttributes<SVGS
           : { width, height }
 
     return createElement("svg", {
-      ref: setRef,
+      ref: svgRef,
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: LOGO_VIEW_BOX.logomark,
       role: title ? "img" : undefined,
@@ -158,5 +169,5 @@ const LogomarkBase: ForwardRefExoticComponent<LogomarkProps & RefAttributes<SVGS
 
 LogomarkBase.displayName = "Logo.Logomark"
 
-export const Logomark: ForwardRefExoticComponent<LogomarkProps & RefAttributes<SVGSVGElement>> =
+export const Logomark: ForwardRefExoticComponent<LogomarkProps & RefAttributes<LogomarkHandle>> =
   LogomarkBase

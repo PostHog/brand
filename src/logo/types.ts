@@ -88,7 +88,8 @@ export interface LogoProps extends AssetSvgProps {
  * its 3 spikes and head spring up one after the other. Opt in with {@link jumpOnClick}
  * and/or {@link autoJumpMs}; tune it with {@link jumpHeight} / {@link airtimeMs}. It can also
  * dress up for a {@link holiday}. Every native `<svg>` prop (`className`, `style`, `onClick`,
- * `ref` → the `<svg>`, …) works too.
+ * …) works too; its `ref` exposes a {@link LogomarkHandle} — call `ref.current.jump()` to jump
+ * it imperatively (the `<svg>` node is on `ref.current.svg`).
  *
  * Jumping respects `prefers-reduced-motion` (jumps become no-ops).
  *
@@ -134,6 +135,39 @@ export interface LogomarkProps extends Omit<LogoProps, "layout"> {
    * head, so it jumps too.
    */
   holiday?: LogoHoliday
+}
+
+/**
+ * The imperative handle exposed on a {@link Logo.Logomark}'s `ref` — lets you trigger the
+ * jump programmatically, without wiring up {@link LogomarkProps.jumpOnClick | `jumpOnClick`}
+ * or {@link LogomarkProps.autoJumpMs | `autoJumpMs`}.
+ *
+ * @example
+ * ```tsx
+ * import { useRef } from "react"
+ * import { Logo, type LogomarkHandle } from "@posthog/brand/logo"
+ *
+ * const mark = useRef<LogomarkHandle>(null)
+ * <Logo.Logomark ref={mark} />
+ * <button onClick={() => mark.current?.jump()}>Boing</button>
+ * <button onClick={() => mark.current?.jump(4)}>Big boing</button>
+ * ```
+ */
+export interface LogomarkHandle {
+  /**
+   * The underlying `<svg>` element (`null` before mount / after unmount) — for measuring,
+   * focusing, or otherwise inspecting the node.
+   */
+  readonly svg: SVGSVGElement | null
+  /**
+   * Make the mark jump now. `magnitude` scales the height (and tightens the spike stagger)
+   * just like successive {@link LogomarkProps.jumpOnClick | clicks} do — `1` is a normal hop.
+   * Returns `true` if the jump started, or `false` if it was suppressed (a jump is already in
+   * flight, the browser lacks the Web Animations API, or the user prefers reduced motion).
+   *
+   * @param magnitude - height multiplier; defaults to `1`.
+   */
+  jump(magnitude?: number): boolean
 }
 
 /**

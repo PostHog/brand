@@ -1,6 +1,7 @@
 import { Logo } from "@posthog/brand/logo"
-import type { LogoLayout, LogoVariant } from "@posthog/brand/logo"
+import type { LogoLayout, LogomarkHandle, LogoVariant } from "@posthog/brand/logo"
 import type { ReactNode } from "react"
+import { useRef } from "react"
 import { CopyButton } from "../components/CopyButton.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
 
@@ -17,6 +18,35 @@ function LogoCell({ code, dark, children }: CellProps) {
       <div className="logo-label" style={{ display: "flex", justifyContent: "space-between" }}>
         <code>{code}</code>
         <CopyButton value={code} />
+      </div>
+    </div>
+  )
+}
+
+/**
+ * Demo of the imperative handle: hold a `ref`, then jump the mark from anywhere — here, two
+ * buttons outside the mark. No `jumpOnClick` / `autoJumpMs`; the buttons call `ref.current.jump()`.
+ */
+function ImperativeJumpCell() {
+  const mark = useRef<LogomarkHandle>(null)
+  return (
+    <div className="card logo-cell">
+      <div className="logo-stage" style={{ flexDirection: "column", gap: 16 }}>
+        <Logo.Logomark ref={mark} size={72} title="PostHog logomark — jump from a button" />
+        <div style={{ display: "flex", gap: 8 }}>
+          <button type="button" className="btn btn-primary" onClick={() => mark.current?.jump()}>
+            Jump
+          </button>
+          <button type="button" className="btn" onClick={() => mark.current?.jump(4)}>
+            Jump higher
+          </button>
+        </div>
+      </div>
+      <div className="logo-label" style={{ display: "flex", justifyContent: "space-between" }}>
+        <code>mark.current?.jump()</code>
+        <CopyButton
+          value={`const mark = useRef<LogomarkHandle>(null)\n<Logo.Logomark ref={mark} />\n<button onClick={() => mark.current?.jump()}>Jump</button>`}
+        />
       </div>
     </div>
   )
@@ -75,7 +105,9 @@ export function LogoPage() {
         <h2>Jumping</h2>
         <p>
           The logomark can jump — the same <code>Logo.Logomark</code>, opted in with{" "}
-          <code>jumpOnClick</code> (each rapid click jumps higher) or <code>autoJumpMs</code>.
+          <code>jumpOnClick</code> (each rapid click jumps higher) or <code>autoJumpMs</code>. Or
+          drive it yourself: its <code>ref</code> is a <code>LogomarkHandle</code>, so{" "}
+          <code>ref.current.jump()</code> jumps it from anywhere — pass a magnitude to jump higher.
         </p>
         <div className="grid grid-cards">
           <LogoCell code={`<Logo.Logomark jumpOnClick />`}>
@@ -84,6 +116,7 @@ export function LogoPage() {
           <LogoCell code={`<Logo.Logomark autoJumpMs={3000} />`}>
             <Logo.Logomark size={72} autoJumpMs={3000} title="PostHog logomark — auto-jumping" />
           </LogoCell>
+          <ImperativeJumpCell />
           <LogoCell code={`<Logo.Logomark jumpOnClick variant="mono" color="#fff" />`} dark>
             <Logo.Logomark
               size={72}

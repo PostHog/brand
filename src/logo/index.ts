@@ -22,6 +22,7 @@ export type { LogoComponent } from "./logo.tsx"
 export type {
   LogoProps,
   LogomarkProps,
+  LogomarkHandle,
   WordmarkProps,
   LogoHoliday,
   LogoVariant,
