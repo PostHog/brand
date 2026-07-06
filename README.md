@@ -12,6 +12,11 @@ font files — bundled right into the package, so there are **zero runtime CDN c
 pnpm add @posthog/brand
 ```
 
+> ⚠️ **Pre-1.0:** while the version is still `0.x`, the public API may change — including
+> **breaking changes** (renamed or removed exports) — released as **minor** bumps. Pin an
+> exact version if you need stability, and check the changelog before upgrading. Once the
+> asset set and API settle we'll cut `1.0.0` and follow semver strictly.
+
 ## The idea
 
 The package is split into a handful of subpaths, one per kind of asset. You import what you

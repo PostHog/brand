@@ -1,5 +1,5 @@
 import type { SvgAssetComponent } from "@posthog/brand"
-import { useRef, useState } from "react"
+import { createElement, useRef, useState, type ComponentType } from "react"
 import { Link } from "react-router-dom"
 
 interface AssetTileProps {
@@ -13,10 +13,12 @@ interface AssetTileProps {
   copyValue: string
   /** When set, renders a corner link to this route (e.g. an isolated detail page). */
   to?: string
+  /** For a compound variant component, which variant to render (e.g. a numbered hog). */
+  variant?: string
 }
 
 /** A clickable grid tile that renders a live asset and copies `copyValue` on click. */
-export function AssetTile({ Comp, name, slug, copyValue, to }: AssetTileProps) {
+export function AssetTile({ Comp, name, slug, copyValue, to, variant }: AssetTileProps) {
   const [copied, setCopied] = useState(false)
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
@@ -38,7 +40,11 @@ export function AssetTile({ Comp, name, slug, copyValue, to }: AssetTileProps) {
         style={{ width: "100%" }}
       >
         <span className="asset-art">
-          <Comp size={88} title={name} />
+          {createElement(Comp as ComponentType<Record<string, unknown>>, {
+            size: 88,
+            title: name,
+            ...(variant ? { variant } : {}),
+          })}
         </span>
         <span className="asset-name">{name}</span>
         <span className="asset-slug">{copied ? "Copied!" : slug}</span>

@@ -31,7 +31,7 @@ export interface IllustrationPage {
 export const ILLUSTRATION_PAGES: IllustrationPage[] = [
   {
     namespace: "hoggies",
-    containerId: "35:77995", // frame "hoggies components"
+    containerId: "276:1770", // frame "hoggies components"
     stripPrefix: /^hog\s*\/\s*/i,
     pngScale: 1, // nodes are 1000x1000
   },
