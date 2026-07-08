@@ -11,6 +11,7 @@ import { assets as crestsMiniAssets } from "../src/generated/crests/mini/manifes
 import { componentName, slugToPascal } from "../src/naming.ts"
 import type { AssetMeta } from "../src/types.ts"
 import type { SvgAssetComponent } from "../src/runtime/create-svg-asset.tsx"
+import type { VariantSvgAssetComponent } from "../src/runtime/create-variant-svg-asset.tsx"
 
 // One entry per export group: crests fan out into full + mini, each its own module tree.
 const GROUPS = [
@@ -26,12 +27,19 @@ function lookup(components: object, meta: AssetMeta): SvgAssetComponent {
 }
 
 describe("generated components", () => {
-  it.each(GROUPS)("exports exactly one component per asset in $name", ({ components, assets }) => {
-    expect(Object.keys(components).length).toBe(assets.length)
-    for (const meta of assets) {
-      expect(lookup(components, meta)).toBeDefined()
-    }
-  })
+  it.each(GROUPS)(
+    "exports exactly one component per distinct name in $name",
+    ({ components, assets }) => {
+      // Usually one component per asset, but a variant family (e.g. the numbered hogs)
+      // collapses its members onto a single compound component sharing one slug, so count
+      // distinct component names rather than assets.
+      const names = new Set(assets.map((m) => componentName(m.namespace, m.slug, m.tier)))
+      expect(Object.keys(components).length).toBe(names.size)
+      for (const meta of assets) {
+        expect(lookup(components, meta)).toBeDefined()
+      }
+    },
+  )
 
   it.each(GROUPS)(
     "every $name component renders an svg with its metadata",
@@ -68,6 +76,38 @@ describe("generated components", () => {
     const html = renderToStaticMarkup(createElement(Component, { title: "<b>x</b>" }))
     expect(html).toContain("&lt;b&gt;x&lt;/b&gt;")
     expect(html).not.toContain("<title><b>x</b></title>")
+  })
+})
+
+describe("variant compound components", () => {
+  const all = hoggies as unknown as Record<string, VariantSvgAssetComponent<string>>
+
+  it("collapses a numbered family onto one component with a shared slug", () => {
+    // gladiator ships as one <HedgehogGladiator variant> — not HedgehogGladiator1/2.
+    expect(all.HedgehogGladiator1).toBeUndefined()
+    expect(all.HedgehogGladiator2).toBeUndefined()
+
+    const Gladiator = all.HedgehogGladiator!
+    expect(Gladiator).toBeDefined()
+    expect(Gladiator.meta.slug).toBe("gladiator")
+    expect(Gladiator.variants).toEqual(["1", "2"])
+
+    // Both family members are in the manifest under the shared slug, keyed by variant.
+    const members = hoggiesAssets.filter((a) => a.slug === "gladiator")
+    expect(members.map((m) => m.variant?.variant).sort()).toEqual(["1", "2"])
+  })
+
+  it("renders the default variant with no prop and switches on `variant`", () => {
+    const Gladiator = all.HedgehogGladiator!
+
+    const def = renderToStaticMarkup(createElement(Gladiator))
+    const v1 = renderToStaticMarkup(createElement(Gladiator, { variant: "1" }))
+    const v2 = renderToStaticMarkup(createElement(Gladiator, { variant: "2" }))
+
+    expect(def).toContain("<svg")
+    expect(def).toBe(v1) // default is variant "1"
+    expect(v2).toContain("<svg")
+    expect(v2).not.toBe(v1) // a different variant renders different markup
   })
 })
 

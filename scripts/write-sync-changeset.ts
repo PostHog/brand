@@ -9,8 +9,9 @@ import { existsSync } from "node:fs"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
 import type { Catalog } from "./lib/catalog.ts"
-import { NAMESPACES, type Namespace } from "../src/types.ts"
+import { NAMESPACES, type CrestTier, type Namespace } from "../src/types.ts"
 import { applyRename } from "./lib/renames.ts"
+import { publishedComponentName } from "./lib/published.ts"
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..")
 
@@ -40,6 +41,10 @@ const label = (e: { namespace: Namespace; slug: string; name: string; tier?: str
 const sections: string[] = []
 let totalAdded = 0
 let totalRemoved = 0
+// Removals measured on *published export identity* (variant grouping + renames), not the
+// raw catalog slug: a Figma rename absorbed by renames.ts/variants.ts keeps the same
+// export and is not breaking, whereas an export that truly disappears forces a major.
+let totalBreaking = 0
 
 for (const ns of NAMESPACES) {
   const rel = `assets/${ns}/catalog.json`
@@ -66,6 +71,14 @@ for (const ns of NAMESPACES) {
     .filter(([s, e]) => prev.get(s) && JSON.stringify(prev.get(s)) !== JSON.stringify(e))
     .map(([, e]) => e)
     .sort(byName)
+
+  // A published export is "breaking" only if it existed before and no current entry
+  // still maps to it (a rename that lands on the same export name is not a removal).
+  const pub = (e: { slug: string; name: string; tier?: string }) =>
+    publishedComponentName(ns, e.slug, e.name, e.tier as CrestTier | undefined)
+  const currentExports = new Set([...curr.values()].map(pub))
+  const breaking = [...prev.values()].map(pub).filter((name) => !currentExports.has(name))
+  totalBreaking += new Set(breaking).size
 
   if (added.length || removed.length || updated.length) {
     totalAdded += added.length
@@ -99,7 +112,10 @@ const body = [headline, ...sections].join("\n\n")
 const slug = process.env.GITHUB_RUN_ID ?? "local"
 const file = join(ROOT, ".changeset", `brand-sync-${slug}.md`)
 
-// Always a minor bump: a sync only ever adds, re-renders, or drops illustration assets
-// behind the fully-namespaced API — never a breaking change to existing exports.
-await writeFile(file, `---\n"@posthog/brand": minor\n---\n\n${body}\n`)
+// Minor for the common case (a sync adds, re-renders, or reshuffles assets behind the
+// fully-namespaced API). A sync should never remove a published export — the guard in
+// sync.ts blocks that unless ALLOW_BREAKING_REMOVALS was set — but if one did disappear,
+// reflect it honestly as a major.
+const bump = totalBreaking > 0 ? "major" : "minor"
+await writeFile(file, `---\n"@posthog/brand": ${bump}\n---\n\n${body}\n`)
 console.log(`Wrote ${file}:\n${body}`)

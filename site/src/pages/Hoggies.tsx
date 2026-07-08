@@ -44,13 +44,21 @@ export function HoggiesPage() {
             const Comp = hoggieComponent(asset.slug)
             if (!Comp) return null
             const componentName = getComponentName("hoggies", asset.slug)
+
+            // A variant family shares one slug across members, distinguished by `variant`.
+            const variant = asset.variant?.variant
+            const usage = variant
+              ? `<${componentName} variant="${variant}" />`
+              : `<${componentName} />`
+
             return (
               <AssetTile
-                key={asset.slug}
+                key={variant ? `${asset.slug}/${variant}` : asset.slug}
                 Comp={Comp}
-                name={asset.name}
+                variant={variant}
+                name={variant ? `${asset.name} ${variant}` : asset.name}
                 slug={asset.slug}
-                copyValue={`import { ${componentName} } from "@posthog/brand/hoggies"`}
+                copyValue={usage}
               />
             )
           })}

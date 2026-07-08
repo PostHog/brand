@@ -21,6 +21,10 @@ export type { AssetMeta, Namespace, CrestTier, BrandColor, BrandColors } from ".
 
 // Component factory's public type + shared props.
 export type { SvgAssetComponent } from "./runtime/create-svg-asset.tsx"
+export type {
+  VariantSvgAssetComponent,
+  VariantSvgProps,
+} from "./runtime/create-variant-svg-asset.tsx"
 export type { AssetProps, AssetSvgProps } from "./runtime/props.ts"
 
 // Cross-namespace manifest + search (React-free, zero image payload).

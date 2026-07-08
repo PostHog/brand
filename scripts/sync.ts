@@ -24,6 +24,7 @@ import { parseTags } from "./lib/tags.ts"
 import { optimizeSvg } from "./lib/svg.ts"
 import { optimizePng } from "./lib/png.ts"
 import { FIGMA_FILE_KEY, ILLUSTRATION_PAGES, type IllustrationPage } from "./lib/figma-pages.ts"
+import { publishedComponentName } from "./lib/published.ts"
 import type { Catalog, CatalogEntry, SyncState, SyncStateEntry } from "./lib/catalog.ts"
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..")
@@ -142,7 +143,7 @@ function identity(
   return { slug, name }
 }
 
-/** Walk a page container and flatten its COMPONENT / COMPONENT_SET nodes into assets. */
+/** Walk a page container and flatten its COMPONENT / COMPONENT_SET / INSTANCE nodes into assets. */
 function discoverPage(
   page: IllustrationPage,
   container: FigmaNode,
@@ -167,14 +168,20 @@ function discoverPage(
         const desc = components[variantNode.id]?.description || components[child.id]?.description
         raw.push({ slug, name, node: variantNode, variant, tier, tags: parseTags(desc) })
       }
-    } else if (child.type === "COMPONENT") {
+    } else if (child.type === "COMPONENT" || child.type === "INSTANCE") {
+      // A bare COMPONENT is its own master; an INSTANCE points at one (often a library
+      // component whose master node lives outside this file) via `componentId`. Both
+      // render identically, and tags live on the master's description — so we resolve
+      // the description by the master's id, which for an instance is its componentId.
+      const masterId =
+        child.type === "INSTANCE" ? (child.componentId as string | undefined) : child.id
       const { slug, name, tier } = identity(page, child.name, child.id, undefined)
       raw.push({
         slug,
         name,
         node: child,
         tier,
-        tags: parseTags(components[child.id]?.description),
+        tags: parseTags(masterId ? components[masterId]?.description : undefined),
       })
     }
   }
@@ -288,6 +295,40 @@ async function main(): Promise<void> {
   // hand-maintained palette (static/colors.ts), not synced from Figma.
   const containerIds = ILLUSTRATION_PAGES.map((p) => p.containerId)
   const { nodes, components } = await client.getNodes(FIGMA_FILE_KEY, containerIds)
+
+  // Breaking-change guard: a sync must never silently drop a published component export
+  // (renaming a hog in Figma, or its illustration being deleted). Compare the committed
+  // catalogs against what we just discovered, both mapped to their *published* export
+  // identity (variant grouping + renames), and fail loudly before touching anything if
+  // any would disappear. A rename compensated in renames.ts / variants.ts preserves the
+  // export and passes; a genuine, intended removal needs ALLOW_BREAKING_REMOVALS=1 (which
+  // also makes write-sync-changeset bump a major). Skipped in --check (a pure reporter
+  // that already exits non-zero on any drift, removals included).
+  if (!checkOnly && !process.env.ALLOW_BREAKING_REMOVALS) {
+    const breaking: string[] = []
+    for (const page of ILLUSTRATION_PAGES) {
+      const container = nodes[page.containerId]
+      if (!container) continue // the not-found throw in the main loop reports this
+      const current = new Set(
+        discoverPage(page, container, components).map((d) =>
+          publishedComponentName(page.namespace, d.meta.slug, d.meta.name, d.meta.tier),
+        ),
+      )
+      for (const entry of (await readCatalog(page.namespace)).values()) {
+        const exp = publishedComponentName(page.namespace, entry.slug, entry.name, entry.tier)
+        if (!current.has(exp)) breaking.push(`${page.namespace}: ${exp}`)
+      }
+    }
+    if (breaking.length) {
+      throw new Error(
+        `Refusing to sync: ${breaking.length} published component export(s) would be removed — ` +
+          `a breaking change:\n  ${[...new Set(breaking)].sort().join("\n  ")}\n\n` +
+          `If a hog was renamed, preserve its export with an entry in scripts/lib/renames.ts ` +
+          `or scripts/lib/variants.ts. If the removal is intentional, re-run with ` +
+          `ALLOW_BREAKING_REMOVALS=1 to publish a major version.`,
+      )
+    }
+  }
 
   const newState: SyncState = {
     figmaFileKey: FIGMA_FILE_KEY,
