@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-10T23:17:14Z",
+  "generatedAt": "2026-07-15T17:33:47Z",
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2374725166987715858",
+  "figmaVersion": "2376505160864503203",
   "namespace": "hoggies",
   "entries": [
     {
@@ -18,8 +18,8 @@
         "leisure suit",
         "disco"
       ],
-      "svgBytes": 275548,
-      "pngBytes": 44122
+      "svgBytes": 275474,
+      "pngBytes": 44512
     },
     {
       "slug": "9-9-6",
@@ -96,8 +96,8 @@
         "striped clothes",
         "stripes"
       ],
-      "svgBytes": 173551,
-      "pngBytes": 46071
+      "svgBytes": 173527,
+      "pngBytes": 46089
     },
     {
       "slug": "back-to-the-future",
@@ -117,8 +117,8 @@
         "gigawatt",
         "puffer vest"
       ],
-      "svgBytes": 239304,
-      "pngBytes": 56917
+      "svgBytes": 239337,
+      "pngBytes": 56225
     },
     {
       "slug": "ball-hog",
@@ -133,7 +133,7 @@
         "ball",
         "game"
       ],
-      "svgBytes": 134472,
+      "svgBytes": 134479,
       "pngBytes": 45005
     },
     {
@@ -229,8 +229,8 @@
         "orange phone",
         "yellow tie"
       ],
-      "svgBytes": 163660,
-      "pngBytes": 46242
+      "svgBytes": 163687,
+      "pngBytes": 46210
     },
     {
       "slug": "cake",
@@ -292,8 +292,8 @@
         "close to vest",
         "full house"
       ],
-      "svgBytes": 201850,
-      "pngBytes": 43974
+      "svgBytes": 201769,
+      "pngBytes": 43745
     },
     {
       "slug": "caribana",
@@ -329,8 +329,8 @@
         "caveman",
         "club"
       ],
-      "svgBytes": 116754,
-      "pngBytes": 44132
+      "svgBytes": 116755,
+      "pngBytes": 44152
     },
     {
       "slug": "cereal",
@@ -346,7 +346,7 @@
         "breakfast",
         "skeptical"
       ],
-      "svgBytes": 126064,
+      "svgBytes": 126059,
       "pngBytes": 37421
     },
     {
@@ -367,7 +367,7 @@
         "clipboard",
         "pointer"
       ],
-      "svgBytes": 259536,
+      "svgBytes": 259556,
       "pngBytes": 43991
     },
     {
@@ -491,8 +491,8 @@
         "bag",
         "red shirt"
       ],
-      "svgBytes": 310463,
-      "pngBytes": 49456
+      "svgBytes": 310473,
+      "pngBytes": 49257
     },
     {
       "slug": "construction-1",
@@ -563,7 +563,7 @@
         "drool",
         "blue shirt"
       ],
-      "svgBytes": 109329,
+      "svgBytes": 109345,
       "pngBytes": 37057
     },
     {
@@ -581,7 +581,7 @@
         "holding",
         "smiling"
       ],
-      "svgBytes": 107445,
+      "svgBytes": 107447,
       "pngBytes": 38172
     },
     {
@@ -603,8 +603,8 @@
         "P",
         "speedo"
       ],
-      "svgBytes": 67289,
-      "pngBytes": 47951
+      "svgBytes": 67291,
+      "pngBytes": 47955
     },
     {
       "slug": "dadd-ai-r",
@@ -646,8 +646,8 @@
         "stripes",
         "striped clothes"
       ],
-      "svgBytes": 157526,
-      "pngBytes": 43125
+      "svgBytes": 157537,
+      "pngBytes": 43131
     },
     {
       "slug": "director",
@@ -668,8 +668,8 @@
         "sunglasses",
         "director chair"
       ],
-      "svgBytes": 140593,
-      "pngBytes": 41936
+      "svgBytes": 140528,
+      "pngBytes": 41834
     },
     {
       "slug": "dj",
@@ -761,8 +761,8 @@
         "open",
         "naked"
       ],
-      "svgBytes": 143648,
-      "pngBytes": 40419
+      "svgBytes": 143664,
+      "pngBytes": 40425
     },
     {
       "slug": "dr-manhattan",
@@ -797,7 +797,7 @@
         "bad",
         "orange coat"
       ],
-      "svgBytes": 184650,
+      "svgBytes": 184623,
       "pngBytes": 43948
     },
     {
@@ -814,8 +814,8 @@
         "good",
         "orange coat"
       ],
-      "svgBytes": 134793,
-      "pngBytes": 43217
+      "svgBytes": 134827,
+      "pngBytes": 43026
     },
     {
       "slug": "driving-hogzilla",
@@ -872,8 +872,8 @@
         "chalk board",
         "duplicates"
       ],
-      "svgBytes": 162159,
-      "pngBytes": 28722
+      "svgBytes": 162190,
+      "pngBytes": 28645
     },
     {
       "slug": "einstein-group",
@@ -888,8 +888,8 @@
         "chalk board",
         "duplicates"
       ],
-      "svgBytes": 656605,
-      "pngBytes": 46157
+      "svgBytes": 656604,
+      "pngBytes": 46158
     },
     {
       "slug": "evel",
@@ -906,8 +906,8 @@
         "stunt",
         "jump"
       ],
-      "svgBytes": 559527,
-      "pngBytes": 73137
+      "svgBytes": 559634,
+      "pngBytes": 73773
     },
     {
       "slug": "experiment",
@@ -927,7 +927,7 @@
         "pink",
         "naked"
       ],
-      "svgBytes": 155592,
+      "svgBytes": 155566,
       "pngBytes": 49453
     },
     {
@@ -944,8 +944,8 @@
         "flying",
         "final level"
       ],
-      "svgBytes": 133277,
-      "pngBytes": 30625
+      "svgBytes": 133294,
+      "pngBytes": 30627
     },
     {
       "slug": "float",
@@ -1005,8 +1005,8 @@
         "dig",
         "apron"
       ],
-      "svgBytes": 245445,
-      "pngBytes": 46994
+      "svgBytes": 245581,
+      "pngBytes": 46419
     },
     {
       "slug": "gladiator-1",
@@ -1092,8 +1092,8 @@
         "reading",
         "news"
       ],
-      "svgBytes": 134118,
-      "pngBytes": 22284
+      "svgBytes": 134073,
+      "pngBytes": 22287
     },
     {
       "slug": "haha-bizzniss",
@@ -1113,8 +1113,8 @@
         "business",
         "meme"
       ],
-      "svgBytes": 209895,
-      "pngBytes": 53357
+      "svgBytes": 209869,
+      "pngBytes": 54045
     },
     {
       "slug": "hand-clasp",
@@ -1130,8 +1130,28 @@
         "plaid shirt",
         "friends"
       ],
-      "svgBytes": 249457,
-      "pngBytes": 53469
+      "svgBytes": 249540,
+      "pngBytes": 53492
+    },
+    {
+      "slug": "heart",
+      "name": "Heart",
+      "namespace": "hoggies",
+      "figmaNodeId": "352:86640",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "naked",
+        "heart",
+        "smiling",
+        "happy",
+        "holding",
+        "red",
+        "eyes closed"
+      ],
+      "svgBytes": 52685,
+      "pngBytes": 31832
     },
     {
       "slug": "hipster-hog",
@@ -1168,8 +1188,8 @@
         "happy",
         "wave"
       ],
-      "svgBytes": 190884,
-      "pngBytes": 43068
+      "svgBytes": 190878,
+      "pngBytes": 44117
     },
     {
       "slug": "hoot",
@@ -1221,8 +1241,8 @@
         "jumping car",
         "red car"
       ],
-      "svgBytes": 197147,
-      "pngBytes": 40043
+      "svgBytes": 197021,
+      "pngBytes": 40424
     },
     {
       "slug": "ipad",
@@ -1237,8 +1257,8 @@
         "apple",
         "surprised"
       ],
-      "svgBytes": 214403,
-      "pngBytes": 47830
+      "svgBytes": 214340,
+      "pngBytes": 47785
     },
     {
       "slug": "jack-dawson",
@@ -1257,8 +1277,8 @@
         "white shirt",
         "easel"
       ],
-      "svgBytes": 174563,
-      "pngBytes": 49907
+      "svgBytes": 174570,
+      "pngBytes": 49863
     },
     {
       "slug": "judge",
@@ -1276,8 +1296,8 @@
         "legal",
         "gavel"
       ],
-      "svgBytes": 170140,
-      "pngBytes": 38399
+      "svgBytes": 170023,
+      "pngBytes": 38297
     },
     {
       "slug": "katy-perry",
@@ -1315,7 +1335,7 @@
         "blue hat",
         "green shirt"
       ],
-      "svgBytes": 297161,
+      "svgBytes": 297122,
       "pngBytes": 51286
     },
     {
@@ -1353,8 +1373,8 @@
         "green hat",
         "red shirt"
       ],
-      "svgBytes": 159070,
-      "pngBytes": 43971
+      "svgBytes": 159026,
+      "pngBytes": 45000
     },
     {
       "slug": "lemonade",
@@ -1373,8 +1393,8 @@
         "costume",
         "drink"
       ],
-      "svgBytes": 345715,
-      "pngBytes": 46348
+      "svgBytes": 345759,
+      "pngBytes": 46363
     },
     {
       "slug": "lifeguard",
@@ -1391,8 +1411,8 @@
         "binoculars",
         "life preserver"
       ],
-      "svgBytes": 189140,
-      "pngBytes": 43155
+      "svgBytes": 189124,
+      "pngBytes": 44392
     },
     {
       "slug": "magnifying-glass",
@@ -1407,8 +1427,8 @@
         "searching",
         "research"
       ],
-      "svgBytes": 130081,
-      "pngBytes": 47772
+      "svgBytes": 130078,
+      "pngBytes": 47756
     },
     {
       "slug": "magnifying-glass-2",
@@ -1463,8 +1483,8 @@
         "dollar",
         "currency"
       ],
-      "svgBytes": 217430,
-      "pngBytes": 33745
+      "svgBytes": 217418,
+      "pngBytes": 33744
     },
     {
       "slug": "mountie",
@@ -1502,7 +1522,7 @@
         "fail",
         "falling apart"
       ],
-      "svgBytes": 170710,
+      "svgBytes": 170756,
       "pngBytes": 29442
     },
     {
@@ -1541,8 +1561,8 @@
         "magnifying glass",
         "searching"
       ],
-      "svgBytes": 150039,
-      "pngBytes": 37601
+      "svgBytes": 150043,
+      "pngBytes": 37586
     },
     {
       "slug": "noir-hog-2",
@@ -1566,8 +1586,87 @@
         "shocked",
         "angry"
       ],
-      "svgBytes": 167992,
-      "pngBytes": 33609
+      "svgBytes": 168138,
+      "pngBytes": 34472
+    },
+    {
+      "slug": "noir-hog-3",
+      "name": "Noir Hog 3",
+      "namespace": "hoggies",
+      "figmaNodeId": "351:86631",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "detective",
+        "noir",
+        "old-timey",
+        "gray scale",
+        "black and white",
+        "mystery",
+        "crime",
+        "binoculars",
+        "searching",
+        "shrub",
+        "spy",
+        "stakeout"
+      ],
+      "svgBytes": 194303,
+      "pngBytes": 32705
+    },
+    {
+      "slug": "noir-hog-4",
+      "name": "Noir Hog 4",
+      "namespace": "hoggies",
+      "figmaNodeId": "351:86633",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "detective",
+        "noir",
+        "old-timey",
+        "gray scale",
+        "black and white",
+        "mystery",
+        "crime",
+        "projector",
+        "movie",
+        "camera",
+        "film",
+        "reel",
+        "suit"
+      ],
+      "svgBytes": 218766,
+      "pngBytes": 39315
+    },
+    {
+      "slug": "noir-hog-5",
+      "name": "Noir Hog 5",
+      "namespace": "hoggies",
+      "figmaNodeId": "351:86635",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "detective",
+        "noir",
+        "old-timey",
+        "gray scale",
+        "black and white",
+        "mystery",
+        "crime",
+        "desk",
+        "relax",
+        "surveillance",
+        "computer",
+        "pink",
+        "charts",
+        "tip back",
+        "suit"
+      ],
+      "svgBytes": 265876,
+      "pngBytes": 44664
     },
     {
       "slug": "office-worker",
@@ -1662,8 +1761,8 @@
         "birthday",
         "party hat"
       ],
-      "svgBytes": 160520,
-      "pngBytes": 36736
+      "svgBytes": 160519,
+      "pngBytes": 36854
     },
     {
       "slug": "pearl-necklace",
@@ -1679,7 +1778,7 @@
         "surprised",
         "naked"
       ],
-      "svgBytes": 150415,
+      "svgBytes": 150385,
       "pngBytes": 38658
     },
     {
@@ -1699,8 +1798,8 @@
         "blue phone",
         "white shirt"
       ],
-      "svgBytes": 152885,
-      "pngBytes": 48297
+      "svgBytes": 152970,
+      "pngBytes": 48299
     },
     {
       "slug": "pinata-hog",
@@ -1719,8 +1818,8 @@
         "pink",
         "pinata"
       ],
-      "svgBytes": 144834,
-      "pngBytes": 36058
+      "svgBytes": 144849,
+      "pngBytes": 35589
     },
     {
       "slug": "pope",
@@ -1737,8 +1836,8 @@
         "cardinal",
         "priest"
       ],
-      "svgBytes": 257859,
-      "pngBytes": 43934
+      "svgBytes": 257992,
+      "pngBytes": 43936
     },
     {
       "slug": "puzzle",
@@ -1777,8 +1876,26 @@
         "quick call",
         "red phone"
       ],
-      "svgBytes": 103484,
+      "svgBytes": 103487,
       "pngBytes": 41692
+    },
+    {
+      "slug": "reading",
+      "name": "Reading",
+      "namespace": "hoggies",
+      "figmaNodeId": "352:86637",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "reading",
+        "newspaper",
+        "news",
+        "t-shirt",
+        "blue"
+      ],
+      "svgBytes": 131654,
+      "pngBytes": 42418
     },
     {
       "slug": "reading-is-magic",
@@ -1797,8 +1914,8 @@
         "glowing",
         "stars"
       ],
-      "svgBytes": 168155,
-      "pngBytes": 59496
+      "svgBytes": 168163,
+      "pngBytes": 59251
     },
     {
       "slug": "remote-work",
@@ -1821,7 +1938,7 @@
         "floatie",
         "apple"
       ],
-      "svgBytes": 129021,
+      "svgBytes": 129016,
       "pngBytes": 35706
     },
     {
@@ -1842,8 +1959,28 @@
         "weather",
         "meteorologist"
       ],
-      "svgBytes": 141273,
-      "pngBytes": 39166
+      "svgBytes": 141224,
+      "pngBytes": 39233
+    },
+    {
+      "slug": "research",
+      "name": "Research",
+      "namespace": "hoggies",
+      "figmaNodeId": "352:86639",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "naked",
+        "research",
+        "search",
+        "magnifying glass",
+        "note",
+        "study",
+        "investigate"
+      ],
+      "svgBytes": 121673,
+      "pngBytes": 34484
     },
     {
       "slug": "robo-hog",
@@ -1861,8 +1998,8 @@
         "wires",
         "wheel"
       ],
-      "svgBytes": 137578,
-      "pngBytes": 37668
+      "svgBytes": 137615,
+      "pngBytes": 37675
     },
     {
       "slug": "rocket",
@@ -1880,7 +2017,7 @@
         "blast",
         "red"
       ],
-      "svgBytes": 109638,
+      "svgBytes": 109611,
       "pngBytes": 27215
     },
     {
@@ -1902,8 +2039,8 @@
         "naked",
         "arms up"
       ],
-      "svgBytes": 188513,
-      "pngBytes": 45813
+      "svgBytes": 188516,
+      "pngBytes": 45867
     },
     {
       "slug": "rose",
@@ -1925,7 +2062,7 @@
         "heart of the ocean"
       ],
       "svgBytes": 173012,
-      "pngBytes": 36288
+      "pngBytes": 36313
     },
     {
       "slug": "sailor-hog",
@@ -1959,8 +2096,8 @@
         "microscope",
         "researcher"
       ],
-      "svgBytes": 209545,
-      "pngBytes": 33451
+      "svgBytes": 209581,
+      "pngBytes": 33452
     },
     {
       "slug": "scorpion",
@@ -1977,8 +2114,8 @@
         "red shirt",
         "wrangler"
       ],
-      "svgBytes": 252923,
-      "pngBytes": 53022
+      "svgBytes": 252912,
+      "pngBytes": 52660
     },
     {
       "slug": "scott-pilgrim",
@@ -2075,8 +2212,8 @@
         "ladder",
         "sports"
       ],
-      "svgBytes": 181993,
-      "pngBytes": 48067
+      "svgBytes": 182011,
+      "pngBytes": 48070
     },
     {
       "slug": "speaker",
@@ -2095,8 +2232,8 @@
         "blue tie",
         "reporter"
       ],
-      "svgBytes": 159647,
-      "pngBytes": 38066
+      "svgBytes": 159632,
+      "pngBytes": 38797
     },
     {
       "slug": "speaker-hog",
@@ -2149,8 +2286,8 @@
         "mad",
         "naked"
       ],
-      "svgBytes": 140110,
-      "pngBytes": 46037
+      "svgBytes": 140108,
+      "pngBytes": 46222
     },
     {
       "slug": "steve-jobs",
@@ -2171,8 +2308,8 @@
         "meme",
         "apple"
       ],
-      "svgBytes": 108804,
-      "pngBytes": 36255
+      "svgBytes": 108885,
+      "pngBytes": 35416
     },
     {
       "slug": "stop",
@@ -2234,8 +2371,8 @@
         "barbados",
         "sunglasses"
       ],
-      "svgBytes": 219147,
-      "pngBytes": 63938
+      "svgBytes": 219008,
+      "pngBytes": 64643
     },
     {
       "slug": "survey",
@@ -2259,8 +2396,8 @@
         "maybe",
         "poll"
       ],
-      "svgBytes": 149734,
-      "pngBytes": 42130
+      "svgBytes": 149737,
+      "pngBytes": 41924
     },
     {
       "slug": "swimmer-1",
@@ -2282,8 +2419,8 @@
         "file",
         "underwater"
       ],
-      "svgBytes": 157177,
-      "pngBytes": 41545
+      "svgBytes": 157145,
+      "pngBytes": 41854
     },
     {
       "slug": "swimmer-2",
@@ -2307,8 +2444,8 @@
         "scuba",
         "underwater"
       ],
-      "svgBytes": 332362,
-      "pngBytes": 42093
+      "svgBytes": 332232,
+      "pngBytes": 42094
     },
     {
       "slug": "terminator",
@@ -2350,8 +2487,8 @@
         "enter the dragon",
         "fighter"
       ],
-      "svgBytes": 211971,
-      "pngBytes": 40230
+      "svgBytes": 212018,
+      "pngBytes": 40325
     },
     {
       "slug": "town-crier",
@@ -2394,8 +2531,8 @@
         "safety vest",
         "hi vis"
       ],
-      "svgBytes": 138040,
-      "pngBytes": 46327
+      "svgBytes": 138022,
+      "pngBytes": 45985
     },
     {
       "slug": "traffic-police",
@@ -2412,8 +2549,8 @@
         "utility belt",
         "blank"
       ],
-      "svgBytes": 188433,
-      "pngBytes": 48723
+      "svgBytes": 188452,
+      "pngBytes": 48305
     },
     {
       "slug": "transformer",
@@ -2436,8 +2573,8 @@
         "red",
         "super hero"
       ],
-      "svgBytes": 257339,
-      "pngBytes": 53885
+      "svgBytes": 257276,
+      "pngBytes": 53917
     },
     {
       "slug": "trenchcoat",
@@ -2499,8 +2636,8 @@
         "black clothes",
         "tie"
       ],
-      "svgBytes": 147078,
-      "pngBytes": 35897
+      "svgBytes": 147145,
+      "pngBytes": 35906
     },
     {
       "slug": "wizard-1",
@@ -2588,8 +2725,8 @@
         "magic",
         "bust"
       ],
-      "svgBytes": 158973,
-      "pngBytes": 41859
+      "svgBytes": 158967,
+      "pngBytes": 41477
     },
     {
       "slug": "wizard-blank",
@@ -2632,7 +2769,7 @@
         "wand"
       ],
       "svgBytes": 176067,
-      "pngBytes": 34684
+      "pngBytes": 34651
     },
     {
       "slug": "wizard-hog-2",
@@ -2693,8 +2830,8 @@
         "gown",
         "skeleton"
       ],
-      "svgBytes": 245316,
-      "pngBytes": 57163
+      "svgBytes": 245325,
+      "pngBytes": 57165
     }
   ]
 }
