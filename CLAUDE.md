@@ -104,10 +104,20 @@ crests). The repo is a pnpm workspace (`pnpm-workspace.yaml`); `site/` is a sepa
 package (`@posthog/brand-site`) that depends on `@posthog/brand` via `workspace:*` and imports it
 through the real `exports` map (→ `dist/`), so it doubles as an integration test of the published
 surface. Because of that, the lib must be built first: `pnpm dev:site` / `pnpm build:site`
-(root scripts) run `pnpm build` then the site. The asset grids render **live components** resolved
-by slug (`getComponentName` + a namespace import of the barrel — `site/src/assets-hoggies.ts`,
-`assets-crests.ts`), and the heavy catalog routes are `React.lazy` code-split so the initial bundle
-stays small. The site is themed from the package's own `colorsCss` tokens. It is NOT published to
+(root scripts) run `pnpm build` then the site. The asset grids render the package's **bundled
+PNG thumbnails** resolved by slug (`getComponentName` → the `…Png` URL export in a namespace
+import of the png barrel — `site/src/assets-hoggies.ts`, `assets-crests.ts`), each `<img>`
+fixed-height + `loading="lazy"` so only on-screen tiles fetch their (separately emitted) PNG
+file. Rendering inline SVG instead would inline every asset's full-detail SVG body into one
+route chunk — hoggies alone was ~27 MiB, over Cloudflare Pages' 25 MiB per-file cap; PNGs keep
+the JS tiny and never bundle the payload. (Vite still inlines the sub-4 KB mini-crest PNGs as
+data URIs into the crests route chunk rather than emitting files.) Each tile does a blur-up:
+the `brandLqip()` Vite plugin (`site/lqip-plugin.ts`, dev-dep `sharp`) reads those same `dist/`
+PNGs at build time, downscales each to a ~20px blurred WebP, and serves them as
+`virtual:brand-lqip/<group>` maps (keyed by the same PNG export name) inlined as data URIs —
+so a tiny placeholder paints instantly behind each `<img>` and fades out on load. The heavy
+catalog routes are also `React.lazy` code-split so the initial bundle stays small. The site is
+themed from the package's own `colorsCss` tokens. It is NOT published to
 npm; it deploys to Cloudflare Pages via the dashboard's Git integration (root dir = repo root,
 build = `pnpm build:site`, output = `site/dist`). Node is pinned via `.nvmrc` (≥22.18):
 the build runs the `.ts` scripts in `scripts/` directly through Node's native TS

@@ -1,25 +1,25 @@
-import type { SvgAssetComponent } from "@posthog/brand"
-import { createElement, useRef, useState, type ComponentType } from "react"
+import { useRef, useState } from "react"
 import { Link } from "react-router-dom"
 
 interface AssetTileProps {
-  /** The live component to render. */
-  Comp: SvgAssetComponent
-  /** Friendly display name. */
+  /** Bundled PNG URL to show as the thumbnail. When absent, a placeholder glyph is shown. */
+  src?: string
+  /** Tiny blurred data-URI shown behind the image until it finishes loading (blur-up). */
+  placeholder?: string
+  /** Friendly display name (also the image's alt text). */
   name: string
-  /** Asset slug, shown in mono under the name. */
+  /** Asset slug (or usage snippet), shown in mono under the name. */
   slug: string
   /** Text copied to the clipboard when the tile is clicked (e.g. an import line). */
   copyValue: string
   /** When set, renders a corner link to this route (e.g. an isolated detail page). */
   to?: string
-  /** For a compound variant component, which variant to render (e.g. a numbered hog). */
-  variant?: string
 }
 
-/** A clickable grid tile that renders a live asset and copies `copyValue` on click. */
-export function AssetTile({ Comp, name, slug, copyValue, to, variant }: AssetTileProps) {
+/** A clickable grid tile that shows an asset's PNG thumbnail and copies `copyValue` on click. */
+export function AssetTile({ src, placeholder, name, slug, copyValue, to }: AssetTileProps) {
   const [copied, setCopied] = useState(false)
+  const [loaded, setLoaded] = useState(false)
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   function onClick() {
@@ -40,11 +40,29 @@ export function AssetTile({ Comp, name, slug, copyValue, to, variant }: AssetTil
         style={{ width: "100%" }}
       >
         <span className="asset-art">
-          {createElement(Comp as ComponentType<Record<string, unknown>>, {
-            size: 88,
-            title: name,
-            ...(variant ? { variant } : {}),
-          })}
+          {/* Blurred stand-in paints instantly and is revealed until the real image loads. */}
+          {src && placeholder && !loaded ? (
+            <span
+              className="asset-blur"
+              aria-hidden="true"
+              style={{ backgroundImage: `url(${placeholder})` }}
+            />
+          ) : null}
+          {src ? (
+            // Lazy + async so only tiles scrolled into view fetch their (separate) PNG file.
+            <img
+              className={`asset-img${loaded ? " loaded" : ""}`}
+              src={src}
+              alt={name}
+              loading="lazy"
+              decoding="async"
+              onLoad={() => setLoaded(true)}
+            />
+          ) : (
+            <span className="asset-missing" aria-hidden="true">
+              —
+            </span>
+          )}
         </span>
         <span className="asset-name">{name}</span>
         <span className="asset-slug">{copied ? "Copied!" : slug}</span>

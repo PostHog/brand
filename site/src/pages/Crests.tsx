@@ -1,7 +1,7 @@
 import { findAssets, getComponentName } from "@posthog/brand"
 import { useMemo, useState } from "react"
 import { useSearchParams } from "react-router-dom"
-import { crestComponent } from "../assets-crests.ts"
+import { crestPng } from "../assets-crests.ts"
 import { AssetTile } from "../components/AssetTile.tsx"
 import { EmptyState } from "../components/EmptyState.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
@@ -76,16 +76,16 @@ export function CrestsPage() {
       ) : (
         <div className="grid grid-assets">
           {results.map((asset) => {
-            const compound = crestComponent(asset.slug)
-            if (!compound) return null
-            const showMini = tier === "mini" && compound.Mini
-            const Comp = showMini ? compound.Mini! : compound
+            // A crest may have no mini; in the mini tab such crests fall back to the full art.
+            const miniImg = crestPng(asset.slug, "mini")
+            const showMini = tier === "mini" && !!miniImg.src
+            const img = showMini ? miniImg : crestPng(asset.slug, "full")
             const baseName = getComponentName("crests", asset.slug, "full")
             const usage = showMini ? `${baseName}.Mini` : baseName
             return (
               <AssetTile
                 key={asset.slug}
-                Comp={Comp}
+                {...img}
                 name={asset.name}
                 slug={usage}
                 copyValue={`import { ${baseName} } from "@posthog/brand/crests"`}
