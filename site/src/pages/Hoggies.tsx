@@ -1,6 +1,6 @@
 import { findAssets, getComponentName } from "@posthog/brand"
 import { useMemo, useState } from "react"
-import { hoggieComponent } from "../assets-hoggies.ts"
+import { hoggiePng } from "../assets-hoggies.ts"
 import { AssetTile } from "../components/AssetTile.tsx"
 import { EmptyState } from "../components/EmptyState.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
@@ -41,8 +41,6 @@ export function HoggiesPage() {
       ) : (
         <div className="grid grid-assets">
           {results.map((asset) => {
-            const Comp = hoggieComponent(asset.slug)
-            if (!Comp) return null
             const componentName = getComponentName("hoggies", asset.slug)
 
             // A variant family shares one slug across members, distinguished by `variant`.
@@ -54,8 +52,7 @@ export function HoggiesPage() {
             return (
               <AssetTile
                 key={variant ? `${asset.slug}/${variant}` : asset.slug}
-                Comp={Comp}
-                variant={variant}
+                {...hoggiePng(asset.slug, variant)}
                 name={variant ? `${asset.name} ${variant}` : asset.name}
                 slug={asset.slug}
                 copyValue={usage}

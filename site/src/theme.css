@@ -189,6 +189,7 @@ h3 {
   text-align: center;
 }
 .asset-art {
+  position: relative;
   height: 96px;
   display: flex;
   align-items: center;
@@ -198,6 +199,32 @@ h3 {
   max-height: 96px;
   max-width: 100%;
   width: auto;
+}
+/* PNG thumbnails: fixed height, natural width, so tiles line up on a consistent row. */
+.asset-img {
+  height: 96px;
+  max-width: 100%;
+  width: auto;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.asset-img.loaded {
+  opacity: 1;
+}
+/* Blur-up placeholder: the tiny inlined data-URI, upscaled + blurred behind the image. */
+.asset-blur {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  filter: blur(8px);
+  transform: scale(1.05);
+}
+.asset-missing {
+  color: var(--text-muted);
+  font-size: 24px;
 }
 .asset-name {
   font-weight: 600;
