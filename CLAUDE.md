@@ -73,7 +73,7 @@ Figma brand book  --sync.ts-->  assets/<namespace>/  --codegen.ts-->  src/genera
   so inlined assets never collide.
 - **Renames** (`scripts/lib/renames.ts`): a global `RENAMES` map (`namespace` → original
   `slug` → `{ slug?, name? }`) gives poorly-named assets a better slug and/or display name —
-  e.g. `dadd-ai-l`/`dadd-ai-r` → `dadd-ai-left`/`dadd-ai-right`. Applied by `codegen` (read
+  e.g. `9-9-6` → `996`. Applied by `codegen` (read
   inputs by the Figma slug, emit every module/identifier/export/`AssetMeta` by the renamed
   one); the committed `assets/` mirror keeps the raw Figma slug, so `sync` never reconciles
   hand-edits. Offline (`pnpm codegen`); changes the public API, so commit a changeset with it.

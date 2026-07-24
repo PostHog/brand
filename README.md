@@ -183,8 +183,8 @@ email or a non-React app) or a bundled PNG URL (for an `<img>` tag). Every asset
 **both**, so you can grab whichever fits:
 
 ```ts
-import doctorHogSvg from "@posthog/brand/hoggies/svg/doctor-hog" // an SVG string
-import doctorHogPng from "@posthog/brand/hoggies/png/doctor-hog" // a bundled PNG URL
+import hedgehogChartSvg from "@posthog/brand/hoggies/svg/chart" // an SVG string
+import hedgehogChartPng from "@posthog/brand/hoggies/png/chart" // a bundled PNG URL
 ```
 
 <details>
@@ -194,29 +194,29 @@ Each illustration group exposes the same shapes. Replace `<g>` with one of `hogg
 `crests/full`, or `crests/mini` (the combined `crests` barrel and the `logo` are
 React-only — use the tier subpaths for raw crest SVG/PNG):
 
-| Subpath                         | Returns                                              |
-| ------------------------------- | ---------------------------------------------------- |
-| `@posthog/brand/<g>`            | React components                                     |
-| `@posthog/brand/<g>/svg`        | barrel of named SVG strings (`hedgehogDoctorHogSvg`) |
-| `@posthog/brand/<g>/svg/<slug>` | a single SVG string as the default export            |
-| `@posthog/brand/<g>/png`        | barrel of named PNG URLs (`hedgehogDoctorHogPng`)    |
-| `@posthog/brand/<g>/png/<slug>` | a single PNG URL as the default export               |
-| `@posthog/brand/<g>/metadata`   | the group's `AssetMeta[]` manifest (React-free)      |
+| Subpath                         | Returns                                           |
+| ------------------------------- | ------------------------------------------------- |
+| `@posthog/brand/<g>`            | React components                                  |
+| `@posthog/brand/<g>/svg`        | barrel of named SVG strings (`hedgehogDoctorSvg`) |
+| `@posthog/brand/<g>/svg/<slug>` | a single SVG string as the default export         |
+| `@posthog/brand/<g>/png`        | barrel of named PNG URLs (`hedgehogDoctorPng`)    |
+| `@posthog/brand/<g>/png/<slug>` | a single PNG URL as the default export            |
+| `@posthog/brand/<g>/metadata`   | the group's `AssetMeta[]` manifest (React-free)   |
 
 ```ts
 // Default import of the deep path — one asset, one module:
-import doctorHogSvg from "@posthog/brand/hoggies/svg/doctor-hog"
+import hedgehogChartSvg from "@posthog/brand/hoggies/svg/chart"
 import arrayCrestPng from "@posthog/brand/crests/full/png/array"
 
 // Or the named barrel export, if you'd rather pull several from one import:
-import { hedgehogDoctorHogSvg, hedgehogCakeHogSvg } from "@posthog/brand/hoggies/svg"
+import { hedgehogChartSvg, hedgehogCroissantSvg } from "@posthog/brand/hoggies/svg"
 
 // Lazy-load by slug without bundling the whole namespace:
 const svg = (await import("@posthog/brand/hoggies/svg/" + slug)).default
 ```
 
 The named export is `lowerFirst(ComponentName) + "Svg"` / `+ "Png"` (e.g.
-`hedgehogDoctorHogSvg`, `arrayCrestPng`). Crest minis keep a trailing `Mini`:
+`hedgehogChartSvg`, `arrayCrestPng`). Crest minis keep a trailing `Mini`:
 `arrayCrestMiniSvg`, `arrayCrestMiniPng`.
 
 Both formats are optimized before they're committed — SVGs minified with
@@ -235,10 +235,10 @@ cross-namespace manifest, and helpers for building a picker or looking an asset 
 import { allAssets, findAssets, getAsset, getComponentName } from "@posthog/brand"
 
 findAssets({ namespace: "crests", tier: "mini", text: "array" })
-findAssets({ namespace: "hoggies", text: "doctor" })
-getAsset("hoggies", "doctor-hog") // full AssetMeta
+findAssets({ namespace: "hoggies", text: "director" })
+getAsset("hoggies", "director") // full AssetMeta
 getAsset("crests", "array", "mini") // disambiguate the shared crest slug by tier
-getComponentName("hoggies", "doctor-hog") // "HedgehogDoctorHog"
+getComponentName("hoggies", "director") // "HedgehogDirector"
 getComponentName("crests", "array", "mini") // "ArrayCrestMini"
 ```
 

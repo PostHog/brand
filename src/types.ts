@@ -25,10 +25,10 @@ export const CREST_TIERS: readonly CrestTier[] = ["full", "mini"]
 export interface AssetMeta {
   /**
    * Unique within its namespace — or, for crests, within its (namespace, tier).
-   * E.g. "doctor-hog", "landscape-color-gradient", "array".
+   * E.g. "doc-brown", "landscape-color-gradient", "array".
    */
   slug: string
-  /** Friendly display name derived from the Figma node, e.g. "Doctor Hog". */
+  /** Friendly display name derived from the Figma node, e.g. "Doc Brown". */
   name: string
   /** Which family this asset belongs to. */
   namespace: Namespace

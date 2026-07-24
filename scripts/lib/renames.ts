@@ -1,5 +1,5 @@
 // Manual slug/name overrides for assets whose Figma-derived identifiers read poorly
-// (e.g. "dadd-ai-l" / "dadd-ai-r" instead of "…-left" / "…-right").
+// (e.g. "9-9-6" instead of "996").
 //
 // Renames are applied by codegen (`scripts/codegen.ts`) as it turns the raw Figma mirror
 // in `assets/` into the published modules in `src/generated/`. They are a presentation
@@ -28,8 +28,6 @@ export interface RenameRule {
 /** `namespace -> original slug -> override`. */
 export const RENAMES: Partial<Record<Namespace, Record<string, RenameRule>>> = {
   hoggies: {
-    "dadd-ai-l": { slug: "dadd-ai-left", name: "Dadd AI Left" },
-    "dadd-ai-r": { slug: "dadd-ai-right", name: "Dadd AI Right" },
     "9-9-6": { slug: "996", name: "996" },
   },
 }

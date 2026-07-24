@@ -18,7 +18,7 @@ export const NAMESPACE_PREFIX: Record<Namespace, string> = {
 
 /**
  * Turns a free-form Figma name into a URL/file-safe slug.
- * "Doctor Hog" -> "doctor-hog", "piñata hog" -> "pinata-hog",
+ * "Doc Brown" -> "doc-brown", "Doll House" -> "doll-house",
  * "i'm the driver" -> "im-the-driver", "Color (gradient)" -> "color-gradient".
  */
 export function slugify(name: string): string {
@@ -41,7 +41,7 @@ export function slugify(name: string): string {
  */
 export const ACRONYMS: ReadonlySet<string> = new Set(["ai", "na", "eu"])
 
-/** "doctor-hog" -> "DoctorHog", "9-9-6" -> "996", "ai-gateway" -> "AIGateway". */
+/** "doc-brown" -> "DocBrown", "9-9-6" -> "996", "ai-gateway" -> "AIGateway". */
 export function slugToPascal(slug: string): string {
   return slug
     .split(/[^a-zA-Z0-9]+/)
@@ -60,7 +60,7 @@ function lowerFirst(s: string): string {
 }
 
 /**
- * ("hoggies", "doctor-hog") -> "HedgehogDoctorHog". Crests put "Crest" last, with minis
+ * ("hoggies", "doc-brown") -> "HedgehogDocBrown". Crests put "Crest" last, with minis
  * keeping a trailing "Mini" so
  * the full and mini variants of one crest (same slug) don't collide: ("crests", "array",
  * "full") -> "ArrayCrest", ("crests", "array", "mini") -> "ArrayCrestMini".
@@ -72,12 +72,12 @@ export function componentName(namespace: Namespace, slug: string, tier?: CrestTi
   return `${NAMESPACE_PREFIX[namespace]}${pascal}${tierSuffix}`
 }
 
-/** ("hoggies", "doctor-hog") -> "hedgehogDoctorHogSvg"; ("crests","array","mini") -> "arrayCrestMiniSvg". */
+/** ("hoggies", "doc-brown") -> "hedgehogDocBrownSvg"; ("crests","array","mini") -> "arrayCrestMiniSvg". */
 export function svgConstName(namespace: Namespace, slug: string, tier?: CrestTier): string {
   return `${lowerFirst(componentName(namespace, slug, tier))}Svg`
 }
 
-/** ("hoggies", "doctor-hog") -> "hedgehogDoctorHogPng"; ("crests","array","mini") -> "arrayCrestMiniPng". */
+/** ("hoggies", "doc-brown") -> "hedgehogDocBrownPng"; ("crests","array","mini") -> "arrayCrestMiniPng". */
 export function pngConstName(namespace: Namespace, slug: string, tier?: CrestTier): string {
   return `${lowerFirst(componentName(namespace, slug, tier))}Png`
 }

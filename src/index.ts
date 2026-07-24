@@ -4,13 +4,13 @@
 // It pulls in NO React and NO image payload. Import components and assets from a
 // namespace subpath, which tree-shakes down to only what you reference:
 //
-//   import { HedgehogDoctorHog } from "@posthog/brand/hoggies";
+//   import { HedgehogChart } from "@posthog/brand/hoggies";
 //   import { Logo } from "@posthog/brand/logo";                  // <Logo />, <Logo.Logomark />, …
 //   import { ArrayCrest } from "@posthog/brand/crests";          // <ArrayCrest /> + <ArrayCrest.Mini />
 //   import { ArrayCrest } from "@posthog/brand/crests/full";
 //   import { ArrayCrestMini } from "@posthog/brand/crests/mini";
-//   import doctorHogSvg from "@posthog/brand/hoggies/svg/doctor-hog";
-//   import doctorHogPng from "@posthog/brand/hoggies/png/doctor-hog";
+//   import hedgehogChartSvg from "@posthog/brand/hoggies/svg/chart";
+//   import hedgehogChartPng from "@posthog/brand/hoggies/png/chart";
 //   import { colors } from "@posthog/brand/colors";
 
 import { componentName } from "./naming.ts"
@@ -32,8 +32,8 @@ export { allAssets } from "./generated/manifest.ts"
 export { findAssets, getAsset, type FindAssetsFilter } from "./search.ts"
 
 /**
- * The generated React component name for an asset, e.g. ("hoggies","doctor-hog") →
- * "HedgehogDoctorHog". For crest minis pass `tier` for the trailing "Mini":
+ * The generated React component name for an asset, e.g. ("hoggies","chart") →
+ * "HedgehogChart". For crest minis pass `tier` for the trailing "Mini":
  * ("crests","array","mini") → "ArrayCrestMini".
  */
 export function getComponentName(namespace: Namespace, slug: string, tier?: CrestTier): string {

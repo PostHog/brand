@@ -25,7 +25,7 @@ export interface AssetImage {
 }
 
 /**
- * The bundled PNG for a hoggie, e.g. "doctor-hog" → `hedgehogDoctorHogPng`. Numbered
+ * The bundled PNG for a hoggie, e.g. "chart" → `hedgehogChartPng`. Numbered
  * variant families share a family slug; pass the `variant` to reach the member's own PNG
  * (e.g. "construction" + "1" → `hedgehogConstruction1Png`).
  */
