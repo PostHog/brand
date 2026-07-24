@@ -29,9 +29,7 @@ function committed<T>(relPath: string): T | null {
   }
 }
 
-// Human-readable display name for a catalog entry, e.g. "Doctor Hog", "Array Mini" —
-// reads far better in the changelog than the raw Figma slug ("doctor-hog", "dadd-ai-l").
-// Apply renames so the changelog reflects the published name ("Dadd AI Left"), not the
+// Apply renames so the changelog reflects the published name, not the
 // raw Figma label the catalog mirror keeps; minis keep their tier suffix.
 const label = (e: { namespace: Namespace; slug: string; name: string; tier?: string }) => {
   const renamed = applyRename(e.namespace, e.slug, e.name).name

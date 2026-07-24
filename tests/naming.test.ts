@@ -11,7 +11,7 @@ import {
 
 describe("slugify", () => {
   it.each([
-    ["Doctor Hog", "doctor-hog"],
+    ["Doc Brown", "doc-brown"],
     ["70's dance hog", "70s-dance-hog"],
     ["i'm the driver", "im-the-driver"],
     ["waiter, server", "waiter-server"],
@@ -25,7 +25,7 @@ describe("slugify", () => {
 
 describe("slug -> identifier", () => {
   it.each([
-    ["doctor-hog", "DoctorHog"],
+    ["doc-brown", "DocBrown"],
     ["70-s-dance-hog", "70SDanceHog"],
     ["996-coder-hog", "996CoderHog"],
     ["404", "404"],
@@ -34,7 +34,6 @@ describe("slug -> identifier", () => {
     ["ai-gateway", "AIGateway"],
     ["ai-research", "AIResearch"],
     ["posthog-ai", "PosthogAI"],
-    ["dadd-ai-left", "DaddAILeft"],
     ["waiter-server", "WaiterServer"],
   ])("slugToPascal(%s) === %s", (slug, expected) => {
     expect(slugToPascal(slug)).toBe(expected)
@@ -43,18 +42,17 @@ describe("slug -> identifier", () => {
   it("upper-cases acronym segments in component + const names", () => {
     expect(componentName("crests", "ai-gateway", "full")).toBe("AIGatewayCrest")
     expect(componentName("crests", "ai-gateway", "mini")).toBe("AIGatewayCrestMini")
-    expect(componentName("hoggies", "dadd-ai-left")).toBe("HedgehogDaddAILeft")
   })
 
   it("prefixes component names per namespace", () => {
-    expect(componentName("hoggies", "doctor-hog")).toBe("HedgehogDoctorHog")
+    expect(componentName("hoggies", "reading-is-magic")).toBe("HedgehogReadingIsMagic")
     expect(componentName("crests", "array", "full")).toBe("ArrayCrest")
     expect(componentName("crests", "array", "mini")).toBe("ArrayCrestMini")
   })
 
   it("derives svg/png const names", () => {
-    expect(svgConstName("hoggies", "doctor-hog")).toBe("hedgehogDoctorHogSvg")
-    expect(pngConstName("hoggies", "doctor-hog")).toBe("hedgehogDoctorHogPng")
+    expect(svgConstName("hoggies", "reading-is-magic")).toBe("hedgehogReadingIsMagicSvg")
+    expect(pngConstName("hoggies", "reading-is-magic")).toBe("hedgehogReadingIsMagicPng")
     expect(svgConstName("crests", "array", "mini")).toBe("arrayCrestMiniSvg")
     expect(pngConstName("crests", "array", "mini")).toBe("arrayCrestMiniPng")
   })
@@ -83,7 +81,7 @@ describe("dedupeSlugs", () => {
 
 describe("collision detection", () => {
   it("passes for distinct names", () => {
-    expect(() => assertNoCollisions("hoggies", ["doctor-hog", "404", "pirate"])).not.toThrow()
+    expect(() => assertNoCollisions("hoggies", ["doc-brown", "404", "pirate"])).not.toThrow()
   })
 
   it("ignores duplicate slugs (same asset listed twice)", () => {

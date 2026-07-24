@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-17T16:25:57Z",
+  "generatedAt": "2026-07-24T23:41:56Z",
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2377225550919080514",
+  "figmaVersion": "2379927742490745285",
   "namespace": "crests",
   "entries": [
     {
@@ -611,8 +611,8 @@
       "tier": "mini",
       "figmaNodeId": "24:2824",
       "aspectRatio": 1,
-      "svgBytes": 19299,
-      "pngBytes": 2821
+      "svgBytes": 19289,
+      "pngBytes": 2807
     },
     {
       "slug": "growth",
@@ -652,7 +652,7 @@
       "figmaNodeId": "23:2269",
       "aspectRatio": 1,
       "svgBytes": 6777,
-      "pngBytes": 1737
+      "pngBytes": 1739
     },
     {
       "slug": "ingestion",
@@ -721,8 +721,8 @@
       "tier": "full",
       "figmaNodeId": "35:2047",
       "aspectRatio": 1,
-      "svgBytes": 80633,
-      "pngBytes": 16192
+      "svgBytes": 80748,
+      "pngBytes": 16494
     },
     {
       "slug": "marketing",
@@ -971,8 +971,8 @@
       "tier": "full",
       "figmaNodeId": "23:10232",
       "aspectRatio": 1,
-      "svgBytes": 368623,
-      "pngBytes": 22002
+      "svgBytes": 368281,
+      "pngBytes": 21983
     },
     {
       "slug": "query-performance",
@@ -981,28 +981,8 @@
       "tier": "mini",
       "figmaNodeId": "23:10754",
       "aspectRatio": 1,
-      "svgBytes": 8539,
+      "svgBytes": 8549,
       "pngBytes": 1377
-    },
-    {
-      "slug": "query-performance-2",
-      "name": "Query Performance",
-      "namespace": "crests",
-      "tier": "full",
-      "figmaNodeId": "23:7449",
-      "aspectRatio": 1,
-      "svgBytes": 466167,
-      "pngBytes": 21142
-    },
-    {
-      "slug": "query-performance-2",
-      "name": "Query Performance Mini",
-      "namespace": "crests",
-      "tier": "mini",
-      "figmaNodeId": "23:8205",
-      "aspectRatio": 1,
-      "svgBytes": 4417,
-      "pngBytes": 1773
     },
     {
       "slug": "security",
@@ -1031,8 +1011,8 @@
       "tier": "full",
       "figmaNodeId": "23:19249",
       "aspectRatio": 1,
-      "svgBytes": 274969,
-      "pngBytes": 21493
+      "svgBytes": 274964,
+      "pngBytes": 21463
     },
     {
       "slug": "session-reply",
@@ -1041,8 +1021,8 @@
       "tier": "mini",
       "figmaNodeId": "23:19859",
       "aspectRatio": 1,
-      "svgBytes": 5913,
-      "pngBytes": 1939
+      "svgBytes": 5919,
+      "pngBytes": 1941
     },
     {
       "slug": "signals",
@@ -1081,8 +1061,8 @@
       "tier": "full",
       "figmaNodeId": "23:1571",
       "aspectRatio": 1,
-      "svgBytes": 88314,
-      "pngBytes": 14548
+      "svgBytes": 88303,
+      "pngBytes": 14705
     },
     {
       "slug": "surveys",
@@ -1092,7 +1072,7 @@
       "figmaNodeId": "23:1919",
       "aspectRatio": 1,
       "svgBytes": 3009,
-      "pngBytes": 2069
+      "pngBytes": 2070
     },
     {
       "slug": "talent",
@@ -1121,8 +1101,8 @@
       "tier": "full",
       "figmaNodeId": "24:2570",
       "aspectRatio": 1,
-      "svgBytes": 303276,
-      "pngBytes": 17199
+      "svgBytes": 303296,
+      "pngBytes": 17172
     },
     {
       "slug": "warehouse-sources",
@@ -1171,8 +1151,8 @@
       "tier": "full",
       "figmaNodeId": "23:18120",
       "aspectRatio": 1,
-      "svgBytes": 107239,
-      "pngBytes": 20138
+      "svgBytes": 107222,
+      "pngBytes": 20618
     },
     {
       "slug": "workflows",

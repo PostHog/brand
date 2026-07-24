@@ -375,7 +375,7 @@ function exampleSize(group: AssetGroup): number {
   return group.tier === "mini" ? 24 : 64
 }
 
-/** One-line identity for a single-asset component's TSDoc, e.g. "The **Doctor Hog** …". */
+/** One-line identity for a single-asset component's TSDoc, e.g. "The **Doc Brown** …". */
 function assetLead(group: AssetGroup, entry: GeneratedEntry): string {
   if (group.namespace === "hoggies") return `The **${entry.name}** hedgehog illustration`
   if (group.tier === "mini") return `The **${entry.name}** crest — the simplified mini badge`
