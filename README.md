@@ -114,10 +114,7 @@ then reference `font-family: "RoundHog"`:
 ```ts
 import { roundHogFontFaceCss } from "@posthog/brand/fonts/css"
 
-document.head.insertAdjacentHTML(
-  "beforeend",
-  `<style>${roundHogFontFaceCss}</style>`,
-)
+document.head.insertAdjacentHTML("beforeend", `<style>${roundHogFontFaceCss}</style>`)
 // now anywhere: font-family: "RoundHog", sans-serif
 ```
 
@@ -212,10 +209,7 @@ import hedgehogChartSvg from "@posthog/brand/hoggies/svg/chart"
 import arrayCrestPng from "@posthog/brand/crests/full/png/array"
 
 // Or the named barrel export, if you'd rather pull several from one import:
-import {
-  hedgehogChartSvg,
-  hedgehogCroissantSvg,
-} from "@posthog/brand/hoggies/svg"
+import { hedgehogChartSvg, hedgehogCroissantSvg } from "@posthog/brand/hoggies/svg"
 
 // Lazy-load by slug without bundling the whole namespace:
 const svg = (await import("@posthog/brand/hoggies/svg/" + slug)).default
@@ -238,12 +232,7 @@ The root `@posthog/brand` export is **React-free and image-free** — just types
 cross-namespace manifest, and helpers for building a picker or looking an asset up by slug:
 
 ```ts
-import {
-  allAssets,
-  findAssets,
-  getAsset,
-  getComponentName,
-} from "@posthog/brand"
+import { allAssets, findAssets, getAsset, getComponentName } from "@posthog/brand"
 
 findAssets({ namespace: "crests", tier: "mini", text: "array" })
 findAssets({ namespace: "hoggies", text: "director" })
