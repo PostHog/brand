@@ -11,7 +11,7 @@ import { fileURLToPath } from "node:url"
 import type { Catalog } from "./lib/catalog.ts"
 import { NAMESPACES, type CrestTier, type Namespace } from "../src/types.ts"
 import { applyRename } from "./lib/renames.ts"
-import { publishedComponentName } from "./lib/published.ts"
+import { publishedComponentNames } from "./lib/published.ts"
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..")
 
@@ -39,9 +39,10 @@ const label = (e: { namespace: Namespace; slug: string; name: string; tier?: str
 const sections: string[] = []
 let totalAdded = 0
 let totalRemoved = 0
-// Removals measured on *published export identity* (variant grouping + renames), not the
-// raw catalog slug: a Figma rename absorbed by renames.ts/variants.ts keeps the same
-// export and is not breaking, whereas an export that truly disappears forces a major.
+// Removals measured on *published export identity* (renames + inferred variant grouping),
+// not the raw catalog slug: a Figma rename absorbed by renames.ts, or by a slug joining an
+// existing variant family, keeps the same export and is not breaking, whereas an export
+// that truly disappears forces a major.
 let totalBreaking = 0
 
 for (const ns of NAMESPACES) {
@@ -72,10 +73,14 @@ for (const ns of NAMESPACES) {
 
   // A published export is "breaking" only if it existed before and no current entry
   // still maps to it (a rename that lands on the same export name is not a removal).
-  const pub = (e: { slug: string; name: string; tier?: string }) =>
-    publishedComponentName(ns, e.slug, e.name, e.tier as CrestTier | undefined)
-  const currentExports = new Set([...curr.values()].map(pub))
-  const breaking = [...prev.values()].map(pub).filter((name) => !currentExports.has(name))
+  const pub = (entries: Iterable<{ slug: string; name: string; tier?: string }>) =>
+    publishedComponentNames(
+      ns,
+      [...entries].map((e) => ({ ...e, tier: e.tier as CrestTier | undefined })),
+    )
+
+  const currentExports = new Set(pub(curr.values()))
+  const breaking = pub(prev.values()).filter((name) => !currentExports.has(name))
   totalBreaking += new Set(breaking).size
 
   if (added.length || removed.length || updated.length) {
