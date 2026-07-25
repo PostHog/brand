@@ -23,7 +23,7 @@ import { colors } from "../static/colors.ts"
 import { svgBody } from "./lib/svg.ts"
 import { assertNoCollisions, componentName, pngConstName, svgConstName } from "./lib/naming.ts"
 import { applyRename, titleFromSlug } from "./lib/renames.ts"
-import { resolveVariant, variantGroup } from "./lib/variants.ts"
+import { inferVariants } from "./lib/variants.ts"
 import { ASSET_GROUPS, type AssetGroup, type CrestTier, type Namespace } from "../src/types.ts"
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..")
@@ -36,7 +36,7 @@ const VIEWBOX_RE = /viewBox\s*=\s*["']([^"']+)["']/i
 /**
  * A catalog entry with the offline presentation layers applied. `slug`/`name` are the
  * *published* values that back the component + `AssetMeta` (for a variant family this is
- * the shared base, e.g. "noir-hog"). `moduleKey` is the unique per-file/per-const key
+ * the shared base, e.g. "noir"). `moduleKey` is the unique per-file/per-const key
  * driving module filenames, the svg/png export identifiers, and the deep-import subpaths
  * (the published slug for a normal asset, `<base>-<variant>` for a family member).
  * `sourceSlug` is the on-disk (Figma) slug used to read the SVG input and reference the
@@ -58,7 +58,7 @@ function assertUniqueModuleKeys(group: AssetGroup, entries: GeneratedEntry[]): v
     if (prev !== undefined && prev !== e.sourceSlug) {
       throw new Error(
         `Collision in "${group.path}": "${prev}" and "${e.sourceSlug}" both produce module key ` +
-          `"${e.moduleKey}". Fix scripts/lib/renames.ts or scripts/lib/variants.ts.`,
+          `"${e.moduleKey}". Fix scripts/lib/renames.ts.`,
       )
     }
     seen.set(e.moduleKey, e.sourceSlug)
@@ -111,27 +111,37 @@ async function readGroupEntries(group: AssetGroup): Promise<CatalogEntry[]> {
 }
 
 /**
- * A group's catalog entries with the presentation layers applied. A slug in a variant
- * group (scripts/lib/variants.ts) collapses onto its base slug with a `variantKey`;
- * otherwise renames (scripts/lib/renames.ts) apply. Emitted keyed by the published
- * slug/moduleKey; inputs are still read by the on-disk `sourceSlug`.
+ * A group's catalog entries with the presentation layers applied, in order: renames
+ * (scripts/lib/renames.ts) rewrite the slug, then a renamed slug that reads as a numbered
+ * family member (scripts/lib/variants.ts) collapses onto its base slug with a
+ * `variantKey`. Emitted keyed by the published slug/moduleKey; inputs are still read by
+ * the on-disk `sourceSlug`.
  */
 async function generatedEntries(group: AssetGroup): Promise<GeneratedEntry[]> {
   const catalog = await readGroupEntries(group)
-  return catalog.map((entry) => {
-    const variant = resolveVariant(group.namespace, entry.slug)
+  const renamed = catalog.map((entry) => ({
+    entry,
+    ...applyRename(group.namespace, entry.slug, entry.name),
+  }))
+
+  // Variant grouping is inferred from the group's whole slug set, so it must be built
+  // from the renamed slugs before any single entry can be resolved.
+  const variants = inferVariants(renamed.map((r) => r.slug))
+
+  return renamed.map(({ entry, slug, name }) => {
+    const variant = variants.resolve(slug)
     if (variant) {
       return {
         ...entry,
         slug: variant.baseSlug,
         name: titleFromSlug(variant.baseSlug),
         sourceSlug: entry.slug,
-        moduleKey: `${variant.baseSlug}-${variant.variant}`,
+        moduleKey: slug,
         variantKey: variant.variant,
         isDefaultVariant: variant.isDefault,
       }
     }
-    const { slug, name } = applyRename(group.namespace, entry.slug, entry.name)
+
     return { ...entry, slug, name, sourceSlug: entry.slug, moduleKey: slug }
   })
 }
@@ -419,7 +429,11 @@ async function writeComponent(group: AssetGroup, entry: GeneratedEntry): Promise
   )
 }
 
-/** Group a group's entries by base slug, keeping only the variant families (in order). */
+/**
+ * Group a group's entries by base slug, keeping only the variant families. Members are
+ * sorted numerically by variant key, so `variant` unions and the default read `1, 2, …`
+ * regardless of the catalog's (alphabetical) order — `10` after `9`, not after `1`.
+ */
 function groupVariants(entries: GeneratedEntry[]): Map<string, GeneratedEntry[]> {
   const groups = new Map<string, GeneratedEntry[]>()
   for (const e of entries) {
@@ -428,6 +442,11 @@ function groupVariants(entries: GeneratedEntry[]): Map<string, GeneratedEntry[]>
     list.push(e)
     groups.set(e.slug, list)
   }
+
+  for (const list of groups.values()) {
+    list.sort((a, b) => Number(a.variantKey) - Number(b.variantKey))
+  }
+
   return groups
 }
 
@@ -456,19 +475,15 @@ function variantComponentDoc(name: string, display: string, keys: string[]): str
 
 /**
  * Emit one compound `Hedgehog<Base>` for a variant family: it bundles each member's
- * inline SVG and switches on the `variant` prop, defaulting to the first (order[0]).
+ * inline SVG and switches on the `variant` prop, defaulting to the lowest-numbered one.
  * The individual members ship no standalone component (only their svg/png/meta modules).
+ * `variants` arrives pre-sorted by variant key (see `groupVariants`).
  */
 async function writeVariantComponent(
   group: AssetGroup,
   baseSlug: string,
-  variants: GeneratedEntry[],
+  ordered: GeneratedEntry[],
 ): Promise<void> {
-  const cfg = variantGroup(group.namespace, baseSlug)
-  const order = cfg?.order ?? variants.map((v) => v.variantKey!)
-  const byKey = new Map(variants.map((v) => [v.variantKey!, v]))
-  const ordered = order.map((k) => byKey.get(k)).filter((v): v is GeneratedEntry => v != null)
-
   const name = componentName(group.namespace, baseSlug, group.tier)
   const keys = ordered.map((v) => v.variantKey!)
   const union = keys.map((k) => JSON.stringify(k)).join(" | ")

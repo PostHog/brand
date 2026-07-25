@@ -77,6 +77,17 @@ Figma brand book  --sync.ts-->  assets/<namespace>/  --codegen.ts-->  src/genera
   inputs by the Figma slug, emit every module/identifier/export/`AssetMeta` by the renamed
   one); the committed `assets/` mirror keeps the raw Figma slug, so `sync` never reconciles
   hand-edits. Offline (`pnpm codegen`); changes the public API, so commit a changeset with it.
+- **Variant families** (`scripts/lib/variants.ts`): a numbered family (`noir-1` … `noir-5`)
+  ships as ONE compound component taking a `variant` prop — `<HedgehogNoir variant="5" />`,
+  keys are strings — instead of `HedgehogNoir1` … `HedgehogNoir5`. Grouping is **inferred**
+  (`inferVariants`), never hand-listed: any published slug ending in `-<digits>` is that
+  variant of the base slug before it, ordered numerically with the lowest as the default.
+  The one exception is when the bare base slug also exists — that's a `dedupeSlugs`
+  artifact, not a family, so it stays standalone. Inference runs on _published_ slugs, so
+  renames apply first (which is how `9-9-6` → `996` avoids reading as variant `6` of
+  `9-9`), and per export group, since slugs are unique per (namespace, tier). Members keep
+  their own svg/png/meta modules + `AssetMeta` (with `variant: { variant: "<key>" }`) under
+  `<base>-<key>`; only the standalone component is replaced.
 - `tsc` runs with `isolatedDeclarations` — every generated export needs an explicit type.
 - Exports are fully namespaced with no back-compat, one family per export group `<g>`
   (`<g>` is `hoggies`, `crests/full`, or `crests/mini`): `./<g>`, `./<g>/svg[/*]`,

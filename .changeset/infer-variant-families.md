@@ -1,10 +1,25 @@
 ---
-"@posthog/brand": major
+"@posthog/brand": minor
 ---
 
-Sync brand assets from Figma (27 added, 30 removed).
+Numbered hoggie families are now detected automatically, so every `-1`/`-2`/… set ships as one compound component with a `variant` prop instead of separate numbered exports.
 
-No real hoggie was removed, but we simply moved them to a better naming convention. They don't include "hog" in the names anymore, and most of the hogs now properly fall under the 1/2/3/4 variants rather than what we had before.
+Previously the families were a hand-maintained list, which the last Figma rename left stale — so `Doctor 1`/`Doctor 2`, `Noir 1`–`Noir 5` and friends were published as `HedgehogDoctor1`, `HedgehogDoctor2`, `HedgehogNoir1`… Grouping is now inferred from the slugs themselves and can't fall out of date.
+
+```tsx
+import { HedgehogDoctor } from "@posthog/brand/hoggies"
+
+<HedgehogDoctor size={120} /> // defaults to variant "1"
+<HedgehogDoctor variant="2" size={120} />
+```
+
+Newly grouped: **Dadd AI**, **Doctor**, **Gardener**, **Magnifying Glass**, **Noir** (1–5), **Speaker**, and **Wizard 5** (joining the existing `HedgehogWizard`, now 1–5). `HedgehogConstruction`, `HedgehogGladiator`, `HedgehogLemonWrangler`, `HedgehogMrPotatoHead` and `HedgehogSwimmer` are unchanged.
+
+Each member keeps its own `…Svg` / `…Png` / metadata exports under the `<base>-<n>` slug (`hedgehogDoctor1Png`, `@posthog/brand/hoggies/svg/doctor-2`) — only the standalone React components are replaced by the compound one.
+
+---
+
+Below you can find the actual changes, even though they're not really 100% true given the changes above.
 
 **hoggies**
 

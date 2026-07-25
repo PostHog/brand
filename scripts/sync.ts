@@ -24,7 +24,7 @@ import { parseTags } from "./lib/tags.ts"
 import { optimizeSvg } from "./lib/svg.ts"
 import { optimizePng } from "./lib/png.ts"
 import { FIGMA_FILE_KEY, ILLUSTRATION_PAGES, type IllustrationPage } from "./lib/figma-pages.ts"
-import { publishedComponentName } from "./lib/published.ts"
+import { publishedComponentNames } from "./lib/published.ts"
 import type { Catalog, CatalogEntry, SyncState, SyncStateEntry } from "./lib/catalog.ts"
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..")
@@ -299,9 +299,10 @@ async function main(): Promise<void> {
   // Breaking-change guard: a sync must never silently drop a published component export
   // (renaming a hog in Figma, or its illustration being deleted). Compare the committed
   // catalogs against what we just discovered, both mapped to their *published* export
-  // identity (variant grouping + renames), and fail loudly before touching anything if
-  // any would disappear. A rename compensated in renames.ts / variants.ts preserves the
-  // export and passes; a genuine, intended removal needs ALLOW_BREAKING_REMOVALS=1 (which
+  // identity (renames + inferred variant grouping), and fail loudly before touching
+  // anything if any would disappear. A rename compensated in renames.ts — or absorbed by
+  // variant inference, e.g. a new `foo-3` joining the `foo` family — preserves the export
+  // and passes; a genuine, intended removal needs ALLOW_BREAKING_REMOVALS=1 (which
   // also makes write-sync-changeset bump a major). Skipped in --check (a pure reporter
   // that already exits non-zero on any drift, removals included).
   if (!checkOnly && !process.env.ALLOW_BREAKING_REMOVALS) {
@@ -310,12 +311,13 @@ async function main(): Promise<void> {
       const container = nodes[page.containerId]
       if (!container) continue // the not-found throw in the main loop reports this
       const current = new Set(
-        discoverPage(page, container, components).map((d) =>
-          publishedComponentName(page.namespace, d.meta.slug, d.meta.name, d.meta.tier),
+        publishedComponentNames(
+          page.namespace,
+          discoverPage(page, container, components).map((d) => d.meta),
         ),
       )
-      for (const entry of (await readCatalog(page.namespace)).values()) {
-        const exp = publishedComponentName(page.namespace, entry.slug, entry.name, entry.tier)
+      const committed = [...(await readCatalog(page.namespace)).values()]
+      for (const exp of publishedComponentNames(page.namespace, committed)) {
         if (!current.has(exp)) breaking.push(`${page.namespace}: ${exp}`)
       }
     }
@@ -323,8 +325,8 @@ async function main(): Promise<void> {
       throw new Error(
         `Refusing to sync: ${breaking.length} published component export(s) would be removed — ` +
           `a breaking change:\n  ${[...new Set(breaking)].sort().join("\n  ")}\n\n` +
-          `If a hog was renamed, preserve its export with an entry in scripts/lib/renames.ts ` +
-          `or scripts/lib/variants.ts. If the removal is intentional, re-run with ` +
+          `If a hog was renamed, preserve its export with an entry in scripts/lib/renames.ts. ` +
+          `If the removal is intentional, re-run with ` +
           `ALLOW_BREAKING_REMOVALS=1 to publish a major version.`,
       )
     }
