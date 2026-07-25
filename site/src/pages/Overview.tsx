@@ -1,22 +1,23 @@
 import { findAssets } from "@posthog/brand"
 import { colors } from "@posthog/brand/colors"
+
 // Direct named imports tree-shake to just these few assets, so the landing page stays
 // light — the full-catalog barrels load lazily on the Hoggies / Crests routes.
-import { ArrayCrest } from "@posthog/brand/crests"
-import { HedgehogAngel, HedgehogBallHog, HedgehogDoctorHog } from "@posthog/brand/hoggies"
+import { GraphicsCrest } from "@posthog/brand/crests"
+import { HedgehogMoney, HedgehogQuickCall, HedgehogChart } from "@posthog/brand/hoggies"
 import { Logo } from "@posthog/brand/logo"
 import { Link } from "react-router-dom"
 import { CodeBlock } from "../components/CodeBlock.tsx"
 
 const QUICK_START = `import { Logo } from "@posthog/brand/logo"
-import { HedgehogDoctorHog } from "@posthog/brand/hoggies"
-import { ArrayCrest } from "@posthog/brand/crests"
+import { HedgehogChart } from "@posthog/brand/hoggies"
+import { GraphicsCrest } from "@posthog/brand/crests"
 import { colors } from "@posthog/brand/colors"
 
 <Logo size={160} title="PostHog" />
-<HedgehogDoctorHog size={96} />
-<ArrayCrest size={64} />        {/* full crest */}
-<ArrayCrest.Mini size={24} />  {/* mini badge */}
+<HedgehogChart size={96} />
+<GraphicsCrest size={64} />        {/* full crest */}
+<GraphicsCrest.Mini size={24} />  {/* mini badge */}
 colors.blue.core               // "#1490E8"`
 
 const hoggieCount = findAssets({ namespace: "hoggies" }).length
@@ -86,9 +87,9 @@ export function OverviewPage() {
 
           <Link to="/hoggies" className="card nav-card">
             <div className="nav-card-preview">
-              <HedgehogDoctorHog size={64} />
-              <HedgehogAngel size={64} />
-              <HedgehogBallHog size={64} />
+              <HedgehogMoney size={64} />
+              <HedgehogQuickCall size={64} />
+              <HedgehogChart size={64} />
             </div>
             <h3>Hoggies →</h3>
             <p>{hoggieCount} hedgehog illustrations as tree-shakeable React components.</p>
@@ -96,8 +97,8 @@ export function OverviewPage() {
 
           <Link to="/crests" className="card nav-card">
             <div className="nav-card-preview">
-              <ArrayCrest size={70} />
-              <ArrayCrest.Mini size={40} />
+              <GraphicsCrest size={70} />
+              <GraphicsCrest.Mini size={40} />
             </div>
             <h3>Crests →</h3>
             <p>{crestCount} team crests, each in a full and a mini badge tier.</p>
