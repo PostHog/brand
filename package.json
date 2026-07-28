@@ -1,6 +1,6 @@
 {
   "name": "@posthog/brand",
-  "version": "1.1.0",
+  "version": "0.8.0",
   "description": "PostHog's brand assets — hedgehog illustrations, logos, team crests, and brand colors as React components, raw SVGs, PNG URLs, and tokens. Bundled, offline, tree-shakeable.",
   "license": "SEE LICENSE IN LICENSE",
   "author": "PostHog <hey@posthog.com>",
@@ -160,23 +160,23 @@
     }
   },
   "devDependencies": {
-    "@arethetypeswrong/cli": "^0.18.3",
-    "@changesets/cli": "^2.31.0",
-    "@napi-rs/image": "^1.12.1",
-    "@types/node": "^25.9.3",
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@changesets/cli": "^2.31.1",
+    "@napi-rs/image": "^1.14.0",
+    "@types/node": "^25.9.5",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "jsdom": "^29.1.1",
     "oxfmt": "^0.55.0",
-    "oxlint": "^1.70.0",
-    "p-limit": "^7.3.0",
+    "oxlint": "^1.74.0",
+    "p-limit": "^7.3.1",
     "publint": "^0.3.21",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
-    "svgo": "^4.0.1",
-    "tsdown": "^0.22.2",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "svgo": "^4.0.2",
+    "tsdown": "^0.22.13",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.9"
+    "vitest": "^4.1.10"
   },
   "engines": {
     "node": ">=22.18"
