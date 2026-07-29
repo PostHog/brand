@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-27T22:53:44Z",
+  "generatedAt": "2026-07-29T03:04:06Z",
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2381033662203461227",
+  "figmaVersion": "2381467934373710216",
   "namespace": "hoggies",
   "entries": [
     {
@@ -581,8 +581,8 @@
         "holding",
         "smiling"
       ],
-      "svgBytes": 107377,
-      "pngBytes": 40108
+      "svgBytes": 107336,
+      "pngBytes": 50230
     },
     {
       "slug": "dadd-ai-1",
