@@ -273,8 +273,9 @@ async function writeCombinedCrests(): Promise<void> {
   for (const slug of slugs) {
     const hasFull = full.has(slug)
     const hasMini = mini.has(slug)
-    // The combined name is the un-tiered crest name, identical to the full tier's export
-    // (e.g. "ArrayCrest"); the mini is "<Name>CrestMini".
+    // The combined name is the un-tiered crest name,
+    // identical to the full tier's export (e.g. "MarketingCrest");
+    // the mini is "<Name>CrestMini" (e.g. "MarketingCrestMini").
     const name = componentName("crests", slug)
     const miniName = componentName("crests", slug, "mini")
     const clash = byName.get(name)

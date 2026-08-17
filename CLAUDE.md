@@ -54,14 +54,14 @@ Figma brand book  --sync.ts-->  assets/<namespace>/  --codegen.ts-->  src/genera
 - Component name carries the family word + PascalCase(slug): hoggies prefix it
   (`Hedgehog<Name>`); crests append it (`<Name>Crest`) so the name reads the
   same in every crest export. SVG string export = lowerFirst(component)+`Svg`, PNG URL
-  export = lowerFirst(component)+`Png` (e.g. `arrayCrestSvg`, `hedgehogDoctorHogPng`).
+  export = lowerFirst(component)+`Png` (e.g. `marketingCrestSvg`, `hedgehogDoctorHogPng`).
 - **Crest tiers**: crests come in two sizes — `full` and `mini` — keyed off the Figma
   `Property 1` variant (`figma-pages.ts` `tierVariantProp`) and lifted into `AssetMeta.tier`
   rather than the slug. Each tier is its own **export group** (`ASSET_GROUPS` in `types.ts`):
   a subpath (`crests/full`, `crests/mini`), a generated dir (`src/generated/crests/<tier>/`),
   and on-disk sources under `assets/crests/<tier>/{vectors,png}/`. Both tiers share one
   `assets/crests/catalog.json`, so a crest slug is unique only within a (namespace, tier).
-  Minis keep a trailing `Mini` in their identifiers (`ArrayCrestMini`, `arrayCrestMiniSvg`).
+  Minis keep a trailing `Mini` in their identifiers (`MarketingCrestMini`, `marketingCrestMiniSvg`).
   The combined `@posthog/brand/crests` barrel (`src/generated/crests/index.ts`, one
   `src/generated/crests/<slug>.tsx` per slug) re-exposes them as a **compound component**
   `<Name>Crest` — base is the full illustration, `.Mini` (when a mini exists) is the badge,

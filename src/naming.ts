@@ -4,7 +4,7 @@
 //   - digit-leading slugs (404, 9-9-6) still produce valid identifiers,
 //   - generated names never collide with consumer code,
 //   - the family word autocompletes a whole set.
-// Hoggies prefix it (`HedgehogDoctorHog`); crests put it last (`ArrayCrest`, `ArrayCrestMini`)
+// Hoggies prefix it (`HedgehogDoctorHog`); crests put it last (`MarketingCrest`, `MarketingCrestMini`)
 // so the one name reads the same in every export — the tier-specific `crests/{full,mini}`
 // barrels and the combined `crests` barrel.
 
@@ -62,8 +62,8 @@ function lowerFirst(s: string): string {
 /**
  * ("hoggies", "doc-brown") -> "HedgehogDocBrown". Crests put "Crest" last, with minis
  * keeping a trailing "Mini" so
- * the full and mini variants of one crest (same slug) don't collide: ("crests", "array",
- * "full") -> "ArrayCrest", ("crests", "array", "mini") -> "ArrayCrestMini".
+ * the full and mini variants of one crest (same slug) don't collide: ("crests", "marketing",
+ * "full") -> "MarketingCrest", ("crests", "marketing", "mini") -> "MarketingCrestMini".
  */
 export function componentName(namespace: Namespace, slug: string, tier?: CrestTier): string {
   const pascal = slugToPascal(slug)
@@ -72,12 +72,12 @@ export function componentName(namespace: Namespace, slug: string, tier?: CrestTi
   return `${NAMESPACE_PREFIX[namespace]}${pascal}${tierSuffix}`
 }
 
-/** ("hoggies", "doc-brown") -> "hedgehogDocBrownSvg"; ("crests","array","mini") -> "arrayCrestMiniSvg". */
+/** ("hoggies", "doc-brown") -> "hedgehogDocBrownSvg"; ("crests","marketing","mini") -> "marketingCrestMiniSvg". */
 export function svgConstName(namespace: Namespace, slug: string, tier?: CrestTier): string {
   return `${lowerFirst(componentName(namespace, slug, tier))}Svg`
 }
 
-/** ("hoggies", "doc-brown") -> "hedgehogDocBrownPng"; ("crests","array","mini") -> "arrayCrestMiniPng". */
+/** ("hoggies", "doc-brown") -> "hedgehogDocBrownPng"; ("crests","marketing","mini") -> "marketingCrestMiniPng". */
 export function pngConstName(namespace: Namespace, slug: string, tier?: CrestTier): string {
   return `${lowerFirst(componentName(namespace, slug, tier))}Png`
 }
