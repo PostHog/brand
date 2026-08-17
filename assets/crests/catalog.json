@@ -1,28 +1,28 @@
 {
-  "generatedAt": "2026-07-29T03:04:06Z",
+  "generatedAt": "2026-08-17T16:56:49Z",
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2381467934373710216",
+  "figmaVersion": "2388741668245350625",
   "namespace": "crests",
   "entries": [
     {
-      "slug": "agents",
-      "name": "Agents",
+      "slug": "a-default-crest",
+      "name": "A Default Crest*",
       "namespace": "crests",
       "tier": "full",
-      "figmaNodeId": "40:2185",
+      "figmaNodeId": "24:738",
       "aspectRatio": 1,
-      "svgBytes": 765793,
-      "pngBytes": 19560
+      "svgBytes": 84996,
+      "pngBytes": 21422
     },
     {
-      "slug": "agents",
-      "name": "Agents Mini",
+      "slug": "a-default-crest",
+      "name": "A Default Crest* Mini",
       "namespace": "crests",
       "tier": "mini",
-      "figmaNodeId": "40:2187",
+      "figmaNodeId": "24:1369",
       "aspectRatio": 1,
-      "svgBytes": 10515,
-      "pngBytes": 2243
+      "svgBytes": 7443,
+      "pngBytes": 3070
     },
     {
       "slug": "ai-gateway",
@@ -32,7 +32,7 @@
       "figmaNodeId": "180:3990",
       "aspectRatio": 1,
       "svgBytes": 441926,
-      "pngBytes": 21624
+      "pngBytes": 23156
     },
     {
       "slug": "ai-gateway",
@@ -42,7 +42,27 @@
       "figmaNodeId": "180:3992",
       "aspectRatio": 1,
       "svgBytes": 3709,
-      "pngBytes": 1630
+      "pngBytes": 2342
+    },
+    {
+      "slug": "ai-observability",
+      "name": "AI Observability",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "26:9397",
+      "aspectRatio": 1,
+      "svgBytes": 189295,
+      "pngBytes": 22419
+    },
+    {
+      "slug": "ai-observability",
+      "name": "AI Observability Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "26:9399",
+      "aspectRatio": 1,
+      "svgBytes": 3109,
+      "pngBytes": 3667
     },
     {
       "slug": "ai-research",
@@ -52,7 +72,7 @@
       "figmaNodeId": "180:5202",
       "aspectRatio": 1,
       "svgBytes": 89828,
-      "pngBytes": 20083
+      "pngBytes": 21790
     },
     {
       "slug": "ai-research",
@@ -62,7 +82,7 @@
       "figmaNodeId": "180:5204",
       "aspectRatio": 1,
       "svgBytes": 14438,
-      "pngBytes": 2239
+      "pngBytes": 2980
     },
     {
       "slug": "analytics-platform",
@@ -72,7 +92,7 @@
       "figmaNodeId": "26:11164",
       "aspectRatio": 1,
       "svgBytes": 107512,
-      "pngBytes": 15484
+      "pngBytes": 16902
     },
     {
       "slug": "analytics-platform",
@@ -82,27 +102,17 @@
       "figmaNodeId": "26:11166",
       "aspectRatio": 1,
       "svgBytes": 5191,
-      "pngBytes": 1027
+      "pngBytes": 1595
     },
     {
-      "slug": "array",
-      "name": "Array",
+      "slug": "apm",
+      "name": "APM",
       "namespace": "crests",
       "tier": "full",
-      "figmaNodeId": "23:6120",
+      "figmaNodeId": "35:2047",
       "aspectRatio": 1,
-      "svgBytes": 109388,
-      "pngBytes": 24025
-    },
-    {
-      "slug": "array",
-      "name": "Array Mini",
-      "namespace": "crests",
-      "tier": "mini",
-      "figmaNodeId": "23:6984",
-      "aspectRatio": 1,
-      "svgBytes": 24696,
-      "pngBytes": 3475
+      "svgBytes": 80688,
+      "pngBytes": 18498
     },
     {
       "slug": "batch-exports",
@@ -112,7 +122,7 @@
       "figmaNodeId": "23:17603",
       "aspectRatio": 1,
       "svgBytes": 132205,
-      "pngBytes": 18957
+      "pngBytes": 21023
     },
     {
       "slug": "batch-exports",
@@ -122,7 +132,7 @@
       "figmaNodeId": "23:17861",
       "aspectRatio": 1,
       "svgBytes": 3112,
-      "pngBytes": 1830
+      "pngBytes": 2547
     },
     {
       "slug": "billing",
@@ -131,8 +141,8 @@
       "tier": "full",
       "figmaNodeId": "26:8964",
       "aspectRatio": 1,
-      "svgBytes": 101555,
-      "pngBytes": 19939
+      "svgBytes": 101570,
+      "pngBytes": 21393
     },
     {
       "slug": "billing",
@@ -141,28 +151,8 @@
       "tier": "mini",
       "figmaNodeId": "26:8966",
       "aspectRatio": 1,
-      "svgBytes": 3139,
-      "pngBytes": 2512
-    },
-    {
-      "slug": "blank-crest",
-      "name": "Blank Crest",
-      "namespace": "crests",
-      "tier": "full",
-      "figmaNodeId": "24:738",
-      "aspectRatio": 1,
-      "svgBytes": 84986,
-      "pngBytes": 18970
-    },
-    {
-      "slug": "blank-crest",
-      "name": "Blank Crest Mini",
-      "namespace": "crests",
-      "tier": "mini",
-      "figmaNodeId": "24:1369",
-      "aspectRatio": 1,
-      "svgBytes": 7419,
-      "pngBytes": 2338
+      "svgBytes": 3143,
+      "pngBytes": 3204
     },
     {
       "slug": "blitzscale",
@@ -171,8 +161,8 @@
       "tier": "full",
       "figmaNodeId": "23:8",
       "aspectRatio": 1,
-      "svgBytes": 93547,
-      "pngBytes": 15773
+      "svgBytes": 93710,
+      "pngBytes": 18069
     },
     {
       "slug": "blitzscale",
@@ -182,67 +172,27 @@
       "figmaNodeId": "23:392",
       "aspectRatio": 1,
       "svgBytes": 5345,
-      "pngBytes": 1134
+      "pngBytes": 1753
     },
     {
-      "slug": "book-and-cursor",
-      "name": "Book And Cursor",
+      "slug": "builder-relations",
+      "name": "Builder Relations",
       "namespace": "crests",
       "tier": "full",
-      "figmaNodeId": "23:5320",
+      "figmaNodeId": "23:3259",
       "aspectRatio": 1,
-      "svgBytes": 136374,
-      "pngBytes": 20086
+      "svgBytes": 392290,
+      "pngBytes": 21638
     },
     {
-      "slug": "book-and-cursor",
-      "name": "Book And Cursor Mini",
+      "slug": "builder-relations",
+      "name": "Builder Relations Mini",
       "namespace": "crests",
       "tier": "mini",
-      "figmaNodeId": "23:6090",
+      "figmaNodeId": "23:3879",
       "aspectRatio": 1,
-      "svgBytes": 5596,
-      "pngBytes": 2374
-    },
-    {
-      "slug": "brand",
-      "name": "Brand",
-      "namespace": "crests",
-      "tier": "full",
-      "figmaNodeId": "24:8",
-      "aspectRatio": 1,
-      "svgBytes": 111684,
-      "pngBytes": 22259
-    },
-    {
-      "slug": "brand",
-      "name": "Brand Mini",
-      "namespace": "crests",
-      "tier": "mini",
-      "figmaNodeId": "24:10",
-      "aspectRatio": 1,
-      "svgBytes": 5476,
-      "pngBytes": 2747
-    },
-    {
-      "slug": "buisness-sales",
-      "name": "Buisness Sales",
-      "namespace": "crests",
-      "tier": "full",
-      "figmaNodeId": "23:11512",
-      "aspectRatio": 1,
-      "svgBytes": 61160,
-      "pngBytes": 15832
-    },
-    {
-      "slug": "buisness-sales",
-      "name": "Buisness Sales Mini",
-      "namespace": "crests",
-      "tier": "mini",
-      "figmaNodeId": "23:11788",
-      "aspectRatio": 1,
-      "svgBytes": 3510,
-      "pngBytes": 1975
+      "svgBytes": 5003,
+      "pngBytes": 1712
     },
     {
       "slug": "clickhouse",
@@ -252,7 +202,7 @@
       "figmaNodeId": "23:1310",
       "aspectRatio": 1,
       "svgBytes": 123914,
-      "pngBytes": 21425
+      "pngBytes": 23342
     },
     {
       "slug": "clickhouse",
@@ -262,7 +212,7 @@
       "figmaNodeId": "23:1558",
       "aspectRatio": 1,
       "svgBytes": 2636,
-      "pngBytes": 451
+      "pngBytes": 584
     },
     {
       "slug": "client-libraries",
@@ -271,8 +221,8 @@
       "tier": "full",
       "figmaNodeId": "24:1998",
       "aspectRatio": 1,
-      "svgBytes": 404069,
-      "pngBytes": 19608
+      "svgBytes": 404015,
+      "pngBytes": 20514
     },
     {
       "slug": "client-libraries",
@@ -282,7 +232,47 @@
       "figmaNodeId": "24:2000",
       "aspectRatio": 1,
       "svgBytes": 1761,
-      "pngBytes": 809
+      "pngBytes": 1172
+    },
+    {
+      "slug": "cloud-foundations",
+      "name": "Cloud Foundations",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:1931",
+      "aspectRatio": 1,
+      "svgBytes": 130684,
+      "pngBytes": 19816
+    },
+    {
+      "slug": "cloud-foundations",
+      "name": "Cloud Foundations Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:2269",
+      "aspectRatio": 1,
+      "svgBytes": 6783,
+      "pngBytes": 2504
+    },
+    {
+      "slug": "cloud-platform",
+      "name": "Cloud Platform",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "693:3704",
+      "aspectRatio": 1,
+      "svgBytes": 327993,
+      "pngBytes": 19966
+    },
+    {
+      "slug": "cloud-platform",
+      "name": "Cloud Platform Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "693:3706",
+      "aspectRatio": 1,
+      "svgBytes": 15128,
+      "pngBytes": 3199
     },
     {
       "slug": "conversations",
@@ -291,8 +281,18 @@
       "tier": "full",
       "figmaNodeId": "35:2046",
       "aspectRatio": 1,
-      "svgBytes": 148464,
-      "pngBytes": 22102
+      "svgBytes": 148003,
+      "pngBytes": 22198
+    },
+    {
+      "slug": "conversations",
+      "name": "Conversations Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "907:2572",
+      "aspectRatio": 1,
+      "svgBytes": 11220,
+      "pngBytes": 2697
     },
     {
       "slug": "customer-analytics",
@@ -301,8 +301,8 @@
       "tier": "full",
       "figmaNodeId": "23:18942",
       "aspectRatio": 1,
-      "svgBytes": 55119,
-      "pngBytes": 16647
+      "svgBytes": 55186,
+      "pngBytes": 18220
     },
     {
       "slug": "customer-analytics",
@@ -311,28 +311,8 @@
       "tier": "mini",
       "figmaNodeId": "23:19095",
       "aspectRatio": 1,
-      "svgBytes": 4299,
-      "pngBytes": 2051
-    },
-    {
-      "slug": "customer-success",
-      "name": "Customer Success",
-      "namespace": "crests",
-      "tier": "full",
-      "figmaNodeId": "26:10370",
-      "aspectRatio": 1,
-      "svgBytes": 107566,
-      "pngBytes": 16174
-    },
-    {
-      "slug": "customer-success",
-      "name": "Customer Success Mini",
-      "namespace": "crests",
-      "tier": "mini",
-      "figmaNodeId": "26:10372",
-      "aspectRatio": 1,
-      "svgBytes": 3127,
-      "pngBytes": 999
+      "svgBytes": 4304,
+      "pngBytes": 2765
     },
     {
       "slug": "customer-success-eu",
@@ -342,7 +322,7 @@
       "figmaNodeId": "180:4763",
       "aspectRatio": 1,
       "svgBytes": 309453,
-      "pngBytes": 20469
+      "pngBytes": 21816
     },
     {
       "slug": "customer-success-eu",
@@ -352,7 +332,7 @@
       "figmaNodeId": "180:4765",
       "aspectRatio": 1,
       "svgBytes": 5878,
-      "pngBytes": 2216
+      "pngBytes": 2743
     },
     {
       "slug": "customer-success-na",
@@ -362,7 +342,7 @@
       "figmaNodeId": "180:5059",
       "aspectRatio": 1,
       "svgBytes": 188154,
-      "pngBytes": 20879
+      "pngBytes": 23201
     },
     {
       "slug": "customer-success-na",
@@ -371,28 +351,28 @@
       "tier": "mini",
       "figmaNodeId": "180:5061",
       "aspectRatio": 1,
-      "svgBytes": 15416,
-      "pngBytes": 2990
+      "svgBytes": 15415,
+      "pngBytes": 3523
     },
     {
-      "slug": "data-modelling",
-      "name": "Data Modelling",
+      "slug": "data-modeling",
+      "name": "Data Modeling",
       "namespace": "crests",
       "tier": "full",
       "figmaNodeId": "24:3214",
       "aspectRatio": 1,
-      "svgBytes": 485684,
-      "pngBytes": 14215
+      "svgBytes": 485220,
+      "pngBytes": 16678
     },
     {
-      "slug": "data-modelling",
-      "name": "Data Modelling Mini",
+      "slug": "data-modeling",
+      "name": "Data Modeling Mini",
       "namespace": "crests",
       "tier": "mini",
       "figmaNodeId": "24:3216",
       "aspectRatio": 1,
-      "svgBytes": 14621,
-      "pngBytes": 3325
+      "svgBytes": 14779,
+      "pngBytes": 3957
     },
     {
       "slug": "data-tools",
@@ -402,7 +382,7 @@
       "figmaNodeId": "26:7146",
       "aspectRatio": 1,
       "svgBytes": 845147,
-      "pngBytes": 18791
+      "pngBytes": 19634
     },
     {
       "slug": "data-tools",
@@ -412,27 +392,7 @@
       "figmaNodeId": "26:7148",
       "aspectRatio": 1,
       "svgBytes": 6222,
-      "pngBytes": 1452
-    },
-    {
-      "slug": "data-warehouse",
-      "name": "Data Warehouse",
-      "namespace": "crests",
-      "tier": "full",
-      "figmaNodeId": "23:11277",
-      "aspectRatio": 1,
-      "svgBytes": 45612,
-      "pngBytes": 25390
-    },
-    {
-      "slug": "data-warehouse",
-      "name": "Data Warehouse Mini",
-      "namespace": "crests",
-      "tier": "mini",
-      "figmaNodeId": "23:11394",
-      "aspectRatio": 1,
-      "svgBytes": 8710,
-      "pngBytes": 1692
+      "pngBytes": 2131
     },
     {
       "slug": "demand-gen",
@@ -441,8 +401,8 @@
       "tier": "full",
       "figmaNodeId": "23:18817",
       "aspectRatio": 1,
-      "svgBytes": 31313,
-      "pngBytes": 18595
+      "svgBytes": 31311,
+      "pngBytes": 19322
     },
     {
       "slug": "demand-gen",
@@ -452,7 +412,7 @@
       "figmaNodeId": "23:18879",
       "aspectRatio": 1,
       "svgBytes": 5297,
-      "pngBytes": 2136
+      "pngBytes": 2858
     },
     {
       "slug": "dev-experience",
@@ -461,8 +421,8 @@
       "tier": "full",
       "figmaNodeId": "23:8543",
       "aspectRatio": 1,
-      "svgBytes": 1365635,
-      "pngBytes": 19877
+      "svgBytes": 1363858,
+      "pngBytes": 21466
     },
     {
       "slug": "dev-experience",
@@ -472,27 +432,27 @@
       "figmaNodeId": "23:10215",
       "aspectRatio": 1,
       "svgBytes": 7924,
-      "pngBytes": 1412
+      "pngBytes": 2182
     },
     {
-      "slug": "docs-and-wizard",
-      "name": "Docs And Wizard",
+      "slug": "editorial",
+      "name": "Editorial",
       "namespace": "crests",
       "tier": "full",
-      "figmaNodeId": "23:20470",
+      "figmaNodeId": "23:12950",
       "aspectRatio": 1,
-      "svgBytes": 4183425,
-      "pngBytes": 23128
+      "svgBytes": 102095,
+      "pngBytes": 17024
     },
     {
-      "slug": "docs-and-wizard",
-      "name": "Docs And Wizard Mini",
+      "slug": "editorial",
+      "name": "Editorial Mini",
       "namespace": "crests",
       "tier": "mini",
-      "figmaNodeId": "23:22936",
-      "aspectRatio": 1.0087,
-      "svgBytes": 20550,
-      "pngBytes": 2628
+      "figmaNodeId": "23:13312",
+      "aspectRatio": 1,
+      "svgBytes": 6917,
+      "pngBytes": 2872
     },
     {
       "slug": "error-tracking",
@@ -501,8 +461,8 @@
       "tier": "full",
       "figmaNodeId": "23:2289",
       "aspectRatio": 1,
-      "svgBytes": 92451,
-      "pngBytes": 19708
+      "svgBytes": 92441,
+      "pngBytes": 20857
     },
     {
       "slug": "error-tracking",
@@ -512,7 +472,7 @@
       "figmaNodeId": "23:2705",
       "aspectRatio": 1,
       "svgBytes": 3394,
-      "pngBytes": 2595
+      "pngBytes": 3263
     },
     {
       "slug": "experiments",
@@ -521,8 +481,8 @@
       "tier": "full",
       "figmaNodeId": "24:469",
       "aspectRatio": 1,
-      "svgBytes": 59214,
-      "pngBytes": 16765
+      "svgBytes": 59153,
+      "pngBytes": 19087
     },
     {
       "slug": "experiments",
@@ -532,7 +492,7 @@
       "figmaNodeId": "24:471",
       "aspectRatio": 1,
       "svgBytes": 2561,
-      "pngBytes": 1414
+      "pngBytes": 2085
     },
     {
       "slug": "feature-flags",
@@ -541,8 +501,8 @@
       "tier": "full",
       "figmaNodeId": "23:15004",
       "aspectRatio": 1,
-      "svgBytes": 131835,
-      "pngBytes": 14368
+      "svgBytes": 131720,
+      "pngBytes": 15988
     },
     {
       "slug": "feature-flags",
@@ -552,47 +512,27 @@
       "figmaNodeId": "23:15324",
       "aspectRatio": 1,
       "svgBytes": 2517,
-      "pngBytes": 1619
+      "pngBytes": 2314
     },
     {
-      "slug": "flags-platform",
-      "name": "Flags Platform",
-      "namespace": "crests",
-      "tier": "full",
-      "figmaNodeId": "23:4446",
-      "aspectRatio": 1,
-      "svgBytes": 1025916,
-      "pngBytes": 26151
-    },
-    {
-      "slug": "flags-platform",
-      "name": "Flags Platform Mini",
-      "namespace": "crests",
-      "tier": "mini",
-      "figmaNodeId": "23:5294",
-      "aspectRatio": 1,
-      "svgBytes": 5606,
-      "pngBytes": 1448
-    },
-    {
-      "slug": "forward-deployed-engineer",
-      "name": "Forward Deployed Engineer",
+      "slug": "forward-deployed-engineering",
+      "name": "Forward Deployed Engineering",
       "namespace": "crests",
       "tier": "full",
       "figmaNodeId": "23:7256",
       "aspectRatio": 1,
-      "svgBytes": 480278,
-      "pngBytes": 20702
+      "svgBytes": 480301,
+      "pngBytes": 22458
     },
     {
-      "slug": "forward-deployed-engineer",
-      "name": "Forward Deployed Engineer Mini",
+      "slug": "forward-deployed-engineering",
+      "name": "Forward Deployed Engineering Mini",
       "namespace": "crests",
       "tier": "mini",
       "figmaNodeId": "23:7433",
       "aspectRatio": 1,
-      "svgBytes": 64117,
-      "pngBytes": 2921
+      "svgBytes": 64129,
+      "pngBytes": 3661
     },
     {
       "slug": "graphics",
@@ -601,8 +541,8 @@
       "tier": "full",
       "figmaNodeId": "24:2822",
       "aspectRatio": 1,
-      "svgBytes": 729203,
-      "pngBytes": 20013
+      "svgBytes": 729752,
+      "pngBytes": 21327
     },
     {
       "slug": "graphics",
@@ -611,8 +551,18 @@
       "tier": "mini",
       "figmaNodeId": "24:2824",
       "aspectRatio": 1,
-      "svgBytes": 19289,
-      "pngBytes": 2807
+      "svgBytes": 19299,
+      "pngBytes": 3221
+    },
+    {
+      "slug": "growth",
+      "name": "Growth",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:2731",
+      "aspectRatio": 1,
+      "svgBytes": 132896,
+      "pngBytes": 23997
     },
     {
       "slug": "growth",
@@ -622,37 +572,27 @@
       "figmaNodeId": "23:3239",
       "aspectRatio": 1,
       "svgBytes": 8452,
-      "pngBytes": 2552
+      "pngBytes": 3595
     },
     {
-      "slug": "growth-plant",
-      "name": "Growth Plant",
+      "slug": "gtm-engineering",
+      "name": "GTM Engineering",
       "namespace": "crests",
       "tier": "full",
-      "figmaNodeId": "23:2731",
+      "figmaNodeId": "693:4062",
       "aspectRatio": 1,
-      "svgBytes": 132705,
-      "pngBytes": 23312
+      "svgBytes": 614529,
+      "pngBytes": 19308
     },
     {
-      "slug": "infrastructure",
-      "name": "Infrastructure",
-      "namespace": "crests",
-      "tier": "full",
-      "figmaNodeId": "23:1931",
-      "aspectRatio": 1,
-      "svgBytes": 130853,
-      "pngBytes": 17809
-    },
-    {
-      "slug": "infrastructure",
-      "name": "Infrastructure Mini",
+      "slug": "gtm-engineering",
+      "name": "GTM Engineering Mini",
       "namespace": "crests",
       "tier": "mini",
-      "figmaNodeId": "23:2269",
+      "figmaNodeId": "693:4064",
       "aspectRatio": 1,
-      "svgBytes": 6777,
-      "pngBytes": 1739
+      "svgBytes": 30095,
+      "pngBytes": 3833
     },
     {
       "slug": "ingestion",
@@ -661,8 +601,8 @@
       "tier": "full",
       "figmaNodeId": "26:9879",
       "aspectRatio": 1,
-      "svgBytes": 111951,
-      "pngBytes": 19672
+      "svgBytes": 111856,
+      "pngBytes": 22741
     },
     {
       "slug": "ingestion",
@@ -671,58 +611,28 @@
       "tier": "mini",
       "figmaNodeId": "26:9881",
       "aspectRatio": 1,
-      "svgBytes": 2745,
-      "pngBytes": 1918
+      "svgBytes": 2744,
+      "pngBytes": 2672
     },
     {
-      "slug": "irl-events",
-      "name": "IRL Events",
+      "slug": "managed-warehouse",
+      "name": "Managed Warehouse",
       "namespace": "crests",
       "tier": "full",
-      "figmaNodeId": "23:3259",
+      "figmaNodeId": "23:11277",
       "aspectRatio": 1,
-      "svgBytes": 392311,
-      "pngBytes": 20630
+      "svgBytes": 45413,
+      "pngBytes": 25706
     },
     {
-      "slug": "irl-events",
-      "name": "IRL Events Mini",
+      "slug": "managed-warehouse",
+      "name": "Managed Warehouse Mini",
       "namespace": "crests",
       "tier": "mini",
-      "figmaNodeId": "23:3879",
+      "figmaNodeId": "23:11394",
       "aspectRatio": 1,
-      "svgBytes": 4961,
-      "pngBytes": 1094
-    },
-    {
-      "slug": "llm",
-      "name": "Llm",
-      "namespace": "crests",
-      "tier": "full",
-      "figmaNodeId": "26:9397",
-      "aspectRatio": 1,
-      "svgBytes": 189287,
-      "pngBytes": 20253
-    },
-    {
-      "slug": "llm",
-      "name": "Llm Mini",
-      "namespace": "crests",
-      "tier": "mini",
-      "figmaNodeId": "26:9399",
-      "aspectRatio": 1,
-      "svgBytes": 3053,
-      "pngBytes": 3195
-    },
-    {
-      "slug": "logs",
-      "name": "Logs",
-      "namespace": "crests",
-      "tier": "full",
-      "figmaNodeId": "35:2047",
-      "aspectRatio": 1,
-      "svgBytes": 80748,
-      "pngBytes": 16494
+      "svgBytes": 8727,
+      "pngBytes": 2272
     },
     {
       "slug": "marketing",
@@ -731,8 +641,8 @@
       "tier": "full",
       "figmaNodeId": "26:8090",
       "aspectRatio": 1,
-      "svgBytes": 136253,
-      "pngBytes": 28094
+      "svgBytes": 136178,
+      "pngBytes": 28179
     },
     {
       "slug": "marketing",
@@ -741,28 +651,48 @@
       "tier": "mini",
       "figmaNodeId": "26:8092",
       "aspectRatio": 1,
-      "svgBytes": 6135,
-      "pngBytes": 3072
+      "svgBytes": 6133,
+      "pngBytes": 3289
     },
     {
-      "slug": "mobile",
-      "name": "Mobile",
+      "slug": "mcp-analytics",
+      "name": "MCP Analytics",
       "namespace": "crests",
       "tier": "full",
-      "figmaNodeId": "26:6722",
-      "aspectRatio": 1,
-      "svgBytes": 87424,
-      "pngBytes": 18057
+      "figmaNodeId": "693:3228",
+      "aspectRatio": 0.9967,
+      "svgBytes": 540781,
+      "pngBytes": 19781
     },
     {
-      "slug": "mobile",
-      "name": "Mobile Mini",
+      "slug": "mcp-analytics",
+      "name": "MCP Analytics Mini",
       "namespace": "crests",
       "tier": "mini",
-      "figmaNodeId": "26:6724",
+      "figmaNodeId": "693:3230",
       "aspectRatio": 1,
-      "svgBytes": 3457,
-      "pngBytes": 2680
+      "svgBytes": 4723,
+      "pngBytes": 2181
+    },
+    {
+      "slug": "new-business-sales",
+      "name": "New Business Sales",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:11512",
+      "aspectRatio": 1,
+      "svgBytes": 61151,
+      "pngBytes": 17859
+    },
+    {
+      "slug": "new-business-sales",
+      "name": "New Business Sales Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:11788",
+      "aspectRatio": 1,
+      "svgBytes": 3534,
+      "pngBytes": 2821
     },
     {
       "slug": "onboarding",
@@ -771,8 +701,8 @@
       "tier": "full",
       "figmaNodeId": "23:3892",
       "aspectRatio": 1,
-      "svgBytes": 90735,
-      "pngBytes": 15891
+      "svgBytes": 90563,
+      "pngBytes": 17157
     },
     {
       "slug": "onboarding",
@@ -782,47 +712,27 @@
       "figmaNodeId": "23:4422",
       "aspectRatio": 1,
       "svgBytes": 2975,
-      "pngBytes": 2219
+      "pngBytes": 2988
     },
     {
-      "slug": "pencil",
-      "name": "Pencil",
-      "namespace": "crests",
-      "tier": "full",
-      "figmaNodeId": "23:12950",
-      "aspectRatio": 1,
-      "svgBytes": 102289,
-      "pngBytes": 15391
-    },
-    {
-      "slug": "pencil",
-      "name": "Pencil Mini",
-      "namespace": "crests",
-      "tier": "mini",
-      "figmaNodeId": "23:13312",
-      "aspectRatio": 1,
-      "svgBytes": 6852,
-      "pngBytes": 2110
-    },
-    {
-      "slug": "people-and-ops",
-      "name": "People And Ops",
+      "slug": "people-ops",
+      "name": "People & Ops",
       "namespace": "crests",
       "tier": "full",
       "figmaNodeId": "23:424",
       "aspectRatio": 1,
-      "svgBytes": 106552,
-      "pngBytes": 18528
+      "svgBytes": 106176,
+      "pngBytes": 20454
     },
     {
-      "slug": "people-and-ops",
-      "name": "People And Ops Mini",
+      "slug": "people-ops",
+      "name": "People & Ops Mini",
       "namespace": "crests",
       "tier": "mini",
       "figmaNodeId": "23:818",
       "aspectRatio": 1,
-      "svgBytes": 4383,
-      "pngBytes": 1487
+      "svgBytes": 4359,
+      "pngBytes": 2147
     },
     {
       "slug": "platform-features",
@@ -831,8 +741,8 @@
       "tier": "full",
       "figmaNodeId": "26:10865",
       "aspectRatio": 1,
-      "svgBytes": 94995,
-      "pngBytes": 16835
+      "svgBytes": 95121,
+      "pngBytes": 18508
     },
     {
       "slug": "platform-features",
@@ -842,7 +752,7 @@
       "figmaNodeId": "26:10867",
       "aspectRatio": 1,
       "svgBytes": 4835,
-      "pngBytes": 1268
+      "pngBytes": 1903
     },
     {
       "slug": "platform-ux",
@@ -851,8 +761,8 @@
       "tier": "full",
       "figmaNodeId": "26:8347",
       "aspectRatio": 1,
-      "svgBytes": 166137,
-      "pngBytes": 23256
+      "svgBytes": 166308,
+      "pngBytes": 24909
     },
     {
       "slug": "platform-ux",
@@ -861,48 +771,28 @@
       "tier": "mini",
       "figmaNodeId": "26:8349",
       "aspectRatio": 1,
-      "svgBytes": 5813,
-      "pngBytes": 2261
+      "svgBytes": 5809,
+      "pngBytes": 2858
     },
     {
-      "slug": "posthog-ai",
-      "name": "Posthog Ai",
-      "namespace": "crests",
-      "tier": "full",
-      "figmaNodeId": "23:13675",
-      "aspectRatio": 1,
-      "svgBytes": 117705,
-      "pngBytes": 15479
-    },
-    {
-      "slug": "posthog-ai",
-      "name": "Posthog Ai Mini",
-      "namespace": "crests",
-      "tier": "mini",
-      "figmaNodeId": "23:14339",
-      "aspectRatio": 1,
-      "svgBytes": 5581,
-      "pngBytes": 3289
-    },
-    {
-      "slug": "posthog-code",
-      "name": "Posthog Code",
+      "slug": "posthog-desktop",
+      "name": "Posthog Desktop",
       "namespace": "crests",
       "tier": "full",
       "figmaNodeId": "26:7473",
       "aspectRatio": 1,
-      "svgBytes": 344953,
-      "pngBytes": 19509
+      "svgBytes": 344971,
+      "pngBytes": 18766
     },
     {
-      "slug": "posthog-code",
-      "name": "Posthog Code Mini",
+      "slug": "posthog-desktop",
+      "name": "Posthog Desktop Mini",
       "namespace": "crests",
       "tier": "mini",
       "figmaNodeId": "26:7475",
       "aspectRatio": 1,
-      "svgBytes": 12085,
-      "pngBytes": 2279
+      "svgBytes": 12091,
+      "pngBytes": 2807
     },
     {
       "slug": "product-analytics",
@@ -912,7 +802,7 @@
       "figmaNodeId": "23:15645",
       "aspectRatio": 1,
       "svgBytes": 103380,
-      "pngBytes": 17319
+      "pngBytes": 17723
     },
     {
       "slug": "product-analytics",
@@ -922,7 +812,7 @@
       "figmaNodeId": "23:16113",
       "aspectRatio": 1,
       "svgBytes": 8954,
-      "pngBytes": 2215
+      "pngBytes": 3281
     },
     {
       "slug": "product-lead-sales-east",
@@ -932,7 +822,7 @@
       "figmaNodeId": "23:25403",
       "aspectRatio": 1,
       "svgBytes": 313554,
-      "pngBytes": 17724
+      "pngBytes": 18298
     },
     {
       "slug": "product-lead-sales-east",
@@ -942,47 +832,47 @@
       "figmaNodeId": "23:25885",
       "aspectRatio": 1,
       "svgBytes": 5582,
-      "pngBytes": 1249
+      "pngBytes": 1915
     },
     {
-      "slug": "product-led-sales",
-      "name": "Product Led Sales",
+      "slug": "product-led-sales-west",
+      "name": "Product Led Sales West",
       "namespace": "crests",
       "tier": "full",
       "figmaNodeId": "23:12065",
       "aspectRatio": 1,
-      "svgBytes": 91342,
-      "pngBytes": 16004
+      "svgBytes": 91362,
+      "pngBytes": 17672
     },
     {
-      "slug": "product-led-sales",
-      "name": "Product Led Sales Mini",
+      "slug": "product-led-sales-west",
+      "name": "Product Led Sales West Mini",
       "namespace": "crests",
       "tier": "mini",
       "figmaNodeId": "23:12507",
       "aspectRatio": 1,
-      "svgBytes": 5312,
-      "pngBytes": 1266
+      "svgBytes": 5322,
+      "pngBytes": 1943
     },
     {
-      "slug": "query-performance",
-      "name": "Query Performance",
+      "slug": "replay",
+      "name": "Replay",
       "namespace": "crests",
       "tier": "full",
-      "figmaNodeId": "23:10232",
+      "figmaNodeId": "23:19249",
       "aspectRatio": 1,
-      "svgBytes": 368281,
-      "pngBytes": 21983
+      "svgBytes": 274618,
+      "pngBytes": 22732
     },
     {
-      "slug": "query-performance",
-      "name": "Query Performance Mini",
+      "slug": "replay",
+      "name": "Replay Mini",
       "namespace": "crests",
       "tier": "mini",
-      "figmaNodeId": "23:10754",
+      "figmaNodeId": "23:19859",
       "aspectRatio": 1,
-      "svgBytes": 8549,
-      "pngBytes": 1377
+      "svgBytes": 5885,
+      "pngBytes": 2840
     },
     {
       "slug": "security",
@@ -992,7 +882,7 @@
       "figmaNodeId": "23:8217",
       "aspectRatio": 1,
       "svgBytes": 509744,
-      "pngBytes": 20055
+      "pngBytes": 21681
     },
     {
       "slug": "security",
@@ -1002,37 +892,27 @@
       "figmaNodeId": "23:8528",
       "aspectRatio": 1,
       "svgBytes": 6521,
-      "pngBytes": 1592
+      "pngBytes": 2394
     },
     {
-      "slug": "session-reply",
-      "name": "Session Reply",
-      "namespace": "crests",
-      "tier": "full",
-      "figmaNodeId": "23:19249",
-      "aspectRatio": 1,
-      "svgBytes": 274964,
-      "pngBytes": 21463
-    },
-    {
-      "slug": "session-reply",
-      "name": "Session Reply Mini",
-      "namespace": "crests",
-      "tier": "mini",
-      "figmaNodeId": "23:19859",
-      "aspectRatio": 1,
-      "svgBytes": 5919,
-      "pngBytes": 1941
-    },
-    {
-      "slug": "signals",
-      "name": "Signals",
+      "slug": "self-driving",
+      "name": "Self-driving",
       "namespace": "crests",
       "tier": "full",
       "figmaNodeId": "35:2048",
       "aspectRatio": 1,
-      "svgBytes": 85766,
-      "pngBytes": 19089
+      "svgBytes": 86084,
+      "pngBytes": 20458
+    },
+    {
+      "slug": "self-driving",
+      "name": "Self-driving Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "907:2113",
+      "aspectRatio": 1,
+      "svgBytes": 4808,
+      "pngBytes": 3673
     },
     {
       "slug": "support",
@@ -1041,8 +921,8 @@
       "tier": "full",
       "figmaNodeId": "23:841",
       "aspectRatio": 1,
-      "svgBytes": 209345,
-      "pngBytes": 16451
+      "svgBytes": 209277,
+      "pngBytes": 17955
     },
     {
       "slug": "support",
@@ -1052,7 +932,7 @@
       "figmaNodeId": "23:1285",
       "aspectRatio": 0.9914,
       "svgBytes": 6334,
-      "pngBytes": 2097
+      "pngBytes": 2752
     },
     {
       "slug": "surveys",
@@ -1062,7 +942,7 @@
       "figmaNodeId": "23:1571",
       "aspectRatio": 1,
       "svgBytes": 88303,
-      "pngBytes": 14705
+      "pngBytes": 16342
     },
     {
       "slug": "surveys",
@@ -1072,7 +952,7 @@
       "figmaNodeId": "23:1919",
       "aspectRatio": 1,
       "svgBytes": 3009,
-      "pngBytes": 2070
+      "pngBytes": 2847
     },
     {
       "slug": "talent",
@@ -1081,8 +961,8 @@
       "tier": "full",
       "figmaNodeId": "23:7047",
       "aspectRatio": 1,
-      "svgBytes": 57098,
-      "pngBytes": 13992
+      "svgBytes": 57212,
+      "pngBytes": 15914
     },
     {
       "slug": "talent",
@@ -1091,8 +971,8 @@
       "tier": "mini",
       "figmaNodeId": "23:7245",
       "aspectRatio": 1,
-      "svgBytes": 5014,
-      "pngBytes": 1906
+      "svgBytes": 5021,
+      "pngBytes": 2693
     },
     {
       "slug": "warehouse-sources",
@@ -1101,8 +981,8 @@
       "tier": "full",
       "figmaNodeId": "24:2570",
       "aspectRatio": 1,
-      "svgBytes": 303296,
-      "pngBytes": 17172
+      "svgBytes": 303276,
+      "pngBytes": 18526
     },
     {
       "slug": "warehouse-sources",
@@ -1112,17 +992,7 @@
       "figmaNodeId": "24:2572",
       "aspectRatio": 1,
       "svgBytes": 3470,
-      "pngBytes": 1299
-    },
-    {
-      "slug": "warlock",
-      "name": "Warlock",
-      "namespace": "crests",
-      "tier": "full",
-      "figmaNodeId": "35:2050",
-      "aspectRatio": 1,
-      "svgBytes": 537636,
-      "pngBytes": 18429
+      "pngBytes": 2079
     },
     {
       "slug": "web-analytics",
@@ -1131,8 +1001,8 @@
       "tier": "full",
       "figmaNodeId": "23:16582",
       "aspectRatio": 1,
-      "svgBytes": 114026,
-      "pngBytes": 25035
+      "svgBytes": 114106,
+      "pngBytes": 26484
     },
     {
       "slug": "web-analytics",
@@ -1142,7 +1012,47 @@
       "figmaNodeId": "23:17092",
       "aspectRatio": 1,
       "svgBytes": 4948,
-      "pngBytes": 1295
+      "pngBytes": 1909
+    },
+    {
+      "slug": "website",
+      "name": "Website",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:5320",
+      "aspectRatio": 1,
+      "svgBytes": 136510,
+      "pngBytes": 21760
+    },
+    {
+      "slug": "website",
+      "name": "Website Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:6090",
+      "aspectRatio": 1,
+      "svgBytes": 5561,
+      "pngBytes": 3161
+    },
+    {
+      "slug": "wizard-docs",
+      "name": "Wizard & Docs",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "23:20470",
+      "aspectRatio": 1,
+      "svgBytes": 4183536,
+      "pngBytes": 24935
+    },
+    {
+      "slug": "wizard-docs",
+      "name": "Wizard & Docs Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "23:22936",
+      "aspectRatio": 1.0087,
+      "svgBytes": 20526,
+      "pngBytes": 3296
     },
     {
       "slug": "workflows",
@@ -1152,7 +1062,7 @@
       "figmaNodeId": "23:18120",
       "aspectRatio": 1,
       "svgBytes": 107222,
-      "pngBytes": 20618
+      "pngBytes": 21443
     },
     {
       "slug": "workflows",
@@ -1162,7 +1072,7 @@
       "figmaNodeId": "23:18468",
       "aspectRatio": 1,
       "svgBytes": 2751,
-      "pngBytes": 2333
+      "pngBytes": 3008
     },
     {
       "slug": "youtube",
@@ -1171,8 +1081,18 @@
       "tier": "full",
       "figmaNodeId": "35:2049",
       "aspectRatio": 1,
-      "svgBytes": 97050,
-      "pngBytes": 15068
+      "svgBytes": 97228,
+      "pngBytes": 16909
+    },
+    {
+      "slug": "youtube",
+      "name": "Youtube Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "907:1682",
+      "aspectRatio": 1,
+      "svgBytes": 4223,
+      "pngBytes": 1845
     }
   ]
 }

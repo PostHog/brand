@@ -29,7 +29,7 @@ describe("slug -> identifier", () => {
     ["70-s-dance-hog", "70SDanceHog"],
     ["996-coder-hog", "996CoderHog"],
     ["404", "404"],
-    ["array-mini", "ArrayMini"],
+    ["marketing-mini", "MarketingMini"],
     // "ai" is a known acronym: whole segments upper-case, substrings don't.
     ["ai-gateway", "AIGateway"],
     ["ai-research", "AIResearch"],
@@ -46,15 +46,15 @@ describe("slug -> identifier", () => {
 
   it("prefixes component names per namespace", () => {
     expect(componentName("hoggies", "reading-is-magic")).toBe("HedgehogReadingIsMagic")
-    expect(componentName("crests", "array", "full")).toBe("ArrayCrest")
-    expect(componentName("crests", "array", "mini")).toBe("ArrayCrestMini")
+    expect(componentName("crests", "marketing", "full")).toBe("MarketingCrest")
+    expect(componentName("crests", "marketing", "mini")).toBe("MarketingCrestMini")
   })
 
   it("derives svg/png const names", () => {
     expect(svgConstName("hoggies", "reading-is-magic")).toBe("hedgehogReadingIsMagicSvg")
     expect(pngConstName("hoggies", "reading-is-magic")).toBe("hedgehogReadingIsMagicPng")
-    expect(svgConstName("crests", "array", "mini")).toBe("arrayCrestMiniSvg")
-    expect(pngConstName("crests", "array", "mini")).toBe("arrayCrestMiniPng")
+    expect(svgConstName("crests", "marketing", "mini")).toBe("marketingCrestMiniSvg")
+    expect(pngConstName("crests", "marketing", "mini")).toBe("marketingCrestMiniPng")
   })
 
   it("produces valid JS identifiers for every component name", () => {
@@ -67,9 +67,9 @@ describe("slug -> identifier", () => {
 
 describe("dedupeSlugs", () => {
   it("disambiguates repeated slugs with a numeric suffix", () => {
-    expect(dedupeSlugs(["wizard-hog", "array", "wizard-hog"])).toEqual([
+    expect(dedupeSlugs(["wizard-hog", "marketing", "wizard-hog"])).toEqual([
       "wizard-hog",
-      "array",
+      "marketing",
       "wizard-hog-2",
     ])
   })

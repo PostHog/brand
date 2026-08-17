@@ -6,9 +6,9 @@
 //
 //   import { HedgehogChart } from "@posthog/brand/hoggies";
 //   import { Logo } from "@posthog/brand/logo";                  // <Logo />, <Logo.Logomark />, …
-//   import { ArrayCrest } from "@posthog/brand/crests";          // <ArrayCrest /> + <ArrayCrest.Mini />
-//   import { ArrayCrest } from "@posthog/brand/crests/full";
-//   import { ArrayCrestMini } from "@posthog/brand/crests/mini";
+//   import { MarketingCrest } from "@posthog/brand/crests";          // <MarketingCrest /> + <MarketingCrest.Mini />
+//   import { MarketingCrest } from "@posthog/brand/crests/full";
+//   import { MarketingCrestMini } from "@posthog/brand/crests/mini";
 //   import hedgehogChartSvg from "@posthog/brand/hoggies/svg/chart";
 //   import hedgehogChartPng from "@posthog/brand/hoggies/png/chart";
 //   import { colors } from "@posthog/brand/colors";
@@ -34,7 +34,7 @@ export { findAssets, getAsset, type FindAssetsFilter } from "./search.ts"
 /**
  * The generated React component name for an asset, e.g. ("hoggies","chart") →
  * "HedgehogChart". For crest minis pass `tier` for the trailing "Mini":
- * ("crests","array","mini") → "ArrayCrestMini".
+ * ("crests", "marketing", "mini") → "MarketingCrestMini".
  */
 export function getComponentName(namespace: Namespace, slug: string, tier?: CrestTier): string {
   return componentName(namespace, slug, tier)

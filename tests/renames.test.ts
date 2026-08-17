@@ -6,7 +6,7 @@ describe("applyRename", () => {
   it.each<[Namespace, string, string, { slug: string; name: string }]>([
     // No rule: inputs pass through unchanged.
     ["hoggies", "doc-brown", "Doc Brown", { slug: "doc-brown", name: "Doc Brown" }],
-    ["crests", "array", "Array", { slug: "array", name: "Array" }],
+    ["crests", "marketing", "Marketing", { slug: "marketing", name: "Marketing" }],
     // Configured renames (slug + name).
     ["hoggies", "9-9-6", "9-9-6", { slug: "996", name: "996" }],
   ])("applyRename(%s, %s, %s)", (namespace, slug, name, expected) => {
@@ -17,7 +17,7 @@ describe("applyRename", () => {
 describe("titleFromSlug", () => {
   it.each([
     ["foo-bar-baz", "Foo Bar Baz"],
-    ["array", "Array"],
+    ["marketing", "Marketing"],
   ])("titleFromSlug(%s) === %s", (slug, expected) => {
     expect(titleFromSlug(slug)).toBe(expected)
   })

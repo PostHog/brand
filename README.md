@@ -27,7 +27,7 @@ import { Logo } from "@posthog/brand/logo"
 import { colors } from "@posthog/brand/colors"
 import { roundHogFontFaceCss } from "@posthog/brand/fonts/css"
 import { HedgehogDoctorHog } from "@posthog/brand/hoggies"
-import { ArrayCrest } from "@posthog/brand/crests"
+import { MarketingCrest } from "@posthog/brand/crests"
 ```
 
 The five sections below walk through each one in turn. Every illustration is a React
@@ -114,7 +114,10 @@ then reference `font-family: "RoundHog"`:
 ```ts
 import { roundHogFontFaceCss } from "@posthog/brand/fonts/css"
 
-document.head.insertAdjacentHTML("beforeend", `<style>${roundHogFontFaceCss}</style>`)
+document.head.insertAdjacentHTML(
+  "beforeend",
+  `<style>${roundHogFontFaceCss}</style>`,
+)
 // now anywhere: font-family: "RoundHog", sans-serif
 ```
 
@@ -163,17 +166,17 @@ one component: the **base** is the full illustration, and **`.Mini`** is a simpl
 that stays legible at small sizes (favicons, avatars, inline chips).
 
 ```tsx
-import { ArrayCrest } from "@posthog/brand/crests"
+import { MarketingCrest } from "@posthog/brand/crests"
 
-<ArrayCrest size={64} /> // the full crest
-<ArrayCrest.Mini size={24} /> // the simplified mini badge
+<MarketingCrest size={64} /> // the full crest
+<MarketingCrest.Mini size={24} /> // the simplified mini badge
 ```
 
 The component is named `<Name>Crest`. A few crests only exist in one size — for those,
 `.Mini` simply renders the same artwork as the base.
 
 If you'd rather pull a single tier on its own, the tier-specific subpaths expose each one
-individually: `ArrayCrest` from `@posthog/brand/crests/full`, and `ArrayCrestMini` from
+individually: `MarketingCrest` from `@posthog/brand/crests/full`, and `MarketingCrestMini` from
 `@posthog/brand/crests/mini`.
 
 ## Raw SVGs and PNGs
@@ -206,18 +209,21 @@ React-only — use the tier subpaths for raw crest SVG/PNG):
 ```ts
 // Default import of the deep path — one asset, one module:
 import hedgehogChartSvg from "@posthog/brand/hoggies/svg/chart"
-import arrayCrestPng from "@posthog/brand/crests/full/png/array"
+import marketingCrestPng from "@posthog/brand/crests/full/png/marketing"
 
 // Or the named barrel export, if you'd rather pull several from one import:
-import { hedgehogChartSvg, hedgehogCroissantSvg } from "@posthog/brand/hoggies/svg"
+import {
+  hedgehogChartSvg,
+  hedgehogCroissantSvg,
+} from "@posthog/brand/hoggies/svg"
 
 // Lazy-load by slug without bundling the whole namespace:
 const svg = (await import("@posthog/brand/hoggies/svg/" + slug)).default
 ```
 
 The named export is `lowerFirst(ComponentName) + "Svg"` / `+ "Png"` (e.g.
-`hedgehogChartSvg`, `arrayCrestPng`). Crest minis keep a trailing `Mini`:
-`arrayCrestMiniSvg`, `arrayCrestMiniPng`.
+`hedgehogChartSvg`, `marketingCrestPng`). Crest minis keep a trailing `Mini`:
+`marketingCrestMiniSvg`, `marketingCrestMiniPng`.
 
 Both formats are optimized before they're committed — SVGs minified with
 [SVGO](https://github.com/svg/svgo), PNGs palette-quantized with
@@ -232,14 +238,19 @@ The root `@posthog/brand` export is **React-free and image-free** — just types
 cross-namespace manifest, and helpers for building a picker or looking an asset up by slug:
 
 ```ts
-import { allAssets, findAssets, getAsset, getComponentName } from "@posthog/brand"
+import {
+  allAssets,
+  findAssets,
+  getAsset,
+  getComponentName,
+} from "@posthog/brand"
 
-findAssets({ namespace: "crests", tier: "mini", text: "array" })
+findAssets({ namespace: "crests", tier: "mini", text: "marketing" })
 findAssets({ namespace: "hoggies", text: "director" })
 getAsset("hoggies", "director") // full AssetMeta
-getAsset("crests", "array", "mini") // disambiguate the shared crest slug by tier
+getAsset("crests", "marketing", "mini") // disambiguate the shared crest slug by tier
 getComponentName("hoggies", "director") // "HedgehogDirector"
-getComponentName("crests", "array", "mini") // "ArrayCrestMini"
+getComponentName("crests", "marketing", "mini") // "MarketingCrestMini"
 ```
 
 Per-namespace manifests are also available without the cross-namespace pull — e.g.

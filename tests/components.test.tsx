@@ -124,20 +124,20 @@ describe("combined crests barrel (@posthog/brand/crests)", () => {
   })
 
   it("renders the full crest as the base and the mini as `.Mini`", () => {
-    // `array` exists in both tiers.
-    const ArrayCrest = all.ArrayCrest!
-    expect(ArrayCrest).toBeDefined()
-    expect(ArrayCrest.meta.tier).toBe("full")
-    expect(ArrayCrest.Mini?.meta.tier).toBe("mini")
-    expect(ArrayCrest.Mini?.meta.slug).toBe("array")
+    // `marketing` exists in both tiers.
+    const MarketingCrest = all.MarketingCrest!
+    expect(MarketingCrest).toBeDefined()
+    expect(MarketingCrest.meta.tier).toBe("full")
+    expect(MarketingCrest.Mini?.meta.tier).toBe("mini")
+    expect(MarketingCrest.Mini?.meta.slug).toBe("marketing")
 
-    expect(renderToStaticMarkup(createElement(ArrayCrest))).toContain("<svg")
-    expect(renderToStaticMarkup(createElement(ArrayCrest.Mini!))).toContain("<svg")
+    expect(renderToStaticMarkup(createElement(MarketingCrest))).toContain("<svg")
+    expect(renderToStaticMarkup(createElement(MarketingCrest.Mini!))).toContain("<svg")
   })
 
   it("the compound base and its tier exports are the same component", () => {
-    expect(all.ArrayCrest).toBe(crestsFull.ArrayCrest)
-    expect(all.ArrayCrest!.Mini).toBe(crestsMini.ArrayCrestMini)
+    expect(all.MarketingCrest).toBe(crestsFull.MarketingCrest)
+    expect(all.MarketingCrest!.Mini).toBe(crestsMini.MarketingCrestMini)
   })
 
   it("omits `.Mini` for a full-only crest", () => {
