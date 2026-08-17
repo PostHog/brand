@@ -115,10 +115,12 @@ const body = [headline, ...sections].join("\n\n")
 const slug = process.env.GITHUB_RUN_ID ?? "local"
 const file = join(ROOT, ".changeset", `brand-sync-${slug}.md`)
 
-// Minor for the common case (a sync adds, re-renders, or reshuffles assets behind the
+// Patch for the common case (a sync adds, re-renders, or reshuffles assets behind the
 // fully-namespaced API). A sync should never remove a published export — the guard in
 // sync.ts blocks that unless ALLOW_BREAKING_REMOVALS was set — but if one did disappear,
-// reflect it honestly as a major.
-const bump = totalBreaking > 0 ? "major" : "minor"
+// reflect it honestly as a minor.
+// NOTE: Once we're past v1.0.0 then we should change this to "minor" for the common case,
+// and "major" for the rare case of a breaking removal.
+const bump = totalBreaking > 0 ? "minor" : "patch"
 await writeFile(file, `---\n"@posthog/brand": ${bump}\n---\n\n${body}\n`)
 console.log(`Wrote ${file}:\n${body}`)
