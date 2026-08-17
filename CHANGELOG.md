@@ -1,8 +1,8 @@
 # @posthog/brand
 
-## 1.0.0
+## 0.10.0
 
-### Major Changes
+### Minor Changes
 
 - 20922fb: Sync brand assets from Figma (47 added, 50 removed).
 
