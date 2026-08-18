@@ -1,6 +1,6 @@
 {
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2388741668245350625",
+  "figmaVersion": "2388823546908576838",
   "entries": {
     "hoggies/70s-dance": {
       "figmaNodeId": "404:93626",
@@ -628,7 +628,7 @@
     },
     "crests/full/apm": {
       "figmaNodeId": "35:2047",
-      "nodeHash": "9b497e03acd66ff3"
+      "nodeHash": "98f5cec5a7ccb2b0"
     },
     "crests/full/batch-exports": {
       "figmaNodeId": "23:17603",
@@ -656,371 +656,371 @@
     },
     "crests/full/builder-relations": {
       "figmaNodeId": "23:3259",
-      "nodeHash": "c80bab9722ec78da"
+      "nodeHash": "3f8990cd599d45ca"
     },
     "crests/mini/builder-relations": {
       "figmaNodeId": "23:3879",
-      "nodeHash": "d6a6e1bee872e49b"
+      "nodeHash": "71ed19e15d424e0d"
     },
     "crests/full/clickhouse": {
       "figmaNodeId": "23:1310",
-      "nodeHash": "65bec8f9e8b89939"
+      "nodeHash": "d8005e6b69e4c538"
     },
     "crests/mini/clickhouse": {
       "figmaNodeId": "23:1558",
-      "nodeHash": "ad8906712d6fa218"
+      "nodeHash": "60ac95541461be1e"
     },
     "crests/full/client-libraries": {
       "figmaNodeId": "24:1998",
-      "nodeHash": "22d762256614f295"
+      "nodeHash": "6eb6da217ef5669c"
     },
     "crests/mini/client-libraries": {
       "figmaNodeId": "24:2000",
-      "nodeHash": "7131c9a4b47b9779"
+      "nodeHash": "e0d3483dace6188f"
     },
     "crests/full/cloud-foundations": {
       "figmaNodeId": "23:1931",
-      "nodeHash": "fe8eb9a1092a145e"
+      "nodeHash": "d6df77085b092dab"
     },
     "crests/mini/cloud-foundations": {
       "figmaNodeId": "23:2269",
-      "nodeHash": "500bc06801d28264"
+      "nodeHash": "cf4abbf1b2b05647"
     },
     "crests/full/cloud-platform": {
       "figmaNodeId": "693:3704",
-      "nodeHash": "efa3c9696eae8817"
+      "nodeHash": "b80829bbe97cd21f"
     },
     "crests/mini/cloud-platform": {
       "figmaNodeId": "693:3706",
-      "nodeHash": "eb4ef4f2afa9ec2e"
+      "nodeHash": "e5f916667d149514"
     },
     "crests/full/conversations": {
       "figmaNodeId": "35:2046",
-      "nodeHash": "2eb10a91a4fe0b7b"
+      "nodeHash": "a8d324cbb61d21b8"
     },
     "crests/mini/conversations": {
       "figmaNodeId": "907:2572",
-      "nodeHash": "cbf901693af09cd3"
+      "nodeHash": "321b042ac56103c2"
     },
     "crests/full/customer-analytics": {
       "figmaNodeId": "23:18942",
-      "nodeHash": "899be5a2030d6e9e"
+      "nodeHash": "f15da37992a564e2"
     },
     "crests/mini/customer-analytics": {
       "figmaNodeId": "23:19095",
-      "nodeHash": "be398b4a358c47e8"
+      "nodeHash": "109ee61add64ab4f"
     },
     "crests/full/customer-success-eu": {
       "figmaNodeId": "180:4763",
-      "nodeHash": "5db2ca17596acee9"
+      "nodeHash": "d4e3115764b2efbd"
     },
     "crests/mini/customer-success-eu": {
       "figmaNodeId": "180:4765",
-      "nodeHash": "5b03ab70114724fa"
+      "nodeHash": "c8710db112ebff2d"
     },
     "crests/full/customer-success-na": {
       "figmaNodeId": "180:5059",
-      "nodeHash": "2340683a06703087"
+      "nodeHash": "7dc73187ae04c94b"
     },
     "crests/mini/customer-success-na": {
       "figmaNodeId": "180:5061",
-      "nodeHash": "560d50bc2d047be6"
+      "nodeHash": "fa473b4d1cbf67b2"
     },
     "crests/full/data-modeling": {
       "figmaNodeId": "24:3214",
-      "nodeHash": "8883aa1070520752"
+      "nodeHash": "a6c60b05fdba839d"
     },
     "crests/mini/data-modeling": {
       "figmaNodeId": "24:3216",
-      "nodeHash": "34216306a009f002"
+      "nodeHash": "674aa8b76175f124"
     },
     "crests/full/data-tools": {
       "figmaNodeId": "26:7146",
-      "nodeHash": "0ca4179ca8193e90"
+      "nodeHash": "3d3d2869e4a114da"
     },
     "crests/mini/data-tools": {
       "figmaNodeId": "26:7148",
-      "nodeHash": "62df013a0cd6d5dc"
+      "nodeHash": "24091edbbec7c024"
     },
     "crests/full/demand-gen": {
       "figmaNodeId": "23:18817",
-      "nodeHash": "f609aa4b232d0591"
+      "nodeHash": "99840a7d8a654ee3"
     },
     "crests/mini/demand-gen": {
       "figmaNodeId": "23:18879",
-      "nodeHash": "cc258e61b7f6d0a6"
+      "nodeHash": "ebcf0939415624ae"
     },
     "crests/mini/dev-experience": {
       "figmaNodeId": "23:10215",
-      "nodeHash": "d87778e869dd6551"
+      "nodeHash": "78117ad4211d43a6"
     },
     "crests/full/dev-experience": {
       "figmaNodeId": "23:8543",
-      "nodeHash": "9020a9ea2027c241"
+      "nodeHash": "c24afd5deaace997"
     },
     "crests/full/editorial": {
       "figmaNodeId": "23:12950",
-      "nodeHash": "9adbb08014c07404"
+      "nodeHash": "77ca1c29e9ff48c9"
     },
     "crests/mini/editorial": {
       "figmaNodeId": "23:13312",
-      "nodeHash": "cf46e18716cb483b"
+      "nodeHash": "4ec4cbb181678ff5"
     },
     "crests/full/error-tracking": {
       "figmaNodeId": "23:2289",
-      "nodeHash": "64ccca67c559190d"
+      "nodeHash": "4675282658acdabf"
     },
     "crests/mini/error-tracking": {
       "figmaNodeId": "23:2705",
-      "nodeHash": "f7279d99d4ea7b80"
+      "nodeHash": "02732e1b92e47aa9"
     },
     "crests/full/experiments": {
       "figmaNodeId": "24:469",
-      "nodeHash": "6987695ad1ac13ea"
+      "nodeHash": "97eb54fa6859389b"
     },
     "crests/mini/experiments": {
       "figmaNodeId": "24:471",
-      "nodeHash": "6dfd38c7eb15b381"
+      "nodeHash": "1ff56f42f19d3233"
     },
     "crests/full/feature-flags": {
       "figmaNodeId": "23:15004",
-      "nodeHash": "00861ad865836049"
+      "nodeHash": "eccd2b4afcaa59cc"
     },
     "crests/mini/feature-flags": {
       "figmaNodeId": "23:15324",
-      "nodeHash": "53117794477092b2"
+      "nodeHash": "abb33b5d8cbb42b8"
     },
     "crests/full/forward-deployed-engineering": {
       "figmaNodeId": "23:7256",
-      "nodeHash": "2d192c87198c535d"
+      "nodeHash": "776b6ea67a8d9aed"
     },
     "crests/mini/forward-deployed-engineering": {
       "figmaNodeId": "23:7433",
-      "nodeHash": "97b49573174d0801"
+      "nodeHash": "ba95369625554452"
     },
     "crests/full/graphics": {
       "figmaNodeId": "24:2822",
-      "nodeHash": "cf079e1e7da99e88"
+      "nodeHash": "5621a2696d00efa7"
     },
     "crests/mini/graphics": {
       "figmaNodeId": "24:2824",
-      "nodeHash": "8d829eed7239c905"
+      "nodeHash": "3b7c13c174c862ef"
     },
     "crests/full/growth": {
       "figmaNodeId": "23:2731",
-      "nodeHash": "587f3330418856ae"
+      "nodeHash": "7eb451138cad3b3a"
     },
     "crests/mini/growth": {
       "figmaNodeId": "23:3239",
-      "nodeHash": "1757fa754bc8a577"
+      "nodeHash": "4ddb75a4eb5fcecb"
     },
     "crests/full/gtm-engineering": {
       "figmaNodeId": "693:4062",
-      "nodeHash": "b3ada259afa9216b"
+      "nodeHash": "b4b5e749a991014a"
     },
     "crests/mini/gtm-engineering": {
       "figmaNodeId": "693:4064",
-      "nodeHash": "fad73228a14b9cd5"
+      "nodeHash": "0d320ccb7513d0f0"
     },
     "crests/full/ingestion": {
       "figmaNodeId": "26:9879",
-      "nodeHash": "1b55acf159626212"
+      "nodeHash": "0383f0b7a4a31b7c"
     },
     "crests/mini/ingestion": {
       "figmaNodeId": "26:9881",
-      "nodeHash": "6a76298db83d3c20"
+      "nodeHash": "57e9270a102f8fef"
     },
     "crests/full/managed-warehouse": {
       "figmaNodeId": "23:11277",
-      "nodeHash": "491a40eb1aebd69a"
+      "nodeHash": "2481c9d8240422aa"
     },
     "crests/mini/managed-warehouse": {
       "figmaNodeId": "23:11394",
-      "nodeHash": "5fe6ac791e868b1a"
+      "nodeHash": "31cbd7b09a9dccf4"
     },
     "crests/full/marketing": {
       "figmaNodeId": "26:8090",
-      "nodeHash": "8be4a871a096560a"
+      "nodeHash": "6bcb5645ee8b2d56"
     },
     "crests/mini/marketing": {
       "figmaNodeId": "26:8092",
-      "nodeHash": "56fa80527502ecda"
+      "nodeHash": "a08d01f9f2fdc524"
     },
     "crests/full/mcp-analytics": {
       "figmaNodeId": "693:3228",
-      "nodeHash": "14356d3d49787576"
+      "nodeHash": "204a88b2650d3a5a"
     },
     "crests/mini/mcp-analytics": {
       "figmaNodeId": "693:3230",
-      "nodeHash": "95c2701e87259fbb"
+      "nodeHash": "cb51096b67331544"
     },
     "crests/full/new-business-sales": {
       "figmaNodeId": "23:11512",
-      "nodeHash": "c48403dee03f9980"
+      "nodeHash": "eb4fb1e56e2283f3"
     },
     "crests/mini/new-business-sales": {
       "figmaNodeId": "23:11788",
-      "nodeHash": "45db04ff544e956e"
+      "nodeHash": "5cfa11810bb3df54"
     },
     "crests/full/onboarding": {
       "figmaNodeId": "23:3892",
-      "nodeHash": "341c4be5edf74f52"
+      "nodeHash": "4cfe9e3ad1b55809"
     },
     "crests/mini/onboarding": {
       "figmaNodeId": "23:4422",
-      "nodeHash": "bed486e2a8c847a7"
+      "nodeHash": "386cd440f39ec675"
     },
     "crests/full/people-ops": {
       "figmaNodeId": "23:424",
-      "nodeHash": "0335c1da229d0224"
+      "nodeHash": "46f8c09ec5dd324a"
     },
     "crests/mini/people-ops": {
       "figmaNodeId": "23:818",
-      "nodeHash": "7e86c68da4eec4bb"
+      "nodeHash": "6c3ac8fd084fa4ba"
     },
     "crests/full/platform-features": {
       "figmaNodeId": "26:10865",
-      "nodeHash": "c96b21ac75dd2029"
+      "nodeHash": "3bd7ce2b4aa00924"
     },
     "crests/mini/platform-features": {
       "figmaNodeId": "26:10867",
-      "nodeHash": "a0584b44f14b6de4"
+      "nodeHash": "8d6e028a4ae991bf"
     },
     "crests/full/platform-ux": {
       "figmaNodeId": "26:8347",
-      "nodeHash": "767206857b8fb567"
+      "nodeHash": "d1249c9985a3e759"
     },
     "crests/mini/platform-ux": {
       "figmaNodeId": "26:8349",
-      "nodeHash": "af31d915760b327b"
+      "nodeHash": "05eda20a7fdc332d"
     },
     "crests/full/posthog-desktop": {
       "figmaNodeId": "26:7473",
-      "nodeHash": "0c62d92fbfa250aa"
+      "nodeHash": "8af10504c695bc00"
     },
     "crests/mini/posthog-desktop": {
       "figmaNodeId": "26:7475",
-      "nodeHash": "3af65e334c8dd145"
+      "nodeHash": "4fb23079adf6e590"
     },
     "crests/full/product-analytics": {
       "figmaNodeId": "23:15645",
-      "nodeHash": "d9c03c1d6eac17db"
+      "nodeHash": "60afb0cde0fd42b7"
     },
     "crests/mini/product-analytics": {
       "figmaNodeId": "23:16113",
-      "nodeHash": "e2e50d912be4ec52"
+      "nodeHash": "2e94ed0a46894226"
     },
     "crests/full/product-lead-sales-east": {
       "figmaNodeId": "23:25403",
-      "nodeHash": "43ec701690371e21"
+      "nodeHash": "dd751c40077192aa"
     },
     "crests/mini/product-lead-sales-east": {
       "figmaNodeId": "23:25885",
-      "nodeHash": "3ef6c3a7fc40adb2"
+      "nodeHash": "973fd24ef8b69d38"
     },
     "crests/full/product-led-sales-west": {
       "figmaNodeId": "23:12065",
-      "nodeHash": "80ab45ce621f5c5a"
+      "nodeHash": "d4b18db565c5fb38"
     },
     "crests/mini/product-led-sales-west": {
       "figmaNodeId": "23:12507",
-      "nodeHash": "418a2314546b4c8e"
+      "nodeHash": "f31b21d7b91b9f64"
     },
     "crests/full/replay": {
       "figmaNodeId": "23:19249",
-      "nodeHash": "2b05cefadb80b5b2"
+      "nodeHash": "17423c86f8780605"
     },
     "crests/mini/replay": {
       "figmaNodeId": "23:19859",
-      "nodeHash": "39284c9a00ee02c6"
+      "nodeHash": "ccfbfbabfcf842f9"
     },
     "crests/full/security": {
       "figmaNodeId": "23:8217",
-      "nodeHash": "a0d02d1401d5aa67"
+      "nodeHash": "fb02d3f6ec5558c8"
     },
     "crests/mini/security": {
       "figmaNodeId": "23:8528",
-      "nodeHash": "a8bc6fa3bf274b06"
+      "nodeHash": "88dfbb6cb8a1eb70"
     },
     "crests/full/self-driving": {
       "figmaNodeId": "35:2048",
-      "nodeHash": "c06d8515e6cba610"
+      "nodeHash": "4e10fc23c66b3352"
     },
     "crests/mini/self-driving": {
       "figmaNodeId": "907:2113",
-      "nodeHash": "d5cf0a4838fa0d4b"
+      "nodeHash": "a29123923c45d29f"
     },
     "crests/mini/support": {
       "figmaNodeId": "23:1285",
-      "nodeHash": "ed55380cd2e6e065"
+      "nodeHash": "a2b3a72328d65133"
     },
     "crests/full/support": {
       "figmaNodeId": "23:841",
-      "nodeHash": "b958cb935a3238e8"
+      "nodeHash": "29fc40bf6b82bc36"
     },
     "crests/full/surveys": {
       "figmaNodeId": "23:1571",
-      "nodeHash": "3c96df8e8634e041"
+      "nodeHash": "6b1a91ed56bee13f"
     },
     "crests/mini/surveys": {
       "figmaNodeId": "23:1919",
-      "nodeHash": "f6201e1c9f2a67b5"
+      "nodeHash": "9132681220834989"
     },
     "crests/full/talent": {
       "figmaNodeId": "23:7047",
-      "nodeHash": "e195166d8536544b"
+      "nodeHash": "9eca2cb2b76b2e44"
     },
     "crests/mini/talent": {
       "figmaNodeId": "23:7245",
-      "nodeHash": "d6a6710f8dfde3c9"
+      "nodeHash": "3e95f4e3570c4e43"
     },
     "crests/full/warehouse-sources": {
       "figmaNodeId": "24:2570",
-      "nodeHash": "a7f41eb2238d321d"
+      "nodeHash": "1f74a12f5d2d88cc"
     },
     "crests/mini/warehouse-sources": {
       "figmaNodeId": "24:2572",
-      "nodeHash": "0057453c9b70a7f1"
+      "nodeHash": "d1f0577abfb9b029"
     },
     "crests/full/web-analytics": {
       "figmaNodeId": "23:16582",
-      "nodeHash": "b8c72f721524adf4"
+      "nodeHash": "d3b2e630489f99c3"
     },
     "crests/mini/web-analytics": {
       "figmaNodeId": "23:17092",
-      "nodeHash": "f9f3cba4475e3e9f"
+      "nodeHash": "91fe07a1b9c522f9"
     },
     "crests/full/website": {
       "figmaNodeId": "23:5320",
-      "nodeHash": "66a87a64afb3a45c"
+      "nodeHash": "a548d40daa607b73"
     },
     "crests/mini/website": {
       "figmaNodeId": "23:6090",
-      "nodeHash": "a2c4fb2340695c13"
+      "nodeHash": "cf40989c7de3d651"
     },
     "crests/full/wizard-docs": {
       "figmaNodeId": "23:20470",
-      "nodeHash": "d103758d16454485"
+      "nodeHash": "ada211ff651099d8"
     },
     "crests/mini/wizard-docs": {
       "figmaNodeId": "23:22936",
-      "nodeHash": "56b88d8596bd70d9"
+      "nodeHash": "419208b0697e1fe0"
     },
     "crests/full/workflows": {
       "figmaNodeId": "23:18120",
-      "nodeHash": "b5f2c73bd5b3b873"
+      "nodeHash": "e7315da143940269"
     },
     "crests/mini/workflows": {
       "figmaNodeId": "23:18468",
-      "nodeHash": "4ca21437fadf8b68"
+      "nodeHash": "f7efa03c5ec2af88"
     },
     "crests/full/youtube": {
       "figmaNodeId": "35:2049",
-      "nodeHash": "43b7d5d007a0e20f"
+      "nodeHash": "f48618f2960f1aa7"
     },
     "crests/mini/youtube": {
       "figmaNodeId": "907:1682",
-      "nodeHash": "faf164e154511c7d"
+      "nodeHash": "d551b516ce151186"
     }
   }
 }

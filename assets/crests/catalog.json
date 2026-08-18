@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-08-17T16:56:49Z",
+  "generatedAt": "2026-08-17T22:48:01Z",
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2388741668245350625",
+  "figmaVersion": "2388823546908576838",
   "namespace": "crests",
   "entries": [
     {
@@ -111,8 +111,8 @@
       "tier": "full",
       "figmaNodeId": "35:2047",
       "aspectRatio": 1,
-      "svgBytes": 80688,
-      "pngBytes": 18498
+      "svgBytes": 80797,
+      "pngBytes": 19311
     },
     {
       "slug": "batch-exports",
@@ -181,7 +181,7 @@
       "tier": "full",
       "figmaNodeId": "23:3259",
       "aspectRatio": 1,
-      "svgBytes": 392290,
+      "svgBytes": 392263,
       "pngBytes": 21638
     },
     {
@@ -201,8 +201,8 @@
       "tier": "full",
       "figmaNodeId": "23:1310",
       "aspectRatio": 1,
-      "svgBytes": 123914,
-      "pngBytes": 23342
+      "svgBytes": 123973,
+      "pngBytes": 23336
     },
     {
       "slug": "clickhouse",
@@ -241,8 +241,8 @@
       "tier": "full",
       "figmaNodeId": "23:1931",
       "aspectRatio": 1,
-      "svgBytes": 130684,
-      "pngBytes": 19816
+      "svgBytes": 130756,
+      "pngBytes": 19748
     },
     {
       "slug": "cloud-foundations",
@@ -261,8 +261,8 @@
       "tier": "full",
       "figmaNodeId": "693:3704",
       "aspectRatio": 1,
-      "svgBytes": 327993,
-      "pngBytes": 19966
+      "svgBytes": 329398,
+      "pngBytes": 19963
     },
     {
       "slug": "cloud-platform",
@@ -281,8 +281,8 @@
       "tier": "full",
       "figmaNodeId": "35:2046",
       "aspectRatio": 1,
-      "svgBytes": 148003,
-      "pngBytes": 22198
+      "svgBytes": 148100,
+      "pngBytes": 22259
     },
     {
       "slug": "conversations",
@@ -291,8 +291,8 @@
       "tier": "mini",
       "figmaNodeId": "907:2572",
       "aspectRatio": 1,
-      "svgBytes": 11220,
-      "pngBytes": 2697
+      "svgBytes": 11203,
+      "pngBytes": 2695
     },
     {
       "slug": "customer-analytics",
@@ -301,8 +301,8 @@
       "tier": "full",
       "figmaNodeId": "23:18942",
       "aspectRatio": 1,
-      "svgBytes": 55186,
-      "pngBytes": 18220
+      "svgBytes": 55107,
+      "pngBytes": 18210
     },
     {
       "slug": "customer-analytics",
@@ -311,8 +311,8 @@
       "tier": "mini",
       "figmaNodeId": "23:19095",
       "aspectRatio": 1,
-      "svgBytes": 4304,
-      "pngBytes": 2765
+      "svgBytes": 4299,
+      "pngBytes": 2774
     },
     {
       "slug": "customer-success-eu",
@@ -321,7 +321,7 @@
       "tier": "full",
       "figmaNodeId": "180:4763",
       "aspectRatio": 1,
-      "svgBytes": 309453,
+      "svgBytes": 309508,
       "pngBytes": 21816
     },
     {
@@ -331,8 +331,8 @@
       "tier": "mini",
       "figmaNodeId": "180:4765",
       "aspectRatio": 1,
-      "svgBytes": 5878,
-      "pngBytes": 2743
+      "svgBytes": 5880,
+      "pngBytes": 2742
     },
     {
       "slug": "customer-success-na",
@@ -361,8 +361,8 @@
       "tier": "full",
       "figmaNodeId": "24:3214",
       "aspectRatio": 1,
-      "svgBytes": 485220,
-      "pngBytes": 16678
+      "svgBytes": 485680,
+      "pngBytes": 16709
     },
     {
       "slug": "data-modeling",
@@ -371,7 +371,7 @@
       "tier": "mini",
       "figmaNodeId": "24:3216",
       "aspectRatio": 1,
-      "svgBytes": 14779,
+      "svgBytes": 14775,
       "pngBytes": 3957
     },
     {
@@ -381,8 +381,8 @@
       "tier": "full",
       "figmaNodeId": "26:7146",
       "aspectRatio": 1,
-      "svgBytes": 845147,
-      "pngBytes": 19634
+      "svgBytes": 845375,
+      "pngBytes": 19690
     },
     {
       "slug": "data-tools",
@@ -391,8 +391,8 @@
       "tier": "mini",
       "figmaNodeId": "26:7148",
       "aspectRatio": 1,
-      "svgBytes": 6222,
-      "pngBytes": 2131
+      "svgBytes": 6253,
+      "pngBytes": 2133
     },
     {
       "slug": "demand-gen",
@@ -401,8 +401,8 @@
       "tier": "full",
       "figmaNodeId": "23:18817",
       "aspectRatio": 1,
-      "svgBytes": 31311,
-      "pngBytes": 19322
+      "svgBytes": 31319,
+      "pngBytes": 19344
     },
     {
       "slug": "demand-gen",
@@ -411,8 +411,8 @@
       "tier": "mini",
       "figmaNodeId": "23:18879",
       "aspectRatio": 1,
-      "svgBytes": 5297,
-      "pngBytes": 2858
+      "svgBytes": 5290,
+      "pngBytes": 2865
     },
     {
       "slug": "dev-experience",
@@ -421,8 +421,8 @@
       "tier": "full",
       "figmaNodeId": "23:8543",
       "aspectRatio": 1,
-      "svgBytes": 1363858,
-      "pngBytes": 21466
+      "svgBytes": 1363582,
+      "pngBytes": 21382
     },
     {
       "slug": "dev-experience",
@@ -431,7 +431,7 @@
       "tier": "mini",
       "figmaNodeId": "23:10215",
       "aspectRatio": 1,
-      "svgBytes": 7924,
+      "svgBytes": 7933,
       "pngBytes": 2182
     },
     {
@@ -461,8 +461,8 @@
       "tier": "full",
       "figmaNodeId": "23:2289",
       "aspectRatio": 1,
-      "svgBytes": 92441,
-      "pngBytes": 20857
+      "svgBytes": 92288,
+      "pngBytes": 20848
     },
     {
       "slug": "error-tracking",
@@ -481,8 +481,8 @@
       "tier": "full",
       "figmaNodeId": "24:469",
       "aspectRatio": 1,
-      "svgBytes": 59153,
-      "pngBytes": 19087
+      "svgBytes": 59327,
+      "pngBytes": 19111
     },
     {
       "slug": "experiments",
@@ -501,8 +501,8 @@
       "tier": "full",
       "figmaNodeId": "23:15004",
       "aspectRatio": 1,
-      "svgBytes": 131720,
-      "pngBytes": 15988
+      "svgBytes": 131826,
+      "pngBytes": 15982
     },
     {
       "slug": "feature-flags",
@@ -521,8 +521,8 @@
       "tier": "full",
       "figmaNodeId": "23:7256",
       "aspectRatio": 1,
-      "svgBytes": 480301,
-      "pngBytes": 22458
+      "svgBytes": 480070,
+      "pngBytes": 22612
     },
     {
       "slug": "forward-deployed-engineering",
@@ -531,8 +531,8 @@
       "tier": "mini",
       "figmaNodeId": "23:7433",
       "aspectRatio": 1,
-      "svgBytes": 64129,
-      "pngBytes": 3661
+      "svgBytes": 64156,
+      "pngBytes": 3666
     },
     {
       "slug": "graphics",
@@ -561,8 +561,8 @@
       "tier": "full",
       "figmaNodeId": "23:2731",
       "aspectRatio": 1,
-      "svgBytes": 132896,
-      "pngBytes": 23997
+      "svgBytes": 132973,
+      "pngBytes": 23998
     },
     {
       "slug": "growth",
@@ -581,8 +581,8 @@
       "tier": "full",
       "figmaNodeId": "693:4062",
       "aspectRatio": 1,
-      "svgBytes": 614529,
-      "pngBytes": 19308
+      "svgBytes": 608913,
+      "pngBytes": 19340
     },
     {
       "slug": "gtm-engineering",
@@ -591,8 +591,8 @@
       "tier": "mini",
       "figmaNodeId": "693:4064",
       "aspectRatio": 1,
-      "svgBytes": 30095,
-      "pngBytes": 3833
+      "svgBytes": 30127,
+      "pngBytes": 3829
     },
     {
       "slug": "ingestion",
@@ -611,8 +611,8 @@
       "tier": "mini",
       "figmaNodeId": "26:9881",
       "aspectRatio": 1,
-      "svgBytes": 2744,
-      "pngBytes": 2672
+      "svgBytes": 2747,
+      "pngBytes": 2675
     },
     {
       "slug": "managed-warehouse",
@@ -621,8 +621,8 @@
       "tier": "full",
       "figmaNodeId": "23:11277",
       "aspectRatio": 1,
-      "svgBytes": 45413,
-      "pngBytes": 25706
+      "svgBytes": 45512,
+      "pngBytes": 25832
     },
     {
       "slug": "managed-warehouse",
@@ -631,8 +631,8 @@
       "tier": "mini",
       "figmaNodeId": "23:11394",
       "aspectRatio": 1,
-      "svgBytes": 8727,
-      "pngBytes": 2272
+      "svgBytes": 8728,
+      "pngBytes": 2271
     },
     {
       "slug": "marketing",
@@ -652,7 +652,7 @@
       "figmaNodeId": "26:8092",
       "aspectRatio": 1,
       "svgBytes": 6133,
-      "pngBytes": 3289
+      "pngBytes": 3277
     },
     {
       "slug": "mcp-analytics",
@@ -661,8 +661,8 @@
       "tier": "full",
       "figmaNodeId": "693:3228",
       "aspectRatio": 0.9967,
-      "svgBytes": 540781,
-      "pngBytes": 19781
+      "svgBytes": 549112,
+      "pngBytes": 19793
     },
     {
       "slug": "mcp-analytics",
@@ -672,7 +672,7 @@
       "figmaNodeId": "693:3230",
       "aspectRatio": 1,
       "svgBytes": 4723,
-      "pngBytes": 2181
+      "pngBytes": 2182
     },
     {
       "slug": "new-business-sales",
@@ -681,8 +681,8 @@
       "tier": "full",
       "figmaNodeId": "23:11512",
       "aspectRatio": 1,
-      "svgBytes": 61151,
-      "pngBytes": 17859
+      "svgBytes": 61142,
+      "pngBytes": 17948
     },
     {
       "slug": "new-business-sales",
@@ -701,8 +701,8 @@
       "tier": "full",
       "figmaNodeId": "23:3892",
       "aspectRatio": 1,
-      "svgBytes": 90563,
-      "pngBytes": 17157
+      "svgBytes": 90550,
+      "pngBytes": 17177
     },
     {
       "slug": "onboarding",
@@ -712,7 +712,7 @@
       "figmaNodeId": "23:4422",
       "aspectRatio": 1,
       "svgBytes": 2975,
-      "pngBytes": 2988
+      "pngBytes": 2997
     },
     {
       "slug": "people-ops",
@@ -721,8 +721,8 @@
       "tier": "full",
       "figmaNodeId": "23:424",
       "aspectRatio": 1,
-      "svgBytes": 106176,
-      "pngBytes": 20454
+      "svgBytes": 106536,
+      "pngBytes": 20278
     },
     {
       "slug": "people-ops",
@@ -732,7 +732,7 @@
       "figmaNodeId": "23:818",
       "aspectRatio": 1,
       "svgBytes": 4359,
-      "pngBytes": 2147
+      "pngBytes": 2155
     },
     {
       "slug": "platform-features",
@@ -741,8 +741,8 @@
       "tier": "full",
       "figmaNodeId": "26:10865",
       "aspectRatio": 1,
-      "svgBytes": 95121,
-      "pngBytes": 18508
+      "svgBytes": 94995,
+      "pngBytes": 18471
     },
     {
       "slug": "platform-features",
@@ -752,7 +752,7 @@
       "figmaNodeId": "26:10867",
       "aspectRatio": 1,
       "svgBytes": 4835,
-      "pngBytes": 1903
+      "pngBytes": 1913
     },
     {
       "slug": "platform-ux",
@@ -761,8 +761,8 @@
       "tier": "full",
       "figmaNodeId": "26:8347",
       "aspectRatio": 1,
-      "svgBytes": 166308,
-      "pngBytes": 24909
+      "svgBytes": 166137,
+      "pngBytes": 24833
     },
     {
       "slug": "platform-ux",
@@ -771,8 +771,8 @@
       "tier": "mini",
       "figmaNodeId": "26:8349",
       "aspectRatio": 1,
-      "svgBytes": 5809,
-      "pngBytes": 2858
+      "svgBytes": 5813,
+      "pngBytes": 2863
     },
     {
       "slug": "posthog-desktop",
@@ -781,8 +781,8 @@
       "tier": "full",
       "figmaNodeId": "26:7473",
       "aspectRatio": 1,
-      "svgBytes": 344971,
-      "pngBytes": 18766
+      "svgBytes": 344992,
+      "pngBytes": 18767
     },
     {
       "slug": "posthog-desktop",
@@ -792,7 +792,7 @@
       "figmaNodeId": "26:7475",
       "aspectRatio": 1,
       "svgBytes": 12091,
-      "pngBytes": 2807
+      "pngBytes": 2798
     },
     {
       "slug": "product-analytics",
@@ -821,8 +821,8 @@
       "tier": "full",
       "figmaNodeId": "23:25403",
       "aspectRatio": 1,
-      "svgBytes": 313554,
-      "pngBytes": 18298
+      "svgBytes": 313332,
+      "pngBytes": 18273
     },
     {
       "slug": "product-lead-sales-east",
@@ -881,8 +881,8 @@
       "tier": "full",
       "figmaNodeId": "23:8217",
       "aspectRatio": 1,
-      "svgBytes": 509744,
-      "pngBytes": 21681
+      "svgBytes": 509673,
+      "pngBytes": 21708
     },
     {
       "slug": "security",
@@ -891,8 +891,8 @@
       "tier": "mini",
       "figmaNodeId": "23:8528",
       "aspectRatio": 1,
-      "svgBytes": 6521,
-      "pngBytes": 2394
+      "svgBytes": 6523,
+      "pngBytes": 2389
     },
     {
       "slug": "self-driving",
@@ -901,8 +901,8 @@
       "tier": "full",
       "figmaNodeId": "35:2048",
       "aspectRatio": 1,
-      "svgBytes": 86084,
-      "pngBytes": 20458
+      "svgBytes": 85894,
+      "pngBytes": 20462
     },
     {
       "slug": "self-driving",
@@ -1081,7 +1081,7 @@
       "tier": "full",
       "figmaNodeId": "35:2049",
       "aspectRatio": 1,
-      "svgBytes": 97228,
+      "svgBytes": 97149,
       "pngBytes": 16909
     },
     {
