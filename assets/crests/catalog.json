@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-08-20T22:32:31Z",
+  "generatedAt": "2026-08-21T19:08:24Z",
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2389945440141938435",
+  "figmaVersion": "2390266587204975872",
   "namespace": "crests",
   "entries": [
     {
@@ -109,10 +109,20 @@
       "name": "APM",
       "namespace": "crests",
       "tier": "full",
-      "figmaNodeId": "35:2047",
+      "figmaNodeId": "1092:3466",
       "aspectRatio": 1,
-      "svgBytes": 80797,
-      "pngBytes": 19311
+      "svgBytes": 323949,
+      "pngBytes": 19213
+    },
+    {
+      "slug": "apm",
+      "name": "APM Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "1092:3468",
+      "aspectRatio": 1,
+      "svgBytes": 10584,
+      "pngBytes": 3113
     },
     {
       "slug": "batch-exports",
