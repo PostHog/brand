@@ -1,5 +1,16 @@
 # @posthog/brand
 
+## 0.10.2
+
+### Patch Changes
+
+- f675815: Sync brand assets from Figma (1 added).
+
+  **crests**
+
+  - Added 1: APM Mini
+  - Updated 1: APM
+
 ## 0.10.1
 
 ### Patch Changes
