@@ -4,7 +4,7 @@ import { colors } from "@posthog/brand/colors"
 // Direct named imports tree-shake to just these few assets, so the landing page stays
 // light — the full-catalog barrels load lazily on the Hoggies / Crests routes.
 import { GraphicsCrest } from "@posthog/brand/crests"
-import { HedgehogMoney, HedgehogQuickCall, HedgehogChart } from "@posthog/brand/hoggies"
+import { HedgehogMoney, HedgehogExplorer, HedgehogChart } from "@posthog/brand/hoggies"
 import { Logo } from "@posthog/brand/logo"
 import { Link } from "react-router-dom"
 import { CodeBlock } from "../components/CodeBlock.tsx"
@@ -88,7 +88,7 @@ export function OverviewPage() {
           <Link to="/hoggies" className="card nav-card">
             <div className="nav-card-preview">
               <HedgehogMoney size={64} />
-              <HedgehogQuickCall size={64} />
+              <HedgehogExplorer size={64} />
               <HedgehogChart size={64} />
             </div>
             <h3>Hoggies →</h3>
