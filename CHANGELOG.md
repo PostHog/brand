@@ -1,5 +1,16 @@
 # @posthog/brand
 
+## 0.11.2
+
+### Patch Changes
+
+- 87e1c5c: Sync brand assets from Figma (7 added).
+
+  **hoggies**
+
+  - Added 7: Commuter, Downward Hog, Hooligan, Loops, Pit Viper, Selfie, Tourist
+  - Updated 1: Reading Is Magic
+
 ## 0.11.1
 
 ### Patch Changes
