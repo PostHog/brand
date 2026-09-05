@@ -1,6 +1,6 @@
 {
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2395150485254749126",
+  "figmaVersion": "2395500220670451080",
   "entries": {
     "hoggies/70s-dance": {
       "figmaNodeId": "404:93626",
@@ -110,6 +110,10 @@
       "figmaNodeId": "404:176609",
       "nodeHash": "837139acadfcca80"
     },
+    "hoggies/commuter": {
+      "figmaNodeId": "1337:3629",
+      "nodeHash": "5858df6720b20c44"
+    },
     "hoggies/construction-1": {
       "figmaNodeId": "404:156237",
       "nodeHash": "b656cb029c2e5ac5"
@@ -169,6 +173,10 @@
     "hoggies/doll-house": {
       "figmaNodeId": "404:143350",
       "nodeHash": "02f247d891fdef7c"
+    },
+    "hoggies/downward-hog": {
+      "figmaNodeId": "1336:1428",
+      "nodeHash": "bf96f0957081b1b0"
     },
     "hoggies/dr-manhattan": {
       "figmaNodeId": "404:155722",
@@ -270,6 +278,10 @@
       "figmaNodeId": "909:5993",
       "nodeHash": "6d9b1c7fb46694ef"
     },
+    "hoggies/hooligan": {
+      "figmaNodeId": "1336:2092",
+      "nodeHash": "03dc5ecd9f4098f1"
+    },
     "hoggies/hoot": {
       "figmaNodeId": "404:125872",
       "nodeHash": "4feb40f833b43a48"
@@ -321,6 +333,10 @@
     "hoggies/lifeguard": {
       "figmaNodeId": "404:99227",
       "nodeHash": "04165f6431129e94"
+    },
+    "hoggies/loops": {
+      "figmaNodeId": "1336:686",
+      "nodeHash": "92755a5006a138bf"
     },
     "hoggies/magnifying-glass-2": {
       "figmaNodeId": "404:132663",
@@ -402,6 +418,10 @@
       "figmaNodeId": "404:122076",
       "nodeHash": "8752ae4ffd1f7a75"
     },
+    "hoggies/pit-viper": {
+      "figmaNodeId": "1336:1432",
+      "nodeHash": "a80f2f76ef81ad8b"
+    },
     "hoggies/pope": {
       "figmaNodeId": "404:132161",
       "nodeHash": "be35dcf487d0aa20"
@@ -416,7 +436,7 @@
     },
     "hoggies/reading-is-magic": {
       "figmaNodeId": "404:116927",
-      "nodeHash": "748b9ab05e887a15"
+      "nodeHash": "99c3f7f45e7c8359"
     },
     "hoggies/remote-work": {
       "figmaNodeId": "404:141093",
@@ -465,6 +485,10 @@
     "hoggies/scott-pilgrim": {
       "figmaNodeId": "404:98633",
       "nodeHash": "1be8cf3bec2d6810"
+    },
+    "hoggies/selfie": {
+      "figmaNodeId": "1337:3632",
+      "nodeHash": "cf510ee348e5791a"
     },
     "hoggies/shocked": {
       "figmaNodeId": "404:141527",
@@ -541,6 +565,10 @@
     "hoggies/the-bride": {
       "figmaNodeId": "404:101189",
       "nodeHash": "5a6b8a42f0948cfc"
+    },
+    "hoggies/tourist": {
+      "figmaNodeId": "1336:2094",
+      "nodeHash": "92a980d78977cee8"
     },
     "hoggies/town-crier": {
       "figmaNodeId": "404:107835",

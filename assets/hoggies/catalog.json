@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-04T00:11:48Z",
+  "generatedAt": "2026-09-05T01:39:38Z",
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2395150485254749126",
+  "figmaVersion": "2395500220670451080",
   "namespace": "hoggies",
   "entries": [
     {
@@ -536,6 +536,27 @@
       "pngBytes": 52684
     },
     {
+      "slug": "commuter",
+      "name": "Commuter",
+      "namespace": "hoggies",
+      "figmaNodeId": "1337:3629",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "worker",
+        "office",
+        "briefcase",
+        "mobile",
+        "cell phone",
+        "glasses",
+        "tie",
+        "button-up"
+      ],
+      "svgBytes": 156247,
+      "pngBytes": 53896
+    },
+    {
       "slug": "construction-1",
       "name": "Construction 1",
       "namespace": "hoggies",
@@ -825,6 +846,26 @@
       ],
       "svgBytes": 144866,
       "pngBytes": 50175
+    },
+    {
+      "slug": "downward-hog",
+      "name": "Downward Hog",
+      "namespace": "hoggies",
+      "figmaNodeId": "1336:1428",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "pink",
+        "namaste",
+        "yoga",
+        "yoga mat",
+        "hat",
+        "athletic",
+        "workout"
+      ],
+      "svgBytes": 163518,
+      "pngBytes": 54261
     },
     {
       "slug": "dr-manhattan",
@@ -1291,6 +1332,28 @@
       "pngBytes": 43004
     },
     {
+      "slug": "hooligan",
+      "name": "Hooligan",
+      "namespace": "hoggies",
+      "figmaNodeId": "1336:2092",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "soccer",
+        "football",
+        "fan",
+        "cheer",
+        "yell",
+        "bucket hat",
+        "red",
+        "white",
+        "scarf"
+      ],
+      "svgBytes": 188377,
+      "pngBytes": 54162
+    },
+    {
       "slug": "hoot",
       "name": "Hoot",
       "namespace": "hoggies",
@@ -1531,6 +1594,28 @@
       ],
       "svgBytes": 190218,
       "pngBytes": 53877
+    },
+    {
+      "slug": "loops",
+      "name": "Loops",
+      "namespace": "hoggies",
+      "figmaNodeId": "1336:686",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "loop",
+        "loops",
+        "self-improving loop",
+        "white shirt",
+        "easel",
+        "artist",
+        "purple",
+        "pencil",
+        "drawing"
+      ],
+      "svgBytes": 178111,
+      "pngBytes": 52559
     },
     {
       "slug": "magnifying-glass-2",
@@ -1943,6 +2028,25 @@
       "pngBytes": 44719
     },
     {
+      "slug": "pit-viper",
+      "name": "Pit Viper",
+      "namespace": "hoggies",
+      "figmaNodeId": "1336:1432",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "hat",
+        "sporty",
+        "sunglasses",
+        "red hat",
+        "tank top",
+        "workout"
+      ],
+      "svgBytes": 173424,
+      "pngBytes": 49628
+    },
+    {
       "slug": "pope",
       "name": "Pope",
       "namespace": "hoggies",
@@ -2016,8 +2120,8 @@
         "glowing",
         "stars"
       ],
-      "svgBytes": 168204,
-      "pngBytes": 62716
+      "svgBytes": 172789,
+      "pngBytes": 62521
     },
     {
       "slug": "remote-work",
@@ -2259,6 +2363,26 @@
       ],
       "svgBytes": 326584,
       "pngBytes": 49794
+    },
+    {
+      "slug": "selfie",
+      "name": "Selfie",
+      "namespace": "hoggies",
+      "figmaNodeId": "1337:3632",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "selfie",
+        "photo",
+        "headphones",
+        "peace",
+        "yellow shirt",
+        "smiling",
+        "eyes closed"
+      ],
+      "svgBytes": 151686,
+      "pngBytes": 46505
     },
     {
       "slug": "shocked",
@@ -2651,6 +2775,26 @@
       ],
       "svgBytes": 213367,
       "pngBytes": 46339
+    },
+    {
+      "slug": "tourist",
+      "name": "Tourist",
+      "namespace": "hoggies",
+      "figmaNodeId": "1336:2094",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "map",
+        "transit",
+        "lost",
+        "hawaiian",
+        "suitcase",
+        "luggage",
+        "hat"
+      ],
+      "svgBytes": 185977,
+      "pngBytes": 53790
     },
     {
       "slug": "town-crier",
