@@ -128,7 +128,12 @@ PNGs at build time, downscales each to a ~20px blurred WebP, and serves them as
 `virtual:brand-lqip/<group>` maps (keyed by the same PNG export name) inlined as data URIs —
 so a tiny placeholder paints instantly behind each `<img>` and fades out on load. The heavy
 catalog routes are also `React.lazy` code-split so the initial bundle stays small. The site is
-themed from the package's own `colorsCss` tokens. It is NOT published to
+themed from the package's own `colorsCss` tokens. Because `@posthog/brand` is consumed through
+a workspace symlink, its bare `react` imports resolve from the repo root (which installs its own
+React for the library's tests), so `vite.config.ts` sets `resolve.dedupe: ["react", "react-dom"]`
+— without it the bundle carries two React instances and every route rendering a hook-using
+export (e.g. `<Logo.Logomark>`) dies on a null dispatcher. CI builds the site and asserts the
+bundle contains exactly one React copy. It is NOT published to
 npm; it deploys to Cloudflare Pages via the dashboard's Git integration (root dir = repo root,
 build = `pnpm build:site`, output = `site/dist`). Node is pinned via `.nvmrc` (≥22.18):
 the build runs the `.ts` scripts in `scripts/` directly through Node's native TS

@@ -14,5 +14,14 @@ import { brandLqip } from "./lqip-plugin.ts"
 export default defineConfig({
   plugins: [react(), brandLqip()],
   base: "/",
+  // `@posthog/brand` is a workspace symlink, so a bare `react` import inside its `dist/`
+  // resolves from the *repo root's* node_modules, not the site's — and the root installs
+  // its own React (a devDependency, for the package's tests). Without deduping, the two
+  // resolutions land in the bundle as two React instances: react-dom renders with one while
+  // the package's hooks read the other's (null) dispatcher, so anything from `@posthog/brand`
+  // that calls a hook — `<Logo.Logomark>` — throws
+  // "Cannot read properties of null (reading 'useRef')" and blanks the route.
+  // `dedupe` forces every `react`/`react-dom` import in the graph to the site's single copy.
+  resolve: { dedupe: ["react", "react-dom"] },
   build: { outDir: "dist" },
 })

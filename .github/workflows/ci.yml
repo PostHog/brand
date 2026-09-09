@@ -45,3 +45,20 @@ jobs:
 
       - name: Size report
         run: pnpm -s size >> "$GITHUB_STEP_SUMMARY"
+
+      # The demo site is only otherwise built by Cloudflare Pages, i.e. after merge — build
+      # it here so a broken site is caught on the PR instead of in production.
+      - name: Build site
+        run: pnpm --filter @posthog/brand-site build
+
+      # `@posthog/brand` is a workspace symlink, so its bare `react` imports can resolve to a
+      # second React outside site/node_modules and blank every route that uses a hook (#23).
+      # One copy in the bundle == one React instance; see site/vite.config.ts `resolve.dedupe`.
+      - name: Assert a single React copy in the site bundle
+        run: |
+          marker='__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE='
+          copies=$(grep -roF "$marker" site/dist/assets --include='*.js' | wc -l | tr -d ' ')
+          if [ "$copies" != "1" ]; then
+            echo "::error::Expected exactly 1 React copy in the site bundle, found $copies."
+            exit 1
+          fi
