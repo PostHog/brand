@@ -1,5 +1,16 @@
 # @posthog/brand
 
+## 0.12.0
+
+### Minor Changes
+
+- b2bd23f: Sync brand assets from Figma (2 added, 1 removed). Downward Hog was renamed into Namaste hence the minor (breaking) bump.
+
+  **hoggies**
+
+  - Added 2: Gatsby, Namaste
+  - Removed 1: Downward Hog
+
 ## 0.11.2
 
 ### Patch Changes
