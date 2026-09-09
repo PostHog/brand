@@ -4,6 +4,7 @@ import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import { BrowserRouter } from "react-router-dom"
 import { App } from "./App.tsx"
+import { isPrefetching } from "./prefetch.ts"
 import "./theme.css"
 
 // Inject the package's own brand assets so the site's chrome is rendered from the same
@@ -22,6 +23,11 @@ document.head.appendChild(brandStyles)
 // falls through to the ErrorBoundary's reload prompt instead.
 const RELOAD_STAMP = "brand-site:stale-chunk-reload"
 window.addEventListener("vite:preloadError", (event) => {
+  // A speculative nav-link prefetch that missed is not worth reloading the tab over — the
+  // user only hovered a link, and the real navigation will still surface the problem.
+  if (isPrefetching()) {
+    return
+  }
   const last = Number(sessionStorage.getItem(RELOAD_STAMP) ?? 0)
   if (Date.now() - last < 30_000) {
     return
