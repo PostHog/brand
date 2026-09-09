@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from "react"
+import { copyToClipboard } from "../clipboard.ts"
 
 interface CopyButtonProps {
   /** The text written to the clipboard. */
@@ -14,7 +15,10 @@ export function CopyButton({ value, label = "Copy", className }: CopyButtonProps
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   const onCopy = useCallback(() => {
-    void navigator.clipboard.writeText(value).then(() => {
+    void copyToClipboard(value).then((ok) => {
+      if (!ok) {
+        return
+      }
       setCopied(true)
       clearTimeout(timer.current)
       timer.current = setTimeout(() => setCopied(false), 1200)

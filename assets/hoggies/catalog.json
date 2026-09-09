@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-05T01:39:38Z",
+  "generatedAt": "2026-09-09T21:16:13Z",
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2395500220670451080",
+  "figmaVersion": "2397341532209726864",
   "namespace": "hoggies",
   "entries": [
     {
@@ -848,26 +848,6 @@
       "pngBytes": 50175
     },
     {
-      "slug": "downward-hog",
-      "name": "Downward Hog",
-      "namespace": "hoggies",
-      "figmaNodeId": "1336:1428",
-      "aspectRatio": 1,
-      "tags": [
-        "hog",
-        "solo",
-        "pink",
-        "namaste",
-        "yoga",
-        "yoga mat",
-        "hat",
-        "athletic",
-        "workout"
-      ],
-      "svgBytes": 163518,
-      "pngBytes": 54261
-    },
-    {
       "slug": "dr-manhattan",
       "name": "Dr. Manhattan",
       "namespace": "hoggies",
@@ -1131,6 +1111,24 @@
       "aspectRatio": 1,
       "svgBytes": 139507,
       "pngBytes": 45888
+    },
+    {
+      "slug": "gatsby",
+      "name": "Gatsby",
+      "namespace": "hoggies",
+      "figmaNodeId": "1337:4326",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "gatsby",
+        "cheers",
+        "leo",
+        "tux",
+        "blonde"
+      ],
+      "svgBytes": 185981,
+      "pngBytes": 52187
     },
     {
       "slug": "gladiator-1",
@@ -1747,6 +1745,26 @@
       ],
       "svgBytes": 100440,
       "pngBytes": 41134
+    },
+    {
+      "slug": "namaste",
+      "name": "Namaste",
+      "namespace": "hoggies",
+      "figmaNodeId": "1336:1428",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "pink",
+        "namaste",
+        "yoga",
+        "yoga mat",
+        "hat",
+        "athletic",
+        "workout"
+      ],
+      "svgBytes": 163518,
+      "pngBytes": 54261
     },
     {
       "slug": "noir-1",

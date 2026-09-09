@@ -1,6 +1,6 @@
 {
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2395500220670451080",
+  "figmaVersion": "2397341532209726864",
   "entries": {
     "hoggies/70s-dance": {
       "figmaNodeId": "404:93626",
@@ -174,10 +174,6 @@
       "figmaNodeId": "404:143350",
       "nodeHash": "02f247d891fdef7c"
     },
-    "hoggies/downward-hog": {
-      "figmaNodeId": "1336:1428",
-      "nodeHash": "bf96f0957081b1b0"
-    },
     "hoggies/dr-manhattan": {
       "figmaNodeId": "404:155722",
       "nodeHash": "864b668c98beab29"
@@ -237,6 +233,10 @@
     "hoggies/gardener-2": {
       "figmaNodeId": "463:4369",
       "nodeHash": "01ec32aff41f045c"
+    },
+    "hoggies/gatsby": {
+      "figmaNodeId": "1337:4326",
+      "nodeHash": "c5a00dea601e4f2c"
     },
     "hoggies/gladiator-1": {
       "figmaNodeId": "404:115089",
@@ -365,6 +365,10 @@
     "hoggies/mr-potato-head-2": {
       "figmaNodeId": "404:113749",
       "nodeHash": "0271a5bdd8f0376d"
+    },
+    "hoggies/namaste": {
+      "figmaNodeId": "1336:1428",
+      "nodeHash": "d3bbb67121be9c93"
     },
     "hoggies/noir-1": {
       "figmaNodeId": "404:90201",

@@ -1,5 +1,6 @@
 import { useRef, useState } from "react"
 import { Link } from "react-router-dom"
+import { copyToClipboard } from "../clipboard.ts"
 
 interface AssetTileProps {
   /** Bundled PNG URL to show as the thumbnail. When absent, a placeholder glyph is shown. */
@@ -23,7 +24,10 @@ export function AssetTile({ src, placeholder, name, slug, copyValue, to }: Asset
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   function onClick() {
-    void navigator.clipboard.writeText(copyValue).then(() => {
+    void copyToClipboard(copyValue).then((ok) => {
+      if (!ok) {
+        return
+      }
       setCopied(true)
       clearTimeout(timer.current)
       timer.current = setTimeout(() => setCopied(false), 1200)
