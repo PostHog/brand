@@ -15,7 +15,7 @@ const brandStyles = document.createElement("style")
 brandStyles.textContent = `${colorsCss}\n${roundHogFontFaceCss}`
 document.head.appendChild(brandStyles)
 
-// Vite fires `vite:preloadError` when a lazy route's chunk can't be fetched — almost
+// Vite fires `vite:preloadError` when a lazy route's chunk can't be fetched, almost
 // always because a new deploy replaced the hashed filenames this tab's `index.html` points
 // at. Reloading picks up the new manifest. Guarded by a sessionStorage stamp so a chunk
 // that is genuinely gone can't put the tab in a reload loop; after one attempt the error

@@ -2,7 +2,6 @@ import { Logo } from "@posthog/brand/logo"
 import { lazy, type ReactNode, Suspense } from "react"
 import { NavLink, Route, Routes, useLocation } from "react-router-dom"
 import { ErrorBoundary } from "./components/ErrorBoundary.tsx"
-import { NotFoundPage } from "./pages/NotFound.tsx"
 import { OverviewPage } from "./pages/Overview.tsx"
 
 // The asset-catalog pages each pull a large barrel of inline-SVG components, so they
@@ -16,6 +15,12 @@ const HoggiesPage = lazy(() =>
 const CrestsPage = lazy(() => import("./pages/Crests.tsx").then((m) => ({ default: m.CrestsPage })))
 const CrestDetailPage = lazy(() =>
   import("./pages/CrestDetail.tsx").then((m) => ({ default: m.CrestDetailPage })),
+)
+
+// Lazy for the same reason: its hog is a full inline-SVG illustration, and hardly anyone
+// lands on a 404.
+const NotFoundPage = lazy(() =>
+  import("./pages/NotFound.tsx").then((m) => ({ default: m.NotFoundPage })),
 )
 
 const NAV = [
@@ -70,8 +75,8 @@ function Layout({ children }: { children: ReactNode }) {
 /**
  * Router + shared layout. Each route is one showcase page.
  *
- * The routes sit inside an {@link ErrorBoundary} so a throw — most plausibly a lazy route
- * chunk that failed to download after a fresh deploy — shows a reload prompt instead of
+ * The routes sit inside an {@link ErrorBoundary}, so a throw (most plausibly a lazy route
+ * chunk that failed to download after a fresh deploy) shows a reload prompt instead of
  * unmounting the whole app to a blank page. Keying it on the pathname clears a caught
  * error as soon as you navigate somewhere else.
  */

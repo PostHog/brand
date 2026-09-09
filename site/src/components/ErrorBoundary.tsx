@@ -25,8 +25,8 @@ interface ErrorBoundaryState {
 
 /**
  * Catches render-time throws so one broken subtree doesn't blank the entire app. Without
- * it, React unmounts the whole root on any error — most often a `React.lazy` route chunk
- * that failed to download — leaving a white page with nothing but a console message.
+ * it, React unmounts the whole root on any error (most often a `React.lazy` route chunk
+ * that failed to download), leaving a white page with nothing but a console message.
  *
  * `App` mounts this keyed on the pathname, so navigating elsewhere clears a caught error.
  */

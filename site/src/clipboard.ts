@@ -2,7 +2,7 @@
  * Copies `text`, resolving to whether it worked.
  *
  * `navigator.clipboard` only exists in a secure context, so it is `undefined` when the
- * site is served over plain http (an IP-address preview, say) — reaching straight for
+ * site is served over plain http (an IP-address preview, say), so reaching straight for
  * `.writeText` throws there. Even where it exists the promise can reject (denied
  * permission, an unfocused document), so callers get a boolean and only show "Copied!"
  * when the text really landed on the clipboard.
