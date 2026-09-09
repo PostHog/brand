@@ -127,7 +127,12 @@ the `brandLqip()` Vite plugin (`site/lqip-plugin.ts`, dev-dep `sharp`) reads tho
 PNGs at build time, downscales each to a ~20px blurred WebP, and serves them as
 `virtual:brand-lqip/<group>` maps (keyed by the same PNG export name) inlined as data URIs —
 so a tiny placeholder paints instantly behind each `<img>` and fades out on load. The heavy
-catalog routes are also `React.lazy` code-split so the initial bundle stays small. The site is
+catalog routes are also `React.lazy` code-split so the initial bundle stays small. Because a
+lazy chunk that 404s (a tab holding a pre-deploy `index.html`) would otherwise unmount the
+whole app to a blank page, the routes sit inside an `ErrorBoundary`
+(`site/src/components/ErrorBoundary.tsx`, keyed on the pathname so navigating clears the
+error) and `main.tsx` reloads once on Vite's `vite:preloadError`; unmatched paths get a `*`
+404 route rather than an empty `<main>`. The site is
 themed from the package's own `colorsCss` tokens. Because `@posthog/brand` is consumed through
 a workspace symlink, its bare `react` imports resolve from the repo root (which installs its own
 React for the library's tests), so `vite.config.ts` sets `resolve.dedupe: ["react", "react-dom"]`
