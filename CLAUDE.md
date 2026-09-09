@@ -132,7 +132,12 @@ lazy chunk that 404s (a tab holding a pre-deploy `index.html`) would otherwise u
 whole app to a blank page, the routes sit inside an `ErrorBoundary`
 (`site/src/components/ErrorBoundary.tsx`, keyed on the pathname so navigating clears the
 error) and `main.tsx` reloads once on Vite's `vite:preloadError`; unmatched paths get a `*`
-404 route rather than an empty `<main>`. The site is
+404 route rather than an empty `<main>`. The `Suspense` boundary sits _outside_ that keyed
+`ErrorBoundary`: React Router runs navigations as transitions, which keep the current page on
+screen while the next chunk loads only if the boundary survives the navigation — nested inside
+the keyed one it remounted every click and flashed its fallback. Nav links also warm their
+chunk on hover/focus (`site/src/prefetch.ts`), and `main.tsx` skips its reload while such a
+speculative prefetch is in flight. The site is
 themed from the package's own `colorsCss` tokens. Because `@posthog/brand` is consumed through
 a workspace symlink, its bare `react` imports resolve from the repo root (which installs its own
 React for the library's tests), so `vite.config.ts` sets `resolve.dedupe: ["react", "react-dom"]`

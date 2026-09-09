@@ -557,6 +557,27 @@ button.asset.copied .asset-slug {
   line-height: 1.3;
 }
 
+/* ---- route loading ---- */
+/* Only reachable on a cold load straight into a lazy route: navigations are React
+   transitions, so the previous page stays on screen instead of falling back to this. Held
+   invisible for the first 400ms so a quick chunk fetch shows nothing at all. */
+.route-loading {
+  color: var(--text-muted);
+  font-size: 14px;
+  opacity: 0;
+  animation: route-loading-in 150ms ease-out 400ms forwards;
+}
+@keyframes route-loading-in {
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .route-loading {
+    animation-duration: 0s;
+  }
+}
+
 /* ---- 404 ---- */
 .notfound {
   display: flex;
