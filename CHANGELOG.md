@@ -1,5 +1,15 @@
 # @posthog/brand
 
+## 0.12.1
+
+### Patch Changes
+
+- 0f81604: Sync brand assets from Figma (4 added).
+
+  **hoggies**
+
+  - Added 4: Hot / Popcorn, Reaper, Sleepy, Toilet
+
 ## 0.12.0
 
 ### Minor Changes
