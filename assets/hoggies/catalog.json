@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-09T21:16:13Z",
+  "generatedAt": "2026-09-10T17:44:58Z",
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2397341532209726864",
+  "figmaVersion": "2397662581007463972",
   "namespace": "hoggies",
   "entries": [
     {
@@ -1371,6 +1371,26 @@
       "pngBytes": 46152
     },
     {
+      "slug": "hot-popcorn",
+      "name": "Hot / Popcorn",
+      "namespace": "hoggies",
+      "figmaNodeId": "1481:5256",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "naked",
+        "popcorn",
+        "tub",
+        "eating",
+        "watching",
+        "entranced",
+        "movie"
+      ],
+      "svgBytes": 161409,
+      "pngBytes": 55008
+    },
+    {
       "slug": "hourglass",
       "name": "Hourglass",
       "namespace": "hoggies",
@@ -2142,6 +2162,26 @@
       "pngBytes": 62521
     },
     {
+      "slug": "reaper",
+      "name": "Reaper",
+      "namespace": "hoggies",
+      "figmaNodeId": "1481:5257",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "black",
+        "robe",
+        "hood",
+        "sickle",
+        "grim",
+        "reaper",
+        "flower"
+      ],
+      "svgBytes": 167363,
+      "pngBytes": 47384
+    },
+    {
       "slug": "remote-work",
       "name": "Remote Work",
       "namespace": "hoggies",
@@ -2435,6 +2475,28 @@
       ],
       "svgBytes": 113131,
       "pngBytes": 49101
+    },
+    {
+      "slug": "sleepy",
+      "name": "Sleepy",
+      "namespace": "hoggies",
+      "figmaNodeId": "1481:5255",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "sleeping",
+        "sleepy",
+        "chill",
+        "netflix",
+        "watching",
+        "tired",
+        "blanket",
+        "bed",
+        "laptop"
+      ],
+      "svgBytes": 110227,
+      "pngBytes": 38682
     },
     {
       "slug": "soapbox",
@@ -2793,6 +2855,23 @@
       ],
       "svgBytes": 213367,
       "pngBytes": 46339
+    },
+    {
+      "slug": "toilet",
+      "name": "Toilet",
+      "namespace": "hoggies",
+      "figmaNodeId": "1481:5254",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "toilet",
+        "reading",
+        "sitting",
+        "toilet reading"
+      ],
+      "svgBytes": 180830,
+      "pngBytes": 51823
     },
     {
       "slug": "tourist",

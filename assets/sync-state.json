@@ -1,6 +1,6 @@
 {
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2397341532209726864",
+  "figmaVersion": "2397662581007463972",
   "entries": {
     "hoggies/70s-dance": {
       "figmaNodeId": "404:93626",
@@ -286,6 +286,10 @@
       "figmaNodeId": "404:125872",
       "nodeHash": "4feb40f833b43a48"
     },
+    "hoggies/hot-popcorn": {
+      "figmaNodeId": "1481:5256",
+      "nodeHash": "04b609e04d41a613"
+    },
     "hoggies/hourglass": {
       "figmaNodeId": "404:176612",
       "nodeHash": "2fe1e287a833b40d"
@@ -442,6 +446,10 @@
       "figmaNodeId": "404:116927",
       "nodeHash": "99c3f7f45e7c8359"
     },
+    "hoggies/reaper": {
+      "figmaNodeId": "1481:5257",
+      "nodeHash": "6b4b2bc4f56c793a"
+    },
     "hoggies/remote-work": {
       "figmaNodeId": "404:141093",
       "nodeHash": "5402c217c5cd6cb7"
@@ -501,6 +509,10 @@
     "hoggies/sitting": {
       "figmaNodeId": "404:148347",
       "nodeHash": "4c49e80f4bf621e8"
+    },
+    "hoggies/sleepy": {
+      "figmaNodeId": "1481:5255",
+      "nodeHash": "89e3a4b75659dd6e"
     },
     "hoggies/soapbox": {
       "figmaNodeId": "404:105686",
@@ -569,6 +581,10 @@
     "hoggies/the-bride": {
       "figmaNodeId": "404:101189",
       "nodeHash": "5a6b8a42f0948cfc"
+    },
+    "hoggies/toilet": {
+      "figmaNodeId": "1481:5254",
+      "nodeHash": "a856491ddd79bcc9"
     },
     "hoggies/tourist": {
       "figmaNodeId": "1336:2094",
