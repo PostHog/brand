@@ -5,6 +5,7 @@ import { crestPng } from "../assets-crests.ts"
 import { AssetTile } from "../components/AssetTile.tsx"
 import { EmptyState } from "../components/EmptyState.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
+import { useSeo } from "../useSeo.ts"
 
 type Tier = "full" | "mini"
 
@@ -12,6 +13,8 @@ type Tier = "full" | "mini"
 const ALL = findAssets({ namespace: "crests", tier: "full" })
 
 export function CrestsPage() {
+  useSeo("/crests")
+
   const [query, setQuery] = useState("")
 
   // The tier lives in the `?tier=` query param, so it's read on first render and

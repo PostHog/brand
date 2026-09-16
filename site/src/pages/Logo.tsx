@@ -4,6 +4,7 @@ import type { ReactNode } from "react"
 import { useRef } from "react"
 import { CopyButton } from "../components/CopyButton.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
+import { useSeo } from "../useSeo.ts"
 
 interface CellProps {
   code: string
@@ -69,6 +70,8 @@ function lockupCode(layout: LogoLayout, variant: LogoVariant): string {
 }
 
 export function LogoPage() {
+  useSeo("/logo")
+
   return (
     <div>
       <PageHeader eyebrow="@posthog/brand/logo" title="Logo">

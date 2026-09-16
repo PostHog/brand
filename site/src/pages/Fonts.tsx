@@ -2,6 +2,7 @@ import { roundHog } from "@posthog/brand/fonts"
 import type { FontFace } from "@posthog/brand/fonts"
 import { CodeBlock } from "../components/CodeBlock.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
+import { useSeo } from "../useSeo.ts"
 
 // The site already injects RoundHog's @font-face rules (main.tsx), so every specimen
 // below is set in the real bundled woff2 — no extra loading here. This page is driven
@@ -35,6 +36,8 @@ function faceLabel(face: FontFace): string {
 }
 
 export function FontsPage() {
+  useSeo("/fonts")
+
   return (
     <div>
       <PageHeader eyebrow="@posthog/brand/fonts" title="RoundHog">

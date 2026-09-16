@@ -148,6 +148,7 @@
     "size": "node scripts/size-report.ts",
     "dev:site": "pnpm build && pnpm --filter @posthog/brand-site dev",
     "build:site": "pnpm build && pnpm --filter @posthog/brand-site build",
+    "gen:site-icons": "pnpm --filter @posthog/brand-site gen:icons",
     "changeset": "changeset",
     "release": "changeset publish"
   },

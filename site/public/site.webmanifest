@@ -1,0 +1,21 @@
+{
+  "name": "PostHog Brand",
+  "short_name": "PostHog Brand",
+  "description": "PostHog's brand assets — logo, typeface, colors, hedgehogs, and team crests.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f4f3ee",
+  "theme_color": "#f4f3ee",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

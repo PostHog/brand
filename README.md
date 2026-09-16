@@ -273,6 +273,19 @@ pnpm build:site   # builds the package, then the static site into site/dist
 
 It deploys to Cloudflare Pages via the dashboard's Git integration.
 
+Its favicons, app icons, and social card are generated from the package itself — the
+`<Logo>` geometry, the brand palette, and a few hedgehog PNGs — and committed to
+`site/public/`:
+
+```bash
+pnpm gen:site-icons   # re-render site/public/{favicon*,icon-*,apple-touch-icon,og}.png
+```
+
+The build also writes a static HTML file per route (with that route's title, description,
+Open Graph card, and a plain-HTML copy of its content), plus `sitemap.xml`, `llms.txt`, and
+the Cloudflare `_redirects` — so crawlers and answer engines that never run JavaScript still
+get real per-page content. See [`site/seo-plugin.ts`](./site/seo-plugin.ts).
+
 ## Contributing
 
 This package is maintained by the PostHog team and **mirrors a Figma file** — we don't accept

@@ -42,8 +42,8 @@ const NAV: NavItem[] = [
   { to: "/logo", label: "Logo", end: false, load: loadLogoPage },
   { to: "/fonts", label: "Fonts", end: false, load: loadFontsPage },
   { to: "/colors", label: "Colors", end: false, load: loadColorsPage },
-  { to: "/hoggies", label: "Hoggies", end: false, load: loadHoggiesPage },
   { to: "/crests", label: "Crests", end: false, load: loadCrestsPage },
+  { to: "/hoggies", label: "Hoggies", end: false, load: loadHoggiesPage },
 ]
 
 function Layout({ children }: { children: ReactNode }) {

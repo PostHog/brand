@@ -8,6 +8,7 @@ import { HedgehogMoney, HedgehogExplorer, HedgehogChart } from "@posthog/brand/h
 import { Logo } from "@posthog/brand/logo"
 import { Link } from "react-router-dom"
 import { CodeBlock } from "../components/CodeBlock.tsx"
+import { useSeo } from "../useSeo.ts"
 
 const QUICK_START = `import { Logo } from "@posthog/brand/logo"
 import { HedgehogChart } from "@posthog/brand/hoggies"
@@ -25,6 +26,8 @@ const crestCount = findAssets({ namespace: "crests", tier: "full" }).length
 const colorCount = Object.keys(colors).length
 
 export function OverviewPage() {
+  useSeo("/")
+
   return (
     <div>
       <section className="hero">

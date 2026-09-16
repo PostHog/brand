@@ -149,3 +149,26 @@ build = `pnpm build:site`, output = `site/dist`). Node is pinned via `.nvmrc` (�
 the build runs the `.ts` scripts in `scripts/` directly through Node's native TS
 type-stripping, which is only on-by-default from Node 22.18/23.6 — older Node throws
 `ERR_UNKNOWN_FILE_EXTENSION` on `codegen.ts`.
+
+**Icons + social card**: `site/scripts/gen-brand-icons.ts` (`pnpm gen:site-icons`) rasterizes
+the favicon set (`favicon.svg`/`.ico`/`-96x96.png`, `apple-touch-icon`, the manifest's
+`icon-{192,512}` + maskable) and the 1200x630 `og.png` **from the repo's own sources** — the
+`<Logo>` geometry in `src/logo/geometry.ts`, the palette in `static/colors.ts`, and a few
+`assets/hoggies/png/` files — with `sharp`. Output is committed to `site/public/` (not built
+on deploy: it changes ~never, the dev server needs it, and Cloudflare shouldn't depend on
+`sharp`). The card carries no typeset text on purpose — the only lettering is the logo's own
+wordmark paths, so nothing depends on a font being installed where it's rendered.
+
+**SEO/AEO**: `site/seo-plugin.ts` (`brandSeo()`) owns everything a crawler sees, driven by the
+one page table in `site/src/seo.ts` (`PAGES`) that the runtime `useSeo` hook
+(`site/src/useSeo.ts`, called by each page) also reads, so served HTML and client-side
+navigation can't drift. `transformIndexHtml` replaces the `<!--seo-->` marker in `index.html`
+with the head block (title/description/canonical/icons/OG/Twitter/JSON-LD), delimited by
+`<!--seo:start-->`/`<!--seo:end-->`; `closeBundle` then stamps one static file per route
+(`dist/logo.html`, …) by swapping that block and filling `#root` with a plain-HTML copy of the
+page (headline, lede, internal links, and the full asset list on the catalog routes) — because
+answer-engine crawlers and social unfurlers don't run JS, and `main.tsx` clears `#root` before
+`createRoot`. It also writes `sitemap.xml` (static routes + one URL per crest), `llms.txt`, and
+`_redirects`. The `_redirects` file is **generated, not committed**: Cloudflare follows redirect
+rules whether or not a static asset matches, so a bare `/*  /index.html  200` would shadow every
+prerendered file — each route is named ahead of the SPA fallback instead.

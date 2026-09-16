@@ -2,6 +2,7 @@ import { getAsset, getComponentName } from "@posthog/brand"
 import { Link, useParams } from "react-router-dom"
 import { crestPng } from "../assets-crests.ts"
 import { PageHeader } from "../components/PageHeader.tsx"
+import { useSeo } from "../useSeo.ts"
 
 // A single crest on its own page — renders the full illustration and the mini badge in
 // isolation (nothing else heavy on the page). Useful for telling apart a per-asset defect
@@ -12,6 +13,17 @@ export function CrestDetailPage() {
   const fullImg = crestPng(slug, "full")
   const miniImg = crestPng(slug, "mini")
   const asset = getAsset("crests", slug, "full")
+
+  // Per-crest metadata, so a shared link to one crest unfurls (and indexes) as that crest
+  // rather than as the crests index. A slug nobody has is a soft 404 — keep it unindexed.
+  useSeo(`/crests/${slug}`, {
+    title: asset ? `${asset.name} crest` : "Crest not found",
+    label: asset?.name ?? "Crest not found",
+    description: asset
+      ? `The ${asset.name} team crest from PostHog — the full illustration and its mini badge, with the import line for the React component, SVG string, and PNG in @posthog/brand.`
+      : `No PostHog crest matches the slug "${slug}".`,
+    noindex: !asset,
+  })
 
   if (!fullImg.src || !asset) {
     return (
