@@ -282,9 +282,9 @@ pnpm gen:site-icons   # re-render site/public/{favicon*,icon-*,apple-touch-icon,
 ```
 
 The build also writes a static HTML file per route (with that route's title, description,
-Open Graph card, and a plain-HTML copy of its content), plus `sitemap.xml`, `llms.txt`, and
-the Cloudflare `_redirects` — so crawlers and answer engines that never run JavaScript still
-get real per-page content. See [`site/seo-plugin.ts`](./site/seo-plugin.ts).
+Open Graph card, and a plain-HTML copy of its content), plus `404.html`, `sitemap.xml`,
+`llms.txt`, and the Cloudflare `_redirects` — so crawlers and answer engines that never run
+JavaScript still get real per-page content. See [`site/seo-plugin.ts`](./site/seo-plugin.ts).
 
 ## Contributing
 

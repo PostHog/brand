@@ -168,7 +168,16 @@ with the head block (title/description/canonical/icons/OG/Twitter/JSON-LD), deli
 (`dist/logo.html`, …) by swapping that block and filling `#root` with a plain-HTML copy of the
 page (headline, lede, internal links, and the full asset list on the catalog routes) — because
 answer-engine crawlers and social unfurlers don't run JS, and `main.tsx` clears `#root` before
-`createRoot`. It also writes `sitemap.xml` (static routes + one URL per crest), `llms.txt`, and
-`_redirects`. The `_redirects` file is **generated, not committed**: Cloudflare follows redirect
-rules whether or not a static asset matches, so a bare `/*  /index.html  200` would shadow every
-prerendered file — each route is named ahead of the SPA fallback instead.
+`createRoot`. It also writes `404.html` (the same shell, `noindex`, no canonical),
+`sitemap.xml` (static routes + one URL per crest), `llms.txt`, and `_redirects`.
+
+Routing on Pages is **not** the usual SPA catch-all, and `_redirects` is generated rather than
+committed to keep that reasoning in one place: Pages already serves `dist/logo.html` at `/logo`
+and 308s `/logo.html` back to the extensionless path, so an explicit `/logo  /logo.html  200`
+rewrite makes it apply that same redirect to the rewrite target and loop forever (this is
+exactly what broke the first preview deploy). A bare `/*  /index.html  200` is out too —
+redirect rules are followed whether or not an asset matches, so it would shadow every
+prerendered file. The generated file therefore holds exactly one rule, for the only path shape
+with no file behind it: `/crests/*  /index.html  200`. Everything else unmatched falls through
+to `404.html`, which Pages serves with a real 404 status and which boots the app into its `*`
+route.

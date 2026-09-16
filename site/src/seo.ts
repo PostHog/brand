@@ -27,6 +27,8 @@ export interface PageSeo {
   label: string
   /** Static-shell heading + lede used by the prerendered HTML (see `seo-plugin.ts`). */
   headline: string
+  /** Keep the page out of search results, and out of the sitemap and nav (the 404 shell). */
+  noindex?: boolean
 }
 
 /**
@@ -84,6 +86,20 @@ export const PAGES: PageSeo[] = [
       "Search PostHog's library of 160+ hedgehog illustrations — the hoggies — and copy the import for any one. Each ships as a tree-shakeable React component, an inline SVG string, and an optimized PNG.",
   },
 ]
+
+/**
+ * The shell Cloudflare Pages serves — with a real 404 status — for any path that is neither
+ * a prerendered route nor a crest. Not in `PAGES`: it must stay out of the sitemap, the
+ * cross-page link list, and search results.
+ */
+export const NOT_FOUND_PAGE: PageSeo = {
+  path: "/404",
+  title: "Page not found",
+  label: "404",
+  headline: "Nothing here but spikes",
+  description: "This page does not exist on brand.posthog.com.",
+  noindex: true,
+}
 
 /** Exact-path lookup; returns `undefined` for dynamic or unknown routes. */
 export function pageSeo(pathname: string): PageSeo | undefined {
