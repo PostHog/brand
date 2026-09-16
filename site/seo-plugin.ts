@@ -21,12 +21,13 @@
 // reads, so the served HTML and the client-side navigation can never disagree.
 
 import { findAssets, getComponentName } from "@posthog/brand"
-import { readFileSync, writeFileSync } from "node:fs"
-import { join } from "node:path"
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs"
+import { dirname, join } from "node:path"
 import type { Plugin } from "vite"
 import {
   breadcrumbJsonLd,
   canonicalUrl,
+  crestPageSeo,
   documentTitle,
   OG_IMAGE,
   OG_IMAGE_ALT,
@@ -148,6 +149,16 @@ function staticShell(page: PageSeo): string {
     .join(" · ")
 
   let catalog = ""
+  const crestSlug = page.path.startsWith("/crests/") ? page.path.slice("/crests/".length) : ""
+  if (crestSlug) {
+    const base = getComponentName("crests", crestSlug, "full")
+    const mini = getComponentName("crests", crestSlug, "mini")
+    catalog =
+      `<p>Import from <code>@posthog/brand/crests</code>: <code>&lt;${escape(base)} /&gt;</code>` +
+      ` for the full illustration, <code>&lt;${escape(mini)} /&gt;</code> for the badge.</p>` +
+      `<p><a href="/crests">All crests</a></p>`
+  }
+
   if (page.path === "/hoggies" || page.path === "/crests") {
     const namespace = page.path === "/hoggies" ? "hoggies" : "crests"
     const assets = findAssets(
@@ -239,24 +250,15 @@ function llmsTxt(): string {
   ].join("\n")
 }
 
-/**
- * Cloudflare Pages `_redirects`.
- *
- * Pages already serves `dist/logo.html` at `/logo` on its own (and 308s `/logo.html` back to
- * the extensionless path), so the prerendered routes need no rules at all — and must not get
- * any: a `/logo  /logo.html  200` rewrite makes Pages apply that same `.html` → extensionless
- * redirect to the rewrite target, which points straight back at `/logo` and loops. The usual
- * `/*  /index.html  200` SPA fallback is out for the same reason: redirect rules are followed
- * whether or not an asset matches, so it would shadow every prerendered file.
- *
- * That leaves exactly one path shape that has no file behind it — the per-crest pages, which
- * are rendered client-side from the slug. Everything else unmatched falls through to
- * `dist/404.html`, which Pages serves with a real 404 status (better than the soft 200 a
- * catch-all rewrite gives) and which boots the same app into its `*` route.
- */
-function redirects(): string {
-  return "/crests/*    /index.html    200\n"
-}
+// No `_redirects` file, on purpose. Cloudflare Pages serves `dist/logo.html` at `/logo` and
+// `dist/crests/marketing.html` at `/crests/marketing` by itself, and every URL in the sitemap
+// now has such a file, so there is no client-side-only path left to rewrite. Rules would in
+// fact break it: `/logo  /logo.html  200` makes Pages apply its own `.html` → extensionless
+// redirect to the rewrite target and loop back to `/logo` (this is what broke the first
+// preview deploy), and the usual `/*  /index.html  200` SPA fallback is followed whether or
+// not an asset matches, so it shadows every prerendered file. Anything genuinely unknown falls
+// through to `dist/404.html`, which Pages serves with a real 404 status — better than the soft
+// 200 a catch-all gives — and which boots the same app into its `*` route.
 
 export function brandSeo(): Plugin {
   let outDir = "dist"
@@ -285,21 +287,28 @@ export function brandSeo(): Plugin {
         this.error("brand-seo: built index.html is missing the seo markers or #root")
       }
 
-      for (const page of [...PAGES, NOT_FOUND_PAGE]) {
+      const crestPages = findAssets({ namespace: "crests", tier: "full" }).map((asset) =>
+        crestPageSeo(asset.name, asset.slug),
+      )
+
+      for (const page of [...PAGES, ...crestPages, NOT_FOUND_PAGE]) {
         const html = built
           .replace(new RegExp(`${START}[\\s\\S]*?${END}`), headBlock(page))
           .replace(ROOT_DIV, `<div id="root">${staticShell(page)}</div>`)
-        // `/` → index.html, `/logo` → logo.html (Pages serves it at the extensionless
-        // path), and the 404 shell → the 404.html Pages serves for everything unmatched.
+        // `/` → index.html, `/logo` → logo.html and `/crests/x` → crests/x.html (Pages
+        // serves both at their extensionless paths), and the 404 shell → the 404.html Pages
+        // serves for everything unmatched.
         const file = page.path === "/" ? "index.html" : `${page.path.slice(1)}.html`
-        writeFileSync(join(outDir, file), html)
+        const target = join(outDir, file)
+        mkdirSync(dirname(target), { recursive: true })
+        writeFileSync(target, html)
       }
 
       writeFileSync(join(outDir, "sitemap.xml"), sitemap())
       writeFileSync(join(outDir, "llms.txt"), llmsTxt())
-      writeFileSync(join(outDir, "_redirects"), redirects())
       console.log(
-        `\nbrand-seo: prerendered ${PAGES.length} routes + 404.html, sitemap.xml, llms.txt, and _redirects into ${outDir}/`,
+        `\nbrand-seo: prerendered ${PAGES.length + crestPages.length} routes + 404.html, ` +
+          `sitemap.xml and llms.txt into ${outDir}/`,
       )
     },
   }

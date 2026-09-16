@@ -101,6 +101,20 @@ export const NOT_FOUND_PAGE: PageSeo = {
   noindex: true,
 }
 
+/**
+ * Metadata for one crest's own page. Shared so the prerendered `/crests/<slug>.html` and the
+ * client-side `CrestDetailPage` describe a crest the same way.
+ */
+export function crestPageSeo(name: string, slug: string): PageSeo {
+  return {
+    path: `/crests/${slug}`,
+    title: `${name} crest`,
+    label: name,
+    headline: `The ${name} crest`,
+    description: `The ${name} team crest from PostHog — the full illustration and its mini badge, as a React component, an inline SVG string, and a PNG in @posthog/brand.`,
+  }
+}
+
 /** Exact-path lookup; returns `undefined` for dynamic or unknown routes. */
 export function pageSeo(pathname: string): PageSeo | undefined {
   const path = pathname.length > 1 ? pathname.replace(/\/+$/, "") : pathname

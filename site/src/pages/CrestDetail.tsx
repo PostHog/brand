@@ -2,6 +2,7 @@ import { getAsset, getComponentName } from "@posthog/brand"
 import { Link, useParams } from "react-router-dom"
 import { crestPng } from "../assets-crests.ts"
 import { PageHeader } from "../components/PageHeader.tsx"
+import { crestPageSeo } from "../seo.ts"
 import { useSeo } from "../useSeo.ts"
 
 // A single crest on its own page — renders the full illustration and the mini badge in
@@ -14,15 +15,15 @@ export function CrestDetailPage() {
   const miniImg = crestPng(slug, "mini")
   const asset = getAsset("crests", slug, "full")
 
-  // Per-crest metadata, so a shared link to one crest unfurls (and indexes) as that crest
-  // rather than as the crests index. A slug nobody has is a soft 404 — keep it unindexed.
+  // Per-crest metadata, from the same helper the build prerenders `/crests/<slug>.html` with,
+  // so navigating here client-side describes the crest exactly as the served HTML does. A slug
+  // nobody has is a soft 404 — keep it unindexed.
+  const seo = asset ? crestPageSeo(asset.name, slug) : undefined
   useSeo(`/crests/${slug}`, {
-    title: asset ? `${asset.name} crest` : "Crest not found",
-    label: asset?.name ?? "Crest not found",
-    description: asset
-      ? `The ${asset.name} team crest from PostHog — the full illustration and its mini badge, with the import line for the React component, SVG string, and PNG in @posthog/brand.`
-      : `No PostHog crest matches the slug "${slug}".`,
-    noindex: !asset,
+    title: seo?.title ?? "Crest not found",
+    label: seo?.label ?? "Crest not found",
+    description: seo?.description ?? `No PostHog crest matches the slug "${slug}".`,
+    noindex: !seo,
   })
 
   if (!fullImg.src || !asset) {
