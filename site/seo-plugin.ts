@@ -52,26 +52,49 @@ function escape(value: string): string {
     .replace(/"/g, "&quot;")
 }
 
+/**
+ * PostHog as a schema.org `Organization`, field for field as posthog.com describes it
+ * (`POSTHOG_ORGANIZATION` in its `src/components/seo.tsx`) — that block exists there so every
+ * page describes one entity instead of drifting copies, and this subdomain is one more page.
+ * Keep the two in step; re-sync from posthog.com if it changes. The `@id` is posthog.com's,
+ * not ours, so a crawler folds both sites' markup into the same organization node.
+ */
+const ORGANIZATION_ID = "https://posthog.com/#organization"
+
+const POSTHOG_ORGANIZATION = {
+  "@type": "Organization",
+  "@id": ORGANIZATION_ID,
+  name: "PostHog",
+  url: "https://posthog.com",
+  logo: "https://posthog.com/brand/posthog-logo-stacked.png",
+  sameAs: [
+    "https://twitter.com/PostHog",
+    "https://github.com/PostHog",
+    "https://www.linkedin.com/company/posthog",
+  ],
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "2261 Market Street #4008",
+    addressLocality: "San Francisco",
+    addressRegion: "CA",
+    postalCode: "94114",
+    addressCountry: "US",
+  },
+}
+
 /** Site-wide structured data. Emitted on every page; answer engines read it for provenance. */
 function siteJsonLd(): string {
   return JSON.stringify({
     "@context": "https://schema.org",
     "@graph": [
-      {
-        "@type": "Organization",
-        "@id": `${SITE_URL}/#organization`,
-        name: "PostHog",
-        url: "https://posthog.com",
-        logo: `${SITE_URL}/icon-512.png`,
-        sameAs: ["https://github.com/PostHog", "https://x.com/posthog"],
-      },
+      POSTHOG_ORGANIZATION,
       {
         "@type": "WebSite",
         "@id": `${SITE_URL}/#website`,
         name: SITE_NAME,
         url: `${SITE_URL}/`,
         inLanguage: "en",
-        publisher: { "@id": `${SITE_URL}/#organization` },
+        publisher: { "@id": ORGANIZATION_ID },
       },
       {
         "@type": "SoftwareSourceCode",
@@ -84,7 +107,7 @@ function siteJsonLd(): string {
         programmingLanguage: "TypeScript",
         runtimePlatform: "React",
         license: "https://polyformproject.org/licenses/strict/1.0.0/",
-        author: { "@id": `${SITE_URL}/#organization` },
+        author: { "@id": ORGANIZATION_ID },
       },
     ],
   })
@@ -123,7 +146,7 @@ function headBlock(page: PageSeo): string {
     `<meta property="og:image:alt" content="${escape(OG_IMAGE_ALT)}" />`,
 
     `<meta name="twitter:card" content="summary_large_image" />`,
-    `<meta name="twitter:site" content="@posthog" />`,
+    `<meta name="twitter:site" content="@PostHog" />`,
     `<meta name="twitter:title" content="${escape(page.title)}" />`,
     `<meta name="twitter:description" content="${escape(page.description)}" />`,
     `<meta name="twitter:image" content="${OG_IMAGE}" />`,

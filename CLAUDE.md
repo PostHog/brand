@@ -168,7 +168,11 @@ with the head block (title/description/canonical/icons/OG/Twitter/JSON-LD), deli
 (`dist/logo.html`, …) by swapping that block and filling `#root` with a plain-HTML copy of the
 page (headline, lede, internal links, and the full asset list on the catalog routes) — because
 answer-engine crawlers and social unfurlers don't run JS, and `main.tsx` clears `#root` before
-`createRoot`. Crest detail pages are prerendered too — one `dist/crests/<slug>.html` per crest,
+`createRoot`. The JSON-LD `Organization` node is a verbatim copy of posthog.com's shared
+`POSTHOG_ORGANIZATION` (`src/components/seo.tsx` there) and carries **its** `@id`
+(`https://posthog.com/#organization`), so both sites resolve to one entity rather than two
+drifting descriptions of PostHog — re-sync it if posthog.com's changes. Crest detail pages
+are prerendered too — one `dist/crests/<slug>.html` per crest,
 from `crestPageSeo` in `seo.ts`, which `CrestDetailPage` also calls — plus `404.html` (same
 shell, `noindex`, no canonical), `sitemap.xml`, and `llms.txt`.
 
