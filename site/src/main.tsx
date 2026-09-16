@@ -37,7 +37,13 @@ window.addEventListener("vite:preloadError", (event) => {
   window.location.reload()
 })
 
-createRoot(document.getElementById("root")!).render(
+// The built HTML ships a static, crawler-readable copy of the page inside #root (see
+// seo-plugin.ts). React replaces the container's contents on its first render anyway, but
+// clearing it explicitly keeps that contract visible from this side of the boundary.
+const container = document.getElementById("root")!
+container.replaceChildren()
+
+createRoot(container).render(
   <StrictMode>
     <BrowserRouter>
       <App />

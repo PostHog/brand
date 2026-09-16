@@ -66,6 +66,17 @@ h3 {
   font-weight: 700;
 }
 
+/* Static pre-render shell (seo-plugin.ts writes it into #root for crawlers and no-JS
+   clients). React clears it on mount, so this only has to look composed for a moment —
+   and stay readable for anyone who never gets the bundle. */
+.prerender-list {
+  columns: 3 220px;
+  gap: 24px;
+  list-style: none;
+  padding: 0;
+  font-size: 14px;
+}
+
 /* ---- Layout ---- */
 .nav {
   position: sticky;

@@ -1,10 +1,13 @@
 import { colors } from "@posthog/brand/colors"
 import { ColorCard } from "../components/ColorCard.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
+import { useSeo } from "../useSeo.ts"
 
 const ENTRIES = Object.entries(colors).sort(([, a], [, b]) => a.name.localeCompare(b.name))
 
 export function ColorsPage() {
+  useSeo("/colors")
+
   return (
     <div>
       <PageHeader eyebrow="@posthog/brand/colors" title="Colors">

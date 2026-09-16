@@ -1,0 +1,9 @@
+# brand.posthog.com — PostHog's public brand assets.
+# Everything here is meant to be found, quoted, and re-used, so every crawler is welcome:
+# search engines and the answer engines (which do not run JavaScript, hence the prerendered
+# HTML the build writes for each route) alike.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://brand.posthog.com/sitemap.xml

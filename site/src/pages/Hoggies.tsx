@@ -4,10 +4,13 @@ import { hoggiePng } from "../assets-hoggies.ts"
 import { AssetTile } from "../components/AssetTile.tsx"
 import { EmptyState } from "../components/EmptyState.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
+import { useSeo } from "../useSeo.ts"
 
 const ALL = findAssets({ namespace: "hoggies" })
 
 export function HoggiesPage() {
+  useSeo("/hoggies")
+
   const [query, setQuery] = useState("")
 
   const results = useMemo(() => {

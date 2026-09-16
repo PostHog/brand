@@ -1,26 +1,22 @@
 # @posthog/brand
 
-PostHog's brand assets, as an npm package: the **logo**, the brand **colors**, the brand
-**font** (RoundHog), the **hedgehog illustrations** ("hoggies"), and the **crests**.
-Everything ships as React components — plus raw SVGs, PNG URLs, color tokens, and `woff2`
-font files — bundled right into the package, so there are **zero runtime CDN calls**.
+[![The PostHog logo, the brand palette, and a lineup of hedgehogs](./site/public/og.png)](https://brand.posthog.com)
 
-> 🦔 **Browse everything live at [brand.posthog.com](https://brand.posthog.com)** — every
-> logo lockup, color, hoggie, and crest, with the import you need for each one.
+Every PostHog brand asset in one npm package: the **logo**, the **colors**, the **font**
+(RoundHog), 160+ **hedgehogs**, and the team **crests** — as React components, raw SVGs, PNG
+URLs, color tokens, and `woff2` files. All bundled, so **nothing is fetched at runtime**.
 
 ```bash
 pnpm add @posthog/brand
 ```
 
-> ⚠️ **Pre-1.0:** while the version is still `0.x`, the public API may change — including
-> **breaking changes** (renamed or removed exports) — released as **minor** bumps. Pin an
-> exact version if you need stability, and check the changelog before upgrading. Once the
-> asset set and API settle we'll cut `1.0.0` and follow semver strictly.
+> 🦔 **[brand.posthog.com](https://brand.posthog.com)** has every asset with the import line
+> for each one. Browse there, come back here for the API.
 
-## The idea
+> ⚠️ **Pre-1.0.** While we're on `0.x`, exports can be renamed or removed in a **minor** bump.
+> Pin an exact version if that would ruin your week; we'll follow semver strictly from `1.0.0`.
 
-The package is split into a handful of subpaths, one per kind of asset. You import what you
-need from the matching subpath, and nothing else comes along for the ride:
+## Five subpaths, five kinds of asset
 
 ```tsx
 import { Logo } from "@posthog/brand/logo"
@@ -30,50 +26,36 @@ import { HedgehogDoctorHog } from "@posthog/brand/hoggies"
 import { MarketingCrest } from "@posthog/brand/crests"
 ```
 
-The five sections below walk through each one in turn. Every illustration is a React
-component that takes two friendly props:
+Import from the subpath you need; nothing else tags along. Every illustration takes two
+friendly props — **`size`** (the width; height follows the artwork's aspect ratio, so nothing
+stretches) and **`title`** (an accessible label; without one the image is decorative) — plus
+any other `<svg>` prop, and carries its own metadata as a static `.meta`. Hover a component in
+your editor and the TSDoc tells you the rest.
 
-- **`size`** — the width (a number of px, or any CSS length). The height follows the
-  artwork's aspect ratio automatically, so you never stretch anything.
-- **`title`** — an accessible label. With it, the image is announced to screen readers;
-  without it, it's treated as decorative.
-
-You can also pass any other `<svg>` prop (`className`, `style`, `onClick`, `ref`, …), and
-every component carries its own metadata as a static `.meta` (`HedgehogDoctorHog.meta.slug`,
-`.aspectRatio`, …). Hover any component in your editor and the TSDoc shows you exactly how to
-use it.
-
-## 1. Logo
-
-The logo lives at `@posthog/brand/logo`. It's a single, parametric `<Logo>` component that
-covers every lockup and color treatment — so it's the one PostHog logo you reach for
-everywhere.
+## Logo
 
 ```tsx
 import { Logo } from "@posthog/brand/logo"
 
-<Logo /> // landscape lockup, full gradient (the defaults)
-<Logo variant="mono" color="#fff" /> // single color (e.g. on a dark background)
-<Logo variant="mono" /> // inherits the surrounding text color
-<Logo variant="print" layout="stacked" /> // 4-color / CMYK, portrait lockup
-<Logo.Logomark /> // just the hedgehog icon
-<Logo.Wordmark /> // just the "PostHog" wordmark
+<Logo />                                  // landscape, full gradient (the defaults)
+<Logo variant="mono" color="#fff" />      // one color, e.g. on a dark background
+<Logo variant="print" layout="stacked" /> // 4-color/CMYK, portrait
+<Logo.Logomark />                         // just the hog
+<Logo.Wordmark />                         // just the word
 ```
 
 | Prop      | Values                                                    | Default        |
 | --------- | --------------------------------------------------------- | -------------- |
 | `variant` | `"gradient"` · `"print"` (4-color/CMYK) · `"mono"`        | `"gradient"`   |
 | `layout`  | `"landscape"` · `"stacked"` · `"logomark"` · `"wordmark"` | `"landscape"`  |
-| `color`   | any CSS color — used by `mono` only                       | `currentColor` |
+| `color`   | any CSS color — `mono` only                               | `currentColor` |
 
-`Logo.Logomark` and `Logo.Wordmark` are shorthands for `layout="logomark"` / `"wordmark"`. A
-`mono` logo (and the always-mono wordmark) draws with `currentColor`, so it inherits the
-surrounding text color unless you pass an explicit `color`. As with every illustration, it
-also takes `size`, `title`, `className`, `style`, and the rest of the native `<svg>` props.
+A `mono` logo (and the always-mono wordmark) draws with `currentColor`, so it picks up the
+surrounding text color unless you say otherwise.
 
-## 2. Colors
+## Colors
 
-The brand palette lives at `@posthog/brand/colors` as a plain object — no React, no markup.
+A plain object. No React, no markup, no surprises.
 
 ```ts
 import { colors } from "@posthog/brand/colors"
@@ -84,32 +66,14 @@ colors.blue.darker // a darker shade
 colors["corn-blue"].gradient // ["#2BB3DF", "#1A89AD"] — [from, to]
 ```
 
-Each color has `core`, `lighter`, `darker`, and a `gradient` pair.
+Writing CSS instead? `import { colorsCss } from "@posthog/brand/colors/css"` gives you a
+ready-made block of custom properties (`--posthog-blue`, `--posthog-blue-lighter`,
+`--posthog-blue-gradient`, …) to drop in a `<style>` tag.
 
-<details>
-<summary><strong>Prefer CSS custom properties?</strong></summary>
+## Fonts
 
-For stylesheets, import the ready-made CSS custom properties instead of the JS object:
-
-```ts
-import { colorsCss } from "@posthog/brand/colors/css"
-// :root { --posthog-blue: #1490E8; --posthog-blue-lighter: …; --posthog-blue-gradient: …; }
-```
-
-Drop the string into a `<style>` tag (or your CSS-in-JS) and reference the variables anywhere:
-`color: var(--posthog-blue)`.
-
-</details>
-
-## 3. Fonts
-
-RoundHog — PostHog's brand typeface — ships bundled at `@posthog/brand/fonts` as eight
-`woff2` faces (Regular / Medium / SemiBold / Bold, each upright and italic). No CDN, no
-runtime fetch: the font files are emitted inside the package and their URLs are baked in
-(resolved via `import.meta.url`, exactly like the PNGs), so any modern bundler emits them.
-
-The quickest path is the ready-made `@font-face` string — drop it into a `<style>` tag and
-then reference `font-family: "RoundHog"`:
+RoundHog, bundled as eight `woff2` faces (Regular / Medium / SemiBold / Bold, upright and
+italic). Weights map to PostHog's type scale: 400 / 500 / 700 / 800.
 
 ```ts
 import { roundHogFontFaceCss } from "@posthog/brand/fonts/css"
@@ -118,69 +82,59 @@ document.head.insertAdjacentHTML("beforeend", `<style>${roundHogFontFaceCss}</st
 // now anywhere: font-family: "RoundHog", sans-serif
 ```
 
-Weights map to PostHog's type scale: Regular → 400, Medium → 500, SemiBold → 700, Bold → 800.
-
 <details>
-<summary><strong>Want the raw metadata or a single face URL?</strong></summary>
+<summary><strong>Registering the faces yourself?</strong></summary>
 
-If you register faces yourself (a custom `@font-face`, a `<link rel="preload">`, a Next.js
-`localFont`, …), import the metadata or the individual URLs instead of the CSS string:
+For a custom `@font-face`, a `<link rel="preload">`, or a Next.js `localFont`, take the
+metadata or a single URL instead of the CSS string:
 
 ```ts
 import { roundHog, roundHogRegularUrl } from "@posthog/brand/fonts"
 
 roundHog.family // "RoundHog"
 roundHog.faces // [{ weight, style, url, format }, …] — the eight bundled faces
-roundHogRegularUrl // the bundled woff2 URL for the 400 upright face
+roundHogRegularUrl // the bundled woff2 URL for 400 upright
 ```
 
-The raw files are also reachable by subpath — `@posthog/brand/fonts/RoundHog.woff2` — so a
-build step can `require.resolve` them (e.g. to copy into a server's static dir).
+The files are also reachable by subpath — `@posthog/brand/fonts/RoundHog.woff2` — so a build
+step can `require.resolve` one to copy into a static dir.
 
 </details>
 
-## 4. Hoggies
+## Hoggies
 
-The hedgehog illustrations live at `@posthog/brand/hoggies`. Each one is a React component
-named `Hedgehog<Name>`:
+The hedgehogs. Each is a component named `Hedgehog<Name>`:
 
 ```tsx
-import { HedgehogDoctorHog } from "@posthog/brand/hoggies"
+import { HedgehogDoctorHog, HedgehogWizard } from "@posthog/brand/hoggies"
 
-export function Example() {
-  return <HedgehogDoctorHog size={120} title="A hedgehog doctor" />
-}
+<HedgehogDoctorHog size={120} title="A hedgehog doctor" />
+<HedgehogWizard variant="5" size={120} /> // wizards come in five flavors
 ```
 
-That's the whole story — pick the hoggie you want, give it a `size`, and you're done. Browse
-the full set (with the exact component name for each) at
-[brand.posthog.com](https://brand.posthog.com).
+Where a hog has numbered siblings in Figma they ship as one component with a `variant` prop
+(keys are strings; the lowest is the default) rather than five near-identical exports.
 
-## 5. Crests
+## Crests
 
-The crests live at `@posthog/brand/crests`. Each crest comes in two sizes, paired together as
-one component: the **base** is the full illustration, and **`.Mini`** is a simplified badge
-that stays legible at small sizes (favicons, avatars, inline chips).
+Team crests, each one component in two tiers: the **base** is the full illustration, **`.Mini`**
+is a simplified badge that survives being 24px tall.
 
 ```tsx
 import { MarketingCrest } from "@posthog/brand/crests"
 
-<MarketingCrest size={64} /> // the full crest
-<MarketingCrest.Mini size={24} /> // the simplified mini badge
+<MarketingCrest size={64} />      // the full crest
+<MarketingCrest.Mini size={24} /> // the badge
 ```
 
-The component is named `<Name>Crest`. A few crests only exist in one size — for those,
-`.Mini` simply renders the same artwork as the base.
-
-If you'd rather pull a single tier on its own, the tier-specific subpaths expose each one
-individually: `MarketingCrest` from `@posthog/brand/crests/full`, and `MarketingCrestMini` from
-`@posthog/brand/crests/mini`.
+A few crests only exist in one size; for those `.Mini` renders the same artwork. To pull a
+single tier, use `@posthog/brand/crests/full` (`MarketingCrest`) or `@posthog/brand/crests/mini`
+(`MarketingCrestMini`).
 
 ## Raw SVGs and PNGs
 
-Sometimes you don't want a React component — you need the raw SVG markup (to inline into an
-email or a non-React app) or a bundled PNG URL (for an `<img>` tag). Every asset ships as
-**both**, so you can grab whichever fits:
+Not everything is React. Every asset also ships as an SVG string (to inline into an email or a
+non-React app) and a bundled PNG URL (for an `<img>`):
 
 ```ts
 import hedgehogChartSvg from "@posthog/brand/hoggies/svg/chart" // an SVG string
@@ -190,9 +144,8 @@ import hedgehogChartPng from "@posthog/brand/hoggies/png/chart" // a bundled PNG
 <details>
 <summary><strong>All <code>/svg</code> and <code>/png</code> subpaths</strong></summary>
 
-Each illustration group exposes the same shapes. Replace `<g>` with one of `hoggies`,
-`crests/full`, or `crests/mini` (the combined `crests` barrel and the `logo` are
-React-only — use the tier subpaths for raw crest SVG/PNG):
+Every illustration group has the same shape. Replace `<g>` with `hoggies`, `crests/full`, or
+`crests/mini` (the combined `crests` barrel and the `logo` are React-only):
 
 | Subpath                         | Returns                                           |
 | ------------------------------- | ------------------------------------------------- |
@@ -204,83 +157,80 @@ React-only — use the tier subpaths for raw crest SVG/PNG):
 | `@posthog/brand/<g>/metadata`   | the group's `AssetMeta[]` manifest (React-free)   |
 
 ```ts
-// Default import of the deep path — one asset, one module:
-import hedgehogChartSvg from "@posthog/brand/hoggies/svg/chart"
+// One asset, one module:
 import marketingCrestPng from "@posthog/brand/crests/full/png/marketing"
 
-// Or the named barrel export, if you'd rather pull several from one import:
+// Or several from one barrel:
 import { hedgehogChartSvg, hedgehogCroissantSvg } from "@posthog/brand/hoggies/svg"
 
-// Lazy-load by slug without bundling the whole namespace:
+// Or lazily, by slug, without bundling the namespace:
 const svg = (await import("@posthog/brand/hoggies/svg/" + slug)).default
 ```
 
-The named export is `lowerFirst(ComponentName) + "Svg"` / `+ "Png"` (e.g.
-`hedgehogChartSvg`, `marketingCrestPng`). Crest minis keep a trailing `Mini`:
-`marketingCrestMiniSvg`, `marketingCrestMiniPng`.
-
-Both formats are optimized before they're committed — SVGs minified with
-[SVGO](https://github.com/svg/svgo), PNGs palette-quantized with
-[pngquant](https://pngquant.org/) and recompressed with
-[oxipng](https://github.com/oxipng/oxipng) — so every asset stays small and renders anywhere.
+Named exports are `lowerFirst(ComponentName) + "Svg"` / `+ "Png"`; crest minis keep the
+trailing `Mini` (`marketingCrestMiniPng`). SVGs are minified with
+[SVGO](https://github.com/svg/svgo) and PNGs quantized with [pngquant](https://pngquant.org/)
+plus [oxipng](https://github.com/oxipng/oxipng) before they're committed, so everything stays
+small.
 
 </details>
 
 ## Metadata and search
 
-The root `@posthog/brand` export is **React-free and image-free** — just types, the
-cross-namespace manifest, and helpers for building a picker or looking an asset up by slug:
+The root export is **React-free and image-free** — types, the cross-namespace manifest, and
+enough helpers to build an asset picker without pulling in a single illustration:
 
 ```ts
 import { allAssets, findAssets, getAsset, getComponentName } from "@posthog/brand"
 
-findAssets({ namespace: "crests", tier: "mini", text: "marketing" })
 findAssets({ namespace: "hoggies", text: "director" })
-getAsset("hoggies", "director") // full AssetMeta
-getAsset("crests", "marketing", "mini") // disambiguate the shared crest slug by tier
+findAssets({ namespace: "crests", tier: "mini", text: "marketing" })
+getAsset("crests", "marketing", "mini") // full AssetMeta; tier disambiguates the slug
 getComponentName("hoggies", "director") // "HedgehogDirector"
-getComponentName("crests", "marketing", "mini") // "MarketingCrestMini"
 ```
 
-Per-namespace manifests are also available without the cross-namespace pull — e.g.
-`@posthog/brand/hoggies/metadata`.
+Per-namespace manifests live at `@posthog/brand/<g>/metadata` if you don't want the whole set.
 
 ## How assets get here
 
-Brand assets live in PostHog's [brand-book Figma file](https://www.figma.com/design/EqKxlSFoOCkRXCnHi4C3eE).
-A daily GitHub Action renders every component to SVG + PNG via the Figma API, syncs the
-result into this repo (`assets/`), and commits the changes — plus a
-[changeset](https://github.com/changesets/changesets) — straight to `main` (no PR). That
-triggers the release workflow, which bumps the version, commits it back to `main`, and
-publishes to npm with trusted publishing (OIDC) — gated behind Slack approval, per the
-[PostHog SDK release process](https://posthog.com/handbook/engineering/sdks/releases).
+The assets live in PostHog's
+[brand-book Figma file](https://www.figma.com/design/EqKxlSFoOCkRXCnHi4C3eE). A daily GitHub
+Action renders every component to SVG + PNG through the Figma API, commits what changed (plus a
+[changeset](https://github.com/changesets/changesets)) straight to `main`, and that triggers a
+release: version bump, then npm publish via trusted publishing (OIDC), gated on Slack approval
+per the [SDK release process](https://posthog.com/handbook/engineering/sdks/releases).
 
-The color palette is not synced — it's a fixed, hand-maintained list in
-[`static/colors.ts`](./static/colors.ts). The `<Logo>` component is likewise
-hand-maintained: its geometry is inlined in [`src/logo/`](./src/logo) (not Figma-synced),
-since the logo is small and rarely changes.
+Two things are hand-maintained rather than synced, because they're small and rarely change:
+the palette ([`static/colors.ts`](./static/colors.ts)) and the logo geometry
+([`src/logo/`](./src/logo)).
 
 ## Demo site
 
-The live showcase at [brand.posthog.com](https://brand.posthog.com) is built from
-[`site/`](./site) — a Vite + React app that imports `@posthog/brand` as a workspace
-dependency, so it renders the **real built components**, not copies. To run it locally:
+[brand.posthog.com](https://brand.posthog.com) is built from [`site/`](./site) — a Vite + React
+app that imports `@posthog/brand` as a workspace dependency, so it renders the **real built
+components** and doubles as an integration test of the published exports. It deploys to
+Cloudflare Pages.
 
 ```bash
-pnpm dev:site     # builds the package, then starts the site dev server
-pnpm build:site   # builds the package, then the static site into site/dist
+pnpm dev:site       # build the package, then run the site locally
+pnpm build:site     # build the package, then the static site into site/dist
+pnpm gen:site-icons # re-render the favicons and the social card up there ☝️
 ```
 
-It deploys to Cloudflare Pages via the dashboard's Git integration.
+The icons and that big image at the top of this README are generated from the package itself —
+the `<Logo>` geometry, the palette, and a few hedgehogs. The build also writes one static HTML
+file per page (and per crest), with real metadata and content, plus `sitemap.xml` and
+`llms.txt`, so crawlers and answer engines that never run JavaScript still get the goods. See
+[`site/seo-plugin.ts`](./site/seo-plugin.ts).
 
 ## Contributing
 
-This package is maintained by the PostHog team and **mirrors a Figma file** — we don't accept
-external contributions. See [CONTRIBUTING.md](./CONTRIBUTING.md) for the details.
+This package mirrors a Figma file and is maintained by the PostHog team, so we don't take
+external contributions — see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License
 
-Source-available under the [PolyForm Strict License 1.0.0](./LICENSE) — you may view
-the source, but commercial use, use in your own projects, redistribution, and derivative
-works are not licensed. PostHog's illustrations, logos, and crests are PostHog trademarks and
-brand assets. For licensing inquiries, contact hey@posthog.com.
+Source-available under the [PolyForm Strict License 1.0.0](./LICENSE): you may read the source,
+but commercial use, use in your own projects, redistribution, and derivative works are not
+licensed. The illustrations, logos, and crests are PostHog trademarks and brand assets. For
+licensing, email hey@posthog.com.

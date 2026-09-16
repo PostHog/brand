@@ -149,3 +149,38 @@ build = `pnpm build:site`, output = `site/dist`). Node is pinned via `.nvmrc` (�
 the build runs the `.ts` scripts in `scripts/` directly through Node's native TS
 type-stripping, which is only on-by-default from Node 22.18/23.6 — older Node throws
 `ERR_UNKNOWN_FILE_EXTENSION` on `codegen.ts`.
+
+**Icons + social card**: `site/scripts/gen-brand-icons.ts` (`pnpm gen:site-icons`) rasterizes
+the favicon set (`favicon.svg`/`.ico`/`-96x96.png`, `apple-touch-icon`, the manifest's
+`icon-{192,512}` + maskable) and the 1200x630 `og.png` **from the repo's own sources** — the
+`<Logo>` geometry in `src/logo/geometry.ts`, the palette in `static/colors.ts`, and a few
+`assets/hoggies/png/` files — with `sharp`. Output is committed to `site/public/` (not built
+on deploy: it changes ~never, the dev server needs it, and Cloudflare shouldn't depend on
+`sharp`). The card carries no typeset text on purpose — the only lettering is the logo's own
+wordmark paths, so nothing depends on a font being installed where it's rendered.
+
+**SEO/AEO**: `site/seo-plugin.ts` (`brandSeo()`) owns everything a crawler sees, driven by the
+one page table in `site/src/seo.ts` (`PAGES`) that the runtime `useSeo` hook
+(`site/src/useSeo.ts`, called by each page) also reads, so served HTML and client-side
+navigation can't drift. `transformIndexHtml` replaces the `<!--seo-->` marker in `index.html`
+with the head block (title/description/canonical/icons/OG/Twitter/JSON-LD), delimited by
+`<!--seo:start-->`/`<!--seo:end-->`; `closeBundle` then stamps one static file per route
+(`dist/logo.html`, …) by swapping that block and filling `#root` with a plain-HTML copy of the
+page (headline, lede, internal links, and the full asset list on the catalog routes) — because
+answer-engine crawlers and social unfurlers don't run JS, and `main.tsx` clears `#root` before
+`createRoot`. The JSON-LD `Organization` node is a verbatim copy of posthog.com's shared
+`POSTHOG_ORGANIZATION` (`src/components/seo.tsx` there) and carries **its** `@id`
+(`https://posthog.com/#organization`), so both sites resolve to one entity rather than two
+drifting descriptions of PostHog — re-sync it if posthog.com's changes. Crest detail pages
+are prerendered too — one `dist/crests/<slug>.html` per crest,
+from `crestPageSeo` in `seo.ts`, which `CrestDetailPage` also calls — plus `404.html` (same
+shell, `noindex`, no canonical), `sitemap.xml`, and `llms.txt`.
+
+There is **no `_redirects` file**, and the old committed one was deleted: Pages serves
+`dist/logo.html` at `/logo` and `dist/crests/marketing.html` at `/crests/marketing` by itself,
+and every sitemap URL now has such a file. Rules would actively break it — `/logo /logo.html
+200` makes Pages apply its own `.html` → extensionless 308 to the rewrite target and loop back
+to `/logo` (this is what broke the first preview deploy), and a `/*  /index.html  200` SPA
+fallback is followed whether or not an asset matches, so it shadows every prerendered file.
+Anything genuinely unknown falls through to `404.html`, which Pages serves with a real 404
+status (the SPA fallback used to answer 200) and which boots the app into its `*` route.

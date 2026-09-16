@@ -1,5 +1,6 @@
 import { HedgehogMagnifyingGlass } from "@posthog/brand/hoggies"
 import { Link, useLocation } from "react-router-dom"
+import { useSeo } from "../useSeo.ts"
 
 /**
  * The `*` route. Without it an unknown path (a typo, an old link, `/hoggies/<name>`)
@@ -12,6 +13,13 @@ import { Link, useLocation } from "react-router-dom"
  */
 export function NotFoundPage() {
   const { pathname } = useLocation()
+
+  useSeo(pathname, {
+    title: "Page not found",
+    label: "404",
+    description: "This page does not exist on brand.posthog.com.",
+    noindex: true,
+  })
 
   return (
     <div className="notfound">
