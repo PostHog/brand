@@ -50,6 +50,20 @@ describe("findAssets", () => {
     expect(findAssets({ namespace: "hoggies", text: "car zzzznope" })).toHaveLength(0)
   })
 
+  it("reads a hyphen as a space and ignores apostrophes", () => {
+    // `driving-hogzilla` is tagged "hot rod" and "self driving": both spellings must find it.
+    for (const text of ["hot rod", "hot-rod", "self driving car", "self-driving car"]) {
+      const hits = findAssets({ namespace: "hoggies", text }).map((a) => a.slug)
+      expect(hits).toContain("driving-hogzilla")
+    }
+
+    // An apostrophe on either side of the match drops out, so "70's" and "70s" agree.
+    for (const text of ["70's dance", "70s dance"]) {
+      expect(findAssets({ text }).map((a) => a.slug)).toContain("70s-dance")
+    }
+    expect(findAssets({ text: "'car'" }).length).toBeGreaterThan(0)
+  })
+
   it("returns nothing for a query that is only separators", () => {
     // No word to match is not the same as no query: these must not fall through to "all".
     for (const text of ["?", "!", "...", "@#$", "🦔", "  ?  "]) {

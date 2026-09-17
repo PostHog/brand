@@ -9,7 +9,8 @@ export interface FindAssetsFilter {
   /**
    * Free-text match across name, slug, component name, and tags (case-insensitive). The
    * query is split into words, and every word must match somewhere — so "hog car" and
-   * "hedgehog in a car" both find a car-tagged hog whose name says neither.
+   * "hedgehog in a car" both find a car-tagged hog whose name says neither. A hyphen reads
+   * as a space and an apostrophe is ignored, so "self-driving" finds a "self driving" tag.
    */
   text?: string
   /** Restrict to one or more namespaces. */
@@ -43,13 +44,18 @@ const STOP_WORDS: ReadonlySet<string> = new Set([
 ])
 
 /**
- * Splits a query into the words that must each match. Apostrophes and hyphens stay inside a
- * word so "i'm" and "driving-hogzilla" keep matching the name and slug they came from.
+ * Folds the spellings a person and the catalog disagree on: a hyphen reads as a space
+ * ("self-driving" is "self driving") and an apostrophe drops out ("70's" is "70s"). Both
+ * sides of a match go through it, so a query never has to guess how a tag is punctuated.
  */
+function normalize(text: string): string {
+  return text.toLowerCase().replace(/'/g, "").replace(/-/g, " ")
+}
+
+/** Splits a normalized query into the words that must each match. */
 function queryWords(text: string): string[] {
-  const words = text
-    .toLowerCase()
-    .split(/[^\p{L}\p{N}'-]+/u)
+  const words = normalize(text)
+    .split(/[^\p{L}\p{N}]+/u)
     .filter(Boolean)
   const content = words.filter((word) => !STOP_WORDS.has(word))
   // A query of nothing but filler words still has to match something.
@@ -66,7 +72,7 @@ function haystack(asset: AssetMeta): string {
   let hay = haystacks.get(asset)
   if (hay === undefined) {
     const component = componentName(asset.namespace, asset.slug, asset.tier)
-    hay = `${asset.name} ${asset.slug} ${component} ${(asset.tags ?? []).join(" ")}`.toLowerCase()
+    hay = normalize(`${asset.name} ${asset.slug} ${component} ${(asset.tags ?? []).join(" ")}`)
     haystacks.set(asset, hay)
   }
   return hay
