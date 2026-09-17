@@ -46,8 +46,10 @@ export function AssetTile({ src, placeholder, name, slug, tags, copyValue, to }:
         title={`Copy: ${copyValue}`}
         // Left to its own content the button would be named after the art, the name, the slug
         // and every tag — nine of them on an average hedgehog. Naming it explicitly keeps that
-        // short, and the tags stay in the accessibility tree as its description instead.
-        aria-label={`${name} — ${slug}`}
+        // short, and the tags stay in the accessibility tree as its description instead. The
+        // name tracks the visible text, so a copy renames the button — the confirmation the
+        // site's other copy buttons give by flipping their own label.
+        aria-label={`${name} — ${copied ? "Copied!" : slug}`}
         aria-describedby={tags?.length ? tagsId : undefined}
         style={{ width: "100%" }}
       >
