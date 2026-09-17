@@ -35,6 +35,26 @@ describe("findAssets", () => {
     expect(hits.every((a) => a.variant?.[key] === value)).toBe(true)
   })
 
+  it("requires every query word to match, not the whole query as one substring", () => {
+    // The five hogs in a car: each is tagged "car" or "driving", none says so in its name.
+    const byTag = findAssets({ namespace: "hoggies", text: "car" }).map((a) => a.slug)
+    expect(byTag.length).toBeGreaterThan(1)
+
+    for (const text of ["hog car", "car hog", "a hedgehog in a car", "Hedgehog In A Car?"]) {
+      const hits = findAssets({ namespace: "hoggies", text }).map((a) => a.slug)
+      expect(hits.length).toBeGreaterThan(0)
+      expect(byTag).toEqual(expect.arrayContaining(hits))
+    }
+
+    // A word that matches nothing still rules the asset out.
+    expect(findAssets({ namespace: "hoggies", text: "car zzzznope" })).toHaveLength(0)
+  })
+
+  it("matches the generated component name", () => {
+    const hits = findAssets({ text: "hedgehogdrivinghogzilla" })
+    expect(hits.map((a) => a.slug)).toContain("driving-hogzilla")
+  })
+
   it("does a case-insensitive text search across name/slug", () => {
     const sample = allAssets[0]!
     const word = sample.name.split(/\s+/)[0]!

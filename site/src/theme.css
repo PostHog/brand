@@ -250,6 +250,18 @@ h3 {
   overflow-wrap: anywhere;
   max-width: 100%;
 }
+.asset-tags {
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+  max-width: 100%;
+  /* Two lines keep the tile heights even when an asset carries a dozen tags. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
 button.asset {
   cursor: pointer;
   font: inherit;

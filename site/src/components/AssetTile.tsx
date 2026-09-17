@@ -11,6 +11,8 @@ interface AssetTileProps {
   name: string
   /** Asset slug (or usage snippet), shown in mono under the name. */
   slug: string
+  /** Search tags, shown under the slug so the words that find the asset are visible. */
+  tags?: readonly string[]
   /** Text copied to the clipboard when the tile is clicked (e.g. an import line). */
   copyValue: string
   /** When set, renders a corner link to this route (e.g. an isolated detail page). */
@@ -18,7 +20,7 @@ interface AssetTileProps {
 }
 
 /** A clickable grid tile that shows an asset's PNG thumbnail and copies `copyValue` on click. */
-export function AssetTile({ src, placeholder, name, slug, copyValue, to }: AssetTileProps) {
+export function AssetTile({ src, placeholder, name, slug, tags, copyValue, to }: AssetTileProps) {
   const [copied, setCopied] = useState(false)
   const [loaded, setLoaded] = useState(false)
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
@@ -70,6 +72,7 @@ export function AssetTile({ src, placeholder, name, slug, copyValue, to }: Asset
         </span>
         <span className="asset-name">{name}</span>
         <span className="asset-slug">{copied ? "Copied!" : slug}</span>
+        {tags?.length ? <span className="asset-tags">{tags.join(" · ")}</span> : null}
       </button>
       {to ? (
         <Link

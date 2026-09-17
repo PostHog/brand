@@ -2,10 +2,15 @@
 // No React, no image payload — safe to import when building a picker.
 
 import { allAssets } from "./generated/manifest.ts"
+import { componentName } from "./naming.ts"
 import type { AssetMeta, CrestTier, Namespace } from "./types.ts"
 
 export interface FindAssetsFilter {
-  /** Substring match across name, slug, and tags (case-insensitive). */
+  /**
+   * Free-text match across name, slug, component name, and tags (case-insensitive). The
+   * query is split into words, and every word must match somewhere — so "hog car" and
+   * "hedgehog in a car" both find a car-tagged hog whose name says neither.
+   */
   text?: string
   /** Restrict to one or more namespaces. */
   namespace?: Namespace | Namespace[]
@@ -17,12 +22,62 @@ export interface FindAssetsFilter {
   tags?: string | string[]
 }
 
+/**
+ * English filler words, dropped from a free-text query. Without this a written-out request
+ * ("a hedgehog in a car") would only match assets that happen to carry "in" or "a" as a
+ * substring somewhere, which is chance rather than relevance.
+ */
+const STOP_WORDS: ReadonlySet<string> = new Set([
+  "a",
+  "an",
+  "and",
+  "at",
+  "for",
+  "in",
+  "of",
+  "on",
+  "or",
+  "the",
+  "to",
+  "with",
+])
+
+/**
+ * Splits a query into the words that must each match. Apostrophes and hyphens stay inside a
+ * word so "i'm" and "driving-hogzilla" keep matching the name and slug they came from.
+ */
+function queryWords(text: string): string[] {
+  const words = text
+    .toLowerCase()
+    .split(/[^\p{L}\p{N}'-]+/u)
+    .filter(Boolean)
+  const content = words.filter((word) => !STOP_WORDS.has(word))
+  // A query of nothing but filler words still has to match something.
+  return content.length > 0 ? content : words
+}
+
+const haystacks = new WeakMap<AssetMeta, string>()
+
+/**
+ * Everything a free-text query is matched against, lower-cased. Cached per asset: the
+ * manifest is static, and a picker re-filters all of it on every keystroke.
+ */
+function haystack(asset: AssetMeta): string {
+  let hay = haystacks.get(asset)
+  if (hay === undefined) {
+    const component = componentName(asset.namespace, asset.slug, asset.tier)
+    hay = `${asset.name} ${asset.slug} ${component} ${(asset.tags ?? []).join(" ")}`.toLowerCase()
+    haystacks.set(asset, hay)
+  }
+  return hay
+}
+
 function matchesOneOf<T>(value: T, filter: T | T[] | undefined): boolean {
   if (filter === undefined) return true
   return Array.isArray(filter) ? filter.includes(value) : value === filter
 }
 
-function matches(asset: AssetMeta, filter: FindAssetsFilter): boolean {
+function matches(asset: AssetMeta, filter: FindAssetsFilter, words: readonly string[]): boolean {
   if (!matchesOneOf(asset.namespace, filter.namespace)) return false
   if (filter.tier !== undefined && !matchesOneOf(asset.tier, filter.tier)) return false
 
@@ -41,10 +96,9 @@ function matches(asset: AssetMeta, filter: FindAssetsFilter): boolean {
     if (!want.every((t) => have.has(t))) return false
   }
 
-  if (filter.text?.trim()) {
-    const q = filter.text.trim().toLowerCase()
-    const haystack = `${asset.name} ${asset.slug} ${(asset.tags ?? []).join(" ")}`.toLowerCase()
-    if (!haystack.includes(q)) return false
+  if (words.length > 0) {
+    const hay = haystack(asset)
+    if (!words.every((word) => hay.includes(word))) return false
   }
 
   return true
@@ -52,7 +106,8 @@ function matches(asset: AssetMeta, filter: FindAssetsFilter): boolean {
 
 /** Returns every asset matching `filter` (empty filter returns all of them). */
 export function findAssets(filter: FindAssetsFilter = {}): AssetMeta[] {
-  return allAssets.filter((asset) => matches(asset, filter))
+  const words = filter.text?.trim() ? queryWords(filter.text) : []
+  return allAssets.filter((asset) => matches(asset, filter, words))
 }
 
 /**

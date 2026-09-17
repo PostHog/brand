@@ -91,6 +91,7 @@ export function CrestsPage() {
                 {...img}
                 name={asset.name}
                 slug={usage}
+                tags={asset.tags}
                 copyValue={`import { ${baseName} } from "@posthog/brand/crests"`}
                 to={`/crests/${asset.slug}`}
               />

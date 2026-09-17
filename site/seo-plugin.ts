@@ -196,7 +196,10 @@ function staticShell(page: PageSeo): string {
           getComponentName(namespace, asset.slug, asset.tier) + (key ? ` variant="${key}"` : "")
         const href = namespace === "crests" ? ` href="/crests/${asset.slug}"` : ""
         const name = escape(asset.name)
-        return `<li>${href ? `<a${href}>${name}</a>` : name} — <code>${escape(component)}</code></li>`
+        // Tags carry the subject words ("car", "driving") that the display name often omits,
+        // so a crawler asked for a hedgehog in a car can only find one if they are here.
+        const tags = asset.tags?.length ? ` — ${escape(asset.tags.join(", "))}` : ""
+        return `<li>${href ? `<a${href}>${name}</a>` : name} — <code>${escape(component)}</code>${tags}</li>`
       })
       .join("")
     catalog = `<h2>All ${assets.length} ${namespace}</h2><ul class="prerender-list">${items}</ul>`
@@ -228,7 +231,7 @@ function sitemap(): string {
  * `/llms.txt` — the emerging convention for handing an LLM a compact, plain-markdown map of
  * a site instead of making it scrape and strip HTML. Cheap to serve and exactly the shape of
  * question this site gets asked ("which PostHog hedgehog illustrations exist?"), so it lists
- * every page plus the full catalog by display name and component name.
+ * every page plus the full catalog by display name, component name, and search tags.
  */
 function llmsTxt(): string {
   const catalog = (namespace: "hoggies" | "crests") =>
@@ -238,7 +241,8 @@ function llmsTxt(): string {
         const key = asset.variant?.variant
         const component =
           getComponentName(namespace, asset.slug, asset.tier) + (key ? ` variant="${key}"` : "")
-        return `- ${asset.name} — \`${component}\` (slug: ${asset.slug})`
+        const tags = asset.tags?.length ? ` — tags: ${asset.tags.join(", ")}` : ""
+        return `- ${asset.name} — \`${component}\` (slug: ${asset.slug})${tags}`
       })
 
   const hoggies = catalog("hoggies")

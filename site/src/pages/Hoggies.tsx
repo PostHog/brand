@@ -58,6 +58,7 @@ export function HoggiesPage() {
                 {...hoggiePng(asset.slug, variant)}
                 name={variant ? `${asset.name} ${variant}` : asset.name}
                 slug={asset.slug}
+                tags={asset.tags}
                 copyValue={usage}
               />
             )
