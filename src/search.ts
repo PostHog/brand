@@ -45,11 +45,16 @@ const STOP_WORDS: ReadonlySet<string> = new Set([
 
 /**
  * Folds the spellings a person and the catalog disagree on: a hyphen reads as a space
- * ("self-driving" is "self driving") and an apostrophe drops out ("70's" is "70s"). Both
- * sides of a match go through it, so a query never has to guess how a tag is punctuated.
+ * ("self-driving" is "self driving") and an apostrophe drops out ("70's" is "70s"), in the
+ * typographic form too — a phone inserts that one. Both sides of a match go through it, so a
+ * query never has to guess how a tag is punctuated. Same character set as `slugify`, which
+ * the catalog's own slugs went through.
  */
 function normalize(text: string): string {
-  return text.toLowerCase().replace(/'/g, "").replace(/-/g, " ")
+  return text
+    .toLowerCase()
+    .replace(/['’`]/g, "")
+    .replace(/-/g, " ")
 }
 
 /** Splits a normalized query into the words that must each match. */

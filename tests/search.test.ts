@@ -62,6 +62,17 @@ describe("findAssets", () => {
       expect(findAssets({ text }).map((a) => a.slug)).toContain("70s-dance")
     }
     expect(findAssets({ text: "'car'" }).length).toBeGreaterThan(0)
+
+    // A phone or a paste carries the typographic apostrophe. It has to fold like the straight
+    // one, not split the word into single letters that then match almost every asset.
+    for (const [straight, curly] of [
+      ["70's dance", "70’s dance"],
+      ["i'm the driver", "i’m the driver"],
+      ["it's a car", "it’s a car"],
+    ]) {
+      const curlyHits = findAssets({ text: curly }).map((a) => a.slug)
+      expect(curlyHits).toEqual(findAssets({ text: straight }).map((a) => a.slug))
+    }
   })
 
   it("returns nothing for a query that is only separators", () => {
