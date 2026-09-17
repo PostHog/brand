@@ -50,6 +50,15 @@ describe("findAssets", () => {
     expect(findAssets({ namespace: "hoggies", text: "car zzzznope" })).toHaveLength(0)
   })
 
+  it("returns nothing for a query that is only separators", () => {
+    // No word to match is not the same as no query: these must not fall through to "all".
+    for (const text of ["?", "!", "...", "@#$", "🦔", "  ?  "]) {
+      expect(findAssets({ text })).toHaveLength(0)
+    }
+    // An empty query is still "no filter at all".
+    expect(findAssets({ text: "   " })).toHaveLength(allAssets.length)
+  })
+
   it("matches the generated component name", () => {
     const hits = findAssets({ text: "hedgehogdrivinghogzilla" })
     expect(hits.map((a) => a.slug)).toContain("driving-hogzilla")

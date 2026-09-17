@@ -106,7 +106,11 @@ function matches(asset: AssetMeta, filter: FindAssetsFilter, words: readonly str
 
 /** Returns every asset matching `filter` (empty filter returns all of them). */
 export function findAssets(filter: FindAssetsFilter = {}): AssetMeta[] {
-  const words = filter.text?.trim() ? queryWords(filter.text) : []
+  const query = filter.text?.trim() ?? ""
+  const words = query ? queryWords(query) : []
+  // A query of nothing but separators ("?", "🦔") has no word to match, which is not the
+  // same as having no query at all — it asks for something the catalog cannot contain.
+  if (query && words.length === 0) return []
   return allAssets.filter((asset) => matches(asset, filter, words))
 }
 
