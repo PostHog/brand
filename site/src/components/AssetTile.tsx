@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useId, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import { copyToClipboard } from "../clipboard.ts"
 
@@ -21,6 +21,7 @@ interface AssetTileProps {
 
 /** A clickable grid tile that shows an asset's PNG thumbnail and copies `copyValue` on click. */
 export function AssetTile({ src, placeholder, name, slug, tags, copyValue, to }: AssetTileProps) {
+  const tagsId = useId()
   const [copied, setCopied] = useState(false)
   const [loaded, setLoaded] = useState(false)
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
@@ -43,6 +44,11 @@ export function AssetTile({ src, placeholder, name, slug, tags, copyValue, to }:
         className={`card asset${copied ? " copied" : ""}`}
         onClick={onClick}
         title={`Copy: ${copyValue}`}
+        // Left to its own content the button would be named after the art, the name, the slug
+        // and every tag — nine of them on an average hedgehog. Naming it explicitly keeps that
+        // short, and the tags stay in the accessibility tree as its description instead.
+        aria-label={`${name} — ${slug}`}
+        aria-describedby={tags?.length ? tagsId : undefined}
         style={{ width: "100%" }}
       >
         <span className="asset-art">
@@ -72,7 +78,11 @@ export function AssetTile({ src, placeholder, name, slug, tags, copyValue, to }:
         </span>
         <span className="asset-name">{name}</span>
         <span className="asset-slug">{copied ? "Copied!" : slug}</span>
-        {tags?.length ? <span className="asset-tags">{tags.join(" · ")}</span> : null}
+        {tags?.length ? (
+          <span className="asset-tags" id={tagsId}>
+            {tags.join(" · ")}
+          </span>
+        ) : null}
       </button>
       {to ? (
         <Link
