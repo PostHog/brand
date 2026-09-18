@@ -1,5 +1,15 @@
 # @posthog/brand
 
+## 0.12.2
+
+### Patch Changes
+
+- 250805f: Sync brand assets from Figma (9 added).
+
+  **hoggies**
+
+  - Added 9: Asleep, Burger, Climber 1, Climber 2, Cool Car, Error, Football Player, Self-driving, Success
+
 ## 0.12.1
 
 ### Patch Changes
