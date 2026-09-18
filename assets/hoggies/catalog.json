@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-15T21:49:48Z",
+  "generatedAt": "2026-09-17T22:13:24Z",
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2399580168503421593",
+  "figmaVersion": "2400310193221813320",
   "namespace": "hoggies",
   "entries": [
     {
@@ -98,6 +98,24 @@
       ],
       "svgBytes": 174905,
       "pngBytes": 57554
+    },
+    {
+      "slug": "asleep",
+      "name": "Asleep",
+      "namespace": "hoggies",
+      "figmaNodeId": "1641:2818",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "naked",
+        "sleep",
+        "eye mask",
+        "blanket",
+        "drool"
+      ],
+      "svgBytes": 180098,
+      "pngBytes": 54213
     },
     {
       "slug": "back-to-the-future",
@@ -231,6 +249,25 @@
       ],
       "svgBytes": 134197,
       "pngBytes": 42970
+    },
+    {
+      "slug": "burger",
+      "name": "Burger",
+      "namespace": "hoggies",
+      "figmaNodeId": "1641:2813",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "food",
+        "burger",
+        "hamburger",
+        "pickle",
+        "bun",
+        "spatula"
+      ],
+      "svgBytes": 175672,
+      "pngBytes": 41489
     },
     {
       "slug": "burning-money",
@@ -433,6 +470,46 @@
       "pngBytes": 43616
     },
     {
+      "slug": "climber-1",
+      "name": "Climber 1",
+      "namespace": "hoggies",
+      "figmaNodeId": "1641:2817",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "climb",
+        "outdoorsy",
+        "backpack",
+        "rope",
+        "hiking",
+        "hiker",
+        "helmet",
+        "puffer",
+        "pole",
+        "pink"
+      ],
+      "svgBytes": 184710,
+      "pngBytes": 59178
+    },
+    {
+      "slug": "climber-2",
+      "name": "Climber 2",
+      "namespace": "hoggies",
+      "figmaNodeId": "1641:2814",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "climb",
+        "outdoorsy",
+        "harness",
+        "rope",
+        "hanging",
+        "belay"
+      ],
+      "svgBytes": 168485,
+      "pngBytes": 32930
+    },
+    {
       "slug": "coconut",
       "name": "Coconut",
       "namespace": "hoggies",
@@ -593,6 +670,29 @@
       ],
       "svgBytes": 116440,
       "pngBytes": 42960
+    },
+    {
+      "slug": "cool-car",
+      "name": "Cool Car",
+      "namespace": "hoggies",
+      "figmaNodeId": "1641:2811",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "driving",
+        "convertible",
+        "yellow",
+        "james dean",
+        "smoking",
+        "smoke",
+        "cool",
+        "suave",
+        "sunglasses",
+        "laid back"
+      ],
+      "svgBytes": 205612,
+      "pngBytes": 39638
     },
     {
       "slug": "cowboy-lasso",
@@ -975,6 +1075,28 @@
       "pngBytes": 50504
     },
     {
+      "slug": "error",
+      "name": "Error",
+      "namespace": "hoggies",
+      "figmaNodeId": "1641:2819",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "naked",
+        "error",
+        "warning",
+        "danger",
+        "yield",
+        "caution",
+        "tape",
+        "wrapped up",
+        "yellow"
+      ],
+      "svgBytes": 190418,
+      "pngBytes": 54487
+    },
+    {
       "slug": "evel",
       "name": "Evel",
       "namespace": "hoggies",
@@ -1093,6 +1215,24 @@
       ],
       "svgBytes": 170325,
       "pngBytes": 60326
+    },
+    {
+      "slug": "football-player",
+      "name": "Football Player",
+      "namespace": "hoggies",
+      "figmaNodeId": "1641:2816",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "qb",
+        "football",
+        "helmet",
+        "player",
+        "jersey"
+      ],
+      "svgBytes": 193371,
+      "pngBytes": 47239
     },
     {
       "slug": "gardener-1",
@@ -2423,6 +2563,27 @@
       "pngBytes": 49794
     },
     {
+      "slug": "self-driving",
+      "name": "Self-driving",
+      "namespace": "hoggies",
+      "figmaNodeId": "1641:2815",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "naked",
+        "driving",
+        "self",
+        "autonomous",
+        "car",
+        "futuristic",
+        "sleeping",
+        "chilling",
+        "eyes closed"
+      ],
+      "svgBytes": 145248,
+      "pngBytes": 86170
+    },
+    {
       "slug": "selfie",
       "name": "Selfie",
       "namespace": "hoggies",
@@ -2673,6 +2834,26 @@
       ],
       "svgBytes": 126443,
       "pngBytes": 45068
+    },
+    {
+      "slug": "success",
+      "name": "Success",
+      "namespace": "hoggies",
+      "figmaNodeId": "1641:2812",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "naked",
+        "party",
+        "success",
+        "hooray",
+        "celebrate",
+        "horn",
+        "excite"
+      ],
+      "svgBytes": 130844,
+      "pngBytes": 49220
     },
     {
       "slug": "sunburn",

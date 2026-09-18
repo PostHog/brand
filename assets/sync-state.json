@@ -1,6 +1,6 @@
 {
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2399580168503421593",
+  "figmaVersion": "2400310193221813320",
   "entries": {
     "hoggies/70s-dance": {
       "figmaNodeId": "404:93626",
@@ -21,6 +21,10 @@
     "hoggies/art-thief": {
       "figmaNodeId": "404:118219",
       "nodeHash": "6e7b782a37335d99"
+    },
+    "hoggies/asleep": {
+      "figmaNodeId": "1641:2818",
+      "nodeHash": "f726e5f713534805"
     },
     "hoggies/back-to-the-future": {
       "figmaNodeId": "404:159877",
@@ -49,6 +53,10 @@
     "hoggies/boombox": {
       "figmaNodeId": "465:4926",
       "nodeHash": "77774fa917c9eb77"
+    },
+    "hoggies/burger": {
+      "figmaNodeId": "1641:2813",
+      "nodeHash": "1038235f923a03d9"
     },
     "hoggies/burning-money": {
       "figmaNodeId": "1164:8278",
@@ -90,6 +98,14 @@
       "figmaNodeId": "404:134932",
       "nodeHash": "8aacfa8d1b9865f3"
     },
+    "hoggies/climber-1": {
+      "figmaNodeId": "1641:2817",
+      "nodeHash": "bbf1e3f2a8145bab"
+    },
+    "hoggies/climber-2": {
+      "figmaNodeId": "1641:2814",
+      "nodeHash": "62fb0a38d9fc3ad3"
+    },
     "hoggies/coconut": {
       "figmaNodeId": "306:201592",
       "nodeHash": "c4bc3dd903ffcc5a"
@@ -121,6 +137,10 @@
     "hoggies/construction-2": {
       "figmaNodeId": "404:145101",
       "nodeHash": "a7658121212fc92e"
+    },
+    "hoggies/cool-car": {
+      "figmaNodeId": "1641:2811",
+      "nodeHash": "f4878869bac70c87"
     },
     "hoggies/cowboy-lasso": {
       "figmaNodeId": "404:176614",
@@ -202,6 +222,10 @@
       "figmaNodeId": "404:128485",
       "nodeHash": "bd9a91e1f4f95e3a"
     },
+    "hoggies/error": {
+      "figmaNodeId": "1641:2819",
+      "nodeHash": "05d50d0d774af020"
+    },
     "hoggies/evel": {
       "figmaNodeId": "404:124569",
       "nodeHash": "16caa556f271a755"
@@ -225,6 +249,10 @@
     "hoggies/football-coach": {
       "figmaNodeId": "404:129605",
       "nodeHash": "43f19653ac65b073"
+    },
+    "hoggies/football-player": {
+      "figmaNodeId": "1641:2816",
+      "nodeHash": "d0fb84d6408a35ce"
     },
     "hoggies/gardener-1": {
       "figmaNodeId": "463:4370",
@@ -498,6 +526,10 @@
       "figmaNodeId": "404:98633",
       "nodeHash": "1be8cf3bec2d6810"
     },
+    "hoggies/self-driving": {
+      "figmaNodeId": "1641:2815",
+      "nodeHash": "8956429fe35ca2aa"
+    },
     "hoggies/selfie": {
       "figmaNodeId": "1337:3632",
       "nodeHash": "cf510ee348e5791a"
@@ -549,6 +581,10 @@
     "hoggies/stop": {
       "figmaNodeId": "404:109392",
       "nodeHash": "e261c75bfa395280"
+    },
+    "hoggies/success": {
+      "figmaNodeId": "1641:2812",
+      "nodeHash": "ead0d123f97cd49f"
     },
     "hoggies/sunburn": {
       "figmaNodeId": "306:201594",
