@@ -1,6 +1,6 @@
 {
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2400699213614670469",
+  "figmaVersion": "2401740133312748494",
   "entries": {
     "hoggies/70s-dance": {
       "figmaNodeId": "404:93626",
@@ -100,7 +100,7 @@
     },
     "hoggies/climber-1": {
       "figmaNodeId": "1641:2817",
-      "nodeHash": "bbf1e3f2a8145bab"
+      "nodeHash": "9cc4e779e78b939e"
     },
     "hoggies/climber-2": {
       "figmaNodeId": "1641:2814",
@@ -224,7 +224,7 @@
     },
     "hoggies/error": {
       "figmaNodeId": "1641:2819",
-      "nodeHash": "05d50d0d774af020"
+      "nodeHash": "254f65df05d513ec"
     },
     "hoggies/evel": {
       "figmaNodeId": "404:124569",
@@ -252,7 +252,7 @@
     },
     "hoggies/football-player": {
       "figmaNodeId": "1641:2816",
-      "nodeHash": "d0fb84d6408a35ce"
+      "nodeHash": "a6ee4c75027b71c8"
     },
     "hoggies/gardener-1": {
       "figmaNodeId": "463:4370",
@@ -370,9 +370,9 @@
       "figmaNodeId": "1336:686",
       "nodeHash": "92755a5006a138bf"
     },
-    "hoggies/magnifying-glass-2": {
+    "hoggies/magnifying-glass": {
       "figmaNodeId": "404:132663",
-      "nodeHash": "c12b385b771531e8"
+      "nodeHash": "b191442ae5f56ce9"
     },
     "hoggies/mailbox": {
       "figmaNodeId": "1164:10782",
