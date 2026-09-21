@@ -1,5 +1,16 @@
 # @posthog/brand
 
+## 0.12.3
+
+### Patch Changes
+
+- c65e2ba: Sync brand assets from Figma (1 added, 1 removed).
+
+  **hoggies**
+
+  - Renamed: Magnifying Glass 2 -> Magnifying Glass
+  - Updated 3: Climber 1, Error, Football Player
+
 ## 0.12.2
 
 ### Patch Changes
