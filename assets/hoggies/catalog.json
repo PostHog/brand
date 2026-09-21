@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-18T23:38:19Z",
+  "generatedAt": "2026-09-21T18:01:02Z",
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2400699213614670469",
+  "figmaVersion": "2401740133312748494",
   "namespace": "hoggies",
   "entries": [
     {
@@ -488,8 +488,8 @@
         "pole",
         "pink"
       ],
-      "svgBytes": 184710,
-      "pngBytes": 59178
+      "svgBytes": 184733,
+      "pngBytes": 59095
     },
     {
       "slug": "climber-2",
@@ -1093,8 +1093,8 @@
         "wrapped up",
         "yellow"
       ],
-      "svgBytes": 190418,
-      "pngBytes": 54487
+      "svgBytes": 190490,
+      "pngBytes": 54387
     },
     {
       "slug": "evel",
@@ -1231,8 +1231,8 @@
         "player",
         "jersey"
       ],
-      "svgBytes": 193371,
-      "pngBytes": 47239
+      "svgBytes": 193401,
+      "pngBytes": 47238
     },
     {
       "slug": "gardener-1",
@@ -1776,8 +1776,8 @@
       "pngBytes": 52559
     },
     {
-      "slug": "magnifying-glass-2",
-      "name": "Magnifying Glass 2",
+      "slug": "magnifying-glass",
+      "name": "Magnifying Glass",
       "namespace": "hoggies",
       "figmaNodeId": "404:132663",
       "aspectRatio": 1,
@@ -1789,8 +1789,8 @@
         "research",
         "naked"
       ],
-      "svgBytes": 113111,
-      "pngBytes": 44016
+      "svgBytes": 113107,
+      "pngBytes": 43911
     },
     {
       "slug": "mailbox",
