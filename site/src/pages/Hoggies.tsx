@@ -57,6 +57,9 @@ export function HoggiesPage() {
                 name={variant ? `${asset.name} ${variant}` : asset.name}
                 slug={asset.slug}
                 importLine={`import { ${componentName} } from "@posthog/brand/hoggies"`}
+                usage={
+                  variant ? `<${componentName} variant="${variant}" />` : `<${componentName} />`
+                }
                 svg={hoggieSvg(asset.slug, variant)}
               />
             )

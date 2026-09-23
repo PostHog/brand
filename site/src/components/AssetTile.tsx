@@ -14,6 +14,8 @@ interface AssetTileProps {
   slug: string
   /** The import line, offered in the right-click menu. */
   importLine: string
+  /** A JSX snippet for this asset; when set, the menu also offers "Copy JSX". */
+  usage?: string
   /** Lazily loads the asset's SVG, for the right-click menu's SVG options. */
   svg: SvgLoader
   /** When set, renders a corner link to this route (e.g. an isolated detail page). */
@@ -24,9 +26,18 @@ interface AssetTileProps {
  * A clickable grid tile that shows an asset's PNG thumbnail. Click copies the PNG (see
  * `useAssetCopy`); right-click opens a menu to copy the import line, SVG, or PNG.
  */
-export function AssetTile({ src, placeholder, name, slug, importLine, svg, to }: AssetTileProps) {
+export function AssetTile({
+  src,
+  placeholder,
+  name,
+  slug,
+  importLine,
+  usage,
+  svg,
+  to,
+}: AssetTileProps) {
   const [loaded, setLoaded] = useState(false)
-  const copy = useAssetCopy({ importLine, png: src, svg })
+  const copy = useAssetCopy({ importLine, usage, png: src, svg })
   const status = copy.status
 
   return (
