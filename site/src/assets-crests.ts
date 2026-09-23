@@ -16,7 +16,7 @@ import fullLqip from "virtual:brand-lqip/crests-full"
 import miniLqip from "virtual:brand-lqip/crests-mini"
 import fullSvg from "virtual:brand-svg/crests-full"
 import miniSvg from "virtual:brand-svg/crests-mini"
-import type { AssetImage, SvgLoader } from "./assets-hoggies.ts"
+import { svgLoader, type AssetImage, type SvgLoader } from "./assets-hoggies.ts"
 
 const full = FullPng as unknown as Record<string, string>
 const mini = MiniPng as unknown as Record<string, string>
@@ -37,6 +37,5 @@ export function crestPng(slug: string, tier: CrestTier): AssetImage {
 
 /** A loader for a crest's SVG string by slug and tier (rejects for a missing mini). */
 export function crestSvg(slug: string, tier: CrestTier): SvgLoader {
-  const loaders = tier === "mini" ? miniSvg : fullSvg
-  return loaders[slug] ?? (() => Promise.reject(new Error(`No ${tier} SVG for ${slug}`)))
+  return svgLoader(tier === "mini" ? miniSvg : fullSvg, slug)
 }

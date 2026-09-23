@@ -38,6 +38,18 @@ const GROUPS: Record<string, string> = {
 
 const PREFIX = "virtual:brand-svg/"
 
+/**
+ * A string literal safe to splice into generated JS. `JSON.stringify` alone leaves `<`, `>`,
+ * `/` and the U+2028/U+2029 line separators as-is; escape those too so no filename can break
+ * out of the literal.
+ */
+function jsString(value: string): string {
+  return JSON.stringify(value).replace(
+    /[<>/\u2028\u2029]/g,
+    (c) => `\\u${c.charCodeAt(0).toString(16).padStart(4, "0")}`,
+  )
+}
+
 function svgDir(group: string): string {
   const root = dirname(require.resolve("@posthog/brand/package.json"))
   return join(root, "dist", "generated", group, "svg")
@@ -60,7 +72,7 @@ export function brandSvg(): Plugin {
       // Destructuring in `.then` lets Rollup tree-shake the leaf's unused exports.
       const entries = slugs.map(
         (slug) =>
-          `  ${JSON.stringify(slug)}: () => import(${JSON.stringify(`@posthog/brand/${group}/svg/${slug}`)}).then(({ viewBox, body }) => markup(viewBox, body)),`,
+          `  ${jsString(slug)}: () => import(${jsString(`@posthog/brand/${group}/svg/${slug}`)}).then(({ viewBox, body }) => markup(viewBox, body)),`,
       )
       return [
         "const XLINK = ' xmlns:xlink=\"http://www.w3.org/1999/xlink\"';",

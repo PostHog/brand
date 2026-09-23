@@ -29,6 +29,17 @@ export interface AssetImage {
 export type SvgLoader = () => Promise<string>
 
 /**
+ * Looks `slug` up in a `virtual:brand-svg/*` map. Own keys only: slugs can come from the URL
+ * (`/crests/:slug`), and a plain lookup would hand back inherited members — `constructor`,
+ * `toString` — as if they were loaders.
+ */
+export function svgLoader(loaders: Record<string, SvgLoader>, slug: string): SvgLoader {
+  return Object.hasOwn(loaders, slug)
+    ? loaders[slug]
+    : () => Promise.reject(new Error(`No SVG for ${slug}`))
+}
+
+/**
  * The bundled PNG for a hoggie, e.g. "chart" → `hedgehogChartPng`. Numbered
  * variant families share a family slug; pass the `variant` to reach the member's own PNG
  * (e.g. "construction" + "1" → `hedgehogConstruction1Png`).
@@ -42,5 +53,5 @@ export function hoggiePng(slug: string, variant?: string): AssetImage {
 /** A loader for a hoggie's SVG string, keyed the same way as {@link hoggiePng}. */
 export function hoggieSvg(slug: string, variant?: string): SvgLoader {
   const moduleSlug = variant ? `${slug}-${variant}` : slug
-  return svgLoaders[moduleSlug] ?? (() => Promise.reject(new Error(`No SVG for ${moduleSlug}`)))
+  return svgLoader(svgLoaders, moduleSlug)
 }
