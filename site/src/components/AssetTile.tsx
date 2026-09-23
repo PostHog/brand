@@ -1,6 +1,7 @@
-import { useRef, useState } from "react"
+import { useState } from "react"
 import { Link } from "react-router-dom"
-import { copyToClipboard } from "../clipboard.ts"
+import type { SvgLoader } from "../assets-hoggies.ts"
+import { useAssetCopy } from "./CopyMenu.tsx"
 
 interface AssetTileProps {
   /** Bundled PNG URL to show as the thumbnail. When absent, a placeholder glyph is shown. */
@@ -11,36 +12,31 @@ interface AssetTileProps {
   name: string
   /** Asset slug (or usage snippet), shown in mono under the name. */
   slug: string
-  /** Text copied to the clipboard when the tile is clicked (e.g. an import line). */
-  copyValue: string
+  /** The import line, offered in the right-click menu. */
+  importLine: string
+  /** Lazily loads the asset's SVG, for the right-click menu's SVG options. */
+  svg: SvgLoader
   /** When set, renders a corner link to this route (e.g. an isolated detail page). */
   to?: string
 }
 
-/** A clickable grid tile that shows an asset's PNG thumbnail and copies `copyValue` on click. */
-export function AssetTile({ src, placeholder, name, slug, copyValue, to }: AssetTileProps) {
-  const [copied, setCopied] = useState(false)
+/**
+ * A clickable grid tile that shows an asset's PNG thumbnail. Click copies the PNG (see
+ * `useAssetCopy`); right-click opens a menu to copy the import line, SVG, or PNG.
+ */
+export function AssetTile({ src, placeholder, name, slug, importLine, svg, to }: AssetTileProps) {
   const [loaded, setLoaded] = useState(false)
-  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
-
-  function onClick() {
-    void copyToClipboard(copyValue).then((ok) => {
-      if (!ok) {
-        return
-      }
-      setCopied(true)
-      clearTimeout(timer.current)
-      timer.current = setTimeout(() => setCopied(false), 1200)
-    })
-  }
+  const copy = useAssetCopy({ importLine, png: src, svg })
+  const status = copy.status
 
   return (
     <div className="asset-tile-wrap" style={{ position: "relative", display: "flex" }}>
       <button
         type="button"
-        className={`card asset${copied ? " copied" : ""}`}
-        onClick={onClick}
-        title={`Copy: ${copyValue}`}
+        className={`card asset${status ? (status.ok ? " copied" : " copy-failed") : ""}`}
+        onClick={copy.onClick}
+        onContextMenu={copy.onContextMenu}
+        title="Click to copy the PNG; right-click for the import line or SVG"
         style={{ width: "100%" }}
       >
         <span className="asset-art">
@@ -69,8 +65,11 @@ export function AssetTile({ src, placeholder, name, slug, copyValue, to }: Asset
           )}
         </span>
         <span className="asset-name">{name}</span>
-        <span className="asset-slug">{copied ? "Copied!" : slug}</span>
+        <span className="asset-slug" aria-live="polite">
+          {status ? status.label : slug}
+        </span>
       </button>
+      {copy.menu}
       {to ? (
         <Link
           to={to}

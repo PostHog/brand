@@ -13,6 +13,7 @@
 import { getComponentName } from "@posthog/brand"
 import * as HoggiesPng from "@posthog/brand/hoggies/png"
 import lqip from "virtual:brand-lqip/hoggies"
+import svgLoaders from "virtual:brand-svg/hoggies"
 
 const png = HoggiesPng as unknown as Record<string, string>
 
@@ -24,6 +25,9 @@ export interface AssetImage {
   placeholder?: string
 }
 
+/** Lazily loads an asset's SVG markup (its own chunk; see site/svg-plugin.ts). */
+export type SvgLoader = () => Promise<string>
+
 /**
  * The bundled PNG for a hoggie, e.g. "chart" → `hedgehogChartPng`. Numbered
  * variant families share a family slug; pass the `variant` to reach the member's own PNG
@@ -33,4 +37,10 @@ export function hoggiePng(slug: string, variant?: string): AssetImage {
   const moduleSlug = variant ? `${slug}-${variant}` : slug
   const key = `${lowerFirst(getComponentName("hoggies", moduleSlug))}Png`
   return { src: png[key], placeholder: lqip[key] }
+}
+
+/** A loader for a hoggie's SVG string, keyed the same way as {@link hoggiePng}. */
+export function hoggieSvg(slug: string, variant?: string): SvgLoader {
+  const moduleSlug = variant ? `${slug}-${variant}` : slug
+  return svgLoaders[moduleSlug] ?? (() => Promise.reject(new Error(`No SVG for ${moduleSlug}`)))
 }

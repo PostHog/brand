@@ -126,7 +126,21 @@ data URIs into the crests route chunk rather than emitting files.) Each tile doe
 the `brandLqip()` Vite plugin (`site/lqip-plugin.ts`, dev-dep `sharp`) reads those same `dist/`
 PNGs at build time, downscales each to a ~20px blurred WebP, and serves them as
 `virtual:brand-lqip/<group>` maps (keyed by the same PNG export name) inlined as data URIs —
-so a tiny placeholder paints instantly behind each `<img>` and fades out on load. The heavy
+so a tiny placeholder paints instantly behind each `<img>` and fades out on load. Clicking a
+tile (`useAssetCopy`, `site/src/components/CopyMenu.tsx`) copies just the PNG (`image/png`);
+right-click opens a menu (import / SVG as text / SVG as `image/svg+xml` / PNG). The click is
+PNG-only on purpose: an item that also carries the import line as `text/plain` gets pasted
+as both by Slack (image attached, text in the message box). Payloads go in as promises
+because Safari only allows the write synchronously inside the gesture. The SVG comes from `brandSvg()` (`site/svg-plugin.ts`),
+which serves `virtual:brand-svg/<group>` maps of one lazy `import("@posthog/brand/<g>/svg/<slug>")`
+per asset (its own chunk, fetched on copy). The loaders rebuild the markup from the leaf's
+`viewBox` + `body` (byte-identical to its `svg` export) instead of reading `svg`, because the
+leaves the Overview/404 import statically sit in the entry chunk, and asking for their
+duplicated `svg` string there adds ~1.4 MB. The Logo page's static cells copy the same way,
+but the logo ships no svg/png exports, so `site/src/svg-export.ts` snapshots the rendered
+`<svg>` (currentColor resolved, viewBox grown to its bbox) and rasterizes the PNG in a
+canvas; the menu adds "Copy JSX" there. The jumping cells keep a Copy button instead, since
+their clicks belong to the mark. The heavy
 catalog routes are also `React.lazy` code-split so the initial bundle stays small. Because a
 lazy chunk that 404s (a tab holding a pre-deploy `index.html`) would otherwise unmount the
 whole app to a blank page, the routes sit inside an `ErrorBoundary`
