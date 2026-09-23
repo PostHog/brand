@@ -13,6 +13,7 @@
 import { getComponentName } from "@posthog/brand"
 import * as HoggiesPng from "@posthog/brand/hoggies/png"
 import lqip from "virtual:brand-lqip/hoggies"
+import svgLoaders from "virtual:brand-svg/hoggies"
 
 const png = HoggiesPng as unknown as Record<string, string>
 
@@ -24,6 +25,23 @@ export interface AssetImage {
   placeholder?: string
 }
 
+/** Lazily loads an asset's SVG markup (its own chunk; see site/svg-plugin.ts). */
+export type SvgLoader = () => Promise<string>
+
+/** `map[key]` if it's the map's own key — never an inherited member (see {@link svgLoader}). */
+export function own<T>(map: Record<string, T>, key: string): T | undefined {
+  return Object.hasOwn(map, key) ? map[key] : undefined
+}
+
+/**
+ * Looks `slug` up in a `virtual:brand-svg/*` map. Own keys only: slugs can come from the URL
+ * (`/crests/:slug`), and a plain lookup would hand back inherited members — `constructor`,
+ * `toString` — as if they were loaders.
+ */
+export function svgLoader(loaders: Record<string, SvgLoader>, slug: string): SvgLoader {
+  return own(loaders, slug) ?? (() => Promise.reject(new Error(`No SVG for ${slug}`)))
+}
+
 /**
  * The bundled PNG for a hoggie, e.g. "chart" → `hedgehogChartPng`. Numbered
  * variant families share a family slug; pass the `variant` to reach the member's own PNG
@@ -32,5 +50,11 @@ export interface AssetImage {
 export function hoggiePng(slug: string, variant?: string): AssetImage {
   const moduleSlug = variant ? `${slug}-${variant}` : slug
   const key = `${lowerFirst(getComponentName("hoggies", moduleSlug))}Png`
-  return { src: png[key], placeholder: lqip[key] }
+  return { src: own(png, key), placeholder: own(lqip, key) }
+}
+
+/** A loader for a hoggie's SVG string, keyed the same way as {@link hoggiePng}. */
+export function hoggieSvg(slug: string, variant?: string): SvgLoader {
+  const moduleSlug = variant ? `${slug}-${variant}` : slug
+  return svgLoader(svgLoaders, moduleSlug)
 }

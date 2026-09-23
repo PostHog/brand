@@ -1,7 +1,7 @@
 import { findAssets, getComponentName } from "@posthog/brand"
 import { useMemo, useState } from "react"
 import { useSearchParams } from "react-router-dom"
-import { crestPng } from "../assets-crests.ts"
+import { crestPng, crestSvg } from "../assets-crests.ts"
 import { AssetTile } from "../components/AssetTile.tsx"
 import { EmptyState } from "../components/EmptyState.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
@@ -42,7 +42,8 @@ export function CrestsPage() {
     <div>
       <PageHeader eyebrow="@posthog/brand/crests" title="Crests">
         {ALL.length} team crests. Each is a compound component — the full illustration plus a{" "}
-        <code>.Mini</code> badge tier. Click any one to copy its import line.
+        <code>.Mini</code> badge tier. Click any one to copy its PNG; right-click for its import
+        line or SVG.
       </PageHeader>
 
       <div className="toolbar">
@@ -91,7 +92,8 @@ export function CrestsPage() {
                 {...img}
                 name={asset.name}
                 slug={usage}
-                copyValue={`import { ${baseName} } from "@posthog/brand/crests"`}
+                importLine={`import { ${baseName} } from "@posthog/brand/crests"`}
+                svg={crestSvg(asset.slug, showMini ? "mini" : "full")}
                 to={`/crests/${asset.slug}`}
               />
             )

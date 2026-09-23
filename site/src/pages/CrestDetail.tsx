@@ -1,6 +1,7 @@
-import { getAsset, getComponentName } from "@posthog/brand"
+import { getAsset, getComponentName, type CrestTier } from "@posthog/brand"
 import { Link, useParams } from "react-router-dom"
-import { crestPng } from "../assets-crests.ts"
+import { crestPng, crestSvg } from "../assets-crests.ts"
+import { useAssetCopy } from "../components/CopyMenu.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
 import { crestPageSeo } from "../seo.ts"
 import { useSeo } from "../useSeo.ts"
@@ -41,36 +42,27 @@ export function CrestDetailPage() {
   return (
     <div>
       <PageHeader eyebrow="@posthog/brand/crests" title={asset.name}>
-        <Link to="/crests">← All crests</Link> · slug <code>{slug}</code>
+        <Link to="/crests">← All crests</Link> · slug <code>{slug}</code> · click either one to copy
+        its PNG, right-click for the import line or SVG
       </PageHeader>
 
       <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
-        <div className="card" style={{ textAlign: "center" }}>
-          <div style={{ display: "flex", justifyContent: "center", padding: "24px 0" }}>
-            <img
-              src={fullImg.src}
-              alt={`${asset.name} (full)`}
-              decoding="async"
-              style={{ height: 240, width: "auto", maxWidth: "100%", objectFit: "contain" }}
-            />
-          </div>
-          <div className="asset-name">{baseName}</div>
-          <div className="asset-slug">full</div>
-        </div>
+        <CrestCard
+          slug={slug}
+          tier="full"
+          src={fullImg.src}
+          name={asset.name}
+          baseName={baseName}
+        />
 
         {miniImg.src ? (
-          <div className="card" style={{ textAlign: "center" }}>
-            <div style={{ display: "flex", justifyContent: "center", padding: "24px 0" }}>
-              <img
-                src={miniImg.src}
-                alt={`${asset.name} (mini)`}
-                decoding="async"
-                style={{ height: 240, width: "auto", maxWidth: "100%", objectFit: "contain" }}
-              />
-            </div>
-            <div className="asset-name">{baseName}.Mini</div>
-            <div className="asset-slug">mini</div>
-          </div>
+          <CrestCard
+            slug={slug}
+            tier="mini"
+            src={miniImg.src}
+            name={asset.name}
+            baseName={baseName}
+          />
         ) : (
           <div className="card" style={{ textAlign: "center", opacity: 0.6 }}>
             <div style={{ padding: "48px 0" }}>No mini tier for this crest.</div>
@@ -78,5 +70,50 @@ export function CrestDetailPage() {
         )}
       </div>
     </div>
+  )
+}
+
+interface CrestCardProps {
+  slug: string
+  tier: CrestTier
+  src: string
+  name: string
+  baseName: string
+}
+
+/** One tier of the crest, large; click/right-click copy exactly like a grid tile. */
+function CrestCard({ slug, tier, src, name, baseName }: CrestCardProps) {
+  const copy = useAssetCopy({
+    importLine: `import { ${baseName} } from "@posthog/brand/crests"`,
+    png: src,
+    svg: crestSvg(slug, tier),
+  })
+  const status = copy.status
+  const label = tier === "mini" ? `${baseName}.Mini` : baseName
+
+  return (
+    <>
+      <button
+        type="button"
+        className={`card asset${status ? (status.ok ? " copied" : " copy-failed") : ""}`}
+        onClick={copy.onClick}
+        onContextMenu={copy.onContextMenu}
+        title="Click to copy the PNG; right-click for the import line or SVG"
+      >
+        <span style={{ display: "flex", justifyContent: "center", padding: "24px 0" }}>
+          <img
+            src={src}
+            alt={`${name} (${tier})`}
+            decoding="async"
+            style={{ height: 240, width: "auto", maxWidth: "100%", objectFit: "contain" }}
+          />
+        </span>
+        <span className="asset-name">{label}</span>
+        <span className="asset-slug" aria-live="polite">
+          {status ? status.label : tier}
+        </span>
+      </button>
+      {copy.menu}
+    </>
   )
 }

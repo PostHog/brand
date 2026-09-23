@@ -1,6 +1,6 @@
 import { findAssets, getComponentName } from "@posthog/brand"
 import { useMemo, useState } from "react"
-import { hoggiePng } from "../assets-hoggies.ts"
+import { hoggiePng, hoggieSvg } from "../assets-hoggies.ts"
 import { AssetTile } from "../components/AssetTile.tsx"
 import { EmptyState } from "../components/EmptyState.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
@@ -23,7 +23,7 @@ export function HoggiesPage() {
     <div>
       <PageHeader eyebrow="@posthog/brand/hoggies" title="Hoggies">
         {ALL.length} hedgehog illustrations, each a tree-shakeable React component. Click any one to
-        copy its import line.
+        copy its PNG; right-click for its import line or SVG.
       </PageHeader>
 
       <div className="toolbar">
@@ -46,11 +46,9 @@ export function HoggiesPage() {
           {results.map((asset) => {
             const componentName = getComponentName("hoggies", asset.slug)
 
-            // A variant family shares one slug across members, distinguished by `variant`.
+            // A variant family shares one slug (and one component) across members,
+            // distinguished by `variant`.
             const variant = asset.variant?.variant
-            const usage = variant
-              ? `<${componentName} variant="${variant}" />`
-              : `<${componentName} />`
 
             return (
               <AssetTile
@@ -58,7 +56,11 @@ export function HoggiesPage() {
                 {...hoggiePng(asset.slug, variant)}
                 name={variant ? `${asset.name} ${variant}` : asset.name}
                 slug={asset.slug}
-                copyValue={usage}
+                importLine={`import { ${componentName} } from "@posthog/brand/hoggies"`}
+                usage={
+                  variant ? `<${componentName} variant="${variant}" />` : `<${componentName} />`
+                }
+                svg={hoggieSvg(asset.slug, variant)}
               />
             )
           })}

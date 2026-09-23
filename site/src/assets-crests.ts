@@ -14,7 +14,9 @@ import * as FullPng from "@posthog/brand/crests/full/png"
 import * as MiniPng from "@posthog/brand/crests/mini/png"
 import fullLqip from "virtual:brand-lqip/crests-full"
 import miniLqip from "virtual:brand-lqip/crests-mini"
-import type { AssetImage } from "./assets-hoggies.ts"
+import fullSvg from "virtual:brand-svg/crests-full"
+import miniSvg from "virtual:brand-svg/crests-mini"
+import { own, svgLoader, type AssetImage, type SvgLoader } from "./assets-hoggies.ts"
 
 const full = FullPng as unknown as Record<string, string>
 const mini = MiniPng as unknown as Record<string, string>
@@ -30,5 +32,10 @@ export function crestPng(slug: string, tier: CrestTier): AssetImage {
   const png = tier === "mini" ? mini : full
   const lqip = tier === "mini" ? miniLqip : fullLqip
   const key = `${lowerFirst(getComponentName("crests", slug, tier))}Png`
-  return { src: png[key], placeholder: lqip[key] }
+  return { src: own(png, key), placeholder: own(lqip, key) }
+}
+
+/** A loader for a crest's SVG string by slug and tier (rejects for a missing mini). */
+export function crestSvg(slug: string, tier: CrestTier): SvgLoader {
+  return svgLoader(tier === "mini" ? miniSvg : fullSvg, slug)
 }

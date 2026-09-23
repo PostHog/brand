@@ -250,20 +250,70 @@ h3 {
   overflow-wrap: anywhere;
   max-width: 100%;
 }
-button.asset {
+button.asset,
+button.logo-cell {
   cursor: pointer;
   font: inherit;
   color: inherit;
 }
-button.asset:hover {
+button.asset:hover,
+button.logo-cell:hover {
   border-color: var(--primary);
 }
-button.asset.copied {
+button.asset.copied,
+button.logo-cell.copied {
   border-color: var(--posthog-green, #47c861);
 }
-button.asset.copied .asset-slug {
+button.asset.copied .asset-slug,
+button.logo-cell.copied .logo-label {
   color: var(--posthog-green-darker, #35b14e);
   font-weight: 600;
+}
+button.asset.copy-failed,
+button.logo-cell.copy-failed {
+  border-color: var(--posthog-coral, #ff474d);
+}
+button.asset.copy-failed .asset-slug,
+button.logo-cell.copy-failed .logo-label {
+  color: var(--posthog-coral-darker, #f00008);
+  font-weight: 600;
+}
+
+/* ---- Copy menu (right-click on an asset) ---- */
+.copy-menu {
+  position: fixed;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    0 12px 32px rgba(0, 0, 0, 0.12);
+}
+.copy-menu button {
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  color: var(--text);
+  background: none;
+  border: 0;
+  border-radius: 6px;
+  padding: 7px 10px;
+  cursor: pointer;
+}
+.copy-menu button:hover:not(:disabled),
+.copy-menu button:focus-visible {
+  background: var(--bg-subtle);
+  outline: none;
+}
+.copy-menu button:disabled {
+  color: var(--text-muted);
+  opacity: 0.6;
+  cursor: default;
 }
 
 /* ---- Empty state ---- */
@@ -405,6 +455,9 @@ button.asset.copied .asset-slug {
   font-family: var(--mono);
   font-size: 12px;
   color: var(--text-muted);
+}
+button.logo-cell {
+  text-align: left;
 }
 
 /* ---- Color card ---- */
