@@ -84,7 +84,12 @@ export function useAssetCopy(target: CopyTarget): {
   }
 
   function copyPng(): Promise<string | false> {
-    const blob = typeof png === "string" ? fetchPng(png) : png!()
+    const blob =
+      typeof png === "string"
+        ? fetchPng(png)
+        : typeof png === "function"
+          ? png()
+          : Promise.reject(new Error("No PNG for this asset"))
     return copyRich({ "image/png": blob }).then(as("PNG copied"))
   }
 
