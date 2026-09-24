@@ -166,12 +166,13 @@ type-stripping, which is only on-by-default from Node 22.18/23.6 — older Node 
 
 **Icons + social card**: `site/scripts/gen-brand-icons.ts` (`pnpm gen:site-icons`) rasterizes
 the favicon set (`favicon.svg`/`.ico`/`-96x96.png`, `apple-touch-icon`, the manifest's
-`icon-{192,512}` + maskable) and the 1200x630 `og.png` **from the repo's own sources** — the
-`<Logo>` geometry in `src/logo/geometry.ts`, the palette in `static/colors.ts`, and a few
-`assets/hoggies/png/` files — with `sharp`. Output is committed to `site/public/` (not built
-on deploy: it changes ~never, the dev server needs it, and Cloudflare shouldn't depend on
-`sharp`). The card carries no typeset text on purpose — the only lettering is the logo's own
-wordmark paths, so nothing depends on a font being installed where it's rendered.
+`icon-{192,512}` + maskable) **from the repo's own sources** — the `<Logo>` geometry in
+`src/logo/geometry.ts` — with `sharp`. Output is committed to `site/public/` (not built on
+deploy: it changes ~never, the dev server needs it, and Cloudflare shouldn't depend on
+`sharp`). The social card `site/public/og.png` (also the README banner) is NOT generated: it
+is a designed 1920x1080 illustration, committed as-is (downscaled from the design export and
+palette-quantized). To replace it, overwrite the file and update `og:image:width`/`height` in
+`site/seo-plugin.ts` and `OG_IMAGE_ALT` in `site/src/seo.ts` if they change.
 
 **SEO/AEO**: `site/seo-plugin.ts` (`brandSeo()`) owns everything a crawler sees, driven by the
 one page table in `site/src/seo.ts` (`PAGES`) that the runtime `useSeo` hook
