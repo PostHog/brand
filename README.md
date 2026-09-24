@@ -1,6 +1,6 @@
 # @posthog/brand
 
-[![The PostHog logo, the brand palette, and a lineup of hedgehogs](./site/public/og.png)](https://brand.posthog.com)
+[![PostHog Brand: a hedgehog painting the PostHog logo on an easel](./site/public/og.png)](https://brand.posthog.com)
 
 Every PostHog brand asset in one npm package: the **logo**, the **colors**, the **font**
 (RoundHog), 160+ **hedgehogs**, and the team **crests** — as React components, raw SVGs, PNG

@@ -141,8 +141,8 @@ function headBlock(page: PageSeo): string {
     `<meta property="og:url" content="${url}" />`,
     `<meta property="og:image" content="${OG_IMAGE}" />`,
     `<meta property="og:image:type" content="image/png" />`,
-    `<meta property="og:image:width" content="1200" />`,
-    `<meta property="og:image:height" content="630" />`,
+    `<meta property="og:image:width" content="1920" />`,
+    `<meta property="og:image:height" content="1080" />`,
     `<meta property="og:image:alt" content="${escape(OG_IMAGE_ALT)}" />`,
 
     `<meta name="twitter:card" content="summary_large_image" />`,
