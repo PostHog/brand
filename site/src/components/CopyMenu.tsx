@@ -25,6 +25,8 @@ export interface CopyTarget {
   png?: string | (() => Promise<Blob>)
   /** Lazily loads the SVG markup. */
   svg: SvgLoader
+  /** Base name (no extension) for "Download PNG", e.g. `posthog-crest-marketing`. */
+  fileName: string
 }
 
 /** Transient feedback after a copy: what was copied, or that it failed. */
@@ -47,7 +49,7 @@ interface MenuItem {
  * Docs. It's `image/png` alone on purpose: an item that also carries the import line as
  * `text/plain` gets pasted as *both* by Slack (image attached, text in the message box). The
  * context menu (right-click, Shift+F10, or the Menu key) picks one format explicitly,
- * including the import line. Spread `onClick`/`onContextMenu` onto the trigger, render `menu`, and
+ * including the import line, or downloads the PNG instead. Spread `onClick`/`onContextMenu` onto the trigger, render `menu`, and
  * show `status` however suits the trigger.
  */
 export function useAssetCopy(target: CopyTarget): {
@@ -66,31 +68,39 @@ export function useAssetCopy(target: CopyTarget): {
   // Each copy must reach `navigator.clipboard` synchronously inside the gesture (Safari), so
   // the copies below are started straight from the handlers and only their result awaited.
   // Each resolves to the label to flash, or `false` when nothing landed on the clipboard.
-  function report(done: Promise<string | false>) {
+  function report(done: Promise<string | false>, failure = "Couldn't copy") {
     void done
       .catch(() => false as const)
       .then((label) => {
-        setStatus(label ? { ok: true, label } : { ok: false, label: "Couldn't copy" })
+        setStatus(label ? { ok: true, label } : { ok: false, label: failure })
         clearTimeout(timer.current)
         timer.current = setTimeout(() => setStatus(null), 1400)
       })
   }
 
-  const { importLine, usage, png, svg } = target
+  const { importLine, usage, png, svg, fileName } = target
   const as = (label: string) => (ok: boolean) => ok && label
 
   function copyImport(): Promise<string | false> {
     return copyToClipboard(importLine).then(as("Import copied"))
   }
 
+  function pngBlob(): Promise<Blob> {
+    return typeof png === "string"
+      ? fetchPng(png)
+      : typeof png === "function"
+        ? png()
+        : Promise.reject(new Error("No PNG for this asset"))
+  }
+
   function copyPng(): Promise<string | false> {
-    const blob =
-      typeof png === "string"
-        ? fetchPng(png)
-        : typeof png === "function"
-          ? png()
-          : Promise.reject(new Error("No PNG for this asset"))
-    return copyRich({ "image/png": blob }).then(as("PNG copied"))
+    return copyRich({ "image/png": pngBlob() }).then(as("PNG copied"))
+  }
+
+  function downloadPng(): Promise<string | false> {
+    return pngBlob()
+      .then((blob) => download(blob, `${fileName}.png`))
+      .then(() => "PNG downloaded")
   }
 
   /** The click: the PNG, or — where images can't go on the clipboard — the import line. */
@@ -137,6 +147,11 @@ export function useAssetCopy(target: CopyTarget): {
           : "This browser can't put images on the clipboard",
       run: () => report(copyPng()),
     },
+    {
+      label: "Download PNG",
+      unavailable: png ? undefined : "No PNG for this asset",
+      run: () => report(downloadPng(), "Couldn't download"),
+    },
   ]
 
   function onContextMenu(e: MouseEvent<HTMLElement>) {
@@ -167,6 +182,19 @@ export function useAssetCopy(target: CopyTarget): {
     onContextMenu,
     menu: menuAt ? <CopyMenu x={menuAt.x} y={menuAt.y} items={items} onClose={close} /> : null,
   }
+}
+
+/** Saves `blob` as `name` through a throwaway `<a download>`. */
+function download(blob: Blob, name: string) {
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement("a")
+  a.href = url
+  a.download = name
+  document.body.append(a)
+  a.click()
+  a.remove()
+  // The click only queues the download; give it a beat to read the blob before revoking.
+  setTimeout(() => URL.revokeObjectURL(url), 1000)
 }
 
 interface CopyMenuProps {

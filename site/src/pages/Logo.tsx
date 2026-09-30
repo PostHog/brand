@@ -31,6 +31,11 @@ function LogoCell({ code, dark, children }: CellProps) {
   const copy = useAssetCopy({
     importLine: IMPORT_LINE,
     usage: code,
+    // `<Logo layout="stacked" variant="mono" … />` → `posthog-logo-layout-stacked-variant-mono-…`
+    fileName: `posthog-${code
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "")}`,
     svg: async () => snapshot().markup,
     png: async () => {
       const { markup, width, height } = snapshot()

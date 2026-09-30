@@ -61,6 +61,7 @@ export function HoggiesPage() {
                   variant ? `<${componentName} variant="${variant}" />` : `<${componentName} />`
                 }
                 svg={hoggieSvg(asset.slug, variant)}
+                fileName={`posthog-hedgehog-${asset.slug}${variant ? `-${variant}` : ""}`}
               />
             )
           })}
