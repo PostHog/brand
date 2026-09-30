@@ -87,6 +87,7 @@ function CrestCard({ slug, tier, src, name, baseName }: CrestCardProps) {
     importLine: `import { ${baseName} } from "@posthog/brand/crests"`,
     png: src,
     svg: crestSvg(slug, tier),
+    fileName: `posthog-crest-${slug}${tier === "mini" ? "-mini" : ""}`,
   })
   const status = copy.status
   const label = tier === "mini" ? `${baseName}.Mini` : baseName

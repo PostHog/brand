@@ -18,13 +18,16 @@ interface AssetTileProps {
   usage?: string
   /** Lazily loads the asset's SVG, for the right-click menu's SVG options. */
   svg: SvgLoader
+  /** Base name (no extension) the right-click menu's "Download PNG" saves as. */
+  fileName: string
   /** When set, renders a corner link to this route (e.g. an isolated detail page). */
   to?: string
 }
 
 /**
  * A clickable grid tile that shows an asset's PNG thumbnail. Click copies the PNG (see
- * `useAssetCopy`); right-click opens a menu to copy the import line, SVG, or PNG.
+ * `useAssetCopy`); right-click opens a menu to copy the import line, SVG, or PNG, or to
+ * download the PNG.
  */
 export function AssetTile({
   src,
@@ -34,10 +37,11 @@ export function AssetTile({
   importLine,
   usage,
   svg,
+  fileName,
   to,
 }: AssetTileProps) {
   const [loaded, setLoaded] = useState(false)
-  const copy = useAssetCopy({ importLine, usage, png: src, svg })
+  const copy = useAssetCopy({ importLine, usage, png: src, svg, fileName })
   const status = copy.status
 
   return (

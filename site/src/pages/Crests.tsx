@@ -94,6 +94,7 @@ export function CrestsPage() {
                 slug={usage}
                 importLine={`import { ${baseName} } from "@posthog/brand/crests"`}
                 svg={crestSvg(asset.slug, showMini ? "mini" : "full")}
+                fileName={`posthog-crest-${asset.slug}${showMini ? "-mini" : ""}`}
                 to={`/crests/${asset.slug}`}
               />
             )

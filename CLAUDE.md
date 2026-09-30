@@ -128,7 +128,8 @@ PNGs at build time, downscales each to a ~20px blurred WebP, and serves them as
 `virtual:brand-lqip/<group>` maps (keyed by the same PNG export name) inlined as data URIs —
 so a tiny placeholder paints instantly behind each `<img>` and fades out on load. Clicking a
 tile (`useAssetCopy`, `site/src/components/CopyMenu.tsx`) copies just the PNG (`image/png`);
-right-click opens a menu (import / SVG as text / SVG as `image/svg+xml` / PNG). The click is
+right-click opens a menu (import / SVG as text / SVG as `image/svg+xml` / PNG / Download PNG,
+saved as the tile's `fileName`, e.g. `posthog-crest-marketing-mini.png`). The click is
 PNG-only on purpose: an item that also carries the import line as `text/plain` gets pasted
 as both by Slack (image attached, text in the message box). Payloads go in as promises
 because Safari only allows the write synchronously inside the gesture. The SVG comes from `brandSvg()` (`site/svg-plugin.ts`),
