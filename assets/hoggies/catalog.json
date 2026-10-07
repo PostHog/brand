@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-25T18:42:54Z",
+  "generatedAt": "2026-10-06T20:55:08Z",
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2403248195683610996",
+  "figmaVersion": "2407360626823590327",
   "namespace": "hoggies",
   "entries": [
     {
@@ -114,8 +114,8 @@
         "blanket",
         "drool"
       ],
-      "svgBytes": 180098,
-      "pngBytes": 54213
+      "svgBytes": 179996,
+      "pngBytes": 54294
     },
     {
       "slug": "back-to-the-future",
@@ -195,24 +195,6 @@
       "pngBytes": 57793
     },
     {
-      "slug": "bat",
-      "name": "Bat",
-      "namespace": "hoggies",
-      "figmaNodeId": "909:5994",
-      "aspectRatio": 1,
-      "tags": [
-        "hog",
-        "solo",
-        "bat",
-        "flying",
-        "nocturnal",
-        "black",
-        "wings"
-      ],
-      "svgBytes": 83232,
-      "pngBytes": 32989
-    },
-    {
       "slug": "beaker",
       "name": "Beaker",
       "namespace": "hoggies",
@@ -289,7 +271,7 @@
         "flames"
       ],
       "svgBytes": 271619,
-      "pngBytes": 57445
+      "pngBytes": 57109
     },
     {
       "slug": "business-evolution",
@@ -488,8 +470,8 @@
         "pole",
         "pink"
       ],
-      "svgBytes": 184733,
-      "pngBytes": 59095
+      "svgBytes": 184710,
+      "pngBytes": 59069
     },
     {
       "slug": "climber-2",
@@ -506,8 +488,8 @@
         "hanging",
         "belay"
       ],
-      "svgBytes": 168485,
-      "pngBytes": 32930
+      "svgBytes": 168371,
+      "pngBytes": 32649
     },
     {
       "slug": "coconut",
@@ -631,7 +613,7 @@
         "button-up"
       ],
       "svgBytes": 156247,
-      "pngBytes": 53896
+      "pngBytes": 53861
     },
     {
       "slug": "construction-1",
@@ -691,8 +673,8 @@
         "sunglasses",
         "laid back"
       ],
-      "svgBytes": 205612,
-      "pngBytes": 39638
+      "svgBytes": 205602,
+      "pngBytes": 39958
     },
     {
       "slug": "cowboy-lasso",
@@ -1094,7 +1076,7 @@
         "yellow"
       ],
       "svgBytes": 190490,
-      "pngBytes": 54387
+      "pngBytes": 54440
     },
     {
       "slug": "evel",
@@ -1153,8 +1135,8 @@
         "surprised",
         "khaki"
       ],
-      "svgBytes": 156342,
-      "pngBytes": 43981
+      "svgBytes": 156117,
+      "pngBytes": 43898
     },
     {
       "slug": "final-evolution",
@@ -1267,8 +1249,8 @@
         "tux",
         "blonde"
       ],
-      "svgBytes": 185981,
-      "pngBytes": 52187
+      "svgBytes": 185973,
+      "pngBytes": 52100
     },
     {
       "slug": "gladiator-1",
@@ -1409,8 +1391,8 @@
         "shining",
         "naked"
       ],
-      "svgBytes": 120538,
-      "pngBytes": 50171
+      "svgBytes": 120510,
+      "pngBytes": 50232
     },
     {
       "slug": "hipster",
@@ -1489,7 +1471,7 @@
         "scarf"
       ],
       "svgBytes": 188377,
-      "pngBytes": 54162
+      "pngBytes": 54048
     },
     {
       "slug": "hoot",
@@ -1527,8 +1509,8 @@
         "entranced",
         "movie"
       ],
-      "svgBytes": 161409,
-      "pngBytes": 55008
+      "svgBytes": 161366,
+      "pngBytes": 54943
     },
     {
       "slug": "hourglass",
@@ -1733,7 +1715,7 @@
         "level-up"
       ],
       "svgBytes": 171389,
-      "pngBytes": 41057
+      "pngBytes": 40945
     },
     {
       "slug": "lifeguard",
@@ -1773,7 +1755,7 @@
         "drawing"
       ],
       "svgBytes": 178111,
-      "pngBytes": 52559
+      "pngBytes": 52537
     },
     {
       "slug": "magnifying-glass",
@@ -1809,7 +1791,7 @@
         "you've got mail"
       ],
       "svgBytes": 223595,
-      "pngBytes": 40733
+      "pngBytes": 40802
     },
     {
       "slug": "megaphone",
@@ -1847,8 +1829,8 @@
         "dollar",
         "currency"
       ],
-      "svgBytes": 217564,
-      "pngBytes": 41794
+      "svgBytes": 217616,
+      "pngBytes": 41755
     },
     {
       "slug": "mountie",
@@ -1923,8 +1905,8 @@
         "athletic",
         "workout"
       ],
-      "svgBytes": 163518,
-      "pngBytes": 54261
+      "svgBytes": 163589,
+      "pngBytes": 54011
     },
     {
       "slug": "noir-1",
@@ -2221,8 +2203,8 @@
         "tank top",
         "workout"
       ],
-      "svgBytes": 173424,
-      "pngBytes": 49628
+      "svgBytes": 173493,
+      "pngBytes": 49681
     },
     {
       "slug": "pope",
@@ -2319,7 +2301,7 @@
         "flower"
       ],
       "svgBytes": 167363,
-      "pngBytes": 47384
+      "pngBytes": 47258
     },
     {
       "slug": "remote-work",
@@ -2486,7 +2468,7 @@
         "khaki"
       ],
       "svgBytes": 261931,
-      "pngBytes": 58594
+      "pngBytes": 59010
     },
     {
       "slug": "sailor",
@@ -2580,8 +2562,8 @@
         "chilling",
         "eyes closed"
       ],
-      "svgBytes": 145248,
-      "pngBytes": 86170
+      "svgBytes": 145253,
+      "pngBytes": 85890
     },
     {
       "slug": "selfie",
@@ -2601,7 +2583,7 @@
         "eyes closed"
       ],
       "svgBytes": 151686,
-      "pngBytes": 46505
+      "pngBytes": 46218
     },
     {
       "slug": "shocked",
@@ -2656,8 +2638,8 @@
         "bed",
         "laptop"
       ],
-      "svgBytes": 110227,
-      "pngBytes": 38682
+      "svgBytes": 110278,
+      "pngBytes": 38731
     },
     {
       "slug": "soapbox",
@@ -2894,8 +2876,8 @@
         "mask",
         "superman"
       ],
-      "svgBytes": 190136,
-      "pngBytes": 54330
+      "svgBytes": 190372,
+      "pngBytes": 54129
     },
     {
       "slug": "surfer",
@@ -3052,7 +3034,7 @@
         "toilet reading"
       ],
       "svgBytes": 180830,
-      "pngBytes": 51823
+      "pngBytes": 51809
     },
     {
       "slug": "tourist",
@@ -3071,8 +3053,8 @@
         "luggage",
         "hat"
       ],
-      "svgBytes": 185977,
-      "pngBytes": 53790
+      "svgBytes": 185831,
+      "pngBytes": 53806
     },
     {
       "slug": "town-crier",
@@ -3199,8 +3181,8 @@
         "glow",
         "gaming"
       ],
-      "svgBytes": 278523,
-      "pngBytes": 76840
+      "svgBytes": 278787,
+      "pngBytes": 75540
     },
     {
       "slug": "waiter",
