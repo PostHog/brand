@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-06T20:55:08Z",
+  "generatedAt": "2026-10-10T00:00:53Z",
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2407360626823590327",
+  "figmaVersion": "2408493944156974023",
   "namespace": "crests",
   "entries": [
     {
@@ -23,6 +23,26 @@
       "aspectRatio": 1,
       "svgBytes": 7443,
       "pngBytes": 3070
+    },
+    {
+      "slug": "agent-infrastructure",
+      "name": "Agent Infrastructure",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "2111:4341",
+      "aspectRatio": 1,
+      "svgBytes": 335731,
+      "pngBytes": 19501
+    },
+    {
+      "slug": "agent-infrastructure",
+      "name": "Agent Infrastructure Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "2111:4343",
+      "aspectRatio": 1,
+      "svgBytes": 16332,
+      "pngBytes": 2305
     },
     {
       "slug": "ai-gateway",
@@ -325,6 +345,26 @@
       "pngBytes": 2774
     },
     {
+      "slug": "customer-success",
+      "name": "Customer Success",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "2111:4721",
+      "aspectRatio": 1,
+      "svgBytes": 400973,
+      "pngBytes": 19659
+    },
+    {
+      "slug": "customer-success",
+      "name": "Customer Success Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "2111:4723",
+      "aspectRatio": 1,
+      "svgBytes": 16667,
+      "pngBytes": 3043
+    },
+    {
       "slug": "customer-success-eu",
       "name": "Customer Success EU",
       "namespace": "crests",
@@ -523,6 +563,26 @@
       "aspectRatio": 1,
       "svgBytes": 2517,
       "pngBytes": 2314
+    },
+    {
+      "slug": "finance",
+      "name": "Finance",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "2111:3882",
+      "aspectRatio": 1,
+      "svgBytes": 333053,
+      "pngBytes": 17664
+    },
+    {
+      "slug": "finance",
+      "name": "Finance Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "2111:3884",
+      "aspectRatio": 1,
+      "svgBytes": 10207,
+      "pngBytes": 3439
     },
     {
       "slug": "forward-deployed-engineering",
@@ -883,6 +943,26 @@
       "aspectRatio": 1,
       "svgBytes": 5885,
       "pngBytes": 2840
+    },
+    {
+      "slug": "rev-ops",
+      "name": "Rev Ops",
+      "namespace": "crests",
+      "tier": "full",
+      "figmaNodeId": "2111:3467",
+      "aspectRatio": 1,
+      "svgBytes": 376428,
+      "pngBytes": 21456
+    },
+    {
+      "slug": "rev-ops",
+      "name": "Rev Ops Mini",
+      "namespace": "crests",
+      "tier": "mini",
+      "figmaNodeId": "2111:3469",
+      "aspectRatio": 1,
+      "svgBytes": 1706,
+      "pngBytes": 2492
     },
     {
       "slug": "security",
