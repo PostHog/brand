@@ -137,11 +137,15 @@ which serves `virtual:brand-svg/<group>` maps of one lazy `import("@posthog/bran
 per asset (its own chunk, fetched on copy). The loaders rebuild the markup from the leaf's
 `viewBox` + `body` (byte-identical to its `svg` export) instead of reading `svg`, because the
 leaves the Overview/404 import statically sit in the entry chunk, and asking for their
-duplicated `svg` string there adds ~1.4 MB. The Logo page's static cells copy the same way,
-but the logo ships no svg/png exports, so `site/src/svg-export.ts` snapshots the rendered
-`<svg>` (currentColor resolved, viewBox grown to its bbox) and rasterizes the PNG in a
-canvas; the menu adds "Copy JSX" there. The jumping cells keep a Copy button instead, since
-their clicks belong to the mark. The heavy
+duplicated `svg` string there adds ~1.4 MB. The Logo page follows the brand handbook
+(posthog.com/handbook/brand/assets): preset cards for its approved versions (each with when to
+use it), the do's/don'ts, then a builder (layout / variant / brand-color swatch / canvas /
+holiday) for anything the presets don't cover, then the React API. Its logos copy the same way
+(click = PNG, right-click = menu, outcome flashed over the logo), but the logo ships no svg/png
+exports, so `site/src/svg-export.ts` snapshots the rendered `<svg>` (currentColor resolved,
+viewBox grown to its bbox, optionally padded to a square/circle-safe canvas for avatar uploads)
+and rasterizes the PNG in a canvas — at 1x/2x/4x (400/800/1600px on the long side), picked
+per row in the menu, with a plain click copying 2x; the menu adds "Copy JSX" there. The heavy
 catalog routes are also `React.lazy` code-split so the initial bundle stays small. Because a
 lazy chunk that 404s (a tab holding a pre-deploy `index.html`) would otherwise unmount the
 whole app to a blank page, the routes sit inside an `ErrorBoundary`

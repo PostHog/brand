@@ -19,10 +19,16 @@ export interface CopyTarget {
   /** A JSX snippet for this exact rendering; when set, the menu offers "Copy JSX". */
   usage?: string
   /**
-   * The PNG: a bundled URL, or a function producing the blob (e.g. rasterizing on demand).
-   * When absent the PNG options are unavailable.
+   * The PNG: a bundled URL, or a function producing the blob (e.g. rasterizing on demand) at
+   * an optional scale. When absent the PNG options are unavailable.
    */
-  png?: string | (() => Promise<Blob>)
+  png?: string | ((scale?: number) => Promise<Blob>)
+  /**
+   * Scales a `png` function can render at (e.g. `[1, 2, 4]`). When set, the menu's PNG rows
+   * offer one button per scale instead of a single item; a plain click still uses the
+   * function's default.
+   */
+  pngScales?: readonly number[]
   /** Lazily loads the SVG markup. */
   svg: SvgLoader
   /** Base name (no extension) for "Download PNG", e.g. `posthog-crest-marketing`. */
@@ -40,6 +46,8 @@ interface MenuItem {
   /** Why the item is disabled; when set, the item is disabled. */
   unavailable?: string
   run: () => void
+  /** When set, the row is a label plus one button per variant (e.g. PNG scales). */
+  variants?: { label: string; run: () => void }[]
 }
 
 /**
@@ -78,29 +86,38 @@ export function useAssetCopy(target: CopyTarget): {
       })
   }
 
-  const { importLine, usage, png, svg, fileName } = target
+  const { importLine, usage, png, pngScales, svg, fileName } = target
   const as = (label: string) => (ok: boolean) => ok && label
 
   function copyImport(): Promise<string | false> {
     return copyToClipboard(importLine).then(as("Import copied"))
   }
 
-  function pngBlob(): Promise<Blob> {
+  function pngBlob(scale?: number): Promise<Blob> {
     return typeof png === "string"
       ? fetchPng(png)
       : typeof png === "function"
-        ? png()
+        ? png(scale)
         : Promise.reject(new Error("No PNG for this asset"))
   }
 
-  function copyPng(): Promise<string | false> {
-    return copyRich({ "image/png": pngBlob() }).then(as("PNG copied"))
+  // An explicit scale shows in the feedback, and in the file name as @2x/@4x (1x has none).
+  const scaled = (what: string, scale?: number) => (scale ? `${scale}x ${what}` : what)
+
+  function copyPng(scale?: number): Promise<string | false> {
+    return copyRich({ "image/png": pngBlob(scale) }).then(as(scaled("PNG copied", scale)))
   }
 
-  function downloadPng(): Promise<string | false> {
-    return pngBlob()
-      .then((blob) => download(blob, `${fileName}.png`))
-      .then(() => "PNG downloaded")
+  function downloadPng(scale?: number): Promise<string | false> {
+    const suffix = scale && scale !== 1 ? `@${scale}x` : ""
+    return pngBlob(scale)
+      .then((blob) => download(blob, `${fileName}${suffix}.png`))
+      .then(() => scaled("PNG downloaded", scale))
+  }
+
+  /** One button per offered scale, for a PNG row of the menu. */
+  function perScale(run: (scale: number) => void) {
+    return pngScales?.map((scale) => ({ label: `${scale}x`, run: () => run(scale) }))
   }
 
   /** The click: the PNG, or — where images can't go on the clipboard — the import line. */
@@ -146,11 +163,13 @@ export function useAssetCopy(target: CopyTarget): {
           ? undefined
           : "This browser can't put images on the clipboard",
       run: () => report(copyPng()),
+      variants: perScale((scale) => report(copyPng(scale))),
     },
     {
       label: "Download PNG",
       unavailable: png ? undefined : "No PNG for this asset",
       run: () => report(downloadPng(), "Couldn't download"),
+      variants: perScale((scale) => report(downloadPng(scale), "Couldn't download")),
     },
   ]
 
@@ -276,21 +295,43 @@ function CopyMenu({ x, y, items, onClose }: CopyMenuProps) {
       onKeyDown={onKeyDown}
       onContextMenu={(e) => e.preventDefault()}
     >
-      {items.map((item) => (
-        <button
-          key={item.label}
-          type="button"
-          role="menuitem"
-          disabled={!!item.unavailable}
-          title={item.unavailable}
-          onClick={() => {
-            item.run()
-            onClose(true)
-          }}
-        >
-          {item.label}
-        </button>
-      ))}
+      {items.map((item) =>
+        item.variants ? (
+          <div key={item.label} className="copy-menu-row" role="group" aria-label={item.label}>
+            <span>{item.label}</span>
+            {item.variants.map((v) => (
+              <button
+                key={v.label}
+                type="button"
+                role="menuitem"
+                aria-label={`${item.label} ${v.label}`}
+                disabled={!!item.unavailable}
+                title={item.unavailable}
+                onClick={() => {
+                  v.run()
+                  onClose(true)
+                }}
+              >
+                {v.label}
+              </button>
+            ))}
+          </div>
+        ) : (
+          <button
+            key={item.label}
+            type="button"
+            role="menuitem"
+            disabled={!!item.unavailable}
+            title={item.unavailable}
+            onClick={() => {
+              item.run()
+              onClose(true)
+            }}
+          >
+            {item.label}
+          </button>
+        ),
+      )}
     </div>,
     document.body,
   )
