@@ -29,7 +29,7 @@ export type { AssetProps, AssetSvgProps } from "./runtime/props.ts"
 
 // Cross-namespace manifest + search (React-free, zero image payload).
 export { allAssets } from "./generated/manifest.ts"
-export { findAssets, getAsset, type FindAssetsFilter } from "./search.ts"
+export { findAssets, getAsset, getVariants, type FindAssetsFilter } from "./search.ts"
 
 /**
  * The generated React component name for an asset, e.g. ("hoggies","chart") →

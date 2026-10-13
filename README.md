@@ -68,7 +68,19 @@ colors["corn-blue"].gradient // ["#2BB3DF", "#1A89AD"] — [from, to]
 
 Writing CSS instead? `import { colorsCss } from "@posthog/brand/colors/css"` gives you a
 ready-made block of custom properties (`--posthog-blue`, `--posthog-blue-lighter`,
-`--posthog-blue-gradient`, …) to drop in a `<style>` tag.
+`--posthog-blue-gradient`, …) to drop in a `<style>` tag. `colorCssVariable` names them for you,
+so you don't hand-write the strings:
+
+```ts
+import { colorCssVariable } from "@posthog/brand/colors"
+
+colorCssVariable("blue") // "--posthog-blue"
+colorCssVariable(
+  "corn-blue",
+  "lighter",
+) // "--posthog-corn-blue-lighter"
+`var(${colorCssVariable("blue", "gradient")})` // a whole linear-gradient(…)
+```
 
 ## Fonts
 
@@ -181,12 +193,13 @@ The root export is **React-free and image-free** — types, the cross-namespace 
 enough helpers to build an asset picker without pulling in a single illustration:
 
 ```ts
-import { allAssets, findAssets, getAsset, getComponentName } from "@posthog/brand"
+import { allAssets, findAssets, getAsset, getComponentName, getVariants } from "@posthog/brand"
 
 findAssets({ namespace: "hoggies", text: "director" })
 findAssets({ namespace: "crests", tier: "mini", text: "marketing" })
 getAsset("crests", "marketing", "mini") // full AssetMeta; tier disambiguates the slug
 getComponentName("hoggies", "director") // "HedgehogDirector"
+getVariants("hoggies", "construction") // a numbered family's members, variant "1" first
 ```
 
 Per-namespace manifests live at `@posthog/brand/<g>/metadata` if you don't want the whole set.
