@@ -250,31 +250,25 @@ h3 {
   overflow-wrap: anywhere;
   max-width: 100%;
 }
-button.asset,
-button.logo-cell {
+button.asset {
   cursor: pointer;
   font: inherit;
   color: inherit;
 }
-button.asset:hover,
-button.logo-cell:hover {
+button.asset:hover {
   border-color: var(--primary);
 }
-button.asset.copied,
-button.logo-cell.copied {
+button.asset.copied {
   border-color: var(--posthog-green, #47c861);
 }
-button.asset.copied .asset-slug,
-button.logo-cell.copied .logo-label {
+button.asset.copied .asset-slug {
   color: var(--posthog-green-darker, #35b14e);
   font-weight: 600;
 }
-button.asset.copy-failed,
-button.logo-cell.copy-failed {
+button.asset.copy-failed {
   border-color: var(--posthog-coral, #ff474d);
 }
-button.asset.copy-failed .asset-slug,
-button.logo-cell.copy-failed .logo-label {
+button.asset.copy-failed .asset-slug {
   color: var(--posthog-coral-darker, #f00008);
   font-weight: 600;
 }
@@ -432,26 +426,24 @@ button.logo-cell.copy-failed .logo-label {
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* ---- Logo matrix ---- */
-.logo-cell {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+/* ---- Logo page ---- */
+.section-lede {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin: 0 0 16px;
+  max-width: 70ch;
 }
 .logo-stage {
-  min-height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
+  border-radius: 6px;
   background: var(--bg-subtle);
-  padding: 20px;
 }
 .logo-stage.dark {
   background: #1d1f27;
 }
-/* The avatar cells' crop preview: the exact square/circle the padded export fills. */
+/* Crop preview for padded exports: the exact square/circle the file fills. */
 .frame-guide {
   display: flex;
   align-items: center;
@@ -465,13 +457,288 @@ button.logo-cell.copy-failed .logo-label {
 .logo-stage.dark .frame-guide {
   border-color: rgba(255, 255, 255, 0.25);
 }
-.logo-label {
-  font-family: var(--mono);
+
+/* A clickable logo (see CopyStage): click copies the PNG; the outcome flashes over it. */
+.copy-stage {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  font: inherit;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: none;
+  cursor: pointer;
+}
+.copy-stage:hover {
+  border-color: var(--primary);
+}
+.preset .logo-stage {
+  height: 120px;
+  padding: 12px;
+}
+.copy-flash {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--accent) 85%, transparent);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  opacity: 0;
+  pointer-events: none;
+}
+.copy-flash.failed {
+  background: color-mix(in srgb, var(--posthog-coral-darker, #f00008) 85%, transparent);
+}
+/* Matches the 1.4s the copy status lives for (useAssetCopy). */
+.copy-flash.show {
+  animation: copy-flash 1.4s ease forwards;
+}
+@keyframes copy-flash {
+  0% {
+    opacity: 0;
+  }
+  8%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .copy-flash.show {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* Presets: four across, so each row reads as one family (logo, stacked/mark, avatars). */
+.grid-presets {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+@media (max-width: 960px) {
+  .grid-presets {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 520px) {
+  .grid-presets {
+    grid-template-columns: 1fr;
+  }
+}
+.preset {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 10px 14px;
+}
+.preset-body {
+  flex: 1;
+  padding: 0 4px;
+}
+.preset-body h3 {
+  font-size: 15px;
+  margin: 0 0 4px;
+}
+.preset-body p {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* Guidelines: do / don't side by side, third-party rules underneath. */
+.guidelines {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+@media (max-width: 720px) {
+  .guidelines {
+    grid-template-columns: 1fr;
+  }
+}
+.guideline {
+  padding: 16px 20px;
+  border-top-width: 3px;
+}
+.guideline h3 {
+  font-size: 15px;
+  margin: 0 0 8px;
+}
+.guideline ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 14px;
+}
+.guideline li + li {
+  margin-top: 6px;
+}
+.guideline.do {
+  border-top-color: var(--posthog-green, #47c861);
+}
+.guideline.dont {
+  border-top-color: var(--posthog-coral, #ff474d);
+}
+
+/* The custom builder, collapsed until no preset fits. */
+.logo-group {
+  border-top: 1px solid var(--border);
+}
+.logo-group > summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  list-style: none;
+  padding: 16px 0;
+}
+.logo-group > summary::-webkit-details-marker {
+  display: none;
+}
+.logo-group > summary::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid var(--text-muted);
+  border-bottom: 2px solid var(--text-muted);
+  transform: rotate(-45deg);
+  transition: transform 0.15s ease;
+}
+.logo-group[open] > summary::before {
+  transform: rotate(45deg);
+}
+.logo-group > summary h2 {
+  font-size: 22px;
+  margin: 0;
+}
+.logo-group:not([open]) {
+  border-bottom: 1px solid var(--border);
+}
+
+/* Builder: controls, live preview, export + generated JSX. */
+.builder {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.builder-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+}
+.builder-stage {
+  height: 240px;
+  padding: 20px;
+}
+.builder-note {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin: -6px 0 0;
+}
+.builder-control {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.builder-control.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.builder-control.disabled .seg button {
+  cursor: not-allowed;
+}
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-height: 31px;
+}
+.swatch-dot {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+/* "Inherit": half dark, half light — it takes whatever color surrounds it. */
+.swatch-dot.inherit {
+  background: linear-gradient(135deg, #1d1f27 50%, #fff 50%);
+}
+.swatch-dot.active {
+  box-shadow:
+    0 0 0 2px var(--bg),
+    0 0 0 4px var(--primary);
+}
+.builder-control.disabled .swatch-dot {
+  cursor: not-allowed;
+}
+.builder-control-label {
   font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   color: var(--text-muted);
 }
-button.logo-cell {
+.props-subhead {
+  font-size: 15px;
+  margin: 24px 0 12px;
+}
+.props-table {
+  overflow-x: auto;
+}
+.props-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.props-table th,
+.props-table td {
   text-align: left;
+  vertical-align: top;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.props-table tr:last-child td {
+  border-bottom: 0;
+}
+.props-table th {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  background: var(--bg-subtle);
+}
+.props-table code {
+  font-family: var(--mono);
+  font-size: 12.5px;
+}
+.props-table + .section-lede {
+  margin-top: 12px;
+}
+.imperative-jump {
+  display: grid;
+  grid-template-columns: minmax(200px, 1fr) 2fr;
+  gap: 16px;
+  align-items: stretch;
+}
+@media (max-width: 720px) {
+  .imperative-jump {
+    grid-template-columns: 1fr;
+  }
+}
+.imperative-jump-stage {
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
 }
 
 /* ---- Color card ---- */
