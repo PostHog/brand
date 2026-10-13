@@ -2,6 +2,7 @@ import { findAssets, getComponentName } from "@posthog/brand"
 import posthog from "posthog-js"
 import { useMemo, useState } from "react"
 import { useSearchParams } from "react-router-dom"
+import { crestPagePath } from "../agent-paths.ts"
 import { crestPng, crestSvg } from "../assets-crests.ts"
 import { AssetTile } from "../components/AssetTile.tsx"
 import { EmptyState } from "../components/EmptyState.tsx"
@@ -99,8 +100,7 @@ export function CrestsPage() {
                 slug={usage}
                 importLine={`import { ${baseName} } from "@posthog/brand/crests"`}
                 svg={crestSvg(asset.slug, showMini ? "mini" : "full")}
-                fileName={`posthog-crest-${asset.slug}${showMini ? "-mini" : ""}`}
-                to={`/crests/${asset.slug}`}
+                to={crestPagePath(asset.slug)}
               />
             )
           })}

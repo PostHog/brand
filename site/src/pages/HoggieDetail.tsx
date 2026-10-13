@@ -1,37 +1,36 @@
-import { findAssets, getComponentName } from "@posthog/brand"
 import { Link, useParams } from "react-router-dom"
-import { hoggieFilePath, markdownPath } from "../agent-paths.ts"
+import { hoggiePagePath, markdownPath } from "../agent-paths.ts"
 import { hoggiePng, hoggieSvg } from "../assets-hoggies.ts"
 import { AssetDetailCard } from "../components/AssetDetailCard.tsx"
 import { CodeBlock } from "../components/CodeBlock.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
+import { hoggieFamilies, hoggieJsx } from "../hoggie-families.ts"
 import { hoggiePageSeo } from "../seo.ts"
 import { useSeo } from "../useSeo.ts"
+
+const FAMILIES = hoggieFamilies()
 
 // One hoggie on its own page: big, copyable, with download links to its static SVG/PNG and
 // the import. A numbered variant family (`<HedgehogNoir variant="5" />`) is one page showing
 // every member, since they share one component.
 export function HoggieDetailPage() {
   const { slug = "" } = useParams()
-  const members = findAssets({ namespace: "hoggies" })
-    .filter((asset) => asset.slug === slug)
-    .sort((a, b) => Number(a.variant?.variant ?? 0) - Number(b.variant?.variant ?? 0))
-  const first = members[0]
-  const tags = [...new Set(members.flatMap((asset) => asset.tags ?? []))]
+  const family = FAMILIES.get(slug)
 
   // Same metadata the build prerenders `/hoggies/<slug>.html` with; an unknown slug is a soft
   // 404, kept unindexed.
-  const seo = first ? hoggiePageSeo(first.name, slug, tags, first.variant?.variant) : undefined
-  useSeo(`/hoggies/${slug}`, {
-    title: seo?.title ?? "Hoggie not found",
-    label: seo?.label ?? "Hoggie not found",
-    description: seo?.description ?? `No PostHog hedgehog matches the slug "${slug}".`,
-    noindex: !seo,
-    parent: seo?.parent,
-    image: seo?.image,
-  })
+  useSeo(
+    hoggiePagePath(slug),
+    family
+      ? hoggiePageSeo(family.name, slug, family.tags, family.members[0]?.variant?.variant)
+      : {
+          title: "Hoggie not found",
+          description: `No PostHog hedgehog matches the slug "${slug}".`,
+          noindex: true,
+        },
+  )
 
-  if (!first) {
+  if (!family) {
     return (
       <div>
         <PageHeader eyebrow="@posthog/brand/hoggies" title="Hoggie not found">
@@ -41,23 +40,20 @@ export function HoggieDetailPage() {
     )
   }
 
-  const component = getComponentName("hoggies", slug)
+  const { component, members, tags } = family
   const importLine = `import { ${component} } from "@posthog/brand/hoggies"`
-  const family = members.length > 1 || !!first.variant
-  const snippet = [
-    importLine,
-    "",
-    ...members.map((asset) =>
-      asset.variant ? `<${component} variant="${asset.variant.variant}" />` : `<${component} />`,
-    ),
-  ].join("\n")
+  const variants = members.map((asset) => {
+    const key = asset.variant?.variant
+    return { asset, key, jsx: hoggieJsx(component, key) }
+  })
 
   return (
     <div>
-      <PageHeader eyebrow="@posthog/brand/hoggies" title={first.name}>
+      <PageHeader eyebrow="@posthog/brand/hoggies" title={family.name}>
         <Link to="/hoggies">← All hoggies</Link> · slug <code>{slug}</code>
-        {family ? ` · ${members.length} variants` : ""} · click to copy the PNG, right-click for the
-        import line or SVG · <a href={markdownPath(`/hoggies/${slug}`)}>markdown</a>
+        {variants[0]?.key ? ` · ${variants.length} variants` : ""} · click to copy the PNG,
+        right-click for the import line or SVG ·{" "}
+        <a href={markdownPath(hoggiePagePath(slug))}>markdown</a>
         {tags.length ? (
           <>
             <br />
@@ -67,11 +63,9 @@ export function HoggieDetailPage() {
       </PageHeader>
 
       <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
-        {members.map((asset) => {
-          const key = asset.variant?.variant
+        {variants.map(({ asset, key, jsx }) => {
           const img = hoggiePng(slug, key)
           if (!img.src) return null
-          const usage = key ? `<${component} variant="${key}" />` : `<${component} />`
           return (
             <AssetDetailCard
               key={key ?? slug}
@@ -81,11 +75,8 @@ export function HoggieDetailPage() {
               label={component}
               caption={key ? `variant="${key}"` : slug}
               importLine={importLine}
-              usage={usage}
+              usage={jsx}
               svg={hoggieSvg(slug, key)}
-              fileName={`posthog-hedgehog-${slug}${key ? `-${key}` : ""}`}
-              svgPath={hoggieFilePath(slug, key, "svg")}
-              pngPath={hoggieFilePath(slug, key, "png")}
             />
           )
         })}
@@ -93,7 +84,10 @@ export function HoggieDetailPage() {
 
       <section className="section">
         <h2>Use it in React</h2>
-        <CodeBlock slug="hoggie-usage" code={snippet} />
+        <CodeBlock
+          slug="hoggie-usage"
+          code={[importLine, "", ...variants.map(({ jsx }) => jsx)].join("\n")}
+        />
       </section>
     </div>
   )

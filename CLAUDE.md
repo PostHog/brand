@@ -214,7 +214,7 @@ so docs and links can't drift from what's served. The docs lead with "install
 files from memory. **WebMCP**: `site/src/webmcp.ts` registers tools on `document.modelContext`
 (definitions in `webmcp-tools.ts`, also listed in `index.md`) that answer from `/catalog.json`. Chrome only exposes `document.modelContext` behind a flag
 or the WebMCP origin trial: set the (public, origin-bound) trial token as the build-time env var
-`WEBMCP_ORIGIN_TRIAL_TOKEN` (committed in `site/.env.production`, expires 2027-03-30; a Cloudflare Pages env var overrides it) and `brandSeo` emits
+`WEBMCP_ORIGIN_TRIAL_TOKEN` (committed in `site/.env.production`, expires 2027-03-30; a Cloudflare Pages env var overrides it) and the `originTrials` plugin (`site/origin-trial-plugin.ts`) emits
 `<meta http-equiv="origin-trial">` on every page; unset, no tag.
 
 **Analytics**: `initAnalytics` (`site/src/analytics.ts`) runs `posthog.init` once in `main.tsx`

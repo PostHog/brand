@@ -12,8 +12,10 @@
 
 import posthog from "posthog-js"
 import type { Catalog, CatalogAsset, CatalogLogo } from "../agent/data.ts"
-import { LOGO_DONTS, LOGO_DOS, LOGO_PRESETS } from "./logo-files.ts"
-import { PAGES, SITE_URL } from "./seo.ts"
+import { absoluteUrl, assetFileName, assetFilePath, type AssetRef } from "./agent-paths.ts"
+import { assetProperties } from "./analytics.ts"
+import { inPresetOrder, LOGO_DONTS, LOGO_DOS } from "./logo-files.ts"
+import { PAGES } from "./seo.ts"
 import { TOOL_DEFINITIONS, type ToolDefinition } from "./webmcp-tools.ts"
 
 interface ModelContextTool extends ToolDefinition {
@@ -23,8 +25,6 @@ interface ModelContextTool extends ToolDefinition {
 interface ModelContext {
   registerTool: (tool: ModelContextTool) => Promise<void> | void
 }
-
-type AssetType = "hoggie" | "crest" | "logo"
 
 let catalogRequest: Promise<Catalog> | undefined
 
@@ -52,7 +52,7 @@ function failure(text: string) {
 
 const str = (value: unknown): string => (typeof value === "string" ? value : "")
 
-type Hit = { type: AssetType; name: string; haystack: string; value: object }
+type Hit = { type: AssetRef["type"]; name: string; haystack: string; value: object }
 
 function hits(catalog: Catalog): Hit[] {
   const asset = (entry: CatalogAsset): Hit => ({
@@ -65,7 +65,7 @@ function hits(catalog: Catalog): Hit[] {
     type: "logo",
     name: entry.title,
     haystack: `${entry.id} ${entry.title} ${entry.layout} ${entry.treatment} ${entry.frame ?? ""} ${entry.preset?.name ?? ""} ${entry.background} background`,
-    value: { type: "logo", ...entry },
+    value: entry,
   })
   return [...catalog.logos.map(logo), ...catalog.hoggies.map(asset), ...catalog.crests.map(asset)]
 }
@@ -107,18 +107,14 @@ async function getAsset(input: Record<string, unknown>) {
   const slug = str(input.slug)
   const entry = findEntry(catalog, type, slug)
   if (!entry) return failure(`No ${type} with slug "${slug}". Use search_brand_assets to find it.`)
-  return type === "logo" ? { type: "logo", ...entry } : entry
+  return entry
 }
 
 async function logoGuidelines() {
   const catalog = await loadCatalog()
-  const byId = new Map(catalog.logos.map((logo) => [logo.id, logo]))
   return {
-    presets: LOGO_PRESETS.map((preset) => ({
-      name: preset.name,
-      when: preset.when,
-      ...byId.get(preset.file.id),
-    })),
+    // The handbook's approved versions; each carries `preset: { name, when }`.
+    presets: inPresetOrder(catalog.logos),
     dos: LOGO_DOS,
     donts: LOGO_DONTS,
     allFiles: catalog.logos,
@@ -131,8 +127,8 @@ async function brandColors() {
   const catalog = await loadCatalog()
   return {
     colors: catalog.colors,
-    css: `${SITE_URL}/colors.css`,
-    json: `${SITE_URL}/colors.json`,
+    css: absoluteUrl("/colors.css"),
+    json: absoluteUrl("/colors.json"),
     package: 'import { colors } from "@posthog/brand/colors"',
   }
 }
@@ -145,42 +141,27 @@ async function download(input: Record<string, unknown>) {
   const entry = findEntry(catalog, type, slug)
   if (!entry) return failure(`No ${type} with slug "${slug}". Use search_brand_assets to find it.`)
 
-  let url: string
-  let fileName: string
-  let variant: string | undefined
-  let tier: "full" | "mini" | undefined
-  if ("images" in entry) {
-    const images = entry.images
+  let asset: AssetRef = { type: "logo", slug }
+  if (entry.type !== "logo") {
+    const { images } = entry
     const image =
-      type === "crest"
+      entry.type === "crest"
         ? images.find((img) => img.tier === (str(input.tier) || "full"))
         : (images.find((img) => img.variant === str(input.variant)) ?? images[0])
     if (!image) return failure(`${entry.name} has no ${str(input.tier)} tier.`)
-    url = image[format]
-    variant = image.variant
-    tier = image.tier
-    const file = url.slice(url.lastIndexOf("/") + 1)
-    fileName = `posthog-${type === "hoggie" ? "hedgehog" : "crest"}-${file}`
-  } else {
-    url = entry[format]
-    fileName = `${entry.id}.${format}`
+    asset = { type: entry.type, slug, variant: image.variant, tier: image.tier }
   }
 
+  const path = assetFilePath(asset, format)
+  const fileName = `${assetFileName(asset)}.${format}`
   const a = document.createElement("a")
-  a.href = new URL(url).pathname
+  a.href = path
   a.download = fileName
   document.body.append(a)
   a.click()
   a.remove()
-  posthog.capture("asset downloaded", {
-    asset_type: type,
-    asset_slug: slug,
-    asset_variant: variant,
-    asset_tier: tier,
-    format,
-    source: "webmcp",
-  })
-  return { downloaded: fileName, url }
+  posthog.capture("asset downloaded", { ...assetProperties(asset), format, source: "webmcp" })
+  return { downloaded: fileName, url: absoluteUrl(path) }
 }
 
 async function openPage(input: Record<string, unknown>) {
@@ -188,11 +169,11 @@ async function openPage(input: Record<string, unknown>) {
     str(input.path)
       .replace(/^https?:\/\/[^/]+/, "")
       .replace(/\/+$/, "") || "/"
-  const [, section, slug] = path.split("/")
-  let known = PAGES.some((page) => page.path === path)
-  if (!known && slug && (section === "hoggies" || section === "crests")) {
-    known = !!findEntry(await loadCatalog(), section === "hoggies" ? "hoggie" : "crest", slug)
-  }
+  const catalog = await loadCatalog()
+  const url = absoluteUrl(path)
+  const known =
+    PAGES.some((page) => page.path === path) ||
+    [...catalog.hoggies, ...catalog.crests].some((entry) => entry.page === url)
   if (!known) {
     return failure(
       `"${path}" isn't a page on this site. Pages: ${PAGES.map((p) => p.path).join(", ")}, /hoggies/<slug>, /crests/<slug>.`,
@@ -200,7 +181,7 @@ async function openPage(input: Record<string, unknown>) {
   }
   if (!navigate) return failure("The page isn't ready to navigate yet.")
   navigate(path)
-  return { opened: `${SITE_URL}${path}` }
+  return { opened: url }
 }
 
 const EXECUTE: Record<string, (input: Record<string, unknown>) => Promise<unknown>> = {

@@ -6,7 +6,8 @@
 // The package ships the logo only as the parametric <Logo> component, so a file here is just a
 // point in its prop space (layout × color treatment × canvas) plus a stable name.
 
-import type { LogoLayout } from "@posthog/brand/logo"
+import type { LogoLayout, LogoVariant } from "@posthog/brand/logo"
+import type { ExportFrame } from "./svg-export.ts"
 
 /**
  * Color treatment of a logo file. `black` and `white` are `variant="mono"` with that color;
@@ -14,11 +15,8 @@ import type { LogoLayout } from "@posthog/brand/logo"
  */
 export type LogoTreatment = "gradient" | "print" | "black" | "white"
 
-/** Padded avatar canvas (see `ExportFrame` in svg-export.ts); absent for the tight lockup. */
-export type LogoFrame = "square" | "circle"
-
-export const LOGO_BLACK = "#000"
-export const LOGO_WHITE = "#fff"
+const LOGO_BLACK = "#000"
+const LOGO_WHITE = "#fff"
 
 export interface LogoFile {
   /** File stem and stable id, e.g. "posthog-logo-stacked-white" → /logo/<id>.svg. */
@@ -27,7 +25,10 @@ export interface LogoFile {
   title: string
   layout: LogoLayout
   treatment: LogoTreatment
-  frame?: LogoFrame
+  /** Padded avatar canvas (see svg-export.ts); absent for the tight lockup. */
+  frame?: ExportFrame
+  /** The background it is made for: the white logos go on dark ones. */
+  background: "light" | "dark"
   /** The JSX that renders it. Absent for padded avatars, whose padding is export-only. */
   jsx?: string
 }
@@ -53,26 +54,36 @@ const TREATMENT_TITLE: Record<LogoTreatment, string> = {
   white: ", white",
 }
 
-const FRAME_TITLE: Record<LogoFrame, string> = {
+const FRAME_TITLE: Record<ExportFrame, string> = {
   square: ", square avatar",
   circle: ", round avatar",
 }
 
-/** `<Logo …/>` props for a layout + treatment, in the order the Logo page's builder writes them. */
-export function logoJsx(layout: LogoLayout, treatment: LogoTreatment): string {
+/**
+ * The `<Logo>` props a treatment means — the one mapping the rendered presets, the published
+ * JSX and the static files (agent/logo-render.ts) all derive from. `color` is set only for
+ * black/white, which are `variant="mono"`.
+ */
+export function logoProps(treatment: LogoTreatment): { variant: LogoVariant; color?: string } {
+  if (treatment === "black") return { variant: "mono", color: LOGO_BLACK }
+  if (treatment === "white") return { variant: "mono", color: LOGO_WHITE }
+  return { variant: treatment }
+}
+
+/** `<Logo …/>` for a layout + treatment, in the order the Logo page's builder writes props. */
+function logoJsx(layout: LogoLayout, treatment: LogoTreatment): string {
   const tag =
     layout === "logomark" ? "Logo.Logomark" : layout === "wordmark" ? "Logo.Wordmark" : "Logo"
+  const { variant, color } = logoProps(treatment)
   const props: string[] = []
   if (layout === "stacked") props.push(`layout="stacked"`)
-  if (layout !== "wordmark" && treatment === "print") props.push(`variant="print"`)
-  if (treatment === "black" || treatment === "white") {
-    if (layout !== "wordmark") props.push(`variant="mono"`)
-    props.push(`color="${treatment === "black" ? LOGO_BLACK : LOGO_WHITE}"`)
-  }
+  // The wordmark has no `variant`: it's always mono.
+  if (layout !== "wordmark" && variant !== "gradient") props.push(`variant="${variant}"`)
+  if (color) props.push(`color="${color}"`)
   return `<${[tag, ...props].join(" ")} />`
 }
 
-function logoFile(layout: LogoLayout, treatment: LogoTreatment, frame?: LogoFrame): LogoFile {
+function logoFile(layout: LogoLayout, treatment: LogoTreatment, frame?: ExportFrame): LogoFile {
   const suffix = treatment === "gradient" ? "" : `-${treatment}`
   return {
     id: `${LAYOUT_STEM[layout]}${frame ? `-${frame}` : ""}${suffix}`,
@@ -80,6 +91,7 @@ function logoFile(layout: LogoLayout, treatment: LogoTreatment, frame?: LogoFram
     layout,
     treatment,
     frame,
+    background: treatment === "white" ? "dark" : "light",
     jsx: frame ? undefined : logoJsx(layout, treatment),
   }
 }
@@ -101,10 +113,6 @@ export const LOGO_FILES: readonly LogoFile[] = [
   ),
 ]
 
-export function getLogoFile(id: string): LogoFile | undefined {
-  return LOGO_FILES.find((file) => file.id === id)
-}
-
 /** One of the handbook's approved logo versions, pointing at its file. */
 export interface LogoPreset {
   name: string
@@ -116,7 +124,7 @@ export interface LogoPreset {
 }
 
 function preset(name: string, when: string, id: string, size: number): LogoPreset {
-  const file = getLogoFile(id)
+  const file = LOGO_FILES.find((f) => f.id === id)
   if (!file) throw new Error(`No logo file "${id}"`)
   return { name, when, file, size }
 }
@@ -185,6 +193,11 @@ export const LOGO_PRESETS: readonly LogoPreset[] = [
     52,
   ),
 ]
+
+/** The handbook's approved versions among `logos` (anything with a logo file `id`), in its order. */
+export function inPresetOrder<T extends { id: string }>(logos: readonly T[]): T[] {
+  return LOGO_PRESETS.flatMap((preset) => logos.filter((logo) => logo.id === preset.file.id))
+}
 
 export const LOGO_DOS: readonly string[] = [
   "Use the standard logo by default.",

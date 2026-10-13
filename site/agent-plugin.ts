@@ -18,13 +18,27 @@ import { dirname, join } from "node:path"
 import type { Plugin } from "vite"
 import { type AgentFile, loadAgentData } from "./agent/data.ts"
 import { llmsFullTxt, llmsTxt, markdownPages } from "./agent/markdown.ts"
-import { SITE_URL } from "./src/seo.ts"
+import { SITE_URL } from "./src/agent-paths.ts"
+
+/**
+ * Whether a dev-server request could be one of ours — checked before touching the catalog,
+ * so Vite's own requests (sources, CSS, the tiles' `/@fs/…` PNGs, fonts) pass straight through.
+ */
+const AGENT_PATH =
+  /^\/(?:(?:hoggies|crests|logo|fonts)\/[^/]+\.\w+|llms(?:-full)?\.txt|catalog\.json|colors\.(?:json|css))$|\.md$/
 
 const MARKDOWN = "text/markdown; charset=utf-8"
 const TEXT = "text/plain; charset=utf-8"
 
-/** Every agent-facing file: the catalog's assets plus the generated docs. */
-async function allFiles(): Promise<Map<string, AgentFile>> {
+let cached: Promise<Map<string, AgentFile>> | undefined
+
+/** Every agent-facing file: the catalog's assets plus the generated docs. Built once. */
+function allFiles(): Promise<Map<string, AgentFile>> {
+  cached ??= buildFiles()
+  return cached
+}
+
+async function buildFiles(): Promise<Map<string, AgentFile>> {
   const { catalog, files } = await loadAgentData()
   const all = new Map(files)
   const pages = markdownPages(catalog)
@@ -82,8 +96,7 @@ export function brandAgentFiles(): Plugin {
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         const path = decodeURIComponent((req.url ?? "").split("?")[0] ?? "")
-        // Only paths that could be ours, so ordinary dev requests never wait on the catalog.
-        if (!/\.(svg|png|md|txt|json|css|woff2)$/.test(path)) return next()
+        if (!AGENT_PATH.test(path)) return next()
         allFiles()
           .then(async (files) => {
             const file = files.get(path)
@@ -98,11 +111,14 @@ export function brandAgentFiles(): Plugin {
 
     async closeBundle() {
       const files = await allFiles()
-      for (const [path, file] of files) {
-        const target = join(outDir, path)
-        mkdirSync(dirname(target), { recursive: true })
-        writeFileSync(target, await file.read())
-      }
+      // In parallel: the logo PNGs are sharp rasterizations, which run on libuv's threadpool.
+      await Promise.all(
+        [...files].map(async ([path, file]) => {
+          const target = join(outDir, path)
+          mkdirSync(dirname(target), { recursive: true })
+          writeFileSync(target, await file.read())
+        }),
+      )
       writeFileSync(join(outDir, "_headers"), HEADERS)
       console.log(
         `brand-agent-files: wrote ${files.size} agent files (assets, markdown, llms.txt, catalog.json) into ${outDir}/`,

@@ -572,8 +572,14 @@ button.asset.copy-failed .asset-slug {
   color: var(--text-muted);
   margin: 0;
 }
-.preset-body .preset-files {
-  margin-top: 6px;
+.preset-body .download-links {
+  justify-content: flex-start;
+  margin-top: 8px;
+}
+.preset-body .download-links .btn {
+  padding: 4px 10px;
+  font-size: 12px;
+  white-space: nowrap;
 }
 
 /* Guidelines: do / don't side by side, third-party rules underneath. */

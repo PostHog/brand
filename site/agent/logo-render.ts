@@ -7,11 +7,11 @@
 
 import sharp from "sharp"
 import { LOGO_BODY, LOGO_VIEW_BOX } from "../../src/logo/geometry.ts"
-import { LOGO_BLACK, LOGO_WHITE, type LogoFile } from "../src/logo-files.ts"
+import { type LogoFile, logoProps } from "../src/logo-files.ts"
 import { frameSide } from "../src/svg-export.ts"
 
 /** Long side of every logo PNG, in px — big enough for slides and print-ish use. */
-export const LOGO_PNG_LONG_SIDE = 1600
+const LOGO_PNG_LONG_SIDE = 1600
 
 const round = (n: number) => Math.round(n * 100) / 100
 
@@ -24,17 +24,13 @@ function canvas(file: LogoFile): { x: number; y: number; width: number; height: 
 }
 
 export function logoSvg(file: LogoFile): string {
-  const { treatment, layout } = file
-  const mono = treatment === "black" || treatment === "white"
-  const body = mono
-    ? LOGO_BODY[layout].mono.replaceAll(
-        "currentColor",
-        treatment === "black" ? LOGO_BLACK : LOGO_WHITE,
-      )
-    : LOGO_BODY[layout][treatment]
+  const { variant, color } = logoProps(file.treatment)
+  const body = LOGO_BODY[file.layout][variant]
+  // Mono artwork draws in `currentColor`; a standalone file has no CSS to supply it.
+  const markup = color ? body.replaceAll("currentColor", color) : body
   const { x, y, width, height } = canvas(file)
   const viewBox = [x, y, width, height].map(round).join(" ")
-  return `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="${viewBox}" width="${round(width)}" height="${round(height)}">${body}</svg>`
+  return `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="${viewBox}" width="${round(width)}" height="${round(height)}">${markup}</svg>`
 }
 
 /** Pixel size of the file's PNG: {@link LOGO_PNG_LONG_SIDE} on the long side. */

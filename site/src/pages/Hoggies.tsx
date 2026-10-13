@@ -5,6 +5,7 @@ import { hoggiePng, hoggieSvg } from "../assets-hoggies.ts"
 import { AssetTile } from "../components/AssetTile.tsx"
 import { EmptyState } from "../components/EmptyState.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
+import { hoggieJsx } from "../hoggie-families.ts"
 import { useSearchTracking } from "../useSearchTracking.ts"
 import { useSeo } from "../useSeo.ts"
 
@@ -61,11 +62,8 @@ export function HoggiesPage() {
                 name={variant ? `${asset.name} ${variant}` : asset.name}
                 slug={asset.slug}
                 importLine={`import { ${componentName} } from "@posthog/brand/hoggies"`}
-                usage={
-                  variant ? `<${componentName} variant="${variant}" />` : `<${componentName} />`
-                }
+                usage={hoggieJsx(componentName, variant)}
                 svg={hoggieSvg(asset.slug, variant)}
-                fileName={`posthog-hedgehog-${asset.slug}${variant ? `-${variant}` : ""}`}
                 to={hoggiePagePath(asset.slug)}
               />
             )

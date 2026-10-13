@@ -8,8 +8,15 @@
 //     and every social-card unfurler) see real per-page metadata instead of the SPA shell.
 // Keeping both readers on this one table is what stops the two from drifting.
 
-/** Canonical origin. Deployed from `main` to Cloudflare Pages. */
-export const SITE_URL = "https://brand.posthog.com"
+import {
+  absoluteUrl,
+  assetFilePath,
+  crestPagePath,
+  hoggiePagePath,
+  SITE_URL,
+} from "./agent-paths.ts"
+
+export { SITE_URL }
 export const SITE_NAME = "PostHog Brand"
 
 /** Social card: a designed 1920×1080 illustration committed at `site/public/og.png`. */
@@ -125,13 +132,16 @@ function tagPhrase(tags: readonly string[] | undefined): string {
  */
 export function crestPageSeo(name: string, slug: string, tags?: readonly string[]): PageSeo {
   return {
-    path: `/crests/${slug}`,
+    path: crestPagePath(slug),
     title: `${name} crest`,
     label: name,
     headline: `The ${name} crest`,
     description: `The ${name} team crest from PostHog — the full illustration and its mini badge. Download the SVG or PNG, or import it from @posthog/brand as a React component.${tagPhrase(tags)}`,
     parent: { path: "/crests", label: "Crests" },
-    image: { url: `${SITE_URL}/crests/${slug}.png`, alt: `The PostHog ${name} team crest` },
+    image: {
+      url: absoluteUrl(assetFilePath({ type: "crest", slug, tier: "full" }, "png")),
+      alt: `The PostHog ${name} team crest`,
+    },
   }
 }
 
@@ -146,16 +156,15 @@ export function hoggiePageSeo(
   /** The family's first member key, when it's a variant family: its PNG is the share image. */
   firstVariant?: string,
 ): PageSeo {
-  const stem = firstVariant ? `${slug}-${firstVariant}` : slug
   return {
-    path: `/hoggies/${slug}`,
+    path: hoggiePagePath(slug),
     title: `${name} — PostHog hedgehog illustration`,
     label: name,
     headline: `${name}, a PostHog hedgehog`,
     description: `${name}, one of PostHog's hedgehog illustrations ("hoggies"). Download the SVG or PNG, or import it from @posthog/brand as a React component.${tagPhrase(tags)}`,
     parent: { path: "/hoggies", label: "Hoggies" },
     image: {
-      url: `${SITE_URL}/hoggies/${stem}.png`,
+      url: absoluteUrl(assetFilePath({ type: "hoggie", slug, variant: firstVariant }, "png")),
       alt: `${name}, a PostHog hedgehog illustration`,
     },
   }
@@ -172,11 +181,6 @@ export function documentTitle(title: string, path: string): string {
   return path === "/" ? title : `${title} · ${SITE_NAME}`
 }
 
-/** Absolute, canonical URL for a route path. */
-export function canonicalUrl(path: string): string {
-  return path === "/" ? `${SITE_URL}/` : `${SITE_URL}${path}`
-}
-
 /**
  * schema.org breadcrumb trail for a page. Answer engines and search results use it to show
  * where a page sits, and it is cheap to emit for a three-level site.
@@ -186,9 +190,9 @@ export function breadcrumbJsonLd(
   label: string,
   parent?: { path: string; label: string },
 ): string {
-  const items = [{ name: SITE_NAME, item: canonicalUrl("/") }]
-  if (parent) items.push({ name: parent.label, item: canonicalUrl(parent.path) })
-  if (path !== "/") items.push({ name: label, item: canonicalUrl(path) })
+  const items = [{ name: SITE_NAME, item: absoluteUrl("/") }]
+  if (parent) items.push({ name: parent.label, item: absoluteUrl(parent.path) })
+  if (path !== "/") items.push({ name: label, item: absoluteUrl(path) })
   return JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

@@ -10,13 +10,14 @@ import {
   type ReactNode,
 } from "react"
 import { createPortal } from "react-dom"
-import { assetProperties, type AssetRef } from "../analytics.ts"
+import { assetFileName, type AssetRef } from "../agent-paths.ts"
+import { assetProperties } from "../analytics.ts"
 import type { SvgLoader } from "../assets-hoggies.ts"
 import { canWriteType, copyRich, copyToClipboard, fetchPng } from "../clipboard.ts"
 
 /** Everything an asset can be copied as. */
 export interface CopyTarget {
-  /** Which asset this is, for the copy/download analytics events. */
+  /** Which asset this is: names its downloads, and identifies it in analytics events. */
   asset: AssetRef
   /** The `import { … } from "@posthog/brand/…"` line. */
   importLine: string
@@ -35,8 +36,6 @@ export interface CopyTarget {
   pngScales?: readonly number[]
   /** Lazily loads the SVG markup. */
   svg: SvgLoader
-  /** Base name (no extension) for "Download PNG", e.g. `posthog-crest-marketing`. */
-  fileName: string
 }
 
 /** Transient feedback after a copy: what was copied, or that it failed. */
@@ -107,7 +106,7 @@ export function useAssetCopy(target: CopyTarget): {
       })
   }
 
-  const { importLine, usage, png, pngScales, svg, fileName } = target
+  const { importLine, usage, png, pngScales, svg } = target
   const as = (label: string) => (ok: boolean) => ok && label
 
   function copyImport(): Promise<string | false> {
@@ -132,18 +131,13 @@ export function useAssetCopy(target: CopyTarget): {
   function downloadPng(scale?: number): Promise<string | false> {
     const suffix = scale && scale !== 1 ? `@${scale}x` : ""
     return pngBlob(scale)
-      .then((blob) => download(blob, `${fileName}${suffix}.png`))
+      .then((blob) => download(blob, `${assetFileName(target.asset)}${suffix}.png`))
       .then(() => scaled("PNG downloaded", scale))
   }
 
   /** One button per offered scale, for a PNG row of the menu. */
   function perScale(run: (scale: number) => void) {
     return pngScales?.map((scale) => ({ label: `${scale}x`, run: () => run(scale) }))
-  }
-
-  /** The click: the PNG, or — where images can't go on the clipboard — the import line. */
-  function copyDefault(): Promise<string | false> {
-    return png && canWriteType("image/png") ? copyPng() : copyImport()
   }
 
   function copySvgText(): Promise<string | false> {
@@ -223,11 +217,14 @@ export function useAssetCopy(target: CopyTarget): {
 
   return {
     status,
-    onClick: () =>
-      report(copyDefault(), {
-        format: png && canWriteType("image/png") ? "png" : "import",
+    // The click: the PNG, or — where images can't go on the clipboard — the import line.
+    onClick: () => {
+      const clickPng = !!png && canWriteType("image/png")
+      report(clickPng ? copyPng() : copyImport(), {
+        format: clickPng ? "png" : "import",
         trigger: "click",
-      }),
+      })
+    },
     onContextMenu,
     menu: menuAt ? <CopyMenu x={menuAt.x} y={menuAt.y} items={items} onClose={close} /> : null,
   }

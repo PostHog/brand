@@ -1,19 +1,17 @@
 import { colors } from "@posthog/brand/colors"
 import { Logo } from "@posthog/brand/logo"
 import type { LogoHoliday, LogoLayout, LogomarkHandle, LogoVariant } from "@posthog/brand/logo"
-import posthog from "posthog-js"
 import type { ReactNode } from "react"
 import { useLayoutEffect, useRef, useState } from "react"
-import { logoFilePath } from "../agent-paths.ts"
 import { CodeBlock } from "../components/CodeBlock.tsx"
+import { DownloadLinks } from "../components/DownloadLinks.tsx"
 import { useAssetCopy } from "../components/CopyMenu.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
 import {
-  LOGO_BLACK,
   LOGO_DONTS,
   LOGO_DOS,
   LOGO_PRESETS,
-  LOGO_WHITE,
+  logoProps,
   type LogoFile,
   type LogoPreset,
 } from "../logo-files.ts"
@@ -66,7 +64,6 @@ function useLogoExport({
     asset: { type: "logo", slug: fileName },
     importLine: IMPORT_LINE,
     usage,
-    fileName,
     svg: async () => snapshot().markup,
     png: async (scale?: number) => {
       const { markup, width, height } = snapshot()
@@ -149,14 +146,11 @@ function CopyStage({
 
 /** Renders one logo file at `size`, the same props its `jsx` spells out. */
 function LogoForFile({ file, size }: { file: LogoFile; size: number }) {
-  const { layout, treatment, title } = file
-  const color = treatment === "black" ? LOGO_BLACK : treatment === "white" ? LOGO_WHITE : undefined
-  const variant = color ? "mono" : treatment === "print" ? "print" : "gradient"
-  if (layout === "logomark") {
-    return <Logo.Logomark size={size} variant={variant} color={color} title={title} />
-  }
-  if (layout === "wordmark") return <Logo.Wordmark size={size} color={color} title={title} />
-  return <Logo size={size} layout={layout} variant={variant} color={color} title={title} />
+  const { layout, title } = file
+  const props = { ...logoProps(file.treatment), size, title }
+  if (layout === "logomark") return <Logo.Logomark {...props} />
+  if (layout === "wordmark") return <Logo.Wordmark size={size} color={props.color} title={title} />
+  return <Logo {...props} layout={layout} />
 }
 
 /** A preset: the copyable logo, its name, and when to use it. */
@@ -168,7 +162,7 @@ function PresetCard({ preset }: { preset: LogoPreset }) {
       <CopyStage
         exp={exp}
         frame={file.frame}
-        dark={file.treatment === "white"}
+        dark={file.background === "dark"}
         title={`${file.id} — click to copy the PNG; right-click for SVG, JSX, or download`}
       >
         <LogoForFile file={file} size={size} />
@@ -176,35 +170,10 @@ function PresetCard({ preset }: { preset: LogoPreset }) {
       <div className="preset-body">
         <h3>{name}</h3>
         <p>{when}</p>
-        <p className="preset-files">
-          <a
-            href={logoFilePath(file.id, "svg")}
-            download
-            onClick={() => trackFileLink(file, "svg")}
-          >
-            SVG
-          </a>{" "}
-          ·{" "}
-          <a
-            href={logoFilePath(file.id, "png")}
-            download
-            onClick={() => trackFileLink(file, "png")}
-          >
-            PNG
-          </a>
-        </p>
+        <DownloadLinks asset={{ type: "logo", slug: file.id }} />
       </div>
     </div>
   )
-}
-
-function trackFileLink(file: LogoFile, format: "svg" | "png") {
-  posthog.capture("asset downloaded", {
-    asset_type: "logo",
-    asset_slug: file.id,
-    format,
-    source: "link",
-  })
 }
 
 // ---- Guidelines ---------------------------------------------------------------------------

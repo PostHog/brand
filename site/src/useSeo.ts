@@ -1,8 +1,7 @@
 import { useEffect } from "react"
-import { markdownPath } from "./agent-paths.ts"
+import { absoluteUrl, markdownPath } from "./agent-paths.ts"
 import {
   breadcrumbJsonLd,
-  canonicalUrl,
   documentTitle,
   OG_IMAGE,
   OG_IMAGE_ALT,
@@ -57,7 +56,7 @@ export function useSeo(path: string, overrides: SeoOverrides = {}): void {
   const title = overrides.title ?? page?.title ?? SITE_NAME
   const description = overrides.description ?? page?.description ?? ""
   const label = overrides.label ?? page?.label ?? title
-  const url = canonicalUrl(path)
+  const url = absoluteUrl(path)
   const noindex = overrides.noindex ?? false
   const parent = overrides.parent ?? page?.parent
   const image = overrides.image ?? page?.image
@@ -103,7 +102,7 @@ export function useSeo(path: string, overrides: SeoOverrides = {}): void {
         link.rel = "alternate"
         link.type = "text/markdown"
         return link
-      }).href = canonicalUrl(markdownPath(path))
+      }).href = absoluteUrl(markdownPath(path))
     }
 
     upsert<HTMLScriptElement>('script[data-seo="breadcrumb"]', () => {

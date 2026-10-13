@@ -1,4 +1,4 @@
-import type { AssetRef } from "../analytics.ts"
+import type { AssetRef } from "../agent-paths.ts"
 import type { SvgLoader } from "../assets-hoggies.ts"
 import { useAssetCopy } from "./CopyMenu.tsx"
 import { DownloadLinks } from "./DownloadLinks.tsx"
@@ -15,11 +15,6 @@ interface AssetDetailCardProps {
   importLine: string
   usage?: string
   svg: SvgLoader
-  /** Base name (no extension) for downloads, e.g. `posthog-crest-marketing-mini`. */
-  fileName: string
-  /** Site paths of the static files. */
-  svgPath: string
-  pngPath: string
 }
 
 /**
@@ -35,11 +30,8 @@ export function AssetDetailCard({
   importLine,
   usage,
   svg,
-  fileName,
-  svgPath,
-  pngPath,
 }: AssetDetailCardProps) {
-  const copy = useAssetCopy({ asset, importLine, usage, png: src, svg, fileName })
+  const copy = useAssetCopy({ asset, importLine, usage, png: src, svg })
   const status = copy.status
 
   return (
@@ -65,7 +57,7 @@ export function AssetDetailCard({
         </span>
       </button>
       {copy.menu}
-      <DownloadLinks asset={asset} svg={svgPath} png={pngPath} fileName={fileName} />
+      <DownloadLinks asset={asset} />
     </div>
   )
 }

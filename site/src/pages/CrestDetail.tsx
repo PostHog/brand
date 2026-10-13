@@ -1,6 +1,6 @@
 import { getAsset, getComponentName, type CrestTier } from "@posthog/brand"
 import { Link, useParams } from "react-router-dom"
-import { crestFilePath, markdownPath } from "../agent-paths.ts"
+import { crestPagePath, markdownPath } from "../agent-paths.ts"
 import { crestPng, crestSvg } from "../assets-crests.ts"
 import { AssetDetailCard } from "../components/AssetDetailCard.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
@@ -20,15 +20,16 @@ export function CrestDetailPage() {
   // Per-crest metadata, from the same helper the build prerenders `/crests/<slug>.html` with,
   // so navigating here client-side describes the crest exactly as the served HTML does. A slug
   // nobody has is a soft 404 — keep it unindexed.
-  const seo = asset ? crestPageSeo(asset.name, slug, asset.tags) : undefined
-  useSeo(`/crests/${slug}`, {
-    title: seo?.title ?? "Crest not found",
-    label: seo?.label ?? "Crest not found",
-    description: seo?.description ?? `No PostHog crest matches the slug "${slug}".`,
-    noindex: !seo,
-    parent: seo?.parent,
-    image: seo?.image,
-  })
+  useSeo(
+    crestPagePath(slug),
+    asset
+      ? crestPageSeo(asset.name, slug, asset.tags)
+      : {
+          title: "Crest not found",
+          description: `No PostHog crest matches the slug "${slug}".`,
+          noindex: true,
+        },
+  )
 
   if (!fullImg.src || !asset) {
     return (
@@ -47,7 +48,7 @@ export function CrestDetailPage() {
       <PageHeader eyebrow="@posthog/brand/crests" title={asset.name}>
         <Link to="/crests">← All crests</Link> · slug <code>{slug}</code> · click either one to copy
         its PNG, right-click for the import line or SVG ·{" "}
-        <a href={markdownPath(`/crests/${slug}`)}>markdown</a>
+        <a href={markdownPath(crestPagePath(slug))}>markdown</a>
       </PageHeader>
 
       <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
@@ -98,9 +99,6 @@ function CrestCard({ slug, tier, src, name, baseName }: CrestCardProps) {
       importLine={`import { ${baseName} } from "@posthog/brand/crests"`}
       usage={mini ? `<${baseName}.Mini />` : `<${baseName} />`}
       svg={crestSvg(slug, tier)}
-      fileName={`posthog-crest-${slug}${mini ? "-mini" : ""}`}
-      svgPath={crestFilePath(slug, tier, "svg")}
-      pngPath={crestFilePath(slug, tier, "png")}
     />
   )
 }

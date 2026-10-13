@@ -7,21 +7,13 @@
 // well — what was copied or downloaded, and in which format.
 
 import posthog from "posthog-js"
+import type { AssetRef } from "./agent-paths.ts"
 
 /** posthog.com's project. A public, write-only token: safe to ship in the bundle. */
 const POSTHOG_KEY = "sTMFPsFhdP1Ssg"
 const POSTHOG_HOST = "https://us.i.posthog.com"
 
-/** An asset, as every copy/download event describes it. */
-export interface AssetRef {
-  type: "hoggie" | "crest" | "logo"
-  /** The hoggie/crest slug, or the logo file id (e.g. `posthog-logo-stacked-white`). */
-  slug: string
-  /** A hoggie variant family member's key, e.g. "2". */
-  variant?: string
-  tier?: "full" | "mini"
-}
-
+/** An asset's identity, as every copy/download event describes it. */
 export function assetProperties(asset: AssetRef): Record<string, string | undefined> {
   return {
     asset_type: asset.type,

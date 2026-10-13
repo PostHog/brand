@@ -25,11 +25,16 @@
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs"
 import { dirname, join } from "node:path"
 import type { Plugin } from "vite"
-import { type CatalogAsset, type CatalogImage, LICENSE_URL, loadAgentData } from "./agent/data.ts"
-import { absoluteUrl, markdownPath } from "./src/agent-paths.ts"
+import {
+  type CatalogAsset,
+  type CatalogImage,
+  imageHeading,
+  LICENSE_URL,
+  loadAgentData,
+} from "./agent/data.ts"
+import { absoluteUrl, assetPagePath, markdownPath } from "./src/agent-paths.ts"
 import {
   breadcrumbJsonLd,
-  canonicalUrl,
   crestPageSeo,
   documentTitle,
   hoggiePageSeo,
@@ -120,7 +125,12 @@ function siteJsonLd(): string {
 /** A prerendered route: its metadata, plus the asset it shows when it's an asset page. */
 interface Route {
   page: PageSeo
+  /** The hoggie or crest an asset page shows. */
   asset?: CatalogAsset
+  /** The assets a catalog page lists, linked from its static shell. */
+  listing?: CatalogAsset[]
+  /** PNG URLs of the page's images, for the image sitemap. */
+  images?: string[]
 }
 
 /**
@@ -139,7 +149,7 @@ function imageJsonLd(asset: CatalogAsset, image: CatalogImage, page: PageSeo): s
     width: image.width,
     height: image.height,
     keywords: asset.tags.join(", "),
-    url: canonicalUrl(page.path),
+    url: absoluteUrl(page.path),
     license: LICENSE_URL,
     acquireLicensePage: LICENSE_URL,
     creditText: "PostHog",
@@ -154,26 +164,22 @@ function imageJsonLd(asset: CatalogAsset, image: CatalogImage, page: PageSeo): s
 }
 
 /** The head block for one route, wrapped in the swap markers. */
-function headBlock({ page, asset }: Route, originTrialTokens: string[]): string {
-  const url = canonicalUrl(page.path)
+function headBlock({ page, asset }: Route): string {
+  const url = absoluteUrl(page.path)
   const image = asset?.images[0]
   const ogImage = page.image?.url ?? OG_IMAGE
   const ogAlt = page.image?.alt ?? OG_IMAGE_ALT
   // The site card is 1920×1080; an asset's own PNG has its catalog size.
   const [ogWidth, ogHeight] = image ? [image.width, image.height] : [1920, 1080]
   const tags = [
-    // Chrome origin trials this origin is enrolled in (WebMCP); see `brandSeo`'s options.
-    ...originTrialTokens.map(
-      (token) => `<meta http-equiv="origin-trial" content="${escape(token)}" />`,
-    ),
     `<title>${escape(documentTitle(page.title, page.path))}</title>`,
     `<meta name="description" content="${escape(page.description)}" />`,
     // The 404 shell is served under whatever path missed, so it has no canonical of its own.
-    ...(page.noindex ? [] : [`<link rel="canonical" href="${url}" />`]),
-    // The same page as markdown, for agents (agent/markdown.ts writes it).
+    // …and has no markdown twin either (agent/markdown.ts writes one per page).
     ...(page.noindex
       ? []
       : [
+          `<link rel="canonical" href="${url}" />`,
           `<link rel="alternate" type="text/markdown" href="${absoluteUrl(markdownPath(page.path))}" />`,
         ]),
     `<meta name="robots" content="${page.noindex ? "noindex, follow" : "index, follow, max-image-preview:large"}" />`,
@@ -227,7 +233,7 @@ function headBlock({ page, asset }: Route, originTrialTokens: string[]): string 
  * page lists its download URLs and import. React's `createRoot(...).render()` clears the
  * container on mount, so the browser shows it only for the moment before hydration.
  */
-function staticShell({ page, asset }: Route, catalog: CatalogAsset[][]): string {
+function staticShell({ page, asset, listing }: Route): string {
   const links = PAGES.filter((other) => other.path !== page.path)
     .map((other) => `<a href="${other.path}">${escape(other.label)}</a>`)
     .join(" · ")
@@ -236,12 +242,7 @@ function staticShell({ page, asset }: Route, catalog: CatalogAsset[][]): string 
   if (asset) {
     const downloads = asset.images
       .map((image) => {
-        const which = image.variant
-          ? `Variant ${image.variant}`
-          : image.tier === "mini"
-            ? "Mini badge"
-            : "Full"
-        return `<li>${which}: <a href="${image.svg}">SVG</a> · <a href="${image.png}">PNG (${image.width}×${image.height})</a> — <code>${escape(image.jsx)}</code></li>`
+        return `<li>${escape(imageHeading(asset, image))}: <a href="${image.svg}">SVG</a> · <a href="${image.png}">PNG (${image.width}×${image.height})</a> — <code>${escape(image.jsx)}</code></li>`
       })
       .join("")
     body =
@@ -251,16 +252,14 @@ function staticShell({ page, asset }: Route, catalog: CatalogAsset[][]): string 
       `<p><a href="${page.parent?.path ?? "/"}">All ${escape(page.parent?.label.toLowerCase() ?? "assets")}</a></p>`
   }
 
-  if (page.path === "/hoggies" || page.path === "/crests") {
-    const [hoggies = [], crests = []] = catalog
-    const assets = page.path === "/hoggies" ? hoggies : crests
-    const items = assets
-      .map((entry) => {
-        const pagePath = new URL(entry.page).pathname
-        return `<li><a href="${pagePath}">${escape(entry.name)}</a> — <code>${escape(entry.component)}</code></li>`
-      })
+  if (listing) {
+    const items = listing
+      .map(
+        (entry) =>
+          `<li><a href="${assetPagePath(entry)}">${escape(entry.name)}</a> — <code>${escape(entry.component)}</code></li>`,
+      )
       .join("")
-    body = `<h2>All ${assets.length} ${page.path.slice(1)}</h2><ul class="prerender-list">${items}</ul>`
+    body = `<h2>All ${listing.length} ${escape(page.label.toLowerCase())}</h2><ul class="prerender-list">${items}</ul>`
   }
 
   return [
@@ -280,15 +279,14 @@ function staticShell({ page, asset }: Route, catalog: CatalogAsset[][]): string 
  * `<urlset>` covering every route, with each page's images (Google image sitemap): an asset
  * page's renderings, and every logo file on /logo.
  */
-function sitemap(routes: Route[], logoPngs: string[]): string {
+function sitemap(routes: Route[]): string {
   const urls = routes
     .filter(({ page }) => !page.noindex)
-    .map(({ page, asset }) => {
-      const pngs = page.path === "/logo" ? logoPngs : (asset?.images ?? []).map((i) => i.png)
+    .map(({ page, images: pngs = [] }) => {
       const images = pngs
         .map((png) => `\n    <image:image><image:loc>${png}</image:loc></image:image>`)
         .join("")
-      return `  <url><loc>${canonicalUrl(page.path)}</loc>${images}${images ? "\n  " : ""}</url>`
+      return `  <url><loc>${absoluteUrl(page.path)}</loc>${images}${images ? "\n  " : ""}</url>`
     })
     .join("\n")
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n${urls}\n</urlset>\n`
@@ -304,17 +302,7 @@ function sitemap(routes: Route[], logoPngs: string[]): string {
 // through to `dist/404.html`, which Pages serves with a real 404 status — better than the soft
 // 200 a catch-all gives — and which boots the same app into its `*` route.
 
-export interface BrandSeoOptions {
-  /**
-   * Chrome origin-trial tokens to put on every page — e.g. the WebMCP trial's, so
-   * `document.modelContext` (and the tools in src/webmcp.ts) exists in Chrome without a flag.
-   * Tokens are public and bound to one origin (brand.posthog.com), so they're harmless on
-   * previews and localhost, where Chrome just ignores them.
-   */
-  originTrialTokens?: string[]
-}
-
-export function brandSeo({ originTrialTokens = [] }: BrandSeoOptions = {}): Plugin {
+export function brandSeo(): Plugin {
   let outDir = "dist"
 
   return {
@@ -330,7 +318,7 @@ export function brandSeo({ originTrialTokens = [] }: BrandSeoOptions = {}): Plug
       order: "pre",
       handler(html) {
         const home = PAGES[0]
-        return html.replace("<!--seo-->", headBlock({ page: home }, originTrialTokens))
+        return html.replace("<!--seo-->", headBlock({ page: home }))
       },
     },
 
@@ -342,26 +330,40 @@ export function brandSeo({ originTrialTokens = [] }: BrandSeoOptions = {}): Plug
       }
 
       const { catalog } = await loadAgentData()
-      const assetRoutes: Route[] = [
-        ...catalog.crests.map((asset) => ({
-          page: crestPageSeo(asset.name, asset.slug, asset.tags),
-          asset,
+      const listings: Record<string, CatalogAsset[]> = {
+        "/hoggies": catalog.hoggies,
+        "/crests": catalog.crests,
+      }
+      const pageImages: Record<string, string[]> = {
+        "/logo": catalog.logos.map((logo) => logo.png),
+      }
+      const assetRoute = (asset: CatalogAsset, page: PageSeo): Route => ({
+        page,
+        asset,
+        images: asset.images.map((image) => image.png),
+      })
+      const routes: Route[] = [
+        ...PAGES.map((page) => ({
+          page,
+          listing: listings[page.path],
+          images: pageImages[page.path],
         })),
-        ...catalog.hoggies.map((asset) => ({
-          page: hoggiePageSeo(asset.name, asset.slug, asset.tags, asset.images[0]?.variant),
-          asset,
-        })),
+        ...catalog.crests.map((asset) =>
+          assetRoute(asset, crestPageSeo(asset.name, asset.slug, asset.tags)),
+        ),
+        ...catalog.hoggies.map((asset) =>
+          assetRoute(
+            asset,
+            hoggiePageSeo(asset.name, asset.slug, asset.tags, asset.images[0]?.variant),
+          ),
+        ),
       ]
-      const routes: Route[] = [...PAGES.map((page) => ({ page })), ...assetRoutes]
 
       for (const route of [...routes, { page: NOT_FOUND_PAGE }]) {
         const { page } = route
         const html = built
-          .replace(new RegExp(`${START}[\\s\\S]*?${END}`), headBlock(route, originTrialTokens))
-          .replace(
-            ROOT_DIV,
-            `<div id="root">${staticShell(route, [catalog.hoggies, catalog.crests])}</div>`,
-          )
+          .replace(new RegExp(`${START}[\\s\\S]*?${END}`), headBlock(route))
+          .replace(ROOT_DIV, `<div id="root">${staticShell(route)}</div>`)
         // `/` → index.html, `/logo` → logo.html and `/crests/x` → crests/x.html (Pages
         // serves both at their extensionless paths), and the 404 shell → the 404.html Pages
         // serves for everything unmatched.
@@ -371,13 +373,7 @@ export function brandSeo({ originTrialTokens = [] }: BrandSeoOptions = {}): Plug
         writeFileSync(target, html)
       }
 
-      writeFileSync(
-        join(outDir, "sitemap.xml"),
-        sitemap(
-          routes,
-          catalog.logos.map((logo) => logo.png),
-        ),
-      )
+      writeFileSync(join(outDir, "sitemap.xml"), sitemap(routes))
       console.log(
         `\nbrand-seo: prerendered ${routes.length} routes + 404.html and sitemap.xml into ${outDir}/`,
       )

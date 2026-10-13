@@ -1,11 +1,11 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import type { AssetRef } from "../analytics.ts"
+import type { AssetRef } from "../agent-paths.ts"
 import type { SvgLoader } from "../assets-hoggies.ts"
 import { useAssetCopy } from "./CopyMenu.tsx"
 
 interface AssetTileProps {
-  /** Which asset this is, for analytics. */
+  /** Which asset this is: names its downloads, and identifies it in analytics. */
   asset: AssetRef
   /** Bundled PNG URL to show as the thumbnail. When absent, a placeholder glyph is shown. */
   src?: string
@@ -21,8 +21,6 @@ interface AssetTileProps {
   usage?: string
   /** Lazily loads the asset's SVG, for the right-click menu's SVG options. */
   svg: SvgLoader
-  /** Base name (no extension) the right-click menu's "Download PNG" saves as. */
-  fileName: string
   /** When set, renders a corner link to this route (e.g. an isolated detail page). */
   to?: string
 }
@@ -41,11 +39,10 @@ export function AssetTile({
   importLine,
   usage,
   svg,
-  fileName,
   to,
 }: AssetTileProps) {
   const [loaded, setLoaded] = useState(false)
-  const copy = useAssetCopy({ asset, importLine, usage, png: src, svg, fileName })
+  const copy = useAssetCopy({ asset, importLine, usage, png: src, svg })
   const status = copy.status
 
   return (
