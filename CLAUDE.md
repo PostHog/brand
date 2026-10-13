@@ -205,7 +205,9 @@ every asset as a static file at a stable, unhashed URL — `/hoggies/<slug>[-<va
 `/crests/<slug>[-mini].svg|png`, `/logo/<id>.svg|png` (rendered by `agent/logo-render.ts` from
 `src/logo/geometry.ts`; the file set is `site/src/logo-files.ts`, which the Logo page's presets
 also render from), `/fonts/*.woff2` + `roundhog.css`, `/colors.json|css` — plus the markdown
-twin of every page (`/logo.md`, `/hoggies/chart.md`, `/` → `/index.md`; `agent/markdown.ts`),
+twin of every page (`/logo.md`, `/hoggies/chart.md`, `/` → `/index.md`; the prose is plain
+markdown in `site/agent/pages/` with `{{placeholders}}` that `agent/markdown.ts` fills with the
+data-driven tables/lists — edit the `.md`, not the TS),
 `/llms.txt`, `/llms-full.txt` and `/catalog.json`. URL shapes live in `site/src/agent-paths.ts`
 so docs and links can't drift from what's served. The docs lead with "install
 `@posthog/brand`" and treat downloads as the fallback for non-JS use. `pnpm dev` serves the same
@@ -215,8 +217,10 @@ or the WebMCP origin trial: set the (public, origin-bound) trial token as the bu
 `WEBMCP_ORIGIN_TRIAL_TOKEN` (committed in `site/.env.production`, expires 2027-03-30; a Cloudflare Pages env var overrides it) and `brandSeo` emits
 `<meta http-equiv="origin-trial">` on every page; unset, no tag.
 
-**Analytics**: `site/src/analytics.ts` lazy-loads posthog-js (posthog.com's project, prod builds
-only) with `capture_webmcp` — tools must register _after_ init, since posthog-js wraps
+**Analytics**: `initAnalytics` (`site/src/analytics.ts`) runs `posthog.init` once in `main.tsx`
+before render (posthog.com's project; `person_profiles: "always"`; capturing opted out in dev) and
+call sites use `posthog.capture` directly. It sets `capture_webmcp` — tools must register _after_
+init, since posthog-js wraps
 `registerTool` — and `opt_out_useragent_filter` so agent-driven browsers are kept (tagged
 `$browser_type: "bot"`) rather than dropped; surveys/conversations/tours are off (they're
 posthog.com's). Custom events: `asset copied`/`asset downloaded` (via `useAssetCopy`'s required

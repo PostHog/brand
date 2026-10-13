@@ -1,0 +1,31 @@
+# PostHog Brand
+
+> {{description}}
+
+{{twoWays}}
+
+## Docs
+
+- [Overview]({{site}}/index.md): both ways in, plus the WebMCP tools this site registers
+{{sections}}
+- [catalog.json]({{site}}/catalog.json): every asset as JSON — file URLs, PNG sizes, JSX and package imports
+- [llms-full.txt]({{site}}/llms-full.txt): all of the above pages in one file
+
+## Logo files
+
+{{logos}}
+- All {{logoCount}} logo files (every color and canvas): {{site}}/logo.md
+
+## Hoggies ({{hoggieCount}})
+
+{{hoggies}}
+
+## Crests ({{crestCount}})
+
+{{crests}}
+
+## Optional
+
+- [Source code]({{repository}}): the `@posthog/brand` package and this site
+- [npm]({{npm}})
+- [License]({{licenseUrl}}): {{licenseSummary}}
