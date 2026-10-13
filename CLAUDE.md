@@ -191,12 +191,46 @@ answer-engine crawlers and social unfurlers don't run JS, and `main.tsx` clears 
 `createRoot`. The JSON-LD `Organization` node is a verbatim copy of posthog.com's shared
 `POSTHOG_ORGANIZATION` (`src/components/seo.tsx` there) and carries **its** `@id`
 (`https://posthog.com/#organization`), so both sites resolve to one entity rather than two
-drifting descriptions of PostHog — re-sync it if posthog.com's changes. Crest detail pages
-are prerendered too — one `dist/crests/<slug>.html` per crest,
-from `crestPageSeo` in `seo.ts`, which `CrestDetailPage` also calls — plus `404.html` (same
-shell, `noindex`, no canonical), `sitemap.xml`, and `llms.txt`.
+drifting descriptions of PostHog — re-sync it if posthog.com's changes. Asset detail pages
+are prerendered too — one `dist/crests/<slug>.html` per crest and `dist/hoggies/<slug>.html`
+per hoggie (a variant family is one page), from `crestPageSeo`/`hoggiePageSeo` in `seo.ts`,
+which `CrestDetailPage`/`HoggieDetailPage` also call — each with the asset's own PNG as its
+share image, an `ImageObject` JSON-LD node, and a three-level breadcrumb — plus `404.html`
+(same shell, `noindex`, no canonical) and `sitemap.xml` (with Google image entries). Every
+page's head carries `<link rel="alternate" type="text/markdown">` to its markdown twin.
 
-There is **no `_redirects` file**, and the old committed one was deleted: Pages serves
+**Agents** (`site/agent-plugin.ts`, `site/agent/`): the build also publishes, from one
+catalog (`agent/data.ts`, read straight from the package's built `dist/` leaf modules):
+every asset as a static file at a stable, unhashed URL — `/hoggies/<slug>[-<variant>].svg|png`,
+`/crests/<slug>[-mini].svg|png`, `/logo/<id>.svg|png` (rendered by `agent/logo-render.ts` from
+`src/logo/geometry.ts`; the file set is `site/src/logo-files.ts`, which the Logo page's presets
+also render from), `/fonts/*.woff2` + `roundhog.css`, `/colors.json|css` — plus the markdown
+twin of every page (`/logo.md`, `/hoggies/chart.md`, `/` → `/index.md`; `agent/markdown.ts`),
+`/llms.txt`, `/llms-full.txt` and `/catalog.json`. URL shapes live in `site/src/agent-paths.ts`
+so docs and links can't drift from what's served. The docs lead with "install
+`@posthog/brand`" and treat downloads as the fallback for non-JS use. `pnpm dev` serves the same
+files from memory. **WebMCP**: `site/src/webmcp.ts` registers tools on `document.modelContext`
+(definitions in `webmcp-tools.ts`, also listed in `index.md`) that answer from `/catalog.json`. Chrome only exposes `document.modelContext` behind a flag
+or the WebMCP origin trial: set the (public, origin-bound) trial token as the build-time env var
+`WEBMCP_ORIGIN_TRIAL_TOKEN` (committed in `site/.env.production`, expires 2027-03-30; a Cloudflare Pages env var overrides it) and `brandSeo` emits
+`<meta http-equiv="origin-trial">` on every page; unset, no tag.
+
+**Analytics**: `site/src/analytics.ts` lazy-loads posthog-js (posthog.com's project, prod builds
+only) with `capture_webmcp` — tools must register _after_ init, since posthog-js wraps
+`registerTool` — and `opt_out_useragent_filter` so agent-driven browsers are kept (tagged
+`$browser_type: "bot"`) rather than dropped; surveys/conversations/tours are off (they're
+posthog.com's). Custom events: `asset copied`/`asset downloaded` (via `useAssetCopy`'s required
+`asset` ref and `DownloadLinks`), `assets searched`, `crest tier toggled`, `color copied`,
+`code copied`. Agents that never run JS are captured server-side by the Pages Function
+`functions/_middleware.ts` (repo root, because Pages reads `functions/` from the project root):
+a `brand resource fetched` event per agent file and per non-browser page fetch, sent via
+`waitUntil`; it also answers `Accept: text/markdown` with the page's `.md` twin and sets the
+agent headers itself, since Pages skips `_headers` on Function responses. The build writes
+`_headers` (markdown type, CORS, canonical `Link` on `.md`) and `_routes.json` (keeps the
+Function off `/assets/*` and the icons). Tests: `tests/agent-middleware.test.ts`.
+
+There is **no `_redirects` file** (`_headers` and `_routes.json` are fine; they don't
+rewrite), and the old committed one was deleted: Pages serves
 `dist/logo.html` at `/logo` and `dist/crests/marketing.html` at `/crests/marketing` by itself,
 and every sitemap URL now has such a file. Rules would actively break it — `/logo /logo.html
 200` makes Pages apply its own `.html` → extensionless 308 to the rewrite target and loop back

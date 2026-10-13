@@ -29,12 +29,22 @@ export interface PageSeo {
   headline: string
   /** Keep the page out of search results, and out of the sitemap and nav (the 404 shell). */
   noindex?: boolean
+  /** The section a detail page sits under, for its breadcrumb trail. */
+  parent?: { path: string; label: string }
+  /** The page's own share image (an asset page's PNG); the site card otherwise. */
+  image?: PageImage
+}
+
+export interface PageImage {
+  /** Absolute URL. */
+  url: string
+  alt: string
 }
 
 /**
- * Every prerendered route, in nav order. `/crests/:slug` is deliberately absent: it is
- * generated per asset at runtime (see `CrestDetailPage`), and listed in the sitemap by the
- * build plugin rather than hard-coded here.
+ * Every prerendered route, in nav order. `/crests/:slug` and `/hoggies/:slug` are deliberately
+ * absent: they are generated per asset (see `crestPageSeo` / `hoggiePageSeo`), and listed in
+ * the sitemap by the build plugin rather than hard-coded here.
  */
 export const PAGES: PageSeo[] = [
   {
@@ -101,17 +111,53 @@ export const NOT_FOUND_PAGE: PageSeo = {
   noindex: true,
 }
 
+/** ", tagged a, b and c." — the tags, as the tail of a description sentence. */
+function tagPhrase(tags: readonly string[] | undefined): string {
+  const list = [...new Set((tags ?? []).map((t) => t.toLowerCase()))].slice(0, 6)
+  if (list.length === 0) return ""
+  const last = list.pop()
+  return list.length ? ` Tagged ${list.join(", ")} and ${last}.` : ` Tagged ${last}.`
+}
+
 /**
  * Metadata for one crest's own page. Shared so the prerendered `/crests/<slug>.html` and the
  * client-side `CrestDetailPage` describe a crest the same way.
  */
-export function crestPageSeo(name: string, slug: string): PageSeo {
+export function crestPageSeo(name: string, slug: string, tags?: readonly string[]): PageSeo {
   return {
     path: `/crests/${slug}`,
     title: `${name} crest`,
     label: name,
     headline: `The ${name} crest`,
-    description: `The ${name} team crest from PostHog — the full illustration and its mini badge, as a React component, an inline SVG string, and a PNG in @posthog/brand.`,
+    description: `The ${name} team crest from PostHog — the full illustration and its mini badge. Download the SVG or PNG, or import it from @posthog/brand as a React component.${tagPhrase(tags)}`,
+    parent: { path: "/crests", label: "Crests" },
+    image: { url: `${SITE_URL}/crests/${slug}.png`, alt: `The PostHog ${name} team crest` },
+  }
+}
+
+/**
+ * Metadata for one hoggie's own page (a variant family shares one page). Shared by the
+ * prerendered `/hoggies/<slug>.html` and the client-side `HoggieDetailPage`.
+ */
+export function hoggiePageSeo(
+  name: string,
+  slug: string,
+  tags?: readonly string[],
+  /** The family's first member key, when it's a variant family: its PNG is the share image. */
+  firstVariant?: string,
+): PageSeo {
+  const stem = firstVariant ? `${slug}-${firstVariant}` : slug
+  return {
+    path: `/hoggies/${slug}`,
+    title: `${name} — PostHog hedgehog illustration`,
+    label: name,
+    headline: `${name}, a PostHog hedgehog`,
+    description: `${name}, one of PostHog's hedgehog illustrations ("hoggies"). Download the SVG or PNG, or import it from @posthog/brand as a React component.${tagPhrase(tags)}`,
+    parent: { path: "/hoggies", label: "Hoggies" },
+    image: {
+      url: `${SITE_URL}/hoggies/${stem}.png`,
+      alt: `${name}, a PostHog hedgehog illustration`,
+    },
   }
 }
 
@@ -133,10 +179,15 @@ export function canonicalUrl(path: string): string {
 
 /**
  * schema.org breadcrumb trail for a page. Answer engines and search results use it to show
- * where a page sits, and it is cheap to emit for a two-level site.
+ * where a page sits, and it is cheap to emit for a three-level site.
  */
-export function breadcrumbJsonLd(path: string, label: string): string {
+export function breadcrumbJsonLd(
+  path: string,
+  label: string,
+  parent?: { path: string; label: string },
+): string {
   const items = [{ name: SITE_NAME, item: canonicalUrl("/") }]
+  if (parent) items.push({ name: parent.label, item: canonicalUrl(parent.path) })
   if (path !== "/") items.push({ name: label, item: canonicalUrl(path) })
   return JSON.stringify({
     "@context": "https://schema.org",

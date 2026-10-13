@@ -5,6 +5,8 @@ import { crestPng, crestSvg } from "../assets-crests.ts"
 import { AssetTile } from "../components/AssetTile.tsx"
 import { EmptyState } from "../components/EmptyState.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
+import { track } from "../analytics.ts"
+import { useSearchTracking } from "../useSearchTracking.ts"
 import { useSeo } from "../useSeo.ts"
 
 type Tier = "full" | "mini"
@@ -22,6 +24,7 @@ export function CrestsPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const tier: Tier = searchParams.get("tier") === "mini" ? "mini" : "full"
   const setTier = (next: Tier) => {
+    if (next !== tier) track("crest tier toggled", { tier: next })
     setSearchParams(
       (prev) => {
         if (next === "mini") prev.set("tier", "mini")
@@ -37,6 +40,7 @@ export function CrestsPage() {
       a.name.localeCompare(b.name),
     )
   }, [query])
+  useSearchTracking("crest", query, results.length)
 
   return (
     <div>
@@ -89,6 +93,7 @@ export function CrestsPage() {
             return (
               <AssetTile
                 key={asset.slug}
+                asset={{ type: "crest", slug: asset.slug, tier: showMini ? "mini" : "full" }}
                 {...img}
                 name={asset.name}
                 slug={usage}

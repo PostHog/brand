@@ -23,6 +23,6 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src", "scripts", "tests"],
+  "include": ["src", "scripts", "tests", "functions"],
   "exclude": ["dist", "node_modules"]
 }

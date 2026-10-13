@@ -1,5 +1,6 @@
 import react from "@vitejs/plugin-react"
-import { defineConfig } from "vite"
+import { defineConfig, loadEnv } from "vite"
+import { brandAgentFiles } from "./agent-plugin.ts"
 import { brandLqip } from "./lqip-plugin.ts"
 import { brandSeo } from "./seo-plugin.ts"
 import { brandSvg } from "./svg-plugin.ts"
@@ -16,10 +17,27 @@ import { brandSvg } from "./svg-plugin.ts"
 // `brandSvg` gives each asset's SVG its own lazy chunk for the tiles' "Copy SVG" menu.
 //
 // `brandSeo` owns everything a crawler sees: it injects the head metadata into index.html and,
-// after the bundle is written, prerenders one static HTML file per route (plus sitemap.xml and
-// the Cloudflare `_redirects` that route each path to its own file). See seo-plugin.ts.
-export default defineConfig({
-  plugins: [react(), brandLqip(), brandSvg(), brandSeo()],
+// after the bundle is written, prerenders one static HTML file per route (every hoggie and
+// crest included) plus sitemap.xml. See seo-plugin.ts. `brandAgentFiles` publishes the rest
+// for agents: every asset as a static SVG/PNG at a stable URL, the markdown twin of each page,
+// llms.txt, llms-full.txt and catalog.json. See agent-plugin.ts.
+//
+// `WEBMCP_ORIGIN_TRIAL_TOKEN` (build-time env: committed in `site/.env.production`, overridable
+// from the Cloudflare Pages environment) is the Chrome WebMCP origin-trial token for
+// brand.posthog.com; `brandSeo` puts it in every page's head. Not a secret. Several tokens can be
+// given, separated by whitespace or commas.
+export default defineConfig(({ mode }) => ({
+  plugins: [
+    react(),
+    brandLqip(),
+    brandSvg(),
+    brandSeo({
+      originTrialTokens: (loadEnv(mode, process.cwd(), "WEBMCP_").WEBMCP_ORIGIN_TRIAL_TOKEN ?? "")
+        .split(/[\s,]+/)
+        .filter(Boolean),
+    }),
+    brandAgentFiles(),
+  ],
   base: "/",
   // `@posthog/brand` is a workspace symlink, so a bare `react` import inside its `dist/`
   // resolves from the *repo root's* node_modules, not the site's — and the root installs
@@ -31,4 +49,4 @@ export default defineConfig({
   // `dedupe` forces every `react`/`react-dom` import in the graph to the site's single copy.
   resolve: { dedupe: ["react", "react-dom"] },
   build: { outDir: "dist" },
-})
+}))

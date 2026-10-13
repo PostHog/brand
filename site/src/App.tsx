@@ -1,9 +1,11 @@
 import { Logo } from "@posthog/brand/logo"
-import { lazy, type ReactNode, Suspense } from "react"
-import { NavLink, Route, Routes, useLocation } from "react-router-dom"
+import { lazy, type ReactNode, Suspense, useEffect } from "react"
+import { NavLink, Route, Routes, useLocation, useNavigate } from "react-router-dom"
+import { markdownPath } from "./agent-paths.ts"
 import { ErrorBoundary } from "./components/ErrorBoundary.tsx"
 import { OverviewPage } from "./pages/Overview.tsx"
 import { prefetchRoute } from "./prefetch.ts"
+import { setWebMcpNavigate } from "./webmcp.ts"
 
 // The asset-catalog pages each pull a large barrel of inline-SVG components, so they
 // load as their own route chunks instead of bloating the initial bundle. The loaders are
@@ -21,6 +23,9 @@ const HoggiesPage = lazy(() => loadHoggiesPage().then((m) => ({ default: m.Hoggi
 const CrestsPage = lazy(() => loadCrestsPage().then((m) => ({ default: m.CrestsPage })))
 const CrestDetailPage = lazy(() =>
   import("./pages/CrestDetail.tsx").then((m) => ({ default: m.CrestDetailPage })),
+)
+const HoggieDetailPage = lazy(() =>
+  import("./pages/HoggieDetail.tsx").then((m) => ({ default: m.HoggieDetailPage })),
 )
 
 // Lazy for the same reason: its hog is a full inline-SVG illustration, and hardly anyone
@@ -47,6 +52,8 @@ const NAV: NavItem[] = [
 ]
 
 function Layout({ children }: { children: ReactNode }) {
+  const { pathname } = useLocation()
+  const page = pathname.length > 1 ? pathname.replace(/\/+$/, "") : pathname
   return (
     <>
       <div className="wip-banner" role="alert">
@@ -88,6 +95,11 @@ function Layout({ children }: { children: ReactNode }) {
             <code>@posthog/brand</code>
           </a>{" "}
           package — no screenshots, no CDN.
+          <br />
+          For agents: <a href="/llms.txt">llms.txt</a> ·{" "}
+          <a href={markdownPath(page)}>this page as markdown</a> ·{" "}
+          <a href="/catalog.json">catalog.json</a> · every asset is also a static <code>.svg</code>/
+          <code>.png</code> file.
         </div>
       </footer>
     </>
@@ -111,6 +123,8 @@ function Layout({ children }: { children: ReactNode }) {
  */
 export function App() {
   const { pathname } = useLocation()
+  const navigate = useNavigate()
+  useEffect(() => setWebMcpNavigate((path) => navigate(path)), [navigate])
 
   return (
     <Layout>
@@ -124,6 +138,7 @@ export function App() {
             <Route path="/hoggies" element={<HoggiesPage />} />
             <Route path="/crests" element={<CrestsPage />} />
             <Route path="/crests/:slug" element={<CrestDetailPage />} />
+            <Route path="/hoggies/:slug" element={<HoggieDetailPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </ErrorBoundary>

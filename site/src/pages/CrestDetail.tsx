@@ -1,7 +1,8 @@
 import { getAsset, getComponentName, type CrestTier } from "@posthog/brand"
 import { Link, useParams } from "react-router-dom"
+import { crestFilePath, markdownPath } from "../agent-paths.ts"
 import { crestPng, crestSvg } from "../assets-crests.ts"
-import { useAssetCopy } from "../components/CopyMenu.tsx"
+import { AssetDetailCard } from "../components/AssetDetailCard.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
 import { crestPageSeo } from "../seo.ts"
 import { useSeo } from "../useSeo.ts"
@@ -19,12 +20,14 @@ export function CrestDetailPage() {
   // Per-crest metadata, from the same helper the build prerenders `/crests/<slug>.html` with,
   // so navigating here client-side describes the crest exactly as the served HTML does. A slug
   // nobody has is a soft 404 — keep it unindexed.
-  const seo = asset ? crestPageSeo(asset.name, slug) : undefined
+  const seo = asset ? crestPageSeo(asset.name, slug, asset.tags) : undefined
   useSeo(`/crests/${slug}`, {
     title: seo?.title ?? "Crest not found",
     label: seo?.label ?? "Crest not found",
     description: seo?.description ?? `No PostHog crest matches the slug "${slug}".`,
     noindex: !seo,
+    parent: seo?.parent,
+    image: seo?.image,
   })
 
   if (!fullImg.src || !asset) {
@@ -43,7 +46,8 @@ export function CrestDetailPage() {
     <div>
       <PageHeader eyebrow="@posthog/brand/crests" title={asset.name}>
         <Link to="/crests">← All crests</Link> · slug <code>{slug}</code> · click either one to copy
-        its PNG, right-click for the import line or SVG
+        its PNG, right-click for the import line or SVG ·{" "}
+        <a href={markdownPath(`/crests/${slug}`)}>markdown</a>
       </PageHeader>
 
       <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
@@ -81,40 +85,22 @@ interface CrestCardProps {
   baseName: string
 }
 
-/** One tier of the crest, large; click/right-click copy exactly like a grid tile. */
+/** One tier of the crest, large. */
 function CrestCard({ slug, tier, src, name, baseName }: CrestCardProps) {
-  const copy = useAssetCopy({
-    importLine: `import { ${baseName} } from "@posthog/brand/crests"`,
-    png: src,
-    svg: crestSvg(slug, tier),
-    fileName: `posthog-crest-${slug}${tier === "mini" ? "-mini" : ""}`,
-  })
-  const status = copy.status
-  const label = tier === "mini" ? `${baseName}.Mini` : baseName
-
+  const mini = tier === "mini"
   return (
-    <>
-      <button
-        type="button"
-        className={`card asset${status ? (status.ok ? " copied" : " copy-failed") : ""}`}
-        onClick={copy.onClick}
-        onContextMenu={copy.onContextMenu}
-        title="Click to copy the PNG; right-click for the import line or SVG"
-      >
-        <span style={{ display: "flex", justifyContent: "center", padding: "24px 0" }}>
-          <img
-            src={src}
-            alt={`${name} (${tier})`}
-            decoding="async"
-            style={{ height: 240, width: "auto", maxWidth: "100%", objectFit: "contain" }}
-          />
-        </span>
-        <span className="asset-name">{label}</span>
-        <span className="asset-slug" aria-live="polite">
-          {status ? status.label : tier}
-        </span>
-      </button>
-      {copy.menu}
-    </>
+    <AssetDetailCard
+      asset={{ type: "crest", slug, tier }}
+      src={src}
+      alt={`${name} (${tier})`}
+      label={mini ? `${baseName}.Mini` : baseName}
+      caption={tier}
+      importLine={`import { ${baseName} } from "@posthog/brand/crests"`}
+      usage={mini ? `<${baseName}.Mini />` : `<${baseName} />`}
+      svg={crestSvg(slug, tier)}
+      fileName={`posthog-crest-${slug}${mini ? "-mini" : ""}`}
+      svgPath={crestFilePath(slug, tier, "svg")}
+      pngPath={crestFilePath(slug, tier, "png")}
+    />
   )
 }

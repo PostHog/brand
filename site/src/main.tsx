@@ -3,8 +3,10 @@ import { roundHogFontFaceCss } from "@posthog/brand/fonts/css"
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import { BrowserRouter } from "react-router-dom"
+import { initAnalytics } from "./analytics.ts"
 import { App } from "./App.tsx"
 import { isPrefetching } from "./prefetch.ts"
+import { registerWebMcpTools } from "./webmcp.ts"
 import "./theme.css"
 
 // Inject the package's own brand assets so the site's chrome is rendered from the same
@@ -50,3 +52,7 @@ createRoot(container).render(
     </BrowserRouter>
   </StrictMode>,
 )
+
+// Analytics loads after first paint, and the WebMCP tools register once it's up: posthog-js
+// instruments `document.modelContext.registerTool` during init (see webmcp.ts).
+void initAnalytics().then(registerWebMcpTools)

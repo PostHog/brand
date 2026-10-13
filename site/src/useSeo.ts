@@ -1,10 +1,14 @@
 import { useEffect } from "react"
+import { markdownPath } from "./agent-paths.ts"
 import {
   breadcrumbJsonLd,
   canonicalUrl,
   documentTitle,
   OG_IMAGE,
+  OG_IMAGE_ALT,
   pageSeo,
+  type PageImage,
+  type PageSeo,
   SITE_NAME,
 } from "./seo.ts"
 
@@ -27,6 +31,8 @@ export interface SeoOverrides {
   label?: string
   /** Set for pages that should stay out of search results (404s, missing assets). */
   noindex?: boolean
+  parent?: PageSeo["parent"]
+  image?: PageImage
 }
 
 function upsert<E extends HTMLElement>(selector: string, create: () => E): E {
@@ -53,6 +59,12 @@ export function useSeo(path: string, overrides: SeoOverrides = {}): void {
   const label = overrides.label ?? page?.label ?? title
   const url = canonicalUrl(path)
   const noindex = overrides.noindex ?? false
+  const parent = overrides.parent ?? page?.parent
+  const image = overrides.image ?? page?.image
+  const imageUrl = image?.url ?? OG_IMAGE
+  const imageAlt = image?.alt ?? OG_IMAGE_ALT
+  const parentPath = parent?.path
+  const parentLabel = parent?.label
 
   useEffect(() => {
     document.title = documentTitle(title, path)
@@ -61,7 +73,9 @@ export function useSeo(path: string, overrides: SeoOverrides = {}): void {
     setMeta("og:title", "property", title)
     setMeta("og:description", "property", description)
     setMeta("og:url", "property", url)
-    setMeta("og:image", "property", OG_IMAGE)
+    setMeta("og:image", "property", imageUrl)
+    setMeta("og:image:alt", "property", imageAlt)
+    setMeta("twitter:image", "name", imageUrl)
     setMeta("twitter:title", "name", title)
     setMeta("twitter:description", "name", description)
     // A soft 404 (or any other thin page) should not be indexed; everything else inherits
@@ -78,11 +92,29 @@ export function useSeo(path: string, overrides: SeoOverrides = {}): void {
       return link
     }).href = url
 
+    // The page's markdown twin, for agents that read the live DOM. A missing asset has none.
+    const alternate = document.head.querySelector<HTMLLinkElement>(
+      'link[rel="alternate"][type="text/markdown"]',
+    )
+    if (noindex) alternate?.remove()
+    else {
+      upsert<HTMLLinkElement>('link[rel="alternate"][type="text/markdown"]', () => {
+        const link = document.createElement("link")
+        link.rel = "alternate"
+        link.type = "text/markdown"
+        return link
+      }).href = canonicalUrl(markdownPath(path))
+    }
+
     upsert<HTMLScriptElement>('script[data-seo="breadcrumb"]', () => {
       const script = document.createElement("script")
       script.type = "application/ld+json"
       script.dataset.seo = "breadcrumb"
       return script
-    }).textContent = breadcrumbJsonLd(path, label)
-  }, [title, description, url, label, path, noindex])
+    }).textContent = breadcrumbJsonLd(
+      path,
+      label,
+      parentPath && parentLabel ? { path: parentPath, label: parentLabel } : undefined,
+    )
+  }, [title, description, url, label, path, noindex, imageUrl, imageAlt, parentPath, parentLabel])
 }

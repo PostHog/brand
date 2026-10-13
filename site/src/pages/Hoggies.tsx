@@ -1,9 +1,11 @@
 import { findAssets, getComponentName } from "@posthog/brand"
 import { useMemo, useState } from "react"
+import { hoggiePagePath } from "../agent-paths.ts"
 import { hoggiePng, hoggieSvg } from "../assets-hoggies.ts"
 import { AssetTile } from "../components/AssetTile.tsx"
 import { EmptyState } from "../components/EmptyState.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
+import { useSearchTracking } from "../useSearchTracking.ts"
 import { useSeo } from "../useSeo.ts"
 
 const ALL = findAssets({ namespace: "hoggies" })
@@ -18,6 +20,7 @@ export function HoggiesPage() {
       a.name.localeCompare(b.name),
     )
   }, [query])
+  useSearchTracking("hoggie", query, results.length)
 
   return (
     <div>
@@ -53,6 +56,7 @@ export function HoggiesPage() {
             return (
               <AssetTile
                 key={variant ? `${asset.slug}/${variant}` : asset.slug}
+                asset={{ type: "hoggie", slug: asset.slug, variant }}
                 {...hoggiePng(asset.slug, variant)}
                 name={variant ? `${asset.name} ${variant}` : asset.name}
                 slug={asset.slug}
@@ -62,6 +66,7 @@ export function HoggiesPage() {
                 }
                 svg={hoggieSvg(asset.slug, variant)}
                 fileName={`posthog-hedgehog-${asset.slug}${variant ? `-${variant}` : ""}`}
+                to={hoggiePagePath(asset.slug)}
               />
             )
           })}

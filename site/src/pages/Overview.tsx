@@ -50,6 +50,20 @@ export function OverviewPage() {
       </section>
 
       <section className="section">
+        <h2>For AI agents</h2>
+        <p className="section-lede">
+          Point your agent at <a href="/llms.txt">brand.posthog.com/llms.txt</a>. In a JS/TS project
+          it should install <code>@posthog/brand</code> and import what it needs; anywhere else,
+          every asset is a static file it can download directly — e.g.{" "}
+          <a href="/hoggies/chart.svg">/hoggies/chart.svg</a>,{" "}
+          <a href="/logo/posthog-logo.png">/logo/posthog-logo.png</a>. Every page also has a
+          markdown version (<a href="/index.md">/index.md</a>), and{" "}
+          <a href="/catalog.json">/catalog.json</a> lists everything. In browsers with WebMCP, this
+          site registers tools to search, inspect, and download assets.
+        </p>
+      </section>
+
+      <section className="section">
         <h2>Explore</h2>
         <div className="grid grid-cards">
           <Link to="/logo" className="card nav-card">
