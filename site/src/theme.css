@@ -304,6 +304,28 @@ button.asset.copy-failed .asset-slug {
   background: var(--bg-subtle);
   outline: none;
 }
+/* A PNG row: the label, then one compact button per scale (1x / 2x / 4x). */
+.copy-menu-row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 13px;
+  padding-left: 10px;
+}
+.copy-menu-row span {
+  flex: 1;
+  color: var(--text);
+}
+.copy-menu .copy-menu-row button {
+  padding: 7px 8px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.copy-menu .copy-menu-row button:hover:not(:disabled),
+.copy-menu .copy-menu-row button:focus-visible {
+  color: var(--text);
+}
 .copy-menu button:disabled {
   color: var(--text-muted);
   opacity: 0.6;

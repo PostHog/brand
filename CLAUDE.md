@@ -144,7 +144,8 @@ holiday) for anything the presets don't cover, then the React API. Its logos cop
 (click = PNG, right-click = menu, outcome flashed over the logo), but the logo ships no svg/png
 exports, so `site/src/svg-export.ts` snapshots the rendered `<svg>` (currentColor resolved,
 viewBox grown to its bbox, optionally padded to a square/circle-safe canvas for avatar uploads)
-and rasterizes the PNG in a canvas; the menu adds "Copy JSX" there. The heavy
+and rasterizes the PNG in a canvas — at 1x/2x/4x (400/800/1600px on the long side), picked
+per row in the menu, with a plain click copying 2x; the menu adds "Copy JSX" there. The heavy
 catalog routes are also `React.lazy` code-split so the initial bundle stays small. Because a
 lazy chunk that 404s (a tab holding a pre-deploy `index.html`) would otherwise unmount the
 whole app to a blank page, the routes sit inside an `ErrorBoundary`

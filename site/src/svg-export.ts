@@ -5,7 +5,12 @@
 // consumer's `<Logo>` produces, made standalone (intrinsic size, no page CSS) and, for the
 // PNG, rasterized in the browser.
 
-const PNG_LONG_SIDE = 1200
+/** Long side of a 1x PNG, in px; the copy menu also offers 2x and 4x (see PNG_SCALES). */
+const PNG_BASE_LONG_SIDE = 400
+
+/** The PNG scales on offer. A plain click copies the default (2x, 800px on the long side). */
+export const PNG_SCALES: readonly number[] = [1, 2, 4]
+export const DEFAULT_PNG_SCALE = 2
 
 /**
  * Padded export canvas for avatar-style uploads, where the host crops to a square
@@ -77,9 +82,17 @@ export function standaloneSvg(
   return { markup, width, height }
 }
 
-/** Rasterizes standalone SVG markup to a PNG blob, `PNG_LONG_SIDE` px on its longer side. */
-export async function svgToPng(markup: string, width: number, height: number): Promise<Blob> {
-  const scale = PNG_LONG_SIDE / Math.max(width, height)
+/**
+ * Rasterizes standalone SVG markup to a PNG blob, `PNG_BASE_LONG_SIDE × pngScale` px on its
+ * longer side.
+ */
+export async function svgToPng(
+  markup: string,
+  width: number,
+  height: number,
+  pngScale: number = DEFAULT_PNG_SCALE,
+): Promise<Blob> {
+  const scale = (PNG_BASE_LONG_SIDE * pngScale) / Math.max(width, height)
   const w = Math.round(width * scale)
   const h = Math.round(height * scale)
 

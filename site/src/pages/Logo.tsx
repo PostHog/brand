@@ -6,7 +6,7 @@ import { useLayoutEffect, useRef, useState } from "react"
 import { CodeBlock } from "../components/CodeBlock.tsx"
 import { useAssetCopy } from "../components/CopyMenu.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
-import { frameSide, standaloneSvg, svgToPng, type ExportFrame } from "../svg-export.ts"
+import { frameSide, PNG_SCALES, standaloneSvg, svgToPng, type ExportFrame } from "../svg-export.ts"
 import { useSeo } from "../useSeo.ts"
 
 // The page follows the brand handbook (posthog.com/handbook/brand/assets): first the approved
@@ -56,10 +56,11 @@ function useLogoExport({
     usage,
     fileName,
     svg: async () => snapshot().markup,
-    png: async () => {
+    png: async (scale?: number) => {
       const { markup, width, height } = snapshot()
-      return svgToPng(markup, width, height)
+      return svgToPng(markup, width, height, scale)
     },
+    pngScales: PNG_SCALES,
   })
   return { stage, guide, copy }
 }
