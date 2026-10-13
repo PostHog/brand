@@ -1,11 +1,11 @@
 import { findAssets, getComponentName } from "@posthog/brand"
+import posthog from "posthog-js"
 import { useMemo, useState } from "react"
 import { useSearchParams } from "react-router-dom"
 import { crestPng, crestSvg } from "../assets-crests.ts"
 import { AssetTile } from "../components/AssetTile.tsx"
 import { EmptyState } from "../components/EmptyState.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
-import { track } from "../analytics.ts"
 import { useSearchTracking } from "../useSearchTracking.ts"
 import { useSeo } from "../useSeo.ts"
 
@@ -24,7 +24,7 @@ export function CrestsPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const tier: Tier = searchParams.get("tier") === "mini" ? "mini" : "full"
   const setTier = (next: Tier) => {
-    if (next !== tier) track("crest tier toggled", { tier: next })
+    if (next !== tier) posthog.capture("crest tier toggled", { tier: next })
     setSearchParams(
       (prev) => {
         if (next === "mini") prev.set("tier", "mini")

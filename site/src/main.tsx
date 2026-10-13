@@ -39,6 +39,11 @@ window.addEventListener("vite:preloadError", (event) => {
   window.location.reload()
 })
 
+// Analytics first, then the WebMCP tools: posthog-js instruments
+// `document.modelContext.registerTool` during init (see webmcp.ts).
+initAnalytics()
+registerWebMcpTools()
+
 // The built HTML ships a static, crawler-readable copy of the page inside #root (see
 // seo-plugin.ts). React replaces the container's contents on its first render anyway, but
 // clearing it explicitly keeps that contract visible from this side of the boundary.
@@ -52,7 +57,3 @@ createRoot(container).render(
     </BrowserRouter>
   </StrictMode>,
 )
-
-// Analytics loads after first paint, and the WebMCP tools register once it's up: posthog-js
-// instruments `document.modelContext.registerTool` during init (see webmcp.ts).
-void initAnalytics().then(registerWebMcpTools)

@@ -1,10 +1,10 @@
 import { colors } from "@posthog/brand/colors"
 import { Logo } from "@posthog/brand/logo"
 import type { LogoHoliday, LogoLayout, LogomarkHandle, LogoVariant } from "@posthog/brand/logo"
+import posthog from "posthog-js"
 import type { ReactNode } from "react"
 import { useLayoutEffect, useRef, useState } from "react"
 import { logoFilePath } from "../agent-paths.ts"
-import { track } from "../analytics.ts"
 import { CodeBlock } from "../components/CodeBlock.tsx"
 import { useAssetCopy } from "../components/CopyMenu.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
@@ -199,7 +199,7 @@ function PresetCard({ preset }: { preset: LogoPreset }) {
 }
 
 function trackFileLink(file: LogoFile, format: "svg" | "png") {
-  track("asset downloaded", {
+  posthog.capture("asset downloaded", {
     asset_type: "logo",
     asset_slug: file.id,
     format,

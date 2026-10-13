@@ -1,5 +1,5 @@
+import posthog from "posthog-js"
 import { useEffect } from "react"
-import { track } from "./analytics.ts"
 
 /**
  * Captures `assets searched` once a catalog search has settled — a second after the last
@@ -15,7 +15,11 @@ export function useSearchTracking(
     const q = query.trim()
     if (!q) return
     const timer = setTimeout(() => {
-      track("assets searched", { asset_type: assetType, query: q, results_count: resultCount })
+      posthog.capture("assets searched", {
+        asset_type: assetType,
+        query: q,
+        results_count: resultCount,
+      })
     }, 1000)
     return () => clearTimeout(timer)
   }, [assetType, query, resultCount])

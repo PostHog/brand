@@ -10,8 +10,8 @@
 // wraps `document.modelContext.registerTool`, and only tools registered through the wrapper
 // are captured as `$mcp_tool_call` events.
 
+import posthog from "posthog-js"
 import type { Catalog, CatalogAsset, CatalogLogo } from "../agent/data.ts"
-import { track } from "./analytics.ts"
 import { LOGO_DONTS, LOGO_DOS, LOGO_PRESETS } from "./logo-files.ts"
 import { PAGES, SITE_URL } from "./seo.ts"
 import { TOOL_DEFINITIONS, type ToolDefinition } from "./webmcp-tools.ts"
@@ -172,7 +172,7 @@ async function download(input: Record<string, unknown>) {
   document.body.append(a)
   a.click()
   a.remove()
-  track("asset downloaded", {
+  posthog.capture("asset downloaded", {
     asset_type: type,
     asset_slug: slug,
     asset_variant: variant,

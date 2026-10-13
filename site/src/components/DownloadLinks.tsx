@@ -1,5 +1,6 @@
+import posthog from "posthog-js"
 import { absoluteUrl, type ImageFormat } from "../agent-paths.ts"
-import { assetProperties, track, type AssetRef } from "../analytics.ts"
+import { assetProperties, type AssetRef } from "../analytics.ts"
 
 interface DownloadLinksProps {
   asset: AssetRef
@@ -22,7 +23,7 @@ export function DownloadLinks({ asset, svg, png, fileName }: DownloadLinksProps)
       download={`${fileName}.${format}`}
       title={absoluteUrl(path)}
       onClick={() =>
-        track("asset downloaded", { ...assetProperties(asset), format, source: "link" })
+        posthog.capture("asset downloaded", { ...assetProperties(asset), format, source: "link" })
       }
     >
       Download {format.toUpperCase()}

@@ -1,4 +1,4 @@
-import { track } from "../analytics.ts"
+import posthog from "posthog-js"
 import { CopyButton } from "./CopyButton.tsx"
 
 interface CodeBlockProps {
@@ -12,7 +12,7 @@ interface CodeBlockProps {
 export function CodeBlock({ code, slug }: CodeBlockProps) {
   return (
     <div className="code">
-      <CopyButton value={code} onCopied={() => track("code copied", { snippet: slug })} />
+      <CopyButton value={code} onCopied={() => posthog.capture("code copied", { snippet: slug })} />
       <pre>
         <code>{code}</code>
       </pre>

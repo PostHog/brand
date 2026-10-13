@@ -1,3 +1,4 @@
+import posthog from "posthog-js"
 import {
   useCallback,
   useEffect,
@@ -9,7 +10,7 @@ import {
   type ReactNode,
 } from "react"
 import { createPortal } from "react-dom"
-import { assetProperties, track, type AssetRef } from "../analytics.ts"
+import { assetProperties, type AssetRef } from "../analytics.ts"
 import type { SvgLoader } from "../assets-hoggies.ts"
 import { canWriteType, copyRich, copyToClipboard, fetchPng } from "../clipboard.ts"
 
@@ -93,7 +94,7 @@ export function useAssetCopy(target: CopyTarget): {
     void done
       .catch(() => false as const)
       .then((label) => {
-        track(action.download ? "asset downloaded" : "asset copied", {
+        posthog.capture(action.download ? "asset downloaded" : "asset copied", {
           ...assetProperties(target.asset),
           format: action.format,
           scale: action.scale,
