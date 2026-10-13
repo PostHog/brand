@@ -1,14 +1,14 @@
 {
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2407360626823590327",
+  "figmaVersion": "2408493944156974023",
   "entries": {
     "hoggies/70s-dance": {
       "figmaNodeId": "404:93626",
-      "nodeHash": "d67172c66750ddec"
+      "nodeHash": "4f6a0f4152b881fe"
     },
     "hoggies/9-9-6": {
       "figmaNodeId": "404:176601",
-      "nodeHash": "a78e38254eba8e6c"
+      "nodeHash": "45345c5d535bb59b"
     },
     "hoggies/angel": {
       "figmaNodeId": "404:176611",
@@ -24,663 +24,675 @@
     },
     "hoggies/asleep": {
       "figmaNodeId": "1641:2818",
-      "nodeHash": "8cf1c0b0caca90d8"
+      "nodeHash": "965282cd18c95d1b"
     },
     "hoggies/back-to-the-future": {
       "figmaNodeId": "404:159877",
-      "nodeHash": "3c15aa776e254158"
+      "nodeHash": "f688698b318067d1"
     },
     "hoggies/ball": {
       "figmaNodeId": "404:146880",
-      "nodeHash": "f192eba181dbb090"
+      "nodeHash": "a7a1c9f921b0d2a9"
     },
     "hoggies/banana": {
       "figmaNodeId": "306:201588",
-      "nodeHash": "344e70f1ba34653b"
+      "nodeHash": "7e81b8340726255f"
     },
     "hoggies/basketball-coach": {
       "figmaNodeId": "404:116090",
-      "nodeHash": "ec360751832d0017"
+      "nodeHash": "3e2dbe1e31f2d2b7"
     },
     "hoggies/beaker": {
       "figmaNodeId": "404:130609",
-      "nodeHash": "f2da4916162d57c2"
+      "nodeHash": "6d9b7e236c6f7f87"
     },
     "hoggies/boombox": {
       "figmaNodeId": "465:4926",
-      "nodeHash": "77774fa917c9eb77"
+      "nodeHash": "4abffd0adcadb97f"
     },
     "hoggies/burger": {
       "figmaNodeId": "1641:2813",
-      "nodeHash": "297d7c4dea222942"
+      "nodeHash": "5a63410ccd8a73c4"
     },
     "hoggies/burning-money": {
       "figmaNodeId": "1164:8278",
-      "nodeHash": "d8cd8421e59f9b74"
+      "nodeHash": "1eaeba8fefd7f9be"
     },
     "hoggies/business-evolution": {
       "figmaNodeId": "404:176608",
-      "nodeHash": "8ee378bc532d8d23"
+      "nodeHash": "79c449190828851d"
     },
     "hoggies/cake": {
       "figmaNodeId": "404:176613",
-      "nodeHash": "b63c84ba1d17485f"
+      "nodeHash": "efa74549f457d4da"
     },
     "hoggies/campfire-cowboy": {
       "figmaNodeId": "404:176619",
-      "nodeHash": "1aeca050d1c3c7e7"
+      "nodeHash": "6d65f0f92398973a"
     },
     "hoggies/card": {
       "figmaNodeId": "404:146274",
-      "nodeHash": "a6b938abae3a49e4"
+      "nodeHash": "9781e8902c403a95"
     },
     "hoggies/caribana": {
       "figmaNodeId": "306:201590",
-      "nodeHash": "ef007ee3a41c98fc"
+      "nodeHash": "a8191bf7f86c1edd"
     },
     "hoggies/caveman": {
       "figmaNodeId": "404:176616",
-      "nodeHash": "a05ae89ba3dafe37"
+      "nodeHash": "d0f891b64e08557c"
     },
     "hoggies/cereal": {
       "figmaNodeId": "404:134071",
-      "nodeHash": "bd68defa1374e2ca"
+      "nodeHash": "e88fa074682926e8"
     },
     "hoggies/chart": {
       "figmaNodeId": "404:140603",
-      "nodeHash": "17904be4ad72314c"
+      "nodeHash": "4f9a2a7ae5a6f40d"
     },
     "hoggies/chef": {
       "figmaNodeId": "404:134932",
-      "nodeHash": "8aacfa8d1b9865f3"
+      "nodeHash": "8844868b7657ef27"
     },
     "hoggies/climber-1": {
       "figmaNodeId": "1641:2817",
-      "nodeHash": "02b35c272521d2be"
+      "nodeHash": "f08a4b383998cc51"
     },
     "hoggies/climber-2": {
       "figmaNodeId": "1641:2814",
-      "nodeHash": "fca932d2fff06a0d"
+      "nodeHash": "82e8cb58bd43c0db"
     },
     "hoggies/coconut": {
       "figmaNodeId": "306:201592",
-      "nodeHash": "c4bc3dd903ffcc5a"
+      "nodeHash": "9fd0416450c49624"
     },
     "hoggies/code-bubble": {
       "figmaNodeId": "404:176621",
-      "nodeHash": "e218cfb5c2ef3baf"
+      "nodeHash": "37d31c9bf5c0e2a7"
     },
     "hoggies/coding-group": {
       "figmaNodeId": "404:176622",
-      "nodeHash": "439fd0cf481e11da"
+      "nodeHash": "4d7e1386a9330539"
     },
     "hoggies/coffee-cup": {
       "figmaNodeId": "404:106993",
-      "nodeHash": "beca0b01ce31cb0e"
+      "nodeHash": "53f93f1d6463763b"
     },
     "hoggies/coffee-run": {
       "figmaNodeId": "404:176609",
-      "nodeHash": "837139acadfcca80"
+      "nodeHash": "5467b3f36402f560"
     },
     "hoggies/commuter": {
       "figmaNodeId": "1337:3629",
-      "nodeHash": "6252f21ef0cdd8f0"
+      "nodeHash": "9267a39fcadf2d56"
     },
     "hoggies/construction-1": {
       "figmaNodeId": "404:156237",
-      "nodeHash": "b656cb029c2e5ac5"
+      "nodeHash": "c8b66b89e3133612"
     },
     "hoggies/construction-2": {
       "figmaNodeId": "404:145101",
-      "nodeHash": "a7658121212fc92e"
+      "nodeHash": "c6a23fd86eb3d8f2"
     },
     "hoggies/cool-car": {
       "figmaNodeId": "1641:2811",
-      "nodeHash": "4b079c140ff2f2a4"
+      "nodeHash": "9742f3bdcf988cc5"
     },
     "hoggies/cowboy-lasso": {
       "figmaNodeId": "404:176614",
-      "nodeHash": "b8f9c2b415963633"
+      "nodeHash": "579daebf55f7136f"
     },
     "hoggies/croissant": {
       "figmaNodeId": "404:120697",
-      "nodeHash": "274ea92edcb8eda4"
+      "nodeHash": "7996a17c109081d6"
     },
     "hoggies/cursor": {
       "figmaNodeId": "404:139811",
-      "nodeHash": "98b03037f3138bc9"
+      "nodeHash": "29fcde8cb8ba0458"
     },
     "hoggies/dadd-ai-1": {
       "figmaNodeId": "404:134437",
-      "nodeHash": "a5cc2cb5904d70d1"
+      "nodeHash": "b4c19c5ebc0819f7"
     },
     "hoggies/dadd-ai-2": {
       "figmaNodeId": "404:128870",
-      "nodeHash": "7d403730f81c4c48"
+      "nodeHash": "a93dd9b38b9d5018"
     },
     "hoggies/data-thief": {
       "figmaNodeId": "404:112864",
-      "nodeHash": "408477b751859ba4"
+      "nodeHash": "0956965729db3d06"
     },
     "hoggies/desk-wizard": {
       "figmaNodeId": "404:122702",
-      "nodeHash": "02b512c56b4adfe6"
+      "nodeHash": "01a8eca1a4d5a595"
     },
     "hoggies/director": {
       "figmaNodeId": "404:97259",
-      "nodeHash": "778df742538f0a73"
+      "nodeHash": "cd601b24f8427b7d"
     },
     "hoggies/dj": {
       "figmaNodeId": "404:96127",
-      "nodeHash": "7f763f84c5bcc97d"
+      "nodeHash": "336178bb87f795fa"
     },
     "hoggies/doc-brown": {
       "figmaNodeId": "404:97810",
-      "nodeHash": "0ff9f32e3daeb85a"
+      "nodeHash": "839743f72a4ce03d"
     },
     "hoggies/doctor-1": {
       "figmaNodeId": "404:176618",
-      "nodeHash": "31381f7d6be6af07"
+      "nodeHash": "fead5ce51023deaf"
     },
     "hoggies/doctor-2": {
       "figmaNodeId": "404:176620",
-      "nodeHash": "c1a4847fae674bff"
+      "nodeHash": "8109151e84ac76bc"
     },
     "hoggies/doll-house": {
       "figmaNodeId": "404:143350",
-      "nodeHash": "02f247d891fdef7c"
+      "nodeHash": "9787b7ef2b91da75"
     },
     "hoggies/dr-manhattan": {
       "figmaNodeId": "404:155722",
-      "nodeHash": "864b668c98beab29"
+      "nodeHash": "afe0bccef838c184"
     },
     "hoggies/drake-nah": {
       "figmaNodeId": "404:144650",
-      "nodeHash": "d075aff60e53a725"
+      "nodeHash": "2b9f35d4a0c26ef8"
     },
     "hoggies/drake-yah": {
       "figmaNodeId": "404:139374",
-      "nodeHash": "ec1c17a64319a202"
+      "nodeHash": "75ddd136ef91fdb4"
     },
     "hoggies/driving-hogzilla": {
       "figmaNodeId": "404:133635",
-      "nodeHash": "fea7050f17dd722c"
+      "nodeHash": "f83a19d47ab7f2fd"
     },
     "hoggies/dynamite": {
       "figmaNodeId": "404:105032",
-      "nodeHash": "bd28fa4e2233b0bc"
+      "nodeHash": "269ece1c6ec6c430"
     },
     "hoggies/einstein": {
       "figmaNodeId": "404:96667",
-      "nodeHash": "a9ee195f3842f5b9"
+      "nodeHash": "88f3e70c364af15e"
     },
     "hoggies/einstein-group": {
       "figmaNodeId": "404:128485",
-      "nodeHash": "bd9a91e1f4f95e3a"
+      "nodeHash": "61747a97a848948d"
     },
     "hoggies/error": {
       "figmaNodeId": "1641:2819",
-      "nodeHash": "1922442fa39c20ab"
+      "nodeHash": "e34a6e101dbd6dd3"
     },
     "hoggies/evel": {
       "figmaNodeId": "404:124569",
-      "nodeHash": "16caa556f271a755"
+      "nodeHash": "3d1014eee17a5285"
     },
     "hoggies/experiment": {
       "figmaNodeId": "404:144007",
-      "nodeHash": "f718f6b29f8cf8ee"
+      "nodeHash": "cfc9ccf7c00be82f"
     },
     "hoggies/explorer": {
       "figmaNodeId": "1164:10786",
-      "nodeHash": "5bd3050dbb85fbed"
+      "nodeHash": "23a309c25f983e1f"
     },
     "hoggies/final-evolution": {
       "figmaNodeId": "404:151196",
-      "nodeHash": "8221185cd63bb399"
+      "nodeHash": "59a487b312476bb9"
     },
     "hoggies/float": {
       "figmaNodeId": "404:135351",
-      "nodeHash": "8fc9c032703a02f9"
+      "nodeHash": "f4a35b2fbbc4118a"
     },
     "hoggies/football-coach": {
       "figmaNodeId": "404:129605",
-      "nodeHash": "43f19653ac65b073"
+      "nodeHash": "ef1c8f296df8fbfb"
     },
     "hoggies/football-player": {
       "figmaNodeId": "1641:2816",
-      "nodeHash": "7d0ea9edfc62361f"
+      "nodeHash": "249bce99099c29c0"
     },
     "hoggies/gardener-1": {
       "figmaNodeId": "463:4370",
-      "nodeHash": "6190daa7d4260039"
+      "nodeHash": "1d29389f63041d24"
     },
     "hoggies/gardener-2": {
       "figmaNodeId": "463:4369",
-      "nodeHash": "01ec32aff41f045c"
+      "nodeHash": "1df3fcc9deeae476"
     },
     "hoggies/gatsby": {
       "figmaNodeId": "1337:4326",
-      "nodeHash": "aa12eae38e552ffa"
+      "nodeHash": "3ae593ae36d3025a"
     },
     "hoggies/gladiator-1": {
       "figmaNodeId": "404:115089",
-      "nodeHash": "fae00cd45dfae5af"
+      "nodeHash": "d749ec0e2922bc04"
     },
     "hoggies/gladiator-2": {
       "figmaNodeId": "404:176610",
-      "nodeHash": "84f00ac33765842a"
+      "nodeHash": "20693abe94fac3bb"
     },
     "hoggies/gravedigger": {
       "figmaNodeId": "306:201586",
-      "nodeHash": "b089953c2eb17693"
+      "nodeHash": "2dc9e00d9c11deaa"
     },
     "hoggies/greek": {
       "figmaNodeId": "404:159874",
-      "nodeHash": "3a16b427fb7e57db"
+      "nodeHash": "92219bfdb1625731"
     },
     "hoggies/haha-bizzniss": {
       "figmaNodeId": "404:92030",
-      "nodeHash": "08f2f52bf84a4de1"
+      "nodeHash": "37acfaedb92a5dbd"
     },
     "hoggies/hand-clasp": {
       "figmaNodeId": "404:176604",
-      "nodeHash": "4e515b6d33003b66"
+      "nodeHash": "1c261a89306136b9"
     },
     "hoggies/heart": {
       "figmaNodeId": "909:5996",
-      "nodeHash": "9b3d52bafee70c2b"
+      "nodeHash": "a8597fef17074644"
     },
     "hoggies/hipster": {
       "figmaNodeId": "404:150722",
-      "nodeHash": "fb68c4731f74c8e5"
+      "nodeHash": "f44eb26c923e8a49"
     },
     "hoggies/hogpatch": {
       "figmaNodeId": "404:138258",
-      "nodeHash": "3da50f5cc067f049"
+      "nodeHash": "7325694b3575f129"
     },
     "hoggies/honey": {
       "figmaNodeId": "909:5993",
-      "nodeHash": "6d9b1c7fb46694ef"
+      "nodeHash": "659c5923deb65cae"
     },
     "hoggies/hooligan": {
       "figmaNodeId": "1336:2092",
-      "nodeHash": "a3c4f998fe99b8c2"
+      "nodeHash": "2b163f79e596f369"
     },
     "hoggies/hoot": {
       "figmaNodeId": "404:125872",
-      "nodeHash": "4feb40f833b43a48"
+      "nodeHash": "be6b81bf90349e75"
     },
     "hoggies/hot-popcorn": {
       "figmaNodeId": "1481:5256",
-      "nodeHash": "c196c78fc6becce1"
+      "nodeHash": "42f9ebb9ebaa7f5a"
     },
     "hoggies/hourglass": {
       "figmaNodeId": "404:176612",
-      "nodeHash": "2fe1e287a833b40d"
+      "nodeHash": "3e628f302c99363d"
     },
     "hoggies/im-the-driver": {
       "figmaNodeId": "404:120299",
-      "nodeHash": "92b5d218e321f620"
+      "nodeHash": "2edb3545e458b6c8"
     },
     "hoggies/ipad": {
       "figmaNodeId": "404:114535",
-      "nodeHash": "d38ad26ef8bc17d9"
+      "nodeHash": "63b6d6a716101b71"
     },
     "hoggies/jack-dawson": {
       "figmaNodeId": "404:99782",
-      "nodeHash": "a747842a7857f9e7"
+      "nodeHash": "ef32b9e814684c1b"
     },
     "hoggies/judge": {
       "figmaNodeId": "404:92734",
-      "nodeHash": "7d3c37e61ab32c36"
+      "nodeHash": "1820714714be7454"
     },
     "hoggies/katy-perry": {
       "figmaNodeId": "307:203272",
-      "nodeHash": "9158bf432d8a9af2"
+      "nodeHash": "333a2f03a106039e"
     },
     "hoggies/lemon-wrangler-1": {
       "figmaNodeId": "404:176607",
-      "nodeHash": "8bb7862e7c8e36ce"
+      "nodeHash": "08610fa8eeb8dc5e"
     },
     "hoggies/lemon-wrangler-2": {
       "figmaNodeId": "404:150166",
-      "nodeHash": "6b1aa73ddcd214a4"
+      "nodeHash": "c5ee46601b3fcf6d"
     },
     "hoggies/lemon-wrangler-3": {
       "figmaNodeId": "404:142723",
-      "nodeHash": "beb35baae4a47ac3"
+      "nodeHash": "64a66e0b9e62d3a4"
     },
     "hoggies/lemonade": {
       "figmaNodeId": "404:100309",
-      "nodeHash": "7056e22a284eb6dd"
+      "nodeHash": "3a6fbd88ca43fa5e"
     },
     "hoggies/level-up": {
       "figmaNodeId": "1164:10789",
-      "nodeHash": "361251d1a8510ea6"
+      "nodeHash": "fbd0d78591994774"
     },
     "hoggies/lifeguard": {
       "figmaNodeId": "404:99227",
-      "nodeHash": "04165f6431129e94"
+      "nodeHash": "9894701cd5ffe040"
     },
     "hoggies/loops": {
       "figmaNodeId": "1336:686",
-      "nodeHash": "68b842ab6282922e"
+      "nodeHash": "08fbdcbf6ad770db"
     },
     "hoggies/magnifying-glass": {
       "figmaNodeId": "404:132663",
-      "nodeHash": "b191442ae5f56ce9"
+      "nodeHash": "c96738c014e33715"
     },
     "hoggies/mailbox": {
       "figmaNodeId": "1164:10782",
-      "nodeHash": "31188c5601c04218"
+      "nodeHash": "41477f03b903a593"
+    },
+    "hoggies/marathon": {
+      "figmaNodeId": "2038:4005",
+      "nodeHash": "bee52429d0b1d86d"
     },
     "hoggies/megaphone": {
       "figmaNodeId": "404:125232",
-      "nodeHash": "8d9b8a5cfda83145"
+      "nodeHash": "26a2327d81726f54"
     },
     "hoggies/money": {
       "figmaNodeId": "404:106406",
-      "nodeHash": "0bf83a830564fd97"
+      "nodeHash": "4b79440472a760ab"
     },
     "hoggies/mountie": {
       "figmaNodeId": "404:159876",
-      "nodeHash": "0ef57387d24f799b"
+      "nodeHash": "c8d08a691af707bd"
     },
     "hoggies/mr-potato-head-1": {
       "figmaNodeId": "404:119642",
-      "nodeHash": "ab9b473204fa9062"
+      "nodeHash": "a28df0674fe4f3c4"
     },
     "hoggies/mr-potato-head-2": {
       "figmaNodeId": "404:113749",
-      "nodeHash": "0271a5bdd8f0376d"
+      "nodeHash": "60f2942f79df0025"
     },
     "hoggies/namaste": {
       "figmaNodeId": "1336:1428",
-      "nodeHash": "c2d3beaaa8f9b2ad"
+      "nodeHash": "eb850fe47525bba7"
     },
     "hoggies/noir-1": {
       "figmaNodeId": "404:90201",
-      "nodeHash": "03616471b238d39e"
+      "nodeHash": "33f043d1223c198c"
     },
     "hoggies/noir-2": {
       "figmaNodeId": "305:86622",
-      "nodeHash": "12c647e915ba328a"
+      "nodeHash": "66efc6cd29bbdb7c"
     },
     "hoggies/noir-3": {
       "figmaNodeId": "351:86631",
-      "nodeHash": "8f2595bd6cc4a85f"
+      "nodeHash": "d38ed92a5f7846ed"
     },
     "hoggies/noir-4": {
       "figmaNodeId": "351:86633",
-      "nodeHash": "6b1e93e50c604021"
+      "nodeHash": "145cefcd6c2550e8"
     },
     "hoggies/noir-5": {
       "figmaNodeId": "351:86635",
-      "nodeHash": "cafaf0d52dc41f94"
+      "nodeHash": "371ea1b2b0379c38"
     },
     "hoggies/office-worker": {
       "figmaNodeId": "404:176615",
-      "nodeHash": "12bf1f0faf90fce5"
+      "nodeHash": "079db35962a565db"
     },
     "hoggies/oprah": {
       "figmaNodeId": "404:176606",
-      "nodeHash": "c78c972d48be77bd"
+      "nodeHash": "e88d48d826d6b5b6"
     },
     "hoggies/organized": {
       "figmaNodeId": "305:86636",
-      "nodeHash": "b18cb191b4aa27f1"
+      "nodeHash": "2e47489050000082"
     },
     "hoggies/panic": {
       "figmaNodeId": "404:109934",
-      "nodeHash": "6825b8e3fa9f989d"
+      "nodeHash": "fcf72925317999b4"
     },
     "hoggies/party": {
       "figmaNodeId": "404:159875",
-      "nodeHash": "75fd87a3819c5d5f"
+      "nodeHash": "8952ac405637b6ca"
     },
     "hoggies/pearl-necklace": {
       "figmaNodeId": "404:148878",
-      "nodeHash": "14d74de6d78dab18"
+      "nodeHash": "75658fb63b8e9618"
+    },
+    "hoggies/peek-over": {
+      "figmaNodeId": "2038:4003",
+      "nodeHash": "85a42c08b001ca1a"
     },
     "hoggies/phone-call": {
       "figmaNodeId": "404:137145",
-      "nodeHash": "877f0d520774e38c"
+      "nodeHash": "f5eca3e2ef1a0907"
     },
     "hoggies/pinata": {
       "figmaNodeId": "404:122076",
-      "nodeHash": "8752ae4ffd1f7a75"
+      "nodeHash": "83eed88b19671b7b"
     },
     "hoggies/pit-viper": {
       "figmaNodeId": "1336:1432",
-      "nodeHash": "96fd25d8f0801cb8"
+      "nodeHash": "79d297d5dcd22bda"
     },
     "hoggies/pope": {
       "figmaNodeId": "404:132161",
-      "nodeHash": "be35dcf487d0aa20"
+      "nodeHash": "3972c9f0648d36a4"
     },
     "hoggies/puzzle": {
       "figmaNodeId": "404:108850",
-      "nodeHash": "55611f160aa47b9e"
+      "nodeHash": "57b0051c936f572e"
     },
     "hoggies/reading": {
       "figmaNodeId": "352:86637",
-      "nodeHash": "f0b0b74ea1c2c1b5"
+      "nodeHash": "c7ba3f2a6ddd524a"
     },
     "hoggies/reading-is-magic": {
       "figmaNodeId": "404:116927",
-      "nodeHash": "99c3f7f45e7c8359"
+      "nodeHash": "7f89e826ee21ce37"
     },
     "hoggies/reaper": {
       "figmaNodeId": "1481:5257",
-      "nodeHash": "8b0041d131e55f57"
+      "nodeHash": "06c38c7416e953cb"
     },
     "hoggies/remote-work": {
       "figmaNodeId": "404:141093",
-      "nodeHash": "5402c217c5cd6cb7"
+      "nodeHash": "2bc9121f9ea66a6a"
     },
     "hoggies/reporter": {
       "figmaNodeId": "404:103790",
-      "nodeHash": "7192c960678e6587"
+      "nodeHash": "36f53ba2bffebb06"
     },
     "hoggies/research": {
       "figmaNodeId": "352:86639",
-      "nodeHash": "962b2cd6bd38ecff"
+      "nodeHash": "d16e3e9a05f9068c"
     },
     "hoggies/robot": {
       "figmaNodeId": "404:118706",
-      "nodeHash": "fa9ad4176bb5fdd3"
+      "nodeHash": "293929cea38ac9a8"
     },
     "hoggies/rocket": {
       "figmaNodeId": "404:108075",
-      "nodeHash": "695153241e07965f"
+      "nodeHash": "9635fda54205b47a"
     },
     "hoggies/roller-coaster": {
       "figmaNodeId": "404:104535",
-      "nodeHash": "f1400f715080ddb9"
+      "nodeHash": "a7adc405c3115119"
     },
     "hoggies/rose": {
       "figmaNodeId": "404:138788",
-      "nodeHash": "999f8cf8f4257884"
+      "nodeHash": "6a65bc029b5a7b98"
     },
     "hoggies/safari": {
       "figmaNodeId": "1165:14666",
-      "nodeHash": "c5ea8979ed0018e3"
+      "nodeHash": "ae91342459df35d5"
     },
     "hoggies/sailor": {
       "figmaNodeId": "404:113470",
-      "nodeHash": "16d158a9b3fc51c9"
+      "nodeHash": "a2a251f5ed6416d8"
+    },
+    "hoggies/sales": {
+      "figmaNodeId": "2038:4004",
+      "nodeHash": "38cd66728e97a5d9"
     },
     "hoggies/scientist": {
       "figmaNodeId": "404:176617",
-      "nodeHash": "546ef534555ee9f2"
+      "nodeHash": "53f559e00ce14f0a"
     },
     "hoggies/scorpion": {
       "figmaNodeId": "404:176605",
-      "nodeHash": "a77dbf674fc2c5fc"
+      "nodeHash": "49dbca217d83db96"
     },
     "hoggies/scott-pilgrim": {
       "figmaNodeId": "404:98633",
-      "nodeHash": "1be8cf3bec2d6810"
+      "nodeHash": "ff938c007a659f89"
     },
     "hoggies/self-driving": {
       "figmaNodeId": "1641:2815",
-      "nodeHash": "65a2ca01fb57b788"
+      "nodeHash": "f73e32f4c85e6eb6"
     },
     "hoggies/selfie": {
       "figmaNodeId": "1337:3632",
-      "nodeHash": "244eb5f1204e3126"
+      "nodeHash": "33806e50adeb897d"
     },
     "hoggies/shocked": {
       "figmaNodeId": "404:141527",
-      "nodeHash": "30935ccaf1f9b8d4"
+      "nodeHash": "e096ee01c03d2a0b"
     },
     "hoggies/sitting": {
       "figmaNodeId": "404:148347",
-      "nodeHash": "4c49e80f4bf621e8"
+      "nodeHash": "bc8b8c5876d41c47"
     },
     "hoggies/sleepy": {
       "figmaNodeId": "1481:5255",
-      "nodeHash": "392115f9e5ccbf02"
+      "nodeHash": "85cd834679119a17"
     },
     "hoggies/soapbox": {
       "figmaNodeId": "404:105686",
-      "nodeHash": "d222d6db981e4088"
+      "nodeHash": "60ccbdf7cb4c84a9"
     },
     "hoggies/soccer-coach": {
       "figmaNodeId": "404:121447",
-      "nodeHash": "94efeb4c288a620e"
+      "nodeHash": "9969e16c16af4da8"
     },
     "hoggies/speaker-1": {
       "figmaNodeId": "404:103214",
-      "nodeHash": "79f3ade921e2b2a1"
+      "nodeHash": "1c385a7db4300feb"
     },
     "hoggies/speaker-2": {
       "figmaNodeId": "404:136634",
-      "nodeHash": "7c801888e6e9b9fc"
+      "nodeHash": "b108299f786f8ec6"
     },
     "hoggies/stamp-approved": {
       "figmaNodeId": "404:176603",
-      "nodeHash": "9c613df912527400"
+      "nodeHash": "cf4af5086c35cf96"
     },
     "hoggies/stamp-denied": {
       "figmaNodeId": "404:131146",
-      "nodeHash": "bae9f9096441e43c"
+      "nodeHash": "3337ee8a623fdcb9"
     },
     "hoggies/star": {
       "figmaNodeId": "909:5995",
-      "nodeHash": "5e6f9f351c8721f7"
+      "nodeHash": "bde2fba2a40b2253"
     },
     "hoggies/steve-jobs": {
       "figmaNodeId": "404:90656",
-      "nodeHash": "4907d27e3bf1dde2"
+      "nodeHash": "95bfcbc867c0cfca"
     },
     "hoggies/stop": {
       "figmaNodeId": "404:109392",
-      "nodeHash": "e261c75bfa395280"
+      "nodeHash": "845474264aa4b5e3"
     },
     "hoggies/success": {
       "figmaNodeId": "1641:2812",
-      "nodeHash": "34d6723c2506fe9c"
+      "nodeHash": "b128937ec14be970"
     },
     "hoggies/sunburn": {
       "figmaNodeId": "306:201594",
-      "nodeHash": "7a83376a4a75be54"
+      "nodeHash": "0361a40360f39a98"
     },
     "hoggies/superhero": {
       "figmaNodeId": "909:5997",
-      "nodeHash": "64e74d0933c8da71"
+      "nodeHash": "e726d4cb79f70d6d"
     },
     "hoggies/surfer": {
       "figmaNodeId": "305:86638",
-      "nodeHash": "d261ebb11a088f49"
+      "nodeHash": "02c987711b5316f2"
     },
     "hoggies/survey": {
       "figmaNodeId": "404:101772",
-      "nodeHash": "166e266d58591341"
+      "nodeHash": "c4441d298e112df0"
     },
     "hoggies/swimmer-1": {
       "figmaNodeId": "309:86621",
-      "nodeHash": "36a42f14adbff146"
+      "nodeHash": "b5f1bab246b78920"
     },
     "hoggies/swimmer-2": {
       "figmaNodeId": "309:86623",
-      "nodeHash": "5c62977f4b4bbbd3"
+      "nodeHash": "b165f88e2de02ae3"
     },
     "hoggies/terminator": {
       "figmaNodeId": "404:123483",
-      "nodeHash": "32e200bb87c3da22"
+      "nodeHash": "3bdcd07b1e49972a"
     },
     "hoggies/the-bride": {
       "figmaNodeId": "404:101189",
-      "nodeHash": "5a6b8a42f0948cfc"
+      "nodeHash": "9b495bdf55fddc0f"
     },
     "hoggies/toilet": {
       "figmaNodeId": "1481:5254",
-      "nodeHash": "5588bbbdf91dd379"
+      "nodeHash": "e6f994de528b3924"
     },
     "hoggies/tourist": {
       "figmaNodeId": "1336:2094",
-      "nodeHash": "d17fdfe2a3f05041"
+      "nodeHash": "e2e32c76c93cfb4f"
     },
     "hoggies/town-crier": {
       "figmaNodeId": "404:107835",
-      "nodeHash": "7d392a2d37daa4f3"
+      "nodeHash": "b40169039e2ac5fd"
     },
     "hoggies/traffic-controller": {
       "figmaNodeId": "404:91258",
-      "nodeHash": "9a71c70b8a7b9b38"
+      "nodeHash": "814c9640869ab3ba"
     },
     "hoggies/traffic-police": {
       "figmaNodeId": "404:159878",
-      "nodeHash": "a513d92ca8b1fdc7"
+      "nodeHash": "52e13a675d1067cd"
     },
     "hoggies/transformer": {
       "figmaNodeId": "404:102603",
-      "nodeHash": "1ecc14fca7de986f"
+      "nodeHash": "b3e0b12568ebfaa6"
     },
     "hoggies/trenchcoat": {
       "figmaNodeId": "404:147803",
-      "nodeHash": "5bbf62a645bb85e9"
+      "nodeHash": "32bed5462b1f94c0"
     },
     "hoggies/two-player": {
       "figmaNodeId": "1164:10784",
-      "nodeHash": "b57eb26117ac1ad4"
+      "nodeHash": "d4005cd32fc5ba6a"
     },
     "hoggies/waiter": {
       "figmaNodeId": "404:135928",
-      "nodeHash": "2c8586a3dad6e345"
+      "nodeHash": "784bf8288711befc"
     },
     "hoggies/will-smith": {
       "figmaNodeId": "404:95445",
-      "nodeHash": "5f9687dc5140de5c"
+      "nodeHash": "d0b3576b7e3bb9af"
     },
     "hoggies/wizard-1": {
       "figmaNodeId": "307:201602",
-      "nodeHash": "c2ffd333039edb09"
+      "nodeHash": "66292fad7e73f443"
     },
     "hoggies/wizard-2": {
       "figmaNodeId": "307:201603",
-      "nodeHash": "1645f2139e8583f4"
+      "nodeHash": "285333a10d71ea56"
     },
     "hoggies/wizard-3": {
       "figmaNodeId": "307:201601",
-      "nodeHash": "65ea45011dee705b"
+      "nodeHash": "6e0d32e6d15e53b2"
     },
     "hoggies/wizard-4": {
       "figmaNodeId": "306:201596",
-      "nodeHash": "d76d472900c377f6"
+      "nodeHash": "5e15cf0c247c4216"
     },
     "hoggies/wizard-5": {
       "figmaNodeId": "404:112325",
-      "nodeHash": "b2e27c91f0129a1a"
+      "nodeHash": "a7c123ed21689e39"
     },
     "hoggies/workflows": {
       "figmaNodeId": "404:110704",
-      "nodeHash": "61b22cb7d0ae6c0c"
+      "nodeHash": "6d28dedee61dc4c7"
     },
     "hoggies/x-ray": {
       "figmaNodeId": "404:176602",
-      "nodeHash": "94804fb79a8833f4"
+      "nodeHash": "fd216e6e981e58b3"
     },
     "crests/mini/a-default-crest": {
       "figmaNodeId": "24:1369",
@@ -689,6 +701,14 @@
     "crests/full/a-default-crest": {
       "figmaNodeId": "24:738",
       "nodeHash": "fc7b31e9f9f6c80b"
+    },
+    "crests/full/agent-infrastructure": {
+      "figmaNodeId": "2111:4341",
+      "nodeHash": "e75e3dfadb244209"
+    },
+    "crests/mini/agent-infrastructure": {
+      "figmaNodeId": "2111:4343",
+      "nodeHash": "5dc1a586060195c4"
     },
     "crests/full/ai-gateway": {
       "figmaNodeId": "180:3990",
@@ -810,6 +830,14 @@
       "figmaNodeId": "23:19095",
       "nodeHash": "109ee61add64ab4f"
     },
+    "crests/full/customer-success": {
+      "figmaNodeId": "2111:4721",
+      "nodeHash": "d1229b62a6abd054"
+    },
+    "crests/mini/customer-success": {
+      "figmaNodeId": "2111:4723",
+      "nodeHash": "0f33ecae29979b81"
+    },
     "crests/full/customer-success-eu": {
       "figmaNodeId": "180:4763",
       "nodeHash": "d4e3115764b2efbd"
@@ -889,6 +917,14 @@
     "crests/mini/feature-flags": {
       "figmaNodeId": "23:15324",
       "nodeHash": "abb33b5d8cbb42b8"
+    },
+    "crests/full/finance": {
+      "figmaNodeId": "2111:3882",
+      "nodeHash": "5092d5015b9a45bb"
+    },
+    "crests/mini/finance": {
+      "figmaNodeId": "2111:3884",
+      "nodeHash": "4ac326ee5915522a"
     },
     "crests/full/forward-deployed-engineering": {
       "figmaNodeId": "23:7256",
@@ -1033,6 +1069,14 @@
     "crests/mini/replay": {
       "figmaNodeId": "23:19859",
       "nodeHash": "ccfbfbabfcf842f9"
+    },
+    "crests/full/rev-ops": {
+      "figmaNodeId": "2111:3467",
+      "nodeHash": "47deecb54dbd6352"
+    },
+    "crests/mini/rev-ops": {
+      "figmaNodeId": "2111:3469",
+      "nodeHash": "991d966303c5c27d"
     },
     "crests/full/security": {
       "figmaNodeId": "23:8217",
