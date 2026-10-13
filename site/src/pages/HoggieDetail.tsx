@@ -93,7 +93,7 @@ export function HoggieDetailPage() {
 
       <section className="section">
         <h2>Use it in React</h2>
-        <CodeBlock code={snippet} />
+        <CodeBlock slug="hoggie-usage" code={snippet} />
       </section>
     </div>
   )

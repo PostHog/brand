@@ -495,7 +495,7 @@ function Builder() {
         )}{" "}
         Saves as <code>{fileName}</code>.
       </p>
-      <CodeBlock code={`${IMPORT_LINE}\n\n${jsx}`} />
+      <CodeBlock slug="logo-builder" code={`${IMPORT_LINE}\n\n${jsx}`} />
     </div>
   )
 }
@@ -621,7 +621,7 @@ function ImperativeJump() {
           </button>
         </div>
       </div>
-      <CodeBlock code={IMPERATIVE_CODE} />
+      <CodeBlock slug="logo-imperative-jump" code={IMPERATIVE_CODE} />
     </div>
   )
 }
@@ -640,7 +640,7 @@ function ReactSection() {
         Every logo on this page is one <code>&lt;Logo&gt;</code> component — right-click a preset
         for its JSX, or build one above.
       </p>
-      <CodeBlock code={REACT_EXAMPLE} />
+      <CodeBlock slug="logo-react" code={REACT_EXAMPLE} />
 
       <h3 className="props-subhead">Props</h3>
       <PropsTable rows={PROPS} />

@@ -1,23 +1,17 @@
 import type { BrandColor } from "@posthog/brand"
 import { useRef, useState } from "react"
-import { track } from "../analytics.ts"
-import { copyToClipboard } from "../clipboard.ts"
 
 interface SwatchProps {
-  /** Palette key, e.g. "corn-blue". */
-  slug: string
   tone: string
   hex: string
 }
 
-function Swatch({ slug, tone, hex }: SwatchProps) {
+function Swatch({ tone, hex }: SwatchProps) {
   const [copied, setCopied] = useState(false)
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   function onClick() {
-    void copyToClipboard(hex).then((ok) => {
-      track("color copied", { color: slug, tone, hex, success: ok })
-      if (!ok) return
+    void navigator.clipboard.writeText(hex).then(() => {
       setCopied(true)
       clearTimeout(timer.current)
       timer.current = setTimeout(() => setCopied(false), 1200)
@@ -53,9 +47,9 @@ export function ColorCard({ slug, color }: ColorCardProps) {
       <div className="color-body">
         <p className="color-name">{color.name}</p>
         <div className="swatch-row">
-          <Swatch slug={slug} tone="core" hex={color.core} />
-          <Swatch slug={slug} tone="lighter" hex={color.lighter} />
-          <Swatch slug={slug} tone="darker" hex={color.darker} />
+          <Swatch tone="core" hex={color.core} />
+          <Swatch tone="lighter" hex={color.lighter} />
+          <Swatch tone="darker" hex={color.darker} />
         </div>
         <p className="swatch-tone" style={{ marginTop: 12 }}>
           CSS: <code>var(--posthog-{slug})</code>

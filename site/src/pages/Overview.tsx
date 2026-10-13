@@ -46,7 +46,7 @@ export function OverviewPage() {
 
       <section className="section">
         <h2>Quick start</h2>
-        <CodeBlock code={QUICK_START} />
+        <CodeBlock slug="quick-start" code={QUICK_START} />
       </section>
 
       <section className="section">

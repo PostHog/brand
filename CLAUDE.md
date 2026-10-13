@@ -220,8 +220,8 @@ only) with `capture_webmcp` — tools must register _after_ init, since posthog-
 `registerTool` — and `opt_out_useragent_filter` so agent-driven browsers are kept (tagged
 `$browser_type: "bot"`) rather than dropped; surveys/conversations/tours are off (they're
 posthog.com's). Custom events: `asset copied`/`asset downloaded` (via `useAssetCopy`'s required
-`asset` ref and `DownloadLinks`), `assets searched`, `crest tier toggled`, `color copied`,
-`code copied`. Agents that fetch the static files directly (never running JS) aren't captured.
+`asset` ref and `DownloadLinks`), `assets searched`, `crest tier toggled`,
+`code copied` (`snippet` = the `slug` every `<CodeBlock>` must pass). Agents that fetch the static files directly (never running JS) aren't captured.
 The build also writes `_headers` (markdown content type, CORS on the agent files, canonical
 `Link` from each `.md` to its page).
 
