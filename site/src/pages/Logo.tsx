@@ -1,11 +1,11 @@
 import { Logo } from "@posthog/brand/logo"
 import type { LogoLayout, LogomarkHandle, LogoVariant } from "@posthog/brand/logo"
 import type { ReactNode } from "react"
-import { useRef } from "react"
+import { useLayoutEffect, useRef, useState } from "react"
 import { CopyButton } from "../components/CopyButton.tsx"
 import { useAssetCopy } from "../components/CopyMenu.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
-import { standaloneSvg, svgToPng } from "../svg-export.ts"
+import { frameSide, standaloneSvg, svgToPng, type ExportFrame } from "../svg-export.ts"
 import { useSeo } from "../useSeo.ts"
 
 const IMPORT_LINE = `import { Logo } from "@posthog/brand/logo"`
@@ -13,6 +13,8 @@ const IMPORT_LINE = `import { Logo } from "@posthog/brand/logo"`
 interface CellProps {
   code: string
   dark?: boolean
+  /** Export on a padded square/circle-safe canvas; a dashed guide previews the crop. */
+  frame?: ExportFrame
   children: ReactNode
 }
 
@@ -20,22 +22,37 @@ interface CellProps {
  * A static logo, copyable like the catalog tiles: click copies a PNG, right-click offers the
  * import line, this cell's JSX, the SVG, or the PNG. The package ships the logo only as a
  * component, so the SVG/PNG are snapshotted from what it rendered here (see svg-export.ts).
+ *
+ * With a `frame`, the snapshot grows to the padded canvas (see svg-export.ts) and the stage
+ * draws a dashed guide of the exact crop. No JSX is offered — no `<Logo>` props reproduce
+ * the padding; the point of these cells is the file.
  */
-function LogoCell({ code, dark, children }: CellProps) {
+function LogoCell({ code, dark, frame, children }: CellProps) {
   const stage = useRef<HTMLDivElement>(null)
+  // The guide applies the export math to the rendered mark, so it never drifts from it.
+  const [guide, setGuide] = useState<number>()
+  useLayoutEffect(() => {
+    if (!frame) return
+    const svg = stage.current?.querySelector("svg")
+    if (!svg) return
+    const { width, height } = svg.getBoundingClientRect()
+    setGuide(frameSide(width, height, frame))
+  }, [frame])
   const snapshot = () => {
     const svg = stage.current?.querySelector("svg")
     if (!svg) throw new Error("No logo rendered")
-    return standaloneSvg(svg)
+    return standaloneSvg(svg, frame)
   }
+  // `<Logo layout="stacked" variant="mono" … />` → `posthog-logo-layout-stacked-variant-mono-…`;
+  // avatar cells' codes are already the file name, so they don't get the prefix again.
+  const slug = code
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
   const copy = useAssetCopy({
     importLine: IMPORT_LINE,
-    usage: code,
-    // `<Logo layout="stacked" variant="mono" … />` → `posthog-logo-layout-stacked-variant-mono-…`
-    fileName: `posthog-${code
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-|-$/g, "")}`,
+    usage: frame ? undefined : code,
+    fileName: slug.startsWith("posthog") ? slug : `posthog-${slug}`,
     svg: async () => snapshot().markup,
     png: async () => {
       const { markup, width, height } = snapshot()
@@ -51,10 +68,23 @@ function LogoCell({ code, dark, children }: CellProps) {
         className={`card logo-cell${status ? (status.ok ? " copied" : " copy-failed") : ""}`}
         onClick={copy.onClick}
         onContextMenu={copy.onContextMenu}
-        title="Click to copy the PNG; right-click for the JSX, import line, or SVG"
+        title={
+          frame
+            ? "Click to copy the padded PNG; right-click to download it or copy the SVG"
+            : "Click to copy the PNG; right-click for the JSX, import line, or SVG"
+        }
       >
         <span ref={stage} className={`logo-stage${dark ? " dark" : ""}`}>
-          {children}
+          {frame ? (
+            <span
+              className={`frame-guide${frame === "circle" ? " circle" : ""}`}
+              style={guide ? { width: guide, height: guide } : undefined}
+            >
+              {children}
+            </span>
+          ) : (
+            children
+          )}
         </span>
         <span className="logo-label" aria-live="polite">
           {status ? status.label : <code>{code}</code>}
@@ -113,15 +143,44 @@ const LOCKUPS: { layout: LogoLayout; label: string; size: number }[] = [
   { layout: "logomark", label: "Logomark", size: 72 },
 ]
 
-const VARIANTS: LogoVariant[] = ["gradient", "print", "mono"]
+/** The color treatments shown per lockup; mono comes in white (on dark) and black (on light). */
+interface Treatment {
+  variant: LogoVariant
+  color?: string
+  dark?: boolean
+}
 
-function lockupCode(layout: LogoLayout, variant: LogoVariant): string {
+const TREATMENTS: Treatment[] = [
+  { variant: "gradient" },
+  { variant: "print" },
+  { variant: "mono", color: "#fff", dark: true },
+  { variant: "mono", color: "#111" },
+]
+
+function lockupCode(layout: LogoLayout, treatment: Treatment): string {
   const props: string[] = []
   if (layout !== "landscape") props.push(`layout="${layout}"`)
-  if (variant !== "gradient") props.push(`variant="${variant}"`)
-  if (variant === "mono") props.push(`color="#fff"`)
+  if (treatment.variant !== "gradient") props.push(`variant="${treatment.variant}"`)
+  if (treatment.color) props.push(`color="${treatment.color}"`)
   return props.length ? `<Logo ${props.join(" ")} />` : `<Logo />`
 }
+
+/** The avatar exports: logomark and stacked lockup on square and circle-safe canvases. */
+const AVATARS: {
+  code: string
+  frame: ExportFrame
+  layout: "logomark" | "stacked"
+  white?: boolean
+}[] = [
+  { code: "posthog-logomark-square", frame: "square", layout: "logomark" },
+  { code: "posthog-logomark-square-white", frame: "square", layout: "logomark", white: true },
+  { code: "posthog-logo-stacked-square", frame: "square", layout: "stacked" },
+  { code: "posthog-logo-stacked-square-white", frame: "square", layout: "stacked", white: true },
+  { code: "posthog-logomark-circle", frame: "circle", layout: "logomark" },
+  { code: "posthog-logomark-circle-white", frame: "circle", layout: "logomark", white: true },
+  { code: "posthog-logo-stacked-circle", frame: "circle", layout: "stacked" },
+  { code: "posthog-logo-stacked-circle-white", frame: "circle", layout: "stacked", white: true },
+]
 
 export function LogoPage() {
   useSeo("/logo")
@@ -140,23 +199,51 @@ export function LogoPage() {
         <section className="section" key={lockup.layout}>
           <h2>{lockup.label}</h2>
           <div className="grid grid-cards">
-            {VARIANTS.map((variant) => {
-              const mono = variant === "mono"
-              return (
-                <LogoCell key={variant} code={lockupCode(lockup.layout, variant)} dark={mono}>
-                  <Logo
-                    layout={lockup.layout}
-                    variant={variant}
-                    color={mono ? "#fff" : undefined}
-                    size={lockup.size}
-                    title={`PostHog logo — ${lockup.label}, ${variant}`}
-                  />
-                </LogoCell>
-              )
-            })}
+            {TREATMENTS.map((treatment) => (
+              <LogoCell
+                key={treatment.variant + (treatment.color ?? "")}
+                code={lockupCode(lockup.layout, treatment)}
+                dark={treatment.dark}
+              >
+                <Logo
+                  layout={lockup.layout}
+                  variant={treatment.variant}
+                  color={treatment.color}
+                  size={lockup.size}
+                  title={`PostHog logo — ${lockup.label}, ${treatment.variant}${
+                    treatment.color ? ` ${treatment.color}` : ""
+                  }`}
+                />
+              </LogoCell>
+            ))}
           </div>
         </section>
       ))}
+
+      <section className="section">
+        <h2>Avatars — square &amp; circle-safe</h2>
+        <p>
+          Padded, transparent exports for profile pictures and integration icons — G2, X, LinkedIn,
+          Reddit — where the host crops to a square or a circle and gives you no control over the
+          margin. The padding is baked into the file and the dashed guide shows the exact crop, so
+          upload the file as-is: nothing gets clipped, and the mark keeps its proportions.
+        </p>
+        <div className="grid grid-cards">
+          {AVATARS.map((avatar) => (
+            <LogoCell key={avatar.code} code={avatar.code} frame={avatar.frame} dark={avatar.white}>
+              <Logo
+                layout={avatar.layout}
+                variant={avatar.white ? "mono" : "gradient"}
+                color={avatar.white ? "#fff" : undefined}
+                size={avatar.layout === "stacked" ? 90 : 64}
+                title={`PostHog ${avatar.layout === "stacked" ? "stacked logo" : "logomark"} — ${
+                  avatar.frame
+                }-safe avatar${avatar.white ? ", white" : ""}`}
+              />
+            </LogoCell>
+          ))}
+        </div>
+      </section>
 
       <section className="section">
         <h2>Holidays</h2>

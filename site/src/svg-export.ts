@@ -8,6 +8,26 @@
 const PNG_LONG_SIDE = 1200
 
 /**
+ * Padded export canvas for avatar-style uploads, where the host crops to a square
+ * (G2, LinkedIn, X) or a circle (Reddit, Slack) and gives no control over the margin.
+ *
+ * - `"square"` — a square canvas; the mark fills {@link SQUARE_CONTENT} of the side.
+ * - `"circle"` — a square canvas sized so the mark's whole bounding box stays inside the
+ *   inscribed circle: its diagonal is {@link CIRCLE_CONTENT} of the diameter.
+ */
+export type ExportFrame = "square" | "circle"
+
+const SQUARE_CONTENT = 0.8
+const CIRCLE_CONTENT = 0.85
+
+/** Side of the {@link ExportFrame} canvas around content measuring `width` × `height`. */
+export function frameSide(width: number, height: number, frame: ExportFrame): number {
+  return frame === "circle"
+    ? Math.hypot(width, height) / CIRCLE_CONTENT
+    : Math.max(width, height) / SQUARE_CONTENT
+}
+
+/**
  * Serializes a rendered `<svg>` into a standalone document.
  *
  * - The viewBox grows to cover anything drawn outside it: the holiday hats poke past the
@@ -17,18 +37,31 @@ const PNG_LONG_SIDE = 1200
  *   supplied it doesn't travel with the copy.
  * - Page-only attributes (CSS sizing, a11y wiring, inline style) are dropped; width/height
  *   are set to the viewBox so the file has an intrinsic size.
+ * - With a `frame`, the viewBox grows further to the padded square canvas, with the mark
+ *   centered — the padding travels inside the file, so a square or circular crop works
+ *   without any manual margin.
  */
-export function standaloneSvg(el: SVGSVGElement): {
+export function standaloneSvg(
+  el: SVGSVGElement,
+  frame?: ExportFrame,
+): {
   markup: string
   width: number
   height: number
 } {
   const vb = el.viewBox.baseVal
   const bbox = el.getBBox()
-  const x = Math.min(vb.x, bbox.x)
-  const y = Math.min(vb.y, bbox.y)
-  const width = Math.max(vb.x + vb.width, bbox.x + bbox.width) - x
-  const height = Math.max(vb.y + vb.height, bbox.y + bbox.height) - y
+  let x = Math.min(vb.x, bbox.x)
+  let y = Math.min(vb.y, bbox.y)
+  let width = Math.max(vb.x + vb.width, bbox.x + bbox.width) - x
+  let height = Math.max(vb.y + vb.height, bbox.y + bbox.height) - y
+  if (frame) {
+    const side = frameSide(width, height, frame)
+    x -= (side - width) / 2
+    y -= (side - height) / 2
+    width = side
+    height = side
+  }
   const round = (n: number) => Math.round(n * 100) / 100
 
   const clone = el.cloneNode(true) as SVGSVGElement

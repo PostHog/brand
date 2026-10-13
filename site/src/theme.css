@@ -451,6 +451,20 @@ button.logo-cell.copy-failed .logo-label {
 .logo-stage.dark {
   background: #1d1f27;
 }
+/* The avatar cells' crop preview: the exact square/circle the padded export fills. */
+.frame-guide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  border: 1px dashed rgba(0, 0, 0, 0.25);
+}
+.frame-guide.circle {
+  border-radius: 50%;
+}
+.logo-stage.dark .frame-guide {
+  border-color: rgba(255, 255, 255, 0.25);
+}
 .logo-label {
   font-family: var(--mono);
   font-size: 12px;
