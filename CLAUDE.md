@@ -221,16 +221,11 @@ only) with `capture_webmcp` — tools must register _after_ init, since posthog-
 `$browser_type: "bot"`) rather than dropped; surveys/conversations/tours are off (they're
 posthog.com's). Custom events: `asset copied`/`asset downloaded` (via `useAssetCopy`'s required
 `asset` ref and `DownloadLinks`), `assets searched`, `crest tier toggled`, `color copied`,
-`code copied`. Agents that never run JS are captured server-side by the Pages Function
-`functions/_middleware.ts` (repo root, because Pages reads `functions/` from the project root):
-a `brand resource fetched` event per agent file and per non-browser page fetch, sent via
-`waitUntil`; it also answers `Accept: text/markdown` with the page's `.md` twin and sets the
-agent headers itself, since Pages skips `_headers` on Function responses. The build writes
-`_headers` (markdown type, CORS, canonical `Link` on `.md`) and `_routes.json` (keeps the
-Function off `/assets/*` and the icons). Tests: `tests/agent-middleware.test.ts`.
+`code copied`. Agents that fetch the static files directly (never running JS) aren't captured.
+The build also writes `_headers` (markdown content type, CORS on the agent files, canonical
+`Link` from each `.md` to its page).
 
-There is **no `_redirects` file** (`_headers` and `_routes.json` are fine; they don't
-rewrite), and the old committed one was deleted: Pages serves
+There is **no `_redirects` file** (`_headers` is fine; it doesn't rewrite), and the old committed one was deleted: Pages serves
 `dist/logo.html` at `/logo` and `dist/crests/marketing.html` at `/crests/marketing` by itself,
 and every sitemap URL now has such a file. Rules would actively break it — `/logo /logo.html
 200` makes Pages apply its own `.html` → extensionless 308 to the rewrite target and loop back

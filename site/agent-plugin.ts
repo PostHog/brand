@@ -6,9 +6,7 @@
 //     so an agent (or a person) can fetch one directly, no package, no auth;
 //   • the markdown twin of every page (/logo.md, /hoggies/chart.md, …), /llms.txt,
 //     /llms-full.txt and /catalog.json;
-//   • `_headers` (markdown content type, CORS on all of the above) and `_routes.json`, which
-//     scopes the Pages Function in `functions/_middleware.ts` (agent-fetch analytics and
-//     `Accept: text/markdown` negotiation) away from the hashed bundle and the icons.
+//   • `_headers`: the markdown content type, and CORS on all of the above.
 //
 // The dev server serves the same files from memory, so links to them work under `pnpm dev`.
 //
@@ -38,16 +36,17 @@ async function allFiles(): Promise<Map<string, AgentFile>> {
 }
 
 /**
- * Cloudflare Pages `_headers`. These apply to static responses; the middleware sets the same
- * ones itself on what it serves, since Pages skips `_headers` for Function responses. The
- * markdown twins point search engines at their HTML page as canonical, rather than `noindex`
- * (which answer engines may honor too).
+ * Cloudflare Pages `_headers`. The markdown twins point search engines at their HTML page as
+ * canonical, rather than `noindex` (which answer engines may honor too); `/index.md` drops it,
+ * since `:splat` would make its canonical `/index` rather than `/`.
  */
 const HEADERS = `# Written by agent-plugin.ts.
 /*.md
   Content-Type: text/markdown; charset=utf-8
   Access-Control-Allow-Origin: *
   Link: <${SITE_URL}/:splat>; rel="canonical"
+/index.md
+  ! Link
 /llms.txt
   Content-Type: text/plain; charset=utf-8
   Access-Control-Allow-Origin: *
@@ -69,29 +68,6 @@ const HEADERS = `# Written by agent-plugin.ts.
 /logo/*
   Access-Control-Allow-Origin: *
 `
-
-/**
- * Pages `_routes.json`: which paths run `functions/_middleware.ts`. Everything except the
- * hashed bundle and the static chrome (icons, manifest, social card) — those are fetched by
- * every page load and say nothing about what agents are using.
- */
-const ROUTES = {
-  version: 1,
-  include: ["/*"],
-  exclude: [
-    "/assets/*",
-    "/favicon.ico",
-    "/favicon.svg",
-    "/favicon-96x96.png",
-    "/apple-touch-icon.png",
-    "/icon-192.png",
-    "/icon-512.png",
-    "/icon-maskable-512.png",
-    "/site.webmanifest",
-    "/og.png",
-    "/robots.txt",
-  ],
-}
 
 export function brandAgentFiles(): Plugin {
   let outDir = "dist"
@@ -128,7 +104,6 @@ export function brandAgentFiles(): Plugin {
         writeFileSync(target, await file.read())
       }
       writeFileSync(join(outDir, "_headers"), HEADERS)
-      writeFileSync(join(outDir, "_routes.json"), `${JSON.stringify(ROUTES, null, 2)}\n`)
       console.log(
         `brand-agent-files: wrote ${files.size} agent files (assets, markdown, llms.txt, catalog.json) into ${outDir}/`,
       )

@@ -145,7 +145,7 @@ function indexMd(catalog: Catalog): string {
     "",
     `- ${link("llms.txt", absoluteUrl("/llms.txt"))} — this index, with every asset listed. ${link("llms-full.txt", absoluteUrl("/llms-full.txt"))} — every page's markdown in one file.`,
     `- ${link("catalog.json", absoluteUrl("/catalog.json"))} — every logo, hoggie, crest, color and font face, with its file URLs, PNG size, JSX and package import.`,
-    "- Every HTML page has a markdown twin: add `.md` to its URL (`/hoggies/chart` → `/hoggies/chart.md`; the home page is `/index.md`), or request the page with `Accept: text/markdown`.",
+    "- Every HTML page has a markdown twin: add `.md` to its URL (`/hoggies/chart` → `/hoggies/chart.md`; the home page is `/index.md`).",
     `- ${link("colors.json", absoluteUrl("/colors.json"))} and ${link("colors.css", absoluteUrl("/colors.css"))} — the palette as data and as CSS custom properties. ${link("fonts/roundhog.css", absoluteUrl("/fonts/roundhog.css"))} — RoundHog's \`@font-face\` rules.`,
     "",
     "### WebMCP",
