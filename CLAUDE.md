@@ -92,11 +92,12 @@ Figma brand book  --sync.ts-->  assets/<namespace>/  --codegen.ts-->  src/genera
 - Exports are fully namespaced with no back-compat, one family per export group `<g>`
   (`<g>` is `hoggies`, `crests/full`, or `crests/mini`): `./<g>`, `./<g>/svg[/*]`,
   `./<g>/png[/*]`, `./<g>/metadata`, plus `./crests` (combined compound barrel), `./logo`
-  (the standalone `<Logo>` component — no svg/png/metadata subpaths), `./colors`,
-  and `./colors/css`. Root `.` is React-free and image-free: types, the cross-namespace
+  (the standalone `<Logo>` component — no svg/png/metadata subpaths), `./colors` (tokens plus
+  `colorCssVariable(slug, tone?)`, which codegen also uses to name the `colorsCss` properties —
+  `src/color-variables.ts`, kept free of generated imports for that reason), and `./colors/css`. Root `.` is React-free and image-free: types, the cross-namespace
   `allAssets` manifest (`src/generated/manifest.ts`, the union of every group's
-  `manifest.ts`), and the search helpers `findAssets`/`getAsset`/`getComponentName`
-  (`src/search.ts`) — safe to import when building an asset picker without pulling in any
+  `manifest.ts`), and the search helpers `findAssets`/`getAsset`/`getVariants` (a numbered
+  family's members, in variant order)/`getComponentName` (`src/search.ts`) — safe to import when building an asset picker without pulling in any
   component or payload.
 
 ## Releases
@@ -172,9 +173,8 @@ type-stripping, which is only on-by-default from Node 22.18/23.6 — older Node 
 **Icons + social card**: `site/scripts/gen-brand-icons.ts` (`pnpm gen:site-icons`) rasterizes
 the favicon set (`favicon.svg`/`.ico`/`-96x96.png`, `apple-touch-icon`, the manifest's
 `icon-{192,512}` + maskable) **from the repo's own sources** — the `<Logo>` geometry in
-`src/logo/geometry.ts` — with `sharp`. Output is committed to `site/public/` (not built on
-deploy: it changes ~never, the dev server needs it, and Cloudflare shouldn't depend on
-`sharp`). The social card `site/public/og.png` (also the README banner) is NOT generated: it
+`src/logo/geometry.ts` — through the same renderer as the published `/logo/*` files
+(`site/agent/logo-render.ts`, `logoArtSvg` + `rasterizeSvg`). Output is committed to `site/public/` (not built on deploy: it changes ~never, and the dev server needs it). The social card `site/public/og.png` (also the README banner) is NOT generated: it
 is a designed 1920x1080 illustration, committed as-is (downscaled from the design export and
 palette-quantized). To replace it, overwrite the file and update `og:image:width`/`height` in
 `site/seo-plugin.ts` and `OG_IMAGE_ALT` in `site/src/seo.ts` if they change.

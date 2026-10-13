@@ -1,14 +1,14 @@
 // Generates the site's favicons and app icons into `site/public/`.
 //
 // Everything here is drawn from the <Logo> geometry this repo already owns
-// (`src/logo/geometry.ts`, the same paths the component renders). Nothing is hand-drawn in
-// an image editor, so re-running this after a logo change reproduces every icon exactly.
+// (`src/logo/geometry.ts`, the same paths the component renders), through the same renderer
+// the build uses for the published `/logo/*` files (`agent/logo-render.ts`). Nothing is
+// hand-drawn in an image editor, so re-running this after a logo change reproduces every icon.
 // The social card (`og.png`) is the exception: it is a designed illustration, committed
 // as-is, and this script does not touch it.
 //
 // The output is COMMITTED to `site/public/` rather than emitted during `vite build`: these
-// files change roughly never, the dev server needs them too, and rasterizing them on every
-// deploy would make the Cloudflare Pages build depend on `sharp` at runtime.
+// files change roughly never, and the dev server needs them too.
 //
 // Run it with `pnpm gen:site-icons` from the repo root (or `pnpm gen:icons` inside `site/`)
 // whenever `src/logo/geometry.ts` changes.
@@ -16,8 +16,7 @@
 import { mkdirSync, writeFileSync } from "node:fs"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
-import sharp from "sharp"
-import { LOGO_BODY, LOGO_VIEW_BOX } from "../../src/logo/geometry.ts"
+import { logoArtSvg, rasterizeSvg } from "../agent/logo-render.ts"
 
 const HERE = dirname(fileURLToPath(import.meta.url))
 const PUBLIC_DIR = join(HERE, "..", "public")
@@ -25,40 +24,19 @@ const PUBLIC_DIR = join(HERE, "..", "public")
 /** Page background of the site itself (theme.css `--bg-subtle`, PostHog's off-white). */
 const OFF_WHITE = "#f4f3ee"
 
-/** Wrap one lockup's inner markup (which already carries its own `<defs>`) as a standalone SVG. */
-function logoSvg(
-  layout: keyof typeof LOGO_BODY,
-  variant: "gradient" | "print" | "mono",
-  { pad = 0 }: { pad?: number } = {},
-): string {
-  const [x, y, w, h] = LOGO_VIEW_BOX[layout].split(" ").map(Number)
-  // A padded square viewBox keeps the mark centred with breathing room, which is what an
-  // icon needs — the raw lockup is wider than it is tall and would otherwise touch the edges.
-  const side = Math.max(w, h) * (1 + pad)
-  const box = pad
-    ? `${x - (side - w) / 2} ${y - (side - h) / 2} ${side} ${side}`
-    : LOGO_VIEW_BOX[layout]
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${box}">${LOGO_BODY[layout][variant]}</svg>`
-}
-
-/** Rasterize an SVG string at a generous density so curves stay clean at small sizes. */
-function raster(svg: string, width: number, height = width) {
-  return sharp(Buffer.from(svg), { density: 1200 }).resize(width, height, {
-    fit: "contain",
-    background: { r: 0, g: 0, b: 0, alpha: 0 },
-  })
+/** The favicon art: the full-color logomark on a square canvas, `pad` × its width wider. */
+function iconSvg(pad: number): string {
+  // The padding keeps the mark centred with breathing room, which is what an icon needs —
+  // the raw logomark is wider than it is tall and would otherwise touch the edges.
+  return logoArtSvg({ layout: "logomark", variant: "gradient" }, { pad })
 }
 
 /** Square icon: the logomark on a transparent (or given) background. */
-async function iconPng(size: number, { pad = 0.28, bg }: { pad?: number; bg?: string } = {}) {
-  const mark = await raster(logoSvg("logomark", "gradient", { pad }), size)
-    .png()
-    .toBuffer()
-  if (!bg) return mark
-  return sharp({ create: { width: size, height: size, channels: 4, background: bg } })
-    .composite([{ input: mark }])
-    .png({ compressionLevel: 9 })
-    .toBuffer()
+function iconPng(
+  size: number,
+  { pad = 0.28, bg }: { pad?: number; bg?: string } = {},
+): Promise<Buffer> {
+  return rasterizeSvg(iconSvg(pad), { width: size, height: size }, bg)
 }
 
 /**
@@ -102,7 +80,7 @@ async function main(): Promise<void> {
 
   // Vector favicon first: it is what modern browsers actually use, and it stays crisp on
   // any display. The padded viewBox matches the raster icons so they look like one set.
-  out("favicon.svg", logoSvg("logomark", "gradient", { pad: 0.28 }))
+  out("favicon.svg", iconSvg(0.28))
 
   out(
     "favicon.ico",

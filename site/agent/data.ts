@@ -12,7 +12,7 @@
 // shared by the build (agent-plugin.ts, seo-plugin.ts) and the dev server.
 
 import { findAssets, getComponentName, type CrestTier } from "@posthog/brand"
-import { colors } from "@posthog/brand/colors"
+import { colorCssVariable, colors } from "@posthog/brand/colors"
 import { colorsCss } from "@posthog/brand/colors/css"
 import { roundHog } from "@posthog/brand/fonts"
 import { fontFaceCss } from "@posthog/brand/fonts/css"
@@ -220,7 +220,9 @@ function assetEntry(
   }
 }
 
-const byName = (a: { name: string }, b: { name: string }) => a.name.localeCompare(b.name)
+function byName(a: { name: string }, b: { name: string }): number {
+  return a.name.localeCompare(b.name)
+}
 
 /** One entry per hoggie family: a numbered family is one component with a `variant` prop. */
 async function hoggies(files: Map<string, AgentFile>): Promise<CatalogAsset[]> {
@@ -300,10 +302,10 @@ function brandColors(files: Map<string, AgentFile>): CatalogColor[] {
       slug,
       ...color,
       cssVariables: {
-        core: `--posthog-${slug}`,
-        lighter: `--posthog-${slug}-lighter`,
-        darker: `--posthog-${slug}-darker`,
-        gradient: `--posthog-${slug}-gradient`,
+        core: colorCssVariable(slug),
+        lighter: colorCssVariable(slug, "lighter"),
+        darker: colorCssVariable(slug, "darker"),
+        gradient: colorCssVariable(slug, "gradient"),
       },
     }))
     .sort(byName)

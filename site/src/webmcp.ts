@@ -11,7 +11,7 @@
 // are captured as `$mcp_tool_call` events.
 
 import posthog from "posthog-js"
-import type { Catalog, CatalogAsset, CatalogLogo } from "../agent/data.ts"
+import type { Catalog, CatalogAsset, CatalogColor, CatalogLogo } from "../agent/data.ts"
 import { absoluteUrl, assetFileName, assetFilePath, type AssetRef } from "./agent-paths.ts"
 import { assetProperties } from "./analytics.ts"
 import { inPresetOrder, LOGO_DONTS, LOGO_DOS } from "./logo-files.ts"
@@ -46,13 +46,26 @@ export function setWebMcpNavigate(fn: (path: string) => void): void {
 }
 
 /** A tool-level failure the agent can read and recover from (MCP's `isError` result shape). */
-function failure(text: string) {
+interface ToolFailure {
+  isError: true
+  content: { type: "text"; text: string }[]
+}
+
+/** Any catalog entry a tool can return: a hoggie, a crest, or a logo file. */
+type Entry = CatalogAsset | CatalogLogo
+
+function failure(text: string): ToolFailure {
   return { isError: true, content: [{ type: "text", text }] }
 }
 
 const str = (value: unknown): string => (typeof value === "string" ? value : "")
 
-type Hit = { type: AssetRef["type"]; name: string; haystack: string; value: object }
+interface Hit {
+  type: AssetRef["type"]
+  name: string
+  haystack: string
+  value: Entry
+}
 
 function hits(catalog: Catalog): Hit[] {
   const asset = (entry: CatalogAsset): Hit => ({
@@ -70,7 +83,9 @@ function hits(catalog: Catalog): Hit[] {
   return [...catalog.logos.map(logo), ...catalog.hoggies.map(asset), ...catalog.crests.map(asset)]
 }
 
-async function search(input: Record<string, unknown>) {
+async function search(
+  input: Record<string, unknown>,
+): Promise<{ total: number; results: Entry[]; note: string }> {
   const catalog = await loadCatalog()
   const query = str(input.query).trim().toLowerCase()
   const words = query.split(/\s+/).filter(Boolean)
@@ -95,13 +110,13 @@ async function search(input: Record<string, unknown>) {
   }
 }
 
-function findEntry(catalog: Catalog, type: string, slug: string) {
+function findEntry(catalog: Catalog, type: string, slug: string): Entry | undefined {
   if (type === "logo") return catalog.logos.find((logo) => logo.id === slug)
   const list = type === "hoggie" ? catalog.hoggies : type === "crest" ? catalog.crests : []
   return list.find((entry) => entry.slug === slug)
 }
 
-async function getAsset(input: Record<string, unknown>) {
+async function getAsset(input: Record<string, unknown>): Promise<Entry | ToolFailure> {
   const catalog = await loadCatalog()
   const type = str(input.type)
   const slug = str(input.slug)
@@ -110,7 +125,13 @@ async function getAsset(input: Record<string, unknown>) {
   return entry
 }
 
-async function logoGuidelines() {
+async function logoGuidelines(): Promise<{
+  presets: CatalogLogo[]
+  dos: readonly string[]
+  donts: readonly string[]
+  allFiles: CatalogLogo[]
+  react: string
+}> {
   const catalog = await loadCatalog()
   return {
     // The handbook's approved versions; each carries `preset: { name, when }`.
@@ -123,7 +144,12 @@ async function logoGuidelines() {
   }
 }
 
-async function brandColors() {
+async function brandColors(): Promise<{
+  colors: CatalogColor[]
+  css: string
+  json: string
+  package: string
+}> {
   const catalog = await loadCatalog()
   return {
     colors: catalog.colors,
@@ -133,7 +159,9 @@ async function brandColors() {
   }
 }
 
-async function download(input: Record<string, unknown>) {
+async function download(
+  input: Record<string, unknown>,
+): Promise<{ downloaded: string; url: string } | ToolFailure> {
   const catalog = await loadCatalog()
   const type = str(input.type)
   const slug = str(input.slug)
@@ -164,7 +192,7 @@ async function download(input: Record<string, unknown>) {
   return { downloaded: fileName, url: absoluteUrl(path) }
 }
 
-async function openPage(input: Record<string, unknown>) {
+async function openPage(input: Record<string, unknown>): Promise<{ opened: string } | ToolFailure> {
   const path =
     str(input.path)
       .replace(/^https?:\/\/[^/]+/, "")

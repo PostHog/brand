@@ -8,7 +8,7 @@
 // be separated by whitespace or commas). They're public and bound to one origin
 // (brand.posthog.com), so they're harmless on previews and localhost, where Chrome ignores them.
 
-import { loadEnv, type Plugin } from "vite"
+import { type HtmlTagDescriptor, loadEnv, type Plugin } from "vite"
 
 const ENV_VAR = "WEBMCP_ORIGIN_TRIAL_TOKEN"
 
@@ -23,11 +23,11 @@ export function originTrials(): Plugin {
       tokens = (env[ENV_VAR] ?? "").split(/[\s,]+/).filter(Boolean)
     },
 
-    transformIndexHtml: () =>
+    transformIndexHtml: (): HtmlTagDescriptor[] =>
       tokens.map((token) => ({
         tag: "meta",
         attrs: { "http-equiv": "origin-trial", content: token },
-        injectTo: "head-prepend" as const,
+        injectTo: "head-prepend",
       })),
   }
 }

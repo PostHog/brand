@@ -27,7 +27,9 @@ function fill(text: string, vars: Vars): string {
 }
 
 /** A table cell: no pipes or newlines. */
-const cell = (text: string) => text.replace(/\|/g, "\\|").replace(/\s*\n\s*/g, " ")
+function cell(text: string): string {
+  return text.replace(/\|/g, "\\|").replace(/\s*\n\s*/g, " ")
+}
 
 function table(head: string[], rows: string[][]): string {
   return [
@@ -37,9 +39,17 @@ function table(head: string[], rows: string[][]): string {
   ].join("\n")
 }
 
-const link = (label: string, url: string) => `[${label}](${url})`
-const code = (text: string) => `\`${text}\``
-const list = (items: readonly string[]) => items.map((item) => `- ${item}`).join("\n")
+function link(label: string, url: string): string {
+  return `[${label}](${url})`
+}
+
+function code(text: string): string {
+  return `\`${text}\``
+}
+
+function list(items: readonly string[]): string {
+  return items.map((item) => `- ${item}`).join("\n")
+}
 
 /** Placeholders every page can use. */
 function sharedVars(catalog: Catalog): Vars {
