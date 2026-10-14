@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@posthog/brand": "workspace:*",
+    "posthog-js": "^1.438.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-router-dom": "^7.1.0"

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { findAssets, getAsset } from "../src/search.ts"
+import { findAssets, getAsset, getVariants } from "../src/search.ts"
 import { allAssets } from "../src/generated/manifest.ts"
 
 describe("findAssets", () => {
@@ -74,5 +74,32 @@ describe("getAsset", () => {
     expect(getAsset("crests", mini.slug, "mini")?.tier).toBe("mini")
     const full = getAsset("crests", mini.slug, "full")
     if (full) expect(full.tier).toBe("full")
+  })
+})
+
+describe("getVariants", () => {
+  // A family's members share the base slug and carry `variant: { variant: "<n>" }`.
+  const family = allAssets.find((a) => a.namespace === "hoggies" && a.variant?.variant)
+
+  it("returns a numbered family's members in variant order", () => {
+    if (!family) return // no inferred variant family in this build
+    const members = getVariants("hoggies", family.slug)
+    expect(members.length).toBeGreaterThan(1)
+    expect(members.every((a) => a.slug === family.slug)).toBe(true)
+    const keys = members.map((a) => Number(a.variant!.variant))
+    expect(keys).toEqual([...keys].sort((a, b) => a - b))
+  })
+
+  it("treats a standalone asset as a family of one, and an unknown slug as none", () => {
+    const standalone = allAssets.find((a) => a.namespace === "hoggies" && !a.variant)!
+    expect(getVariants("hoggies", standalone.slug)).toEqual([standalone])
+    expect(getVariants("hoggies", "no-such-hoggie")).toEqual([])
+  })
+
+  it("scopes crests by tier", () => {
+    const mini = findAssets({ namespace: "crests", tier: "mini" })[0]!
+    const members = getVariants("crests", mini.slug, "mini")
+    expect(members.length).toBeGreaterThan(0)
+    expect(members.every((a) => a.tier === "mini")).toBe(true)
   })
 })

@@ -88,11 +88,11 @@ export function FontsPage() {
           Drop the ready-made <code>@font-face</code> string into a <code>&lt;style&gt;</code> — the
           bundled woff2 URLs are already baked in:
         </p>
-        <CodeBlock code={CSS_USAGE} />
+        <CodeBlock slug="fonts-css" code={CSS_USAGE} />
         <p style={{ marginTop: 24 }}>
           Or build your own <code>@font-face</code> / preload from the face metadata:
         </p>
-        <CodeBlock code={META_USAGE} />
+        <CodeBlock slug="fonts-metadata" code={META_USAGE} />
       </section>
     </div>
   )

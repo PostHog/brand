@@ -92,11 +92,12 @@ Figma brand book  --sync.ts-->  assets/<namespace>/  --codegen.ts-->  src/genera
 - Exports are fully namespaced with no back-compat, one family per export group `<g>`
   (`<g>` is `hoggies`, `crests/full`, or `crests/mini`): `./<g>`, `./<g>/svg[/*]`,
   `./<g>/png[/*]`, `./<g>/metadata`, plus `./crests` (combined compound barrel), `./logo`
-  (the standalone `<Logo>` component — no svg/png/metadata subpaths), `./colors`,
-  and `./colors/css`. Root `.` is React-free and image-free: types, the cross-namespace
+  (the standalone `<Logo>` component — no svg/png/metadata subpaths), `./colors` (tokens plus
+  `colorCssVariable(slug, tone?)`, which codegen also uses to name the `colorsCss` properties —
+  `src/color-variables.ts`, kept free of generated imports for that reason), and `./colors/css`. Root `.` is React-free and image-free: types, the cross-namespace
   `allAssets` manifest (`src/generated/manifest.ts`, the union of every group's
-  `manifest.ts`), and the search helpers `findAssets`/`getAsset`/`getComponentName`
-  (`src/search.ts`) — safe to import when building an asset picker without pulling in any
+  `manifest.ts`), and the search helpers `findAssets`/`getAsset`/`getVariants` (a numbered
+  family's members, in variant order)/`getComponentName` (`src/search.ts`) — safe to import when building an asset picker without pulling in any
   component or payload.
 
 ## Releases
@@ -172,9 +173,8 @@ type-stripping, which is only on-by-default from Node 22.18/23.6 — older Node 
 **Icons + social card**: `site/scripts/gen-brand-icons.ts` (`pnpm gen:site-icons`) rasterizes
 the favicon set (`favicon.svg`/`.ico`/`-96x96.png`, `apple-touch-icon`, the manifest's
 `icon-{192,512}` + maskable) **from the repo's own sources** — the `<Logo>` geometry in
-`src/logo/geometry.ts` — with `sharp`. Output is committed to `site/public/` (not built on
-deploy: it changes ~never, the dev server needs it, and Cloudflare shouldn't depend on
-`sharp`). The social card `site/public/og.png` (also the README banner) is NOT generated: it
+`src/logo/geometry.ts` — through the same renderer as the published `/logo/*` files
+(`site/agent/logo-render.ts`, `logoArtSvg` + `rasterizeSvg`). Output is committed to `site/public/` (not built on deploy: it changes ~never, and the dev server needs it). The social card `site/public/og.png` (also the README banner) is NOT generated: it
 is a designed 1920x1080 illustration, committed as-is (downscaled from the design export and
 palette-quantized). To replace it, overwrite the file and update `og:image:width`/`height` in
 `site/seo-plugin.ts` and `OG_IMAGE_ALT` in `site/src/seo.ts` if they change.
@@ -191,12 +191,45 @@ answer-engine crawlers and social unfurlers don't run JS, and `main.tsx` clears 
 `createRoot`. The JSON-LD `Organization` node is a verbatim copy of posthog.com's shared
 `POSTHOG_ORGANIZATION` (`src/components/seo.tsx` there) and carries **its** `@id`
 (`https://posthog.com/#organization`), so both sites resolve to one entity rather than two
-drifting descriptions of PostHog — re-sync it if posthog.com's changes. Crest detail pages
-are prerendered too — one `dist/crests/<slug>.html` per crest,
-from `crestPageSeo` in `seo.ts`, which `CrestDetailPage` also calls — plus `404.html` (same
-shell, `noindex`, no canonical), `sitemap.xml`, and `llms.txt`.
+drifting descriptions of PostHog — re-sync it if posthog.com's changes. Asset detail pages
+are prerendered too — one `dist/crests/<slug>.html` per crest and `dist/hoggies/<slug>.html`
+per hoggie (a variant family is one page), from `crestPageSeo`/`hoggiePageSeo` in `seo.ts`,
+which `CrestDetailPage`/`HoggieDetailPage` also call — each with the asset's own PNG as its
+share image, an `ImageObject` JSON-LD node, and a three-level breadcrumb — plus `404.html`
+(same shell, `noindex`, no canonical) and `sitemap.xml` (with Google image entries). Every
+page's head carries `<link rel="alternate" type="text/markdown">` to its markdown twin.
 
-There is **no `_redirects` file**, and the old committed one was deleted: Pages serves
+**Agents** (`site/agent-plugin.ts`, `site/agent/`): the build also publishes, from one
+catalog (`agent/data.ts`, read straight from the package's built `dist/` leaf modules):
+every asset as a static file at a stable, unhashed URL — `/hoggies/<slug>[-<variant>].svg|png`,
+`/crests/<slug>[-mini].svg|png`, `/logo/<id>.svg|png` (rendered by `agent/logo-render.ts` from
+`src/logo/geometry.ts`; the file set is `site/src/logo-files.ts`, which the Logo page's presets
+also render from), `/fonts/*.woff2` + `roundhog.css`, `/colors.json|css` — plus the markdown
+twin of every page (`/logo.md`, `/hoggies/chart.md`, `/` → `/index.md`; the prose is plain
+markdown in `site/agent/pages/` with `{{placeholders}}` that `agent/markdown.ts` fills with the
+data-driven tables/lists — edit the `.md`, not the TS),
+`/llms.txt`, `/llms-full.txt` and `/catalog.json`. URL shapes live in `site/src/agent-paths.ts`
+so docs and links can't drift from what's served. The docs lead with "install
+`@posthog/brand`" and treat downloads as the fallback for non-JS use. `pnpm dev` serves the same
+files from memory. **WebMCP**: `site/src/webmcp.ts` registers tools on `document.modelContext`
+(definitions in `webmcp-tools.ts`, also listed in `index.md`) that answer from `/catalog.json`. Chrome only exposes `document.modelContext` behind a flag
+or the WebMCP origin trial: set the (public, origin-bound) trial token as the build-time env var
+`WEBMCP_ORIGIN_TRIAL_TOKEN` (committed in `site/.env.production`, expires 2027-03-30; a Cloudflare Pages env var overrides it) and the `originTrials` plugin (`site/origin-trial-plugin.ts`) emits
+`<meta http-equiv="origin-trial">` on every page; unset, no tag.
+
+**Analytics**: `initAnalytics` (`site/src/analytics.ts`) runs `posthog.init` once in `main.tsx`
+before render (posthog.com's project; `person_profiles: "always"`; capturing opted out in dev) and
+call sites use `posthog.capture` directly. It sets `capture_webmcp` — tools must register _after_
+init, since posthog-js wraps
+`registerTool` — and `opt_out_useragent_filter` so agent-driven browsers are kept (tagged
+`$browser_type: "bot"`) rather than dropped; surveys/conversations/tours are off (they're
+posthog.com's). Custom events: `asset copied`/`asset downloaded` (via `useAssetCopy`'s required
+`asset` ref and `DownloadLinks`), `assets searched`, `crest tier toggled`,
+`code copied` (`snippet` = the `slug` every `<CodeBlock>` must pass). Agents that fetch the static files directly (never running JS) aren't captured.
+The build also writes `_headers` (markdown content type, CORS on the agent files, canonical
+`Link` from each `.md` to its page).
+
+There is **no `_redirects` file** (`_headers` is fine; it doesn't rewrite), and the old committed one was deleted: Pages serves
 `dist/logo.html` at `/logo` and `dist/crests/marketing.html` at `/crests/marketing` by itself,
 and every sitemap URL now has such a file. Rules would actively break it — `/logo /logo.html
 200` makes Pages apply its own `.html` → extensionless 308 to the rewrite target and loop back

@@ -68,3 +68,19 @@ export function getAsset(
     (a) => a.namespace === namespace && a.slug === slug && (tier === undefined || a.tier === tier),
   )
 }
+
+/**
+ * Every member of an asset's variant family, in variant order. A numbered family (`noir-1` …
+ * `noir-5`) ships as one component with a `variant` prop and shares one slug, so
+ * `getVariants("hoggies", "noir")` returns its five assets, `variant: { variant: "1" }` first —
+ * the default `<HedgehogNoir />` renders. A standalone asset is a family of one; an unknown
+ * slug gives `[]`. For crests, pass `tier` (a slug is shared by the full and mini tiers).
+ */
+export function getVariants(namespace: Namespace, slug: string, tier?: CrestTier): AssetMeta[] {
+  return allAssets
+    .filter(
+      (a) =>
+        a.namespace === namespace && a.slug === slug && (tier === undefined || a.tier === tier),
+    )
+    .sort((a, b) => Number(a.variant?.variant ?? 0) - Number(b.variant?.variant ?? 0))
+}

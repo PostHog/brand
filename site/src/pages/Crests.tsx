@@ -1,10 +1,13 @@
 import { findAssets, getComponentName } from "@posthog/brand"
+import posthog from "posthog-js"
 import { useMemo, useState } from "react"
 import { useSearchParams } from "react-router-dom"
+import { crestPagePath } from "../agent-paths.ts"
 import { crestPng, crestSvg } from "../assets-crests.ts"
 import { AssetTile } from "../components/AssetTile.tsx"
 import { EmptyState } from "../components/EmptyState.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
+import { useSearchTracking } from "../useSearchTracking.ts"
 import { useSeo } from "../useSeo.ts"
 
 type Tier = "full" | "mini"
@@ -22,6 +25,7 @@ export function CrestsPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const tier: Tier = searchParams.get("tier") === "mini" ? "mini" : "full"
   const setTier = (next: Tier) => {
+    if (next !== tier) posthog.capture("crest tier toggled", { tier: next })
     setSearchParams(
       (prev) => {
         if (next === "mini") prev.set("tier", "mini")
@@ -37,6 +41,7 @@ export function CrestsPage() {
       a.name.localeCompare(b.name),
     )
   }, [query])
+  useSearchTracking("crest", query, results.length)
 
   return (
     <div>
@@ -89,13 +94,13 @@ export function CrestsPage() {
             return (
               <AssetTile
                 key={asset.slug}
+                asset={{ type: "crest", slug: asset.slug, tier: showMini ? "mini" : "full" }}
                 {...img}
                 name={asset.name}
                 slug={usage}
                 importLine={`import { ${baseName} } from "@posthog/brand/crests"`}
                 svg={crestSvg(asset.slug, showMini ? "mini" : "full")}
-                fileName={`posthog-crest-${asset.slug}${showMini ? "-mini" : ""}`}
-                to={`/crests/${asset.slug}`}
+                to={crestPagePath(asset.slug)}
               />
             )
           })}

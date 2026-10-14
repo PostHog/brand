@@ -572,6 +572,15 @@ button.asset.copy-failed .asset-slug {
   color: var(--text-muted);
   margin: 0;
 }
+.preset-body .download-links {
+  justify-content: flex-start;
+  margin-top: 8px;
+}
+.preset-body .download-links .btn {
+  padding: 4px 10px;
+  font-size: 12px;
+  white-space: nowrap;
+}
 
 /* Guidelines: do / don't side by side, third-party rules underneath. */
 .guidelines {
@@ -1000,4 +1009,19 @@ button.asset.copy-failed .asset-slug {
 .notfound-actions .btn {
   padding: 9px 16px;
   font-size: 14px;
+}
+
+/* Asset detail pages (/hoggies/:slug, /crests/:slug): the big copyable card + download links. */
+.detail-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.detail-card > .card {
+  width: 100%;
+}
+.download-links {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
 }

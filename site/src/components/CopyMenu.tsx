@@ -1,3 +1,4 @@
+import posthog from "posthog-js"
 import {
   useCallback,
   useEffect,
@@ -9,11 +10,15 @@ import {
   type ReactNode,
 } from "react"
 import { createPortal } from "react-dom"
+import { assetFileName, type AssetRef } from "../agent-paths.ts"
+import { assetProperties } from "../analytics.ts"
 import type { SvgLoader } from "../assets-hoggies.ts"
 import { canWriteType, copyRich, copyToClipboard, fetchPng } from "../clipboard.ts"
 
 /** Everything an asset can be copied as. */
 export interface CopyTarget {
+  /** Which asset this is: names its downloads, and identifies it in analytics events. */
+  asset: AssetRef
   /** The `import { … } from "@posthog/brand/…"` line. */
   importLine: string
   /** A JSX snippet for this exact rendering; when set, the menu offers "Copy JSX". */
@@ -31,14 +36,21 @@ export interface CopyTarget {
   pngScales?: readonly number[]
   /** Lazily loads the SVG markup. */
   svg: SvgLoader
-  /** Base name (no extension) for "Download PNG", e.g. `posthog-crest-marketing`. */
-  fileName: string
 }
 
 /** Transient feedback after a copy: what was copied, or that it failed. */
 export interface CopyStatus {
   ok: boolean
   label: string
+}
+
+/** What a copy/download attempted, as reported to analytics. */
+interface Action {
+  format: "png" | "svg" | "svg_image" | "import" | "jsx"
+  scale?: number
+  /** A plain click on the asset, or a pick from the context menu (the default). */
+  trigger?: "click" | "menu"
+  download?: boolean
 }
 
 interface MenuItem {
@@ -76,17 +88,25 @@ export function useAssetCopy(target: CopyTarget): {
   // Each copy must reach `navigator.clipboard` synchronously inside the gesture (Safari), so
   // the copies below are started straight from the handlers and only their result awaited.
   // Each resolves to the label to flash, or `false` when nothing landed on the clipboard.
-  function report(done: Promise<string | false>, failure = "Couldn't copy") {
+  // `action` names what was attempted, for the `asset copied` / `asset downloaded` event.
+  function report(done: Promise<string | false>, action: Action, failure = "Couldn't copy") {
     void done
       .catch(() => false as const)
       .then((label) => {
+        posthog.capture(action.download ? "asset downloaded" : "asset copied", {
+          ...assetProperties(target.asset),
+          format: action.format,
+          scale: action.scale,
+          trigger: action.trigger ?? "menu",
+          success: !!label,
+        })
         setStatus(label ? { ok: true, label } : { ok: false, label: failure })
         clearTimeout(timer.current)
         timer.current = setTimeout(() => setStatus(null), 1400)
       })
   }
 
-  const { importLine, usage, png, pngScales, svg, fileName } = target
+  const { importLine, usage, png, pngScales, svg } = target
   const as = (label: string) => (ok: boolean) => ok && label
 
   function copyImport(): Promise<string | false> {
@@ -111,18 +131,13 @@ export function useAssetCopy(target: CopyTarget): {
   function downloadPng(scale?: number): Promise<string | false> {
     const suffix = scale && scale !== 1 ? `@${scale}x` : ""
     return pngBlob(scale)
-      .then((blob) => download(blob, `${fileName}${suffix}.png`))
+      .then((blob) => download(blob, `${assetFileName(target.asset)}${suffix}.png`))
       .then(() => scaled("PNG downloaded", scale))
   }
 
   /** One button per offered scale, for a PNG row of the menu. */
   function perScale(run: (scale: number) => void) {
     return pngScales?.map((scale) => ({ label: `${scale}x`, run: () => run(scale) }))
-  }
-
-  /** The click: the PNG, or — where images can't go on the clipboard — the import line. */
-  function copyDefault(): Promise<string | false> {
-    return png && canWriteType("image/png") ? copyPng() : copyImport()
   }
 
   function copySvgText(): Promise<string | false> {
@@ -134,26 +149,29 @@ export function useAssetCopy(target: CopyTarget): {
   const items: MenuItem[] = [
     {
       label: "Copy import statement",
-      run: () => report(copyImport()),
+      run: () => report(copyImport(), { format: "import" }),
     },
     ...(usage
       ? [
           {
             label: "Copy JSX",
-            run: () => report(copyToClipboard(usage).then(as("JSX copied"))),
+            run: () => report(copyToClipboard(usage).then(as("JSX copied")), { format: "jsx" }),
           },
         ]
       : []),
     {
       label: "Copy SVG as text",
-      run: () => report(copySvgText()),
+      run: () => report(copySvgText(), { format: "svg" }),
     },
     {
       label: "Copy SVG as image",
       unavailable: canWriteType("image/svg+xml")
         ? undefined
         : "This browser can't put SVG images on the clipboard",
-      run: () => report(copyRich({ "image/svg+xml": svg() }).then(as("SVG image copied"))),
+      run: () =>
+        report(copyRich({ "image/svg+xml": svg() }).then(as("SVG image copied")), {
+          format: "svg_image",
+        }),
     },
     {
       label: "Copy PNG",
@@ -162,14 +180,16 @@ export function useAssetCopy(target: CopyTarget): {
         : canWriteType("image/png")
           ? undefined
           : "This browser can't put images on the clipboard",
-      run: () => report(copyPng()),
-      variants: perScale((scale) => report(copyPng(scale))),
+      run: () => report(copyPng(), { format: "png" }),
+      variants: perScale((scale) => report(copyPng(scale), { format: "png", scale })),
     },
     {
       label: "Download PNG",
       unavailable: png ? undefined : "No PNG for this asset",
-      run: () => report(downloadPng(), "Couldn't download"),
-      variants: perScale((scale) => report(downloadPng(scale), "Couldn't download")),
+      run: () => report(downloadPng(), { format: "png", download: true }, "Couldn't download"),
+      variants: perScale((scale) =>
+        report(downloadPng(scale), { format: "png", scale, download: true }, "Couldn't download"),
+      ),
     },
   ]
 
@@ -197,7 +217,14 @@ export function useAssetCopy(target: CopyTarget): {
 
   return {
     status,
-    onClick: () => report(copyDefault()),
+    // The click: the PNG, or — where images can't go on the clipboard — the import line.
+    onClick: () => {
+      const clickPng = !!png && canWriteType("image/png")
+      report(clickPng ? copyPng() : copyImport(), {
+        format: clickPng ? "png" : "import",
+        trigger: "click",
+      })
+    },
     onContextMenu,
     menu: menuAt ? <CopyMenu x={menuAt.x} y={menuAt.y} items={items} onClose={close} /> : null,
   }

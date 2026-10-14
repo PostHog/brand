@@ -4,8 +4,17 @@ import type { LogoHoliday, LogoLayout, LogomarkHandle, LogoVariant } from "@post
 import type { ReactNode } from "react"
 import { useLayoutEffect, useRef, useState } from "react"
 import { CodeBlock } from "../components/CodeBlock.tsx"
+import { DownloadLinks } from "../components/DownloadLinks.tsx"
 import { useAssetCopy } from "../components/CopyMenu.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
+import {
+  LOGO_DONTS,
+  LOGO_DOS,
+  LOGO_PRESETS,
+  logoProps,
+  type LogoFile,
+  type LogoPreset,
+} from "../logo-files.ts"
 import { frameSide, PNG_SCALES, standaloneSvg, svgToPng, type ExportFrame } from "../svg-export.ts"
 import { useSeo } from "../useSeo.ts"
 
@@ -52,9 +61,9 @@ function useLogoExport({
     return standaloneSvg(svg, frame)
   }
   const copy = useAssetCopy({
+    asset: { type: "logo", slug: fileName },
     importLine: IMPORT_LINE,
     usage,
-    fileName,
     svg: async () => snapshot().markup,
     png: async (scale?: number) => {
       const { markup, width, height } = snapshot()
@@ -135,178 +144,39 @@ function CopyStage({
 
 // ---- Presets ------------------------------------------------------------------------------
 
-/** One of the handbook's logo versions. */
-interface Preset {
-  name: string
-  /** When to use it, from the handbook. */
-  when: ReactNode
-  /** Base file name for "Download PNG". */
-  fileName: string
-  /** JSX that renders it, offered as "Copy JSX". Absent for padded avatars. */
-  usage?: string
-  dark?: boolean
-  frame?: ExportFrame
-  render: () => ReactNode
+/** Renders one logo file at `size`, the same props its `jsx` spells out. */
+function LogoForFile({ file, size }: { file: LogoFile; size: number }) {
+  const { layout, title } = file
+  const props = { ...logoProps(file.treatment), size, title }
+  if (layout === "logomark") return <Logo.Logomark {...props} />
+  if (layout === "wordmark") return <Logo.Wordmark size={size} color={props.color} title={title} />
+  return <Logo {...props} layout={layout} />
 }
 
-const WHITE = "#fff"
-const BLACK = "#000"
-
-const PRESETS: Preset[] = [
-  {
-    name: "Standard logo",
-    when: "The primary, full-color logo. Use it by default.",
-    fileName: "posthog-logo",
-    usage: "<Logo />",
-    render: () => <Logo size={180} title="PostHog logo" />,
-  },
-  {
-    name: "Light logo",
-    when: "On dark backgrounds — never put the standard logo on one.",
-    fileName: "posthog-logo-white",
-    usage: `<Logo variant="mono" color="${WHITE}" />`,
-    dark: true,
-    render: () => <Logo size={180} variant="mono" color={WHITE} title="PostHog logo, white" />,
-  },
-  {
-    name: "Dark logo",
-    when: "On light backgrounds, only when a single-color logo is required.",
-    fileName: "posthog-logo-black",
-    usage: `<Logo variant="mono" color="${BLACK}" />`,
-    render: () => <Logo size={180} variant="mono" color={BLACK} title="PostHog logo, black" />,
-  },
-  {
-    name: "Print (4-color)",
-    when: "For print and limited palettes, where gradients can't be reproduced.",
-    fileName: "posthog-logo-print",
-    usage: `<Logo variant="print" />`,
-    render: () => <Logo size={180} variant="print" title="PostHog logo, 4-color print" />,
-  },
-  {
-    name: "Stacked logo",
-    when: "For portrait or square spots where the landscape logo is too wide.",
-    fileName: "posthog-logo-stacked",
-    usage: `<Logo layout="stacked" />`,
-    render: () => <Logo size={92} layout="stacked" title="PostHog stacked logo" />,
-  },
-  {
-    name: "Light stacked logo",
-    when: "The stacked logo, on dark backgrounds.",
-    fileName: "posthog-logo-stacked-white",
-    usage: `<Logo layout="stacked" variant="mono" color="${WHITE}" />`,
-    dark: true,
-    render: () => (
-      <Logo
-        size={92}
-        layout="stacked"
-        variant="mono"
-        color={WHITE}
-        title="PostHog stacked logo, white"
-      />
-    ),
-  },
-  {
-    name: "Logomark",
-    when: "On its own only at small sizes — favicons, app icons.",
-    fileName: "posthog-logomark",
-    usage: `<Logo.Logomark />`,
-    render: () => <Logo.Logomark size={68} title="PostHog logomark" />,
-  },
-  {
-    name: "Light logomark",
-    when: "The logomark, on dark backgrounds.",
-    fileName: "posthog-logomark-white",
-    usage: `<Logo.Logomark variant="mono" color="${WHITE}" />`,
-    dark: true,
-    render: () => (
-      <Logo.Logomark size={68} variant="mono" color={WHITE} title="PostHog logomark, white" />
-    ),
-  },
-  {
-    name: "Square logomark",
-    when: "Avatars and integrations that crop to a square (G2, X, LinkedIn). Padded, so nothing gets clipped.",
-    fileName: "posthog-logomark-square",
-    frame: "square",
-    render: () => <Logo.Logomark size={52} title="PostHog logomark, square avatar" />,
-  },
-  {
-    name: "Light square logomark",
-    when: "The square logomark, on dark backgrounds.",
-    fileName: "posthog-logomark-square-white",
-    frame: "square",
-    dark: true,
-    render: () => (
-      <Logo.Logomark
-        size={52}
-        variant="mono"
-        color={WHITE}
-        title="PostHog logomark, white square avatar"
-      />
-    ),
-  },
-  {
-    name: "Round logomark",
-    when: "Avatars that crop to a circle (Reddit, Slack). Fits inside the circle with room to spare.",
-    fileName: "posthog-logomark-circle",
-    frame: "circle",
-    render: () => <Logo.Logomark size={52} title="PostHog logomark, round avatar" />,
-  },
-  {
-    name: "Light round logomark",
-    when: "The round logomark, on dark backgrounds.",
-    fileName: "posthog-logomark-circle-white",
-    frame: "circle",
-    dark: true,
-    render: () => (
-      <Logo.Logomark
-        size={52}
-        variant="mono"
-        color={WHITE}
-        title="PostHog logomark, white round avatar"
-      />
-    ),
-  },
-]
-
 /** A preset: the copyable logo, its name, and when to use it. */
-function PresetCard({ preset }: { preset: Preset }) {
-  const { name, when, fileName, usage, dark, frame, render } = preset
-  const exp = useLogoExport({ frame, fileName, usage })
+function PresetCard({ preset }: { preset: LogoPreset }) {
+  const { name, when, file, size } = preset
+  const exp = useLogoExport({ frame: file.frame, fileName: file.id, usage: file.jsx })
   return (
     <div className="card preset">
       <CopyStage
         exp={exp}
-        frame={frame}
-        dark={dark}
-        title={`${fileName} — click to copy the PNG; right-click for SVG, JSX, or download`}
+        frame={file.frame}
+        dark={file.background === "dark"}
+        title={`${file.id} — click to copy the PNG; right-click for SVG, JSX, or download`}
       >
-        {render()}
+        <LogoForFile file={file} size={size} />
       </CopyStage>
       <div className="preset-body">
         <h3>{name}</h3>
         <p>{when}</p>
+        <DownloadLinks asset={{ type: "logo", slug: file.id }} />
       </div>
     </div>
   )
 }
 
 // ---- Guidelines ---------------------------------------------------------------------------
-
-const DOS: ReactNode[] = [
-  "Use the standard logo by default.",
-  "Use a light (white) logo on dark backgrounds.",
-  "Use the square or round logomark for avatars and integrations.",
-  "Send vendors the SVG — it scales without losing quality.",
-]
-
-const DONTS: ReactNode[] = [
-  "Put the standard logo on a dark background.",
-  "Recolor parts of the logomark, like turning the hedgehog's face white on dark. Use the light logo instead.",
-  "Use the logomark on its own, except at small sizes.",
-  "Stretch the logomark to fill a square — use the square logomark.",
-  "Set “PostHog” in regular text next to the logomark. Use a lockup.",
-  "Keep using old local files (the square font, the sharp-edged logomark). Replace them with these.",
-]
 
 function Guidelines() {
   return (
@@ -315,7 +185,7 @@ function Guidelines() {
         <div className="card guideline do">
           <h3>Do</h3>
           <ul>
-            {DOS.map((item, i) => (
+            {LOGO_DOS.map((item, i) => (
               <li key={i}>{item}</li>
             ))}
           </ul>
@@ -323,7 +193,7 @@ function Guidelines() {
         <div className="card guideline dont">
           <h3>Don't</h3>
           <ul>
-            {DONTS.map((item, i) => (
+            {LOGO_DONTS.map((item, i) => (
               <li key={i}>{item}</li>
             ))}
           </ul>
@@ -594,7 +464,7 @@ function Builder() {
         )}{" "}
         Saves as <code>{fileName}</code>.
       </p>
-      <CodeBlock code={`${IMPORT_LINE}\n\n${jsx}`} />
+      <CodeBlock slug="logo-builder" code={`${IMPORT_LINE}\n\n${jsx}`} />
     </div>
   )
 }
@@ -720,7 +590,7 @@ function ImperativeJump() {
           </button>
         </div>
       </div>
-      <CodeBlock code={IMPERATIVE_CODE} />
+      <CodeBlock slug="logo-imperative-jump" code={IMPERATIVE_CODE} />
     </div>
   )
 }
@@ -739,7 +609,7 @@ function ReactSection() {
         Every logo on this page is one <code>&lt;Logo&gt;</code> component — right-click a preset
         for its JSX, or build one above.
       </p>
-      <CodeBlock code={REACT_EXAMPLE} />
+      <CodeBlock slug="logo-react" code={REACT_EXAMPLE} />
 
       <h3 className="props-subhead">Props</h3>
       <PropsTable rows={PROPS} />
@@ -777,8 +647,8 @@ export function LogoPage() {
       <section className="section">
         <h2>Presets</h2>
         <div className="grid grid-presets">
-          {PRESETS.map((preset) => (
-            <PresetCard key={preset.fileName} preset={preset} />
+          {LOGO_PRESETS.map((preset) => (
+            <PresetCard key={preset.file.id} preset={preset} />
           ))}
         </div>
       </section>

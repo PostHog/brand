@@ -3,8 +3,10 @@ import { roundHogFontFaceCss } from "@posthog/brand/fonts/css"
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import { BrowserRouter } from "react-router-dom"
+import { initAnalytics } from "./analytics.ts"
 import { App } from "./App.tsx"
 import { isPrefetching } from "./prefetch.ts"
+import { registerWebMcpTools } from "./webmcp.ts"
 import "./theme.css"
 
 // Inject the package's own brand assets so the site's chrome is rendered from the same
@@ -36,6 +38,11 @@ window.addEventListener("vite:preloadError", (event) => {
   sessionStorage.setItem(RELOAD_STAMP, String(Date.now()))
   window.location.reload()
 })
+
+// Analytics first, then the WebMCP tools: posthog-js instruments
+// `document.modelContext.registerTool` during init (see webmcp.ts).
+initAnalytics()
+registerWebMcpTools()
 
 // The built HTML ships a static, crawler-readable copy of the page inside #root (see
 // seo-plugin.ts). React replaces the container's contents on its first render anyway, but

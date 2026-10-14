@@ -19,6 +19,7 @@ import { existsSync } from "node:fs"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
 import type { Catalog, CatalogEntry } from "./lib/catalog.ts"
+import { colorCssVariable } from "../src/color-variables.ts"
 import { colors } from "../static/colors.ts"
 import { svgBody } from "./lib/svg.ts"
 import { assertNoCollisions, componentName, pngConstName, svgConstName } from "./lib/naming.ts"
@@ -578,14 +579,14 @@ async function writeColors(): Promise<void> {
       `export default colors;\n`,
   )
 
-  // CSS custom properties: --posthog-<key>[-lighter|-darker], plus a gradient.
+  // CSS custom properties per color — named by `colorCssVariable`, which `./colors` exports.
   const lines: string[] = [":root {"]
   for (const [key, c] of Object.entries(colors)) {
-    lines.push(`  --posthog-${key}: ${c.core};`)
-    lines.push(`  --posthog-${key}-lighter: ${c.lighter};`)
-    lines.push(`  --posthog-${key}-darker: ${c.darker};`)
+    lines.push(`  ${colorCssVariable(key)}: ${c.core};`)
+    lines.push(`  ${colorCssVariable(key, "lighter")}: ${c.lighter};`)
+    lines.push(`  ${colorCssVariable(key, "darker")}: ${c.darker};`)
     lines.push(
-      `  --posthog-${key}-gradient: linear-gradient(180deg, ${c.gradient[0]} 0%, ${c.gradient[1]} 100%);`,
+      `  ${colorCssVariable(key, "gradient")}: linear-gradient(180deg, ${c.gradient[0]} 0%, ${c.gradient[1]} 100%);`,
     )
   }
   lines.push("}")
