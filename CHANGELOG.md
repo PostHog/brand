@@ -1,5 +1,19 @@
 # @posthog/brand
 
+## 0.14.0
+
+### Minor Changes
+
+- 417e6fa: Add `getVariants(namespace, slug, tier?)` to the root export — every member of an asset's numbered variant family, in variant order (a standalone asset is a family of one) — and `colorCssVariable(slug, tone?)` to `@posthog/brand/colors`, which names the CSS custom properties `colorsCss` defines (`colorCssVariable("blue", "lighter")` → `"--posthog-blue-lighter"`).
+
+### Patch Changes
+
+- efbb5b0: Sync brand assets from Figma.
+
+  **hoggies**
+
+  - Updated 72: Angel, Ape, Art Thief, Back To The Future, Ball, Banana, Burger, Cake, Campfire Cowboy, Card, Chart, Climber 2, Coconut, Code Bubble, Commuter, Cool Car, Cowboy Lasso, Croissant, Data Thief, Dj, Doctor 1, Drake Nah, Dynamite, Einstein Group, Explorer, Football Coach, Gladiator 2, Haha Bizzniss, Hand Clasp, Heart, Hooligan, I'm The Driver, Ipad, Jack Dawson, Lemon Wrangler 2, Level Up, Lifeguard, Loops, Megaphone, Mr Potato Head 1, Namaste, Noir 4, Oprah, Organized, Panic, Phone Call, Pope, Puzzle, Reading, Reporter, Rocket, Roller Coaster, Rose, Scientist, Self-driving, Selfie, Shocked, Soccer Coach, Stamp Approved, Stamp Denied, Star, Sunburn, Survey, Swimmer 1, Swimmer 2, Tourist, Traffic Police, Trenchcoat, Wizard 1, Wizard 4, Wizard 5, Workflows
+
 ## 0.13.1
 
 ### Patch Changes
