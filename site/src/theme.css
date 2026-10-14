@@ -135,9 +135,9 @@ a:has(> code) {
 }
 
 /* ---- Desktop ---- */
-/* A hoggie hiding in the grass, fixed behind everything. It sits mostly under the page
-   panel on purpose: seen through the frosted glass it's the soft shape that makes the
-   translucency read, the way posthog.com's wallpaper does. */
+/* posthog.com's default "keyboard garden" wallpaper — origami hogs tending the PostHog keys —
+   fixed behind everything. It sits mostly under the page panel on purpose: seen through the
+   frosted glass it's the soft shape that makes the translucency read, as it does there. */
 .wallpaper {
   position: fixed;
   inset: 0;
@@ -148,8 +148,8 @@ a:has(> code) {
 .wallpaper-hog {
   position: absolute;
   right: max(-40px, calc(50vw - var(--maxw) / 2 - 300px));
-  bottom: -60px;
-  width: min(620px, 55vw);
+  bottom: -40px;
+  width: min(777px, 70vw);
   height: auto;
 }
 
@@ -970,33 +970,6 @@ button.asset:hover .asset-img.loaded {
   cursor: not-allowed;
 }
 .builder-control.disabled .seg button {
-  cursor: not-allowed;
-}
-.swatches {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px;
-  min-height: 31px;
-}
-.swatch-dot {
-  width: 22px;
-  height: 22px;
-  padding: 0;
-  border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  cursor: pointer;
-}
-/* "Inherit": half dark, half light — it takes whatever color surrounds it. */
-.swatch-dot.inherit {
-  background: linear-gradient(135deg, #1d1f27 50%, #fff 50%);
-}
-.swatch-dot.active {
-  box-shadow:
-    0 0 0 2px var(--surface),
-    0 0 0 4px var(--btn-edge);
-}
-.builder-control.disabled .swatch-dot {
   cursor: not-allowed;
 }
 .builder-control-label {
