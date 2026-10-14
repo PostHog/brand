@@ -19,7 +19,7 @@ Or `import { roundHog } from "@posthog/brand/fonts"` for the face metadata (fami
 
 ## Files
 
-A ready-made stylesheet: {{site}}/fonts/roundhog.css (relative URLs, CORS enabled — link it from anywhere).
+There's a stylesheet at {{site}}/fonts/roundhog.css. It uses relative URLs and has CORS enabled, so you can link it from anywhere.
 
 {{faces}}
 

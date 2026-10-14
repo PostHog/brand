@@ -77,6 +77,9 @@ importers:
       react-router-dom:
         specifier: ^7.1.0
         version: 7.18.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      sugar-high:
+        specifier: ^2.5.2
+        version: 2.5.2
     devDependencies:
       '@types/react':
         specifier: ^19.2.0
@@ -2532,6 +2535,14 @@ packages:
     resolution: {integrity: sha512-vavAMRXOgBVNF6nyEEmL3DBK19iRpDcoIwW+swQ+CbGiu7lju6t+JklA1MHweoWtadgt4ISVUsXLyDq34ddcwA==}
     engines: {node: '>=4'}
 
+  sugar-high@2.5.2:
+    resolution: {integrity: sha512-6bWenmZIfwfSaTWr4NYOdlJvJ92zVMLY6duRY8zxdoDbJ9++Y4rkZq1PvzwVmuSx4gBHj2ne9wFA6T09watbkg==}
+    peerDependencies:
+      gpu-lexer: '>=0.0.2'
+    peerDependenciesMeta:
+      gpu-lexer:
+        optional: true
+
   supports-color@7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
     engines: {node: '>=8'}
@@ -4970,6 +4981,8 @@ snapshots:
       ansi-regex: 5.0.1
 
   strip-bom@3.0.0: {}
+
+  sugar-high@2.5.2: {}
 
   supports-color@7.2.0:
     dependencies:

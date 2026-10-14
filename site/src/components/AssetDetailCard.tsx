@@ -1,5 +1,6 @@
 import type { AssetRef } from "../agent-paths.ts"
 import type { SvgLoader } from "../assets-hoggies.ts"
+import { CopyFlash } from "./CopyFlash.tsx"
 import { useAssetCopy } from "./CopyMenu.tsx"
 import { DownloadLinks } from "./DownloadLinks.tsx"
 
@@ -10,7 +11,7 @@ interface AssetDetailCardProps {
   alt: string
   /** Mono label under the image, e.g. the component name. */
   label: string
-  /** Muted line under the label (the tier, the variant), replaced by copy feedback. */
+  /** Muted line under the label (the tier, the variant). */
   caption: string
   importLine: string
   usage?: string
@@ -32,13 +33,12 @@ export function AssetDetailCard({
   svg,
 }: AssetDetailCardProps) {
   const copy = useAssetCopy({ asset, importLine, usage, png: src, svg })
-  const status = copy.status
 
   return (
     <div className="detail-card">
       <button
         type="button"
-        className={`card asset${status ? (status.ok ? " copied" : " copy-failed") : ""}`}
+        className="card asset"
         onClick={copy.onClick}
         onContextMenu={copy.onContextMenu}
         title="Click to copy the PNG; right-click for the import line or SVG"
@@ -52,9 +52,8 @@ export function AssetDetailCard({
           />
         </span>
         <span className="asset-name">{label}</span>
-        <span className="asset-slug" aria-live="polite">
-          {status ? status.label : caption}
-        </span>
+        <span className="asset-slug">{caption}</span>
+        <CopyFlash status={copy.status} />
       </button>
       {copy.menu}
       <DownloadLinks asset={asset} />

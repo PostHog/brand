@@ -1,4 +1,4 @@
-# Hoggies — PostHog's hedgehogs
+# Hoggies, PostHog's hedgehogs
 
 > {{description}}
 
@@ -16,7 +16,7 @@ import { HedgehogChart } from "@posthog/brand/hoggies"
 import hedgehogChartSvg from "@posthog/brand/hoggies/svg/chart"   // SVG string
 import hedgehogChartPng from "@posthog/brand/hoggies/png/chart"   // PNG URL
 import { findAssets } from "@posthog/brand"
-findAssets({ namespace: "hoggies", text: "coffee" })        // search by name/slug/tag
+findAssets({ namespace: "hoggies", text: "coffee" })              // search by name/slug/tag
 ```
 
 ## Files

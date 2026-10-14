@@ -31,7 +31,7 @@ export const TOOL_DEFINITIONS: readonly ToolDefinition[] = [
     name: "search_brand_assets",
     title: "Search PostHog brand assets",
     description:
-      "Search PostHog's brand assets — hedgehog illustrations (\"hoggies\"), team crests and logo files — by name, slug or tag. Returns each match's static SVG/PNG URLs, its page, and the @posthog/brand import that renders it.",
+      "Search PostHog's brand assets (hedgehog illustrations or \"hoggies\", team crests, and logo files) by name, slug, or tag. Returns each match's static SVG/PNG URLs, its page, and the @posthog/brand import that renders it.",
     inputSchema: {
       type: "object",
       properties: {

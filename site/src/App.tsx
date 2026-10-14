@@ -1,3 +1,4 @@
+import safariPng from "@posthog/brand/hoggies/png/safari"
 import { Logo } from "@posthog/brand/logo"
 import { lazy, type ReactNode, Suspense, useEffect } from "react"
 import { NavLink, Route, Routes, useLocation, useNavigate } from "react-router-dom"
@@ -34,6 +35,9 @@ const NotFoundPage = lazy(() =>
   import("./pages/NotFound.tsx").then((m) => ({ default: m.NotFoundPage })),
 )
 
+const REPO_URL = "https://github.com/PostHog/brand"
+const NPM_URL = "https://www.npmjs.com/package/@posthog/brand"
+
 interface NavItem {
   to: string
   label: string
@@ -56,14 +60,15 @@ function Layout({ children }: { children: ReactNode }) {
   const page = pathname.length > 1 ? pathname.replace(/\/+$/, "") : pathname
   return (
     <>
-      <div className="wip-banner" role="alert">
-        <strong>🚧 Work in progress.</strong> This entire website is AI-generated, and the PostHog
-        brand shown here is <strong>not finalized</strong> — everything is subject to change.
+      {/* The "desktop" behind the frosted chrome, after posthog.com's garden wallpaper: a
+          hoggie hiding in the grass, blurred through the nav and the page panel. */}
+      <div className="wallpaper" aria-hidden="true">
+        <img className="wallpaper-hog" src={safariPng} alt="" decoding="async" />
       </div>
-      <nav className="nav">
-        <div className="nav-inner">
-          <NavLink to="/" className="nav-brand" aria-label="PostHog Brand — home">
-            <Logo size={132} title="PostHog Brand" />
+      <header className="taskbar-wrap">
+        <nav className="taskbar">
+          <NavLink to="/" className="nav-brand" aria-label="PostHog Brand home">
+            <Logo size={104} title="PostHog Brand" />
           </NavLink>
           <div className="nav-links">
             {NAV.map((item) => {
@@ -85,22 +90,28 @@ function Layout({ children }: { children: ReactNode }) {
               )
             })}
           </div>
-        </div>
-      </nav>
+          <div className="nav-actions">
+            <a className="nav-link-plain" href={REPO_URL}>
+              GitHub
+            </a>
+            <a className="btn btn-primary btn-sm" href={NPM_URL}>
+              Install
+            </a>
+          </div>
+        </nav>
+      </header>
       <main className="page">{children}</main>
       <footer className="footer">
-        <div className="footer-inner">
-          Everything on this site is rendered live from the{" "}
-          <a href="https://github.com/PostHog/hedgehogs">
-            <code>@posthog/brand</code>
-          </a>{" "}
-          package — no screenshots, no CDN.
-          <br />
-          For agents: <a href="/llms.txt">llms.txt</a> ·{" "}
-          <a href={markdownPath(page)}>this page as markdown</a> ·{" "}
-          <a href="/catalog.json">catalog.json</a> · every asset is also a static <code>.svg</code>/
-          <code>.png</code> file.
-        </div>
+        Every asset on this site comes from the{" "}
+        <a href={REPO_URL}>
+          <code>@posthog/brand</code>
+        </a>{" "}
+        package.
+        <br />
+        For agents: <a href="/llms.txt">llms.txt</a> ·{" "}
+        <a href={markdownPath(page)}>This page as markdown</a> ·{" "}
+        <a href="/catalog.json">catalog.json</a>. Each asset is also a static <code>.svg</code> and{" "}
+        <code>.png</code> file.
       </footer>
     </>
   )

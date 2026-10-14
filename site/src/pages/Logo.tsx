@@ -4,6 +4,7 @@ import type { LogoHoliday, LogoLayout, LogomarkHandle, LogoVariant } from "@post
 import type { ReactNode } from "react"
 import { useLayoutEffect, useRef, useState } from "react"
 import { CodeBlock } from "../components/CodeBlock.tsx"
+import { CopyFlash } from "../components/CopyFlash.tsx"
 import { DownloadLinks } from "../components/DownloadLinks.tsx"
 import { useAssetCopy } from "../components/CopyMenu.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
@@ -97,7 +98,7 @@ function Framed({
 
 /**
  * The clickable logo: click copies the PNG, right-click opens every format (SVG, JSX, a
- * download). The outcome flashes over the logo — tangerine when it worked, coral when it
+ * download). The outcome flashes over the logo — orange when it worked, coral when it
  * didn't — and fades as the copy status clears.
  */
 function CopyStage({
@@ -106,6 +107,7 @@ function CopyStage({
   dark,
   stageClassName = "",
   title,
+  hint,
   children,
 }: {
   exp: ReturnType<typeof useLogoExport>
@@ -113,9 +115,10 @@ function CopyStage({
   dark?: boolean
   stageClassName?: string
   title: string
+  /** A small pill in the corner saying what a click does, for the first logo on the page. */
+  hint?: boolean
   children: ReactNode
 }) {
-  const status = copy.status
   return (
     <>
       <button
@@ -130,12 +133,12 @@ function CopyStage({
             {children}
           </Framed>
         </div>
-        <span
-          className={`copy-flash${status ? " show" : ""}${status && !status.ok ? " failed" : ""}`}
-          aria-live="polite"
-        >
-          {status?.label}
-        </span>
+        {hint ? (
+          <span className="copy-hint" aria-hidden="true">
+            Click to copy PNG
+          </span>
+        ) : null}
+        <CopyFlash status={copy.status} />
       </button>
       {copy.menu}
     </>
@@ -154,7 +157,7 @@ function LogoForFile({ file, size }: { file: LogoFile; size: number }) {
 }
 
 /** A preset: the copyable logo, its name, and when to use it. */
-function PresetCard({ preset }: { preset: LogoPreset }) {
+function PresetCard({ preset, hint }: { preset: LogoPreset; hint?: boolean }) {
   const { name, when, file, size } = preset
   const exp = useLogoExport({ frame: file.frame, fileName: file.id, usage: file.jsx })
   return (
@@ -163,7 +166,8 @@ function PresetCard({ preset }: { preset: LogoPreset }) {
         exp={exp}
         frame={file.frame}
         dark={file.background === "dark"}
-        title={`${file.id} — click to copy the PNG; right-click for SVG, JSX, or download`}
+        title={`${file.id}: click to copy the PNG, right-click for the SVG, JSX, or a download`}
+        hint={hint}
       >
         <LogoForFile file={file} size={size} />
       </CopyStage>
@@ -178,45 +182,80 @@ function PresetCard({ preset }: { preset: LogoPreset }) {
 
 // ---- Guidelines ---------------------------------------------------------------------------
 
+// posthog.com's callout box (its `CalloutBox`): a full tinted border, an icon beside a bold
+// title, the body indented under it. The glyphs are copied from @posthog/icons.
+const CALLOUT_ICONS = {
+  do: [
+    "M12 3.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17ZM2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm13.475-3.08a.75.75 0 0 1 .106 1.055l-4.5 5.5a.75.75 0 0 1-1.111.055l-2-2a.75.75 0 1 1 1.06-1.06l1.414 1.414 3.975-4.859a.75.75 0 0 1 1.056-.105Z",
+  ],
+  dont: [
+    "M12.216 3.602a.25.25 0 0 0-.432 0L3.28 18.124a.25.25 0 0 0 .216.376h17.01a.25.25 0 0 0 .216-.376L12.216 3.602Zm-1.726-.758a1.75 1.75 0 0 1 3.02 0l8.505 14.522C22.7 18.532 21.857 20 20.505 20H3.495c-1.352 0-2.194-1.468-1.51-2.634L10.49 2.844ZM12 9a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 12 9Z",
+    "M13 15.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z",
+  ],
+  info: [
+    "M12 3.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17ZM2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm8-1a.75.75 0 0 1 .75-.75H12a.75.75 0 0 1 .75.75v5.25a.75.75 0 0 1-1.5 0v-4.5h-.5A.75.75 0 0 1 10 11Z",
+    "M13 7.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z",
+  ],
+} as const
+
+interface CalloutProps {
+  type: keyof typeof CALLOUT_ICONS
+  title: string
+  children: ReactNode
+}
+
+function Callout({ type, title, children }: CalloutProps) {
+  return (
+    <div className={`callout callout-${type}`}>
+      <div className="callout-title">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          {CALLOUT_ICONS[type].map((d) => (
+            <path key={d} fillRule="evenodd" clipRule="evenodd" d={d} />
+          ))}
+        </svg>
+        <strong>{title}</strong>
+      </div>
+      <div className="callout-body">{children}</div>
+    </div>
+  )
+}
+
 function Guidelines() {
   return (
     <>
       <div className="guidelines">
-        <div className="card guideline do">
-          <h3>Do</h3>
+        <Callout type="do" title="Do">
           <ul>
             {LOGO_DOS.map((item, i) => (
               <li key={i}>{item}</li>
             ))}
           </ul>
-        </div>
-        <div className="card guideline dont">
-          <h3>Don't</h3>
+        </Callout>
+        <Callout type="dont" title="Don't">
           <ul>
             {LOGO_DONTS.map((item, i) => (
               <li key={i}>{item}</li>
             ))}
           </ul>
-        </div>
+        </Callout>
       </div>
-      <div className="card guideline third-party">
-        <h3>Using the logo outside PostHog</h3>
+      <Callout type="info" title="Using the logo outside PostHog">
         <ul>
           <li>
             Say your product <em>works with</em>, is <em>built for</em>, or is <em>built on</em>{" "}
-            PostHog — never that it's official or endorsed. “Desktop Studio for PostHog” is fine;
-            “Official PostHog Desktop Studio” isn't.
+            PostHog. Don't call it official or suggest we endorse it. “Desktop Studio for PostHog”
+            is fine, “Official PostHog Desktop Studio” is not.
           </li>
-          <li>Use the logo unmodified, and never as your project's main branding.</li>
+          <li>Use the logo as it is, and keep it out of your project's main branding.</li>
           <li>
-            The hedgehogs and other illustrations need explicit permission for commercial or
-            marketing use.
+            Ask us before using the hedgehogs or other illustrations in anything commercial or in
+            marketing.
           </li>
           <li>
-            Questions? <a href="mailto:marketing@posthog.com">marketing@posthog.com</a>
+            Questions? Email <a href="mailto:marketing@posthog.com">marketing@posthog.com</a>.
           </li>
         </ul>
-      </div>
+      </Callout>
     </>
   )
 }
@@ -376,7 +415,7 @@ function Builder() {
   })
 
   const size = PREVIEW_SIZE[layout][frame ? "framed" : "tight"]
-  const title = "PostHog logo — builder preview"
+  const title = "PostHog logo builder preview"
   const preview = isMark ? (
     <Logo.Logomark
       size={size}
@@ -449,18 +488,18 @@ function Builder() {
         frame={frame}
         dark={mono && tint.slug === "white"}
         stageClassName="builder-stage"
-        title={`${fileName} — click to copy the PNG; right-click for SVG, JSX, or download`}
+        title={`${fileName}: click to copy the PNG, right-click for the SVG, JSX, or a download`}
       >
         {preview}
       </CopyStage>
       <p className="builder-note">
         {frame ? (
           <>
-            Padded for avatar uploads (G2, X, LinkedIn, Reddit, Slack) that crop to a {frame}. The
-            dashed line is the crop; the padding is baked into the file, so upload it as-is.
+            Padded for avatar uploads that crop to a {frame} (G2, X, LinkedIn, Reddit, Slack). The
+            dashed line shows the crop. The padding is part of the file, so upload it as it is.
           </>
         ) : (
-          <>Cropped tight to the logo, no padding. Pick Square or Circle for profile pictures.</>
+          <>Cropped tight around the logo. For profile pictures, pick Square or Circle.</>
         )}{" "}
         Saves as <code>{fileName}</code>.
       </p>
@@ -478,8 +517,8 @@ const PROPS: { name: string; type: string; def?: string; note: ReactNode }[] = [
     def: `"landscape"`,
     note: (
       <>
-        The lockup. <code>Logo.Logomark</code> / <code>Logo.Wordmark</code> are shorthands for the
-        last two.
+        Which lockup to draw. <code>Logo.Logomark</code> and <code>Logo.Wordmark</code> are
+        shortcuts for the last two.
       </>
     ),
   },
@@ -487,7 +526,7 @@ const PROPS: { name: string; type: string; def?: string; note: ReactNode }[] = [
     name: "variant",
     type: `"gradient" | "print" | "mono"`,
     def: `"gradient"`,
-    note: "Full color, flat 4-color for print, or a single color.",
+    note: "Full color, flat 4-color for print, or one color.",
   },
   {
     name: "color",
@@ -495,7 +534,7 @@ const PROPS: { name: string; type: string; def?: string; note: ReactNode }[] = [
     def: "currentColor",
     note: (
       <>
-        Any CSS color, for <code>mono</code> and the wordmark. Ignored otherwise.
+        Any CSS color. Only used by <code>mono</code> and the wordmark.
       </>
     ),
   },
@@ -503,32 +542,36 @@ const PROPS: { name: string; type: string; def?: string; note: ReactNode }[] = [
     name: "size",
     type: "number",
     def: "100%",
-    note: "Width in px; height follows the aspect ratio.",
+    note: "Width in px. The height follows the aspect ratio.",
   },
-  { name: "title", type: "string", note: "Accessible label. Without one the logo is decorative." },
+  {
+    name: "title",
+    type: "string",
+    note: "Accessible label. Leave it out and the logo is treated as decoration.",
+  },
 ]
 
 const LOGOMARK_PROPS: typeof PROPS = [
   {
     name: "holiday",
     type: `"christmas" | "halloween"`,
-    note: "Adds a seasonal hat. Nothing switches by date.",
+    note: "Adds a seasonal hat. It never changes by date on its own.",
   },
   {
     name: "jumpOnClick",
     type: "boolean",
     def: "false",
-    note: "Jump when clicked; rapid clicks jump higher.",
+    note: "Jumps when clicked. Click faster to jump higher.",
   },
-  { name: "autoJumpMs", type: "number", note: "Jump every this-many milliseconds." },
-  { name: "jumpHeight", type: "number", def: "12", note: "Jump height, in viewBox units." },
-  { name: "airtimeMs", type: "number", def: "400", note: "Duration of one jump." },
+  { name: "autoJumpMs", type: "number", note: "Jumps on its own every N milliseconds." },
+  { name: "jumpHeight", type: "number", def: "12", note: "How high it jumps, in viewBox units." },
+  { name: "airtimeMs", type: "number", def: "400", note: "How long one jump takes." },
   {
     name: "ref",
     type: "LogomarkHandle",
     note: (
       <>
-        <code>ref.current.jump(magnitude?)</code> jumps it from your own code.
+        Call <code>ref.current.jump(magnitude?)</code> to make it jump from your code.
       </>
     ),
   },
@@ -549,13 +592,13 @@ function PropsTable({ rows }: { rows: typeof PROPS }) {
         <tbody>
           {rows.map((p) => (
             <tr key={p.name}>
-              <td>
+              <td className="nowrap">
                 <code>{p.name}</code>
               </td>
               <td>
                 <code>{p.type}</code>
               </td>
-              <td>{p.def ? <code>{p.def}</code> : "—"}</td>
+              <td className="nowrap">{p.def ? <code>{p.def}</code> : "None"}</td>
               <td>{p.note}</td>
             </tr>
           ))}
@@ -580,7 +623,11 @@ function ImperativeJump() {
   return (
     <div className="imperative-jump">
       <div className="card logo-stage imperative-jump-stage">
-        <Logo.Logomark ref={mark} size={64} title="PostHog logomark — jump from a button" />
+        <Logo.Logomark
+          ref={mark}
+          size={64}
+          title="PostHog logomark that jumps when you press a button"
+        />
         <div style={{ display: "flex", gap: 8 }}>
           <button type="button" className="btn btn-primary" onClick={() => mark.current?.jump()}>
             Jump
@@ -606,8 +653,8 @@ function ReactSection() {
   return (
     <>
       <p className="section-lede">
-        Every logo on this page is one <code>&lt;Logo&gt;</code> component — right-click a preset
-        for its JSX, or build one above.
+        Every logo on this page comes from the same <code>&lt;Logo&gt;</code> component. Right-click
+        a preset to copy its JSX, or build your own above.
       </p>
       <CodeBlock slug="logo-react" code={REACT_EXAMPLE} />
 
@@ -618,14 +665,14 @@ function ReactSection() {
       </h3>
       <PropsTable rows={LOGOMARK_PROPS} />
       <p className="section-lede">
-        Every native <code>&lt;svg&gt;</code> prop (<code>className</code>, <code>style</code>,{" "}
-        <code>onClick</code>, …) works too.
+        It also accepts any regular <code>&lt;svg&gt;</code> prop, like <code>className</code>,{" "}
+        <code>style</code>, or <code>onClick</code>.
       </p>
 
       <h3 className="props-subhead">Jump from your own code</h3>
       <p className="section-lede">
-        The logomark's <code>ref</code> is a <code>LogomarkHandle</code>: call <code>jump()</code>{" "}
-        from anywhere, with an optional magnitude.
+        The logomark's <code>ref</code> is a <code>LogomarkHandle</code>. Call <code>jump()</code>{" "}
+        on it whenever you like, with an optional magnitude.
       </p>
       <ImperativeJump />
     </>
@@ -640,15 +687,15 @@ export function LogoPage() {
   return (
     <div>
       <PageHeader eyebrow="@posthog/brand/logo" title="Logo">
-        The approved PostHog logos and when to use each. Click one to copy a PNG, or right-click for
-        the SVG, JSX, or a download.
+        The approved PostHog logos and when to use each one. Click a logo to copy it as a PNG, or
+        right-click for the SVG, the JSX, or a download.
       </PageHeader>
 
       <section className="section">
         <h2>Presets</h2>
         <div className="grid grid-presets">
-          {LOGO_PRESETS.map((preset) => (
-            <PresetCard key={preset.file.id} preset={preset} />
+          {LOGO_PRESETS.map((preset, i) => (
+            <PresetCard key={preset.file.id} preset={preset} hint={i === 0} />
           ))}
         </div>
       </section>
@@ -663,8 +710,8 @@ export function LogoPage() {
           <h2>None of these fit? Build a custom logo</h2>
         </summary>
         <p className="section-lede">
-          Any layout, a single brand color, a padded square or circle canvas, or a holiday hat —
-          exported as a PNG or SVG, or as the JSX that renders it.
+          Pick a layout, a brand color, a square or circle canvas for avatars, or a holiday hat.
+          Then export it as a PNG or SVG, or copy the JSX.
         </p>
         <Builder />
       </details>

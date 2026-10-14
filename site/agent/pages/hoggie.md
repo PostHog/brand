@@ -1,4 +1,4 @@
-# {{name}} — PostHog hedgehog
+# {{name}}, a PostHog hedgehog
 
 > {{name}}, a PostHog hedgehog illustration (a "hoggie").{{tags}}
 

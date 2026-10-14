@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 import type { AssetRef } from "../agent-paths.ts"
 import type { SvgLoader } from "../assets-hoggies.ts"
+import { CopyFlash } from "./CopyFlash.tsx"
 import { useAssetCopy } from "./CopyMenu.tsx"
 
 interface AssetTileProps {
@@ -43,13 +44,12 @@ export function AssetTile({
 }: AssetTileProps) {
   const [loaded, setLoaded] = useState(false)
   const copy = useAssetCopy({ asset, importLine, usage, png: src, svg })
-  const status = copy.status
 
   return (
     <div className="asset-tile-wrap" style={{ position: "relative", display: "flex" }}>
       <button
         type="button"
-        className={`card asset${status ? (status.ok ? " copied" : " copy-failed") : ""}`}
+        className="card asset"
         onClick={copy.onClick}
         onContextMenu={copy.onContextMenu}
         title="Click to copy the PNG; right-click for the import line or SVG"
@@ -76,14 +76,13 @@ export function AssetTile({
             />
           ) : (
             <span className="asset-missing" aria-hidden="true">
-              —
+              ?
             </span>
           )}
         </span>
         <span className="asset-name">{name}</span>
-        <span className="asset-slug" aria-live="polite">
-          {status ? status.label : slug}
-        </span>
+        <span className="asset-slug">{slug}</span>
+        <CopyFlash status={copy.status} />
       </button>
       {copy.menu}
       {to ? (

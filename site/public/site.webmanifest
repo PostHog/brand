@@ -1,7 +1,7 @@
 {
   "name": "PostHog Brand",
   "short_name": "PostHog Brand",
-  "description": "PostHog's brand assets — logo, typeface, colors, hedgehogs, and team crests.",
+  "description": "PostHog's logo, typeface, colors, hedgehogs, and team crests.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

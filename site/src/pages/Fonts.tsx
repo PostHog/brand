@@ -22,13 +22,12 @@ const CSS_USAGE = `import { roundHogFontFaceCss } from "@posthog/brand/fonts/css
 const style = document.createElement("style")
 style.textContent = roundHogFontFaceCss
 document.head.appendChild(style)
-// then, anywhere: font-family: "RoundHog", sans-serif;`
+// Then use it anywhere: font-family: "RoundHog", sans-serif;`
 
 const META_USAGE = `import { roundHog } from "@posthog/brand/fonts"
 
-// Build your own @font-face / <link rel="preload"> from the metadata:
-roundHog.family              // "RoundHog"
-roundHog.faces.map((f) => f.url)  // the bundled woff2 URLs`
+roundHog.family                    // "RoundHog"
+roundHog.faces.map((f) => f.url)   // the bundled woff2 URLs`
 
 function faceLabel(face: FontFace): string {
   const weight = `${WEIGHT_NAMES[face.weight] ?? face.weight} ${face.weight}`
@@ -41,10 +40,9 @@ export function FontsPage() {
   return (
     <div>
       <PageHeader eyebrow="@posthog/brand/fonts" title="RoundHog">
-        PostHog's brand typeface, bundled offline as eight <code>woff2</code> faces (Regular&nbsp;·
-        Medium&nbsp;· SemiBold&nbsp;· Bold, each upright and italic). This entire site is set in
-        RoundHog — the <code>@font-face</code> rules come straight from{" "}
-        <code>@posthog/brand/fonts/css</code>. No CDN, no loader config.
+        PostHog's typeface. The package includes eight <code>woff2</code> faces: Regular, Medium,
+        SemiBold, and Bold, each upright and italic. This site is set in RoundHog, loaded from{" "}
+        <code>@posthog/brand/fonts/css</code>.
       </PageHeader>
 
       <section className="section">
@@ -85,12 +83,12 @@ export function FontsPage() {
       <section className="section">
         <h2>Use it</h2>
         <p>
-          Drop the ready-made <code>@font-face</code> string into a <code>&lt;style&gt;</code> — the
-          bundled woff2 URLs are already baked in:
+          Add the <code>@font-face</code> rules to a <code>&lt;style&gt;</code> tag. They already
+          point at the bundled woff2 files.
         </p>
         <CodeBlock slug="fonts-css" code={CSS_USAGE} />
         <p style={{ marginTop: 24 }}>
-          Or build your own <code>@font-face</code> / preload from the face metadata:
+          Or write your own <code>@font-face</code> rules and preload links from the metadata.
         </p>
         <CodeBlock slug="fonts-metadata" code={META_USAGE} />
       </section>

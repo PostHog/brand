@@ -31,8 +31,8 @@ export function NotFoundPage() {
       <p className="notfound-code">404</p>
       <h1 className="notfound-title">Nothing here but spikes</h1>
       <p className="notfound-lede">
-        We had our best hog search for <code>{pathname}</code>. The magnifying glass came back
-        empty.
+        Our best hog searched everywhere for <code>{pathname}</code> and came back with an empty
+        magnifying glass.
       </p>
 
       <div className="notfound-actions">

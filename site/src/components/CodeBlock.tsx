@@ -1,4 +1,6 @@
 import posthog from "posthog-js"
+import { useMemo } from "react"
+import { highlight } from "sugar-high"
 import { CopyButton } from "./CopyButton.tsx"
 
 interface CodeBlockProps {
@@ -8,13 +10,17 @@ interface CodeBlockProps {
   slug: string
 }
 
-/** A dark code block with a copy-to-clipboard button in the corner. */
+/**
+ * A syntax-highlighted TSX snippet with a copy button in the corner. `sugar-high` emits
+ * escaped spans whose colors come from the `--sh-*` custom properties in theme.css.
+ */
 export function CodeBlock({ code, slug }: CodeBlockProps) {
+  const html = useMemo(() => highlight(code), [code])
   return (
     <div className="code">
       <CopyButton value={code} onCopied={() => posthog.capture("code copied", { snippet: slug })} />
       <pre>
-        <code>{code}</code>
+        <code dangerouslySetInnerHTML={{ __html: html }} />
       </pre>
     </div>
   )

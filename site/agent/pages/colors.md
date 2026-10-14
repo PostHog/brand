@@ -19,5 +19,5 @@ import { colorsCss } from "@posthog/brand/colors/css" // a :root { --posthog-…
 
 ## Files
 
-- {{site}}/colors.json — the palette as JSON
-- {{site}}/colors.css — the CSS custom properties
+- {{site}}/colors.json: the palette as JSON
+- {{site}}/colors.css: the CSS custom properties

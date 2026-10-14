@@ -87,7 +87,8 @@ for (const ns of NAMESPACES) {
     totalAdded += added.length
     totalRemoved += removed.length
 
-    const lines = [`**${ns}**`]
+    // Blank line after the heading — oxfmt (CI's `pnpm lint`) requires one before a list.
+    const lines = [`**${ns}**`, ""]
     if (added.length) lines.push(`- Added ${added.length}: ${added.map(label).join(", ")}`)
     if (removed.length) lines.push(`- Removed ${removed.length}: ${removed.map(label).join(", ")}`)
     if (updated.length) lines.push(`- Updated ${updated.length}: ${updated.map(label).join(", ")}`)

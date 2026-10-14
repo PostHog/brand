@@ -46,9 +46,9 @@ export function CrestsPage() {
   return (
     <div>
       <PageHeader eyebrow="@posthog/brand/crests" title="Crests">
-        {ALL.length} team crests. Each is a compound component — the full illustration plus a{" "}
-        <code>.Mini</code> badge tier. Click any one to copy its PNG; right-click for its import
-        line or SVG.
+        {ALL.length} team crests. Each component draws the full illustration, and its{" "}
+        <code>.Mini</code> draws the small badge. Click one to copy it as a PNG, or right-click for
+        the import line or the SVG.
       </PageHeader>
 
       <div className="toolbar">

@@ -1,18 +1,32 @@
-/* Site chrome, themed from @posthog/brand's own color tokens.
+/* Site chrome, styled after posthog.com: frosted, translucent surfaces floating over a
+   garden "desktop", warm off-white panels, hairline olive-grey borders, and the chunky 3D
+   orange button. Brand colors come from @posthog/brand's own tokens — the
    `--posthog-*` custom properties are injected at runtime in main.tsx. */
 
 :root {
-  --bg: #ffffff;
-  --bg-subtle: #f4f3ee; /* PostHog "off-white" */
-  --border: #e5e2d9;
-  --text: #1d1f27;
-  --text-muted: #5f6672;
-  --primary: var(--posthog-blue, #1490e8);
-  --primary-darker: var(--posthog-blue-darker, #106fb2);
+  /* posthog.com's light neutrals (its `light-*` scale). */
+  --surface: #fdfdf8; /* cards, inputs */
+  --surface-accent: #eeefe9; /* previews, code, table heads */
+  --surface-sunken: #e5e7e0; /* segmented-control tracks */
+  --border: #d2d3cc;
+  --border-strong: #bfc1b7;
+  --border-hover: #9ea096;
+  --text: #23251d;
+  --text-muted: #65675e;
+  --text-faint: #9ea096;
+  --link-hover: var(--posthog-tangerine-darker, #ff4800);
   --accent: var(--posthog-tangerine, #ff5c1c);
-  --radius: 10px;
-  --maxw: 1100px;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.06);
+  /* The OS button: an orange face raised on a darker base, all edged in brown. */
+  --btn-face: #eb9d2a;
+  --btn-base: #cd8407;
+  --btn-edge: #b17816;
+  /* Frosted glass — posthog.com's `bg-primary/50` taskbar and `/75` windows. */
+  --glass-bar: rgba(253, 253, 248, 0.5);
+  --glass-window: rgba(253, 253, 248, 0.75);
+  --glass-blur: blur(48px) saturate(1.4);
+  --radius: 8px;
+  --maxw: 1160px;
+  --shadow-window: 0 1px 2px rgba(35, 37, 29, 0.06), 0 12px 32px -8px rgba(35, 37, 29, 0.22);
   --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
   /* RoundHog, the brand typeface — its @font-face rules are injected from
      @posthog/brand/fonts/css in main.tsx. System fonts stay as the fallback. */
@@ -31,39 +45,82 @@ body {
 }
 
 body {
-  background: var(--bg);
+  min-height: 100vh;
+  /* The garden: soft greens, lighter up top where the sun is. */
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 0%, #d6ebb8 0%, transparent 70%),
+    radial-gradient(ellipse 60% 60% at 100% 100%, #7cb35a 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 0% 100%, #8fc06c 0%, transparent 70%),
+    linear-gradient(180deg, #bcdb9c 0%, #a3cd83 100%);
+  background-attachment: fixed;
   color: var(--text);
   font-family: var(--font-brand);
-  line-height: 1.55;
+  font-size: 15px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  font-variant-ligatures: none;
 }
 
+/* posthog.com links: the text's own color, underlined. */
 a {
-  color: var(--primary-darker);
-  text-decoration: none;
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
 a:hover {
-  text-decoration: underline;
+  color: var(--link-hover);
+  text-decoration-color: currentColor;
 }
 
 h1,
 h2,
 h3 {
   line-height: 1.2;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
+}
+h1 {
+  font-weight: 800;
+}
+h2,
+h3 {
+  font-weight: 700;
 }
 
-/* ---- WIP banner ---- */
-.wip-banner {
-  background: var(--accent, #ff5c1c);
-  color: #fff;
-  text-align: center;
-  font-size: 14px;
-  line-height: 1.5;
-  padding: 10px 20px;
+/* Inline code as posthog.com's chips; a linked one turns blue like its package links. */
+:not(pre) > code {
+  font-family: var(--mono);
+  font-size: 0.85em;
+  padding: 0.1em 0.35em;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--surface-accent);
+  overflow-wrap: anywhere;
+  /* A chip that wraps gets its full border and padding on every line. */
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
-.wip-banner strong {
-  font-weight: 700;
+a > code {
+  color: var(--posthog-cobalt, #0457ff);
+  background: color-mix(in srgb, var(--posthog-cobalt, #0457ff) 8%, transparent);
+  border-color: color-mix(in srgb, var(--posthog-cobalt, #0457ff) 45%, transparent);
+}
+a:hover > code {
+  border-color: var(--posthog-cobalt, #0457ff);
+}
+a:has(> code) {
+  text-decoration: none;
+}
+
+::selection {
+  background: rgba(235, 157, 42, 0.3);
+}
+
+:focus-visible {
+  outline: 2px solid var(--btn-edge);
+  outline-offset: 2px;
 }
 
 /* Static pre-render shell (seo-plugin.ts writes it into #root for crawlers and no-JS
@@ -77,64 +134,148 @@ h3 {
   font-size: 14px;
 }
 
-/* ---- Layout ---- */
-.nav {
+/* ---- Desktop ---- */
+/* A hoggie hiding in the grass, fixed behind everything. It sits mostly under the page
+   panel on purpose: seen through the frosted glass it's the soft shape that makes the
+   translucency read, the way posthog.com's wallpaper does. */
+.wallpaper {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.wallpaper-hog {
+  position: absolute;
+  right: max(-40px, calc(50vw - var(--maxw) / 2 - 300px));
+  bottom: -60px;
+  width: min(620px, 55vw);
+  height: auto;
+}
+
+/* ---- Taskbar (the top nav) ---- */
+.taskbar-wrap {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--border);
+  padding: 8px 8px 0;
 }
-.nav-inner {
-  max-width: var(--maxw);
-  margin: 0 auto;
-  padding: 12px 20px;
+.taskbar {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 16px;
+  padding: 6px 8px 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--glass-bar);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: 0 20px 40px -16px rgba(35, 37, 29, 0.3);
 }
 .nav-brand {
   display: flex;
   align-items: center;
+  margin-right: 8px;
 }
 .nav-links {
   display: flex;
-  gap: 4px;
+  gap: 2px;
   flex-wrap: wrap;
-  margin-left: auto;
 }
-.nav-links a {
-  color: var(--text-muted);
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 14px;
-}
-.nav-links a:hover {
-  background: var(--bg-subtle);
+/* posthog.com's default OSButton: bare text, an outline on hover, a filled pill when active. */
+.nav-links a,
+.nav-link-plain {
+  color: var(--text);
+  font-weight: 500;
+  font-size: 15px;
   text-decoration: none;
+  padding: 4px 10px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+}
+.nav-links a:hover,
+.nav-link-plain:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
 }
 .nav-links a.active {
-  color: var(--text);
-  background: var(--bg-subtle);
+  font-weight: 700;
+  background: rgba(229, 231, 224, 0.7);
+  border-color: var(--border);
+}
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+@media (max-width: 760px) {
+  .nav-link-plain {
+    display: none;
+  }
+  .taskbar {
+    flex-wrap: wrap;
+    gap: 6px 12px;
+  }
+  .nav-links {
+    order: 3;
+    width: 100%;
+  }
 }
 
+/* ---- Page panel (an OS window, without the window chrome) ---- */
 .page {
   max-width: var(--maxw);
-  margin: 0 auto;
-  padding: 40px 20px 80px;
+  margin: 16px auto 0;
+  padding: 40px 48px 64px;
+  border: 1px solid rgba(158, 160, 150, 0.55);
+  border-radius: 12px;
+  background: var(--glass-window);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--shadow-window);
+}
+@media (max-width: 1192px) {
+  .page {
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+}
+@media (max-width: 640px) {
+  .page {
+    padding: 28px 18px 48px;
+  }
 }
 
 .footer {
-  border-top: 1px solid var(--border);
-  color: var(--text-muted);
-  font-size: 14px;
-}
-.footer-inner {
   max-width: var(--maxw);
-  margin: 0 auto;
-  padding: 24px 20px;
+  margin: 12px auto 24px;
+  padding: 14px 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--glass-bar);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  color: var(--text-muted);
+  font-size: 13px;
+  text-align: center;
+}
+@media (max-width: 1192px) {
+  .footer {
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+}
+
+/* "Reduce transparency" gets solid surfaces, as on posthog.com. */
+@media (prefers-reduced-transparency: reduce) {
+  .taskbar,
+  .page,
+  .footer {
+    background: var(--surface);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 }
 
 /* ---- Page header ---- */
@@ -142,22 +283,26 @@ h3 {
   margin-bottom: 32px;
 }
 .page-header h1 {
-  font-size: 36px;
-  margin: 0 0 8px;
+  font-size: 34px;
+  margin: 0 0 10px;
 }
 .page-header p {
   color: var(--text-muted);
   font-size: 17px;
   margin: 0;
-  max-width: 60ch;
+  max-width: 64ch;
 }
-.eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+/* The package subpath a page documents, as a small chip above its title. */
+.page-header .eyebrow {
+  display: inline-block;
+  font-family: var(--mono);
   font-size: 12px;
-  font-weight: 700;
-  color: var(--accent);
-  margin: 0 0 8px;
+  color: var(--text-muted);
+  margin: 0 0 12px;
+  padding: 1px 7px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--surface-accent);
 }
 
 /* ---- Cards / grids ---- */
@@ -172,16 +317,15 @@ h3 {
 .card {
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  background: var(--bg);
-  box-shadow: var(--shadow);
+  background: var(--surface);
 }
 
 .grid {
   display: grid;
-  gap: 16px;
+  gap: 12px;
 }
 .grid-assets {
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
 }
 .grid-cards {
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -195,7 +339,7 @@ h3 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   padding: 18px 12px 12px;
   text-align: center;
 }
@@ -218,7 +362,9 @@ h3 {
   width: auto;
   object-fit: contain;
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition:
+    opacity 0.4s ease,
+    transform 0.15s ease;
 }
 .asset-img.loaded {
   opacity: 1;
@@ -238,7 +384,7 @@ h3 {
   font-size: 24px;
 }
 .asset-name {
-  font-weight: 600;
+  font-weight: 700;
   font-size: 14px;
   overflow-wrap: anywhere;
   max-width: 100%;
@@ -250,27 +396,27 @@ h3 {
   overflow-wrap: anywhere;
   max-width: 100%;
 }
+/* Positioned so the copy flash (CopyFlash) can cover the whole tile. */
 button.asset {
+  position: relative;
   cursor: pointer;
   font: inherit;
   color: inherit;
+  transition: border-color 0.1s ease;
 }
 button.asset:hover {
-  border-color: var(--primary);
+  border-color: var(--border-hover);
 }
-button.asset.copied {
-  border-color: var(--posthog-green, #47c861);
+button.asset:hover .asset-img.loaded {
+  transform: scale(1.04);
 }
-button.asset.copied .asset-slug {
-  color: var(--posthog-green-darker, #35b14e);
-  font-weight: 600;
+/* The ↗ corner link to a tile's own page. */
+.asset-open {
+  color: var(--text-faint);
+  font-weight: 400;
 }
-button.asset.copy-failed {
-  border-color: var(--posthog-coral, #ff474d);
-}
-button.asset.copy-failed .asset-slug {
-  color: var(--posthog-coral-darker, #f00008);
-  font-weight: 600;
+.asset-open:hover {
+  color: var(--text);
 }
 
 /* ---- Copy menu (right-click on an asset) ---- */
@@ -281,12 +427,14 @@ button.asset.copy-failed .asset-slug {
   flex-direction: column;
   min-width: 200px;
   padding: 4px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   border-radius: var(--radius);
-  background: var(--bg);
+  background: rgba(253, 253, 248, 0.85);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.08),
-    0 12px 32px rgba(0, 0, 0, 0.12);
+    0 4px 12px rgba(35, 37, 29, 0.08),
+    0 12px 32px rgba(35, 37, 29, 0.16);
 }
 .copy-menu button {
   font: inherit;
@@ -294,14 +442,15 @@ button.asset.copy-failed .asset-slug {
   text-align: left;
   color: var(--text);
   background: none;
-  border: 0;
-  border-radius: 6px;
-  padding: 7px 10px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  padding: 6px 10px;
   cursor: pointer;
 }
 .copy-menu button:hover:not(:disabled),
 .copy-menu button:focus-visible {
-  background: var(--bg-subtle);
+  background: rgba(229, 231, 224, 0.8);
+  border-color: var(--border);
   outline: none;
 }
 /* A PNG row: the label, then one compact button per scale (1x / 2x / 4x). */
@@ -310,14 +459,14 @@ button.asset.copy-failed .asset-slug {
   align-items: center;
   gap: 2px;
   font-size: 13px;
-  padding-left: 10px;
+  padding-left: 11px;
 }
 .copy-menu-row span {
   flex: 1;
   color: var(--text);
 }
 .copy-menu .copy-menu-row button {
-  padding: 7px 8px;
+  padding: 6px 8px;
   font-family: var(--mono);
   font-size: 12px;
   color: var(--text-muted);
@@ -345,7 +494,7 @@ button.asset.copy-failed .asset-slug {
 .empty-title {
   margin: 8px 0 0;
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text);
 }
 .empty-hint {
@@ -354,31 +503,67 @@ button.asset.copy-failed .asset-slug {
 }
 
 /* ---- Buttons / controls ---- */
+/* posthog.com's raised OS button, in one element: the face is lifted off a base strip
+   (the box-shadow), rises a little more on hover, and presses down on click. */
 .btn {
+  --face: var(--surface);
+  --base: var(--border-strong);
+  --edge: var(--border-hover);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   font: inherit;
-  font-size: 13px;
-  font-weight: 600;
-  border: 1px solid var(--border);
-  background: var(--bg);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
   color: var(--text);
-  border-radius: 8px;
-  padding: 5px 10px;
+  text-decoration: none;
+  padding: 5px 12px;
+  border: 1.5px solid var(--edge);
+  border-radius: 6px;
+  background: var(--face);
+  box-shadow:
+    0 2px 0 var(--base),
+    0 3.5px 0 var(--edge);
+  transform: translateY(-2px);
   cursor: pointer;
+  user-select: none;
+  transition:
+    transform 0.05s ease,
+    box-shadow 0.05s ease;
 }
 .btn:hover {
-  background: var(--bg-subtle);
+  color: var(--text);
+  transform: translateY(-3px);
+  box-shadow:
+    0 3px 0 var(--base),
+    0 4.5px 0 var(--edge);
+}
+.btn:active {
+  transform: translateY(-0.5px);
+  box-shadow:
+    0 0.5px 0 var(--base),
+    0 2px 0 var(--edge);
 }
 .btn-primary {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: #fff;
+  --face: var(--btn-face);
+  --base: var(--btn-base);
+  --edge: var(--btn-edge);
+  color: #111;
 }
 .btn-primary:hover {
-  background: var(--primary-darker);
+  color: #111;
+}
+.btn-sm {
+  font-size: 13px;
+  padding: 2px 10px;
 }
 .btn.copied {
-  border-color: var(--posthog-green, #47c861);
-  color: var(--posthog-green-darker, #35b14e);
+  --face: color-mix(in srgb, var(--posthog-green, #47c861) 18%, var(--surface));
+  --base: var(--posthog-green, #47c861);
+  --edge: var(--posthog-green-darker, #35b14e);
+  color: #1e6b2e;
 }
 
 .toolbar {
@@ -390,68 +575,105 @@ button.asset.copy-failed .asset-slug {
 }
 .input {
   font: inherit;
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  font-size: 15px;
+  color: var(--text);
+  padding: 7px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  background: var(--surface);
   min-width: 220px;
   flex: 1;
+}
+.input::placeholder {
+  color: var(--text-faint);
+}
+.input:hover {
+  border-color: var(--border-hover);
+}
+.input:focus {
+  outline: none;
+  border-color: var(--btn-edge);
+  box-shadow: 0 0 0 3px rgba(235, 157, 42, 0.25);
 }
 .count {
   color: var(--text-muted);
   font-size: 14px;
 }
+/* Segmented control: a sunken track, the active option a raised tab. */
 .seg {
   display: inline-flex;
+  gap: 2px;
+  padding: 2px;
   border: 1px solid var(--border);
-  border-radius: 8px;
-  overflow: hidden;
+  border-radius: 7px;
+  background: var(--surface-sunken);
 }
 .seg button {
-  border: 0;
-  background: var(--bg);
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: none;
   font: inherit;
   font-size: 13px;
   font-weight: 600;
-  padding: 6px 14px;
+  padding: 4px 12px;
   cursor: pointer;
   color: var(--text-muted);
 }
+.seg button:hover {
+  color: var(--text);
+}
 .seg button.active {
-  background: var(--primary);
-  color: #fff;
+  background: var(--surface);
+  border-color: var(--border-strong);
+  color: var(--text);
+  font-weight: 700;
+  box-shadow: 0 1px 2px rgba(35, 37, 29, 0.08);
 }
 
 /* ---- Code ---- */
 .code {
   position: relative;
-  background: #1d1f27;
-  color: #f4f3ee;
+  background: var(--surface-accent);
+  color: var(--text);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 16px 18px;
   overflow: auto;
   font-family: var(--mono);
   font-size: 13px;
-  line-height: 1.6;
+  line-height: 1.65;
+}
+/* sugar-high token colors (CodeBlock), tuned for the light code panel. */
+.code {
+  --sh-keyword: #a621c8;
+  --sh-string: #2e7d32;
+  --sh-entity: #1663c7;
+  --sh-class: #b45309;
+  --sh-property: #0f766e;
+  --sh-identifier: var(--text);
+  --sh-sign: #65675e;
+  --sh-jsxliterals: var(--text);
+  --sh-comment: #85877d;
+}
+.code .sh__token--comment {
+  font-style: italic;
 }
 .code pre {
   margin: 0;
 }
 .code .btn {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
-  color: #f4f3ee;
-}
-.code .btn:hover {
-  background: rgba(255, 255, 255, 0.2);
+  top: 12px;
+  right: 12px;
+  font-family: var(--font-brand);
+  font-size: 12px;
+  padding: 1px 9px;
 }
 
 /* ---- Logo page ---- */
 .section-lede {
   color: var(--text-muted);
-  font-size: 14px;
+  font-size: 15px;
   margin: 0 0 16px;
   max-width: 70ch;
 }
@@ -460,7 +682,7 @@ button.asset.copy-failed .asset-slug {
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  background: var(--bg-subtle);
+  background: var(--surface-accent);
 }
 .logo-stage.dark {
   background: #1d1f27;
@@ -493,11 +715,41 @@ button.asset.copy-failed .asset-slug {
   cursor: pointer;
 }
 .copy-stage:hover {
-  border-color: var(--primary);
+  border-color: var(--border-hover);
 }
 .preset .logo-stage {
   height: 120px;
   padding: 12px;
+}
+/* "Click to copy PNG" on the first preset, since nothing else says the logos are buttons. */
+.copy-hint {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 7px;
+  border: 1px solid var(--btn-edge);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--btn-face) 20%, var(--surface));
+  color: #6b4706;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.5;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+.copy-hint::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 3h9a3 3 0 0 1 3 3v10h-2V6a1 1 0 0 0-1-1H8V3Zm-3 4h9a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Zm0 2v11h9V9H5Z'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+}
+.copy-stage:hover .copy-hint {
+  opacity: 0;
 }
 .copy-flash {
   position: absolute;
@@ -505,9 +757,11 @@ button.asset.copy-failed .asset-slug {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
-  background: color-mix(in srgb, var(--accent) 85%, transparent);
-  color: #fff;
+  padding: 8px;
+  text-align: center;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--btn-face) 90%, transparent);
+  color: #111;
   font-size: 15px;
   font-weight: 700;
   opacity: 0;
@@ -515,6 +769,7 @@ button.asset.copy-failed .asset-slug {
 }
 .copy-flash.failed {
   background: color-mix(in srgb, var(--posthog-coral-darker, #f00008) 85%, transparent);
+  color: #fff;
 }
 /* Matches the 1.4s the copy status lives for (useAssetCopy). */
 .copy-flash.show {
@@ -557,11 +812,15 @@ button.asset.copy-failed .asset-slug {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 10px 10px 14px;
+  padding: 8px 8px 14px;
 }
+/* A column that fills the card, so the download buttons sit on the bottom edge however
+   long the description runs. */
 .preset-body {
   flex: 1;
-  padding: 0 4px;
+  display: flex;
+  flex-direction: column;
+  padding: 0 6px;
 }
 .preset-body h3 {
   font-size: 15px;
@@ -574,10 +833,11 @@ button.asset.copy-failed .asset-slug {
 }
 .preset-body .download-links {
   justify-content: flex-start;
-  margin-top: 8px;
+  margin-top: auto;
+  padding-top: 12px;
 }
 .preset-body .download-links .btn {
-  padding: 4px 10px;
+  padding: 1px 9px;
   font-size: 12px;
   white-space: nowrap;
 }
@@ -586,35 +846,62 @@ button.asset.copy-failed .asset-slug {
 .guidelines {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-bottom: 16px;
+  gap: 12px;
+  margin-bottom: 12px;
 }
 @media (max-width: 720px) {
   .guidelines {
     grid-template-columns: 1fr;
   }
 }
-.guideline {
-  padding: 16px 20px;
-  border-top-width: 3px;
+
+/* posthog.com's CalloutBox: a full border in the callout's color over a 15% tint of it,
+   an icon beside a bold title, and the body indented to line up under the title. */
+.callout {
+  --tone: var(--border-hover);
+  padding: 16px;
+  border: 1px solid var(--tone);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--tone) 15%, var(--surface));
 }
-.guideline h3 {
+.callout-do {
+  --tone: var(--posthog-green, #47c861);
+}
+.callout-dont {
+  --tone: var(--posthog-coral, #ff474d);
+}
+/* "fyi": posthog.com's neutral callout, the accent panel with a plain border. */
+.callout-info {
+  border-color: var(--border-strong);
+  background: var(--surface-sunken);
+}
+.callout-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+  font-size: 17px;
+}
+.callout-title svg {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  opacity: 0.75;
+}
+.callout-body {
+  padding-left: 32px;
   font-size: 15px;
-  margin: 0 0 8px;
+  line-height: 1.65;
 }
-.guideline ul {
-  margin: 0;
+.callout-body ul {
+  margin: 4px 0 0;
   padding-left: 18px;
-  font-size: 14px;
 }
-.guideline li + li {
-  margin-top: 6px;
+.callout-body li + li {
+  margin-top: 4px;
 }
-.guideline.do {
-  border-top-color: var(--posthog-green, #47c861);
-}
-.guideline.dont {
-  border-top-color: var(--posthog-coral, #ff474d);
+.callout-body :not(pre) > code {
+  background: var(--surface);
 }
 
 /* The custom builder, collapsed until no preset fits. */
@@ -706,8 +993,8 @@ button.asset.copy-failed .asset-slug {
 }
 .swatch-dot.active {
   box-shadow:
-    0 0 0 2px var(--bg),
-    0 0 0 4px var(--primary);
+    0 0 0 2px var(--surface),
+    0 0 0 4px var(--btn-edge);
 }
 .builder-control.disabled .swatch-dot {
   cursor: not-allowed;
@@ -715,13 +1002,11 @@ button.asset.copy-failed .asset-slug {
 .builder-control-label {
   font-size: 12px;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
   color: var(--text-muted);
 }
 .props-subhead {
-  font-size: 15px;
-  margin: 24px 0 12px;
+  font-size: 16px;
+  margin: 28px 0 12px;
 }
 .props-table {
   overflow-x: auto;
@@ -742,14 +1027,19 @@ button.asset.copy-failed .asset-slug {
   border-bottom: 0;
 }
 .props-table th {
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  font-size: 13px;
   color: var(--text-muted);
-  background: var(--bg-subtle);
+  background: var(--surface-accent);
+}
+/* Prop names and defaults are short tokens; keep each on one line and let the type and
+   notes columns take up the slack. */
+.props-table .nowrap {
+  white-space: nowrap;
+}
+.props-table .nowrap code {
+  overflow-wrap: normal;
 }
 .props-table code {
-  font-family: var(--mono);
   font-size: 12.5px;
 }
 .props-table + .section-lede {
@@ -778,6 +1068,7 @@ button.asset.copy-failed .asset-slug {
 }
 .color-gradient {
   height: 72px;
+  border-bottom: 1px solid var(--border);
 }
 .color-body {
   padding: 14px 16px;
@@ -790,24 +1081,30 @@ button.asset.copy-failed .asset-slug {
 .swatch-row {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 2px;
 }
 .swatch {
   display: flex;
   align-items: center;
   gap: 10px;
   cursor: pointer;
-  border: 0;
+  border: 1px solid transparent;
+  border-radius: 6px;
   background: none;
   font: inherit;
-  padding: 2px;
+  color: inherit;
+  padding: 3px;
   text-align: left;
+}
+.swatch:hover {
+  border-color: var(--border);
+  background: var(--surface-accent);
 }
 .swatch-chip {
   width: 26px;
   height: 26px;
-  border-radius: 6px;
-  border: 1px solid var(--border);
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   flex: none;
 }
 .swatch-meta {
@@ -824,69 +1121,120 @@ button.asset.copy-failed .asset-slug {
   font-size: 13px;
 }
 
-/* ---- Hero / overview ---- */
+/* ---- Overview ---- */
 .hero {
-  text-align: center;
-  padding: 32px 0 8px;
-}
-.hero-logo {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 32px;
+  padding: 8px 0 8px;
 }
 .hero h1 {
-  font-size: 44px;
-  margin: 0 0 12px;
+  font-size: clamp(34px, 5vw, 48px);
+  margin: 0 0 14px;
 }
 .hero p {
   color: var(--text-muted);
-  font-size: 19px;
-  max-width: 60ch;
-  margin: 0 auto;
+  font-size: 18px;
+  max-width: 56ch;
+  margin: 0;
 }
-.pill {
-  display: inline-block;
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 28px;
+}
+/* The primary button and the install chip cover the same span on screen. The button's
+   40px box draws its face 2px higher and its base strip 3.5px below the face (see .btn), so
+   it shows from -2px to 41.5px. The chip is lifted 2px and made 43.5px tall to match. */
+.hero-actions > .btn {
+  height: 40px;
+  font-size: 15px;
+  padding: 0 16px;
+}
+.hero-actions > .install {
+  height: 43.5px;
+  transform: translateY(-2px);
+}
+.hero-art {
+  display: flex;
+  align-items: flex-end;
+}
+.hero-art svg {
+  width: 300px;
+  height: auto;
+}
+@media (max-width: 860px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+  .hero-art {
+    display: none;
+  }
+}
+/* `pnpm add …` with its copy button, as a terminal-ish chip. */
+.install {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 6px 0 14px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 6px;
+  background: var(--surface);
   font-family: var(--mono);
   font-size: 13px;
-  background: var(--bg-subtle);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 4px 14px;
-  margin-top: 18px;
+}
+.install::before {
+  content: "$";
+  color: var(--text-faint);
+  margin-right: -4px;
+}
+.install .btn {
+  font-family: var(--font-brand);
+  font-size: 12px;
+  padding: 1px 9px;
 }
 .nav-card {
-  padding: 20px;
+  padding: 8px 8px 16px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   height: 100%;
+  text-decoration: none;
+  font-weight: 400;
+  color: var(--text);
+  transition:
+    border-color 0.1s ease,
+    transform 0.1s ease;
 }
 .nav-card:hover {
-  text-decoration: none;
-  border-color: var(--primary);
+  color: var(--text);
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
 }
 .nav-card h3 {
-  margin: 0;
-  font-size: 18px;
-  color: var(--text);
+  margin: 4px 8px 0;
+  font-size: 17px;
 }
 .nav-card p {
-  margin: 0;
+  margin: 0 8px;
   color: var(--text-muted);
   font-size: 14px;
 }
 .nav-card-preview {
-  height: 90px;
+  height: 110px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  background: var(--bg-subtle);
-  border-radius: 8px;
+  background: var(--surface-accent);
+  border-radius: 5px;
   overflow: hidden;
 }
 .nav-card-preview svg {
-  max-height: 70px;
+  max-height: 76px;
   width: auto;
 }
 
@@ -916,15 +1264,15 @@ button.asset.copy-failed .asset-slug {
 .face-meta {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  align-items: flex-start;
+  gap: 6px;
 }
 .face-name {
   font-weight: 700;
   font-size: 15px;
 }
 .face-token {
-  font-family: var(--mono);
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--text-muted);
 }
 .face-sample {
@@ -960,10 +1308,10 @@ button.asset.copy-failed .asset-slug {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 32px 20px 72px;
+  padding: 16px 20px 40px;
 }
 .notfound-hog {
-  width: min(440px, 76vw);
+  width: min(400px, 76vw);
   height: auto;
   /* Idles with a slow float, as if the hog is still hunting for the page. */
   animation: notfound-hog-float 4.5s ease-in-out infinite;
@@ -1003,19 +1351,19 @@ button.asset.copy-failed .asset-slug {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
-  margin-top: 24px;
+  gap: 12px;
+  margin-top: 28px;
 }
 .notfound-actions .btn {
-  padding: 9px 16px;
-  font-size: 14px;
+  padding: 6px 16px;
+  font-size: 15px;
 }
 
 /* Asset detail pages (/hoggies/:slug, /crests/:slug): the big copyable card + download links. */
 .detail-card {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
 }
 .detail-card > .card {
   width: 100%;
@@ -1023,5 +1371,5 @@ button.asset.copy-failed .asset-slug {
 .download-links {
   display: flex;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
 }

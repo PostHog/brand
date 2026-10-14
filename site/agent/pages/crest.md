@@ -1,4 +1,4 @@
-# {{name}} crest — PostHog
+# The {{name}} crest
 
 > {{name}}, a PostHog team crest.{{tags}}
 
