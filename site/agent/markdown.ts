@@ -26,9 +26,16 @@ function fill(text: string, vars: Vars): string {
   })
 }
 
-/** A table cell: no pipes or newlines. */
+/**
+ * A table cell: no unescaped pipes or newlines. Backslashes are escaped first, so a value
+ * ending in `\` can't turn the pipe escape into `\\|` (a literal backslash, then a bare pipe
+ * that splits the cell).
+ */
 function cell(text: string): string {
-  return text.replace(/\|/g, "\\|").replace(/\s*\n\s*/g, " ")
+  return text
+    .replace(/\\/g, "\\\\")
+    .replace(/\|/g, "\\|")
+    .replace(/\s*\n\s*/g, " ")
 }
 
 function table(head: string[], rows: string[][]): string {
