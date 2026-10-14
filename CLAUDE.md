@@ -141,8 +141,8 @@ per asset (its own chunk, fetched on copy). The loaders rebuild the markup from 
 leaves the Overview/404 import statically sit in the entry chunk, and asking for their
 duplicated `svg` string there adds ~1.4 MB. The Logo page follows the brand handbook
 (posthog.com/handbook/brand/assets): preset cards for its approved versions (each with when to
-use it), the do's/don'ts, then a builder (layout / variant / brand-color swatch / canvas /
-holiday) for anything the presets don't cover, then the React API. Its logos copy the same way
+use it), the do's/don'ts, then a builder (layout / variant — the presets' full color, print,
+black, or white / canvas) for anything the presets don't cover, then the React API. Its logos copy the same way
 (click = PNG, right-click = menu, same `CopyFlash`), but the logo ships no svg/png
 exports, so `site/src/svg-export.ts` snapshots the rendered `<svg>` (currentColor resolved,
 viewBox grown to its bbox, optionally padded to a square/circle-safe canvas for avatar uploads)
@@ -160,7 +160,8 @@ the keyed one it remounted every click and flashed its fallback. Nav links also 
 chunk on hover/focus (`site/src/prefetch.ts`), and `main.tsx` skips its reload while such a
 speculative prefetch is in flight. The site is
 themed from the package's own `colorsCss` tokens and styled after posthog.com (`site/src/theme.css`:
-frosted translucent nav/page panels over a garden backdrop with the safari hoggie, its raised 3D
+frosted translucent nav/page panels over a garden backdrop with posthog.com's origami keyboard-garden
+hogs (`site/src/assets/origami-garden.webp`), its raised 3D
 buttons and callout boxes; solid surfaces under `prefers-reduced-transparency`). `<CodeBlock>`
 highlights its TSX with `sugar-high` (colors are the `--sh-*` properties in theme.css); keep
 trailing `//` comments in a snippet aligned to one column. Because `@posthog/brand` is consumed through

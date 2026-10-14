@@ -1,4 +1,3 @@
-import safariPng from "@posthog/brand/hoggies/png/safari"
 import { Logo } from "@posthog/brand/logo"
 import { lazy, type ReactNode, Suspense, useEffect } from "react"
 import { NavLink, Route, Routes, useLocation, useNavigate } from "react-router-dom"
@@ -7,6 +6,7 @@ import { ErrorBoundary } from "./components/ErrorBoundary.tsx"
 import { OverviewPage } from "./pages/Overview.tsx"
 import { prefetchRoute } from "./prefetch.ts"
 import { setWebMcpNavigate } from "./webmcp.ts"
+import origamiGardenWebp from "./assets/origami-garden.webp"
 
 // The asset-catalog pages each pull a large barrel of inline-SVG components, so they
 // load as their own route chunks instead of bloating the initial bundle. The loaders are
@@ -60,10 +60,10 @@ function Layout({ children }: { children: ReactNode }) {
   const page = pathname.length > 1 ? pathname.replace(/\/+$/, "") : pathname
   return (
     <>
-      {/* The "desktop" behind the frosted chrome, after posthog.com's garden wallpaper: a
-          hoggie hiding in the grass, blurred through the nav and the page panel. */}
+      {/* The "desktop" behind the frosted chrome: posthog.com's default keyboard-garden
+          wallpaper, origami hogs tending the PostHog keys, blurred through the nav and panel. */}
       <div className="wallpaper" aria-hidden="true">
-        <img className="wallpaper-hog" src={safariPng} alt="" decoding="async" />
+        <img className="wallpaper-hog" src={origamiGardenWebp} alt="" decoding="async" />
       </div>
       <header className="taskbar-wrap">
         <nav className="taskbar">

@@ -1,6 +1,5 @@
-import { colors } from "@posthog/brand/colors"
 import { Logo } from "@posthog/brand/logo"
-import type { LogoHoliday, LogoLayout, LogomarkHandle, LogoVariant } from "@posthog/brand/logo"
+import type { LogoLayout, LogomarkHandle } from "@posthog/brand/logo"
 import type { ReactNode } from "react"
 import { useLayoutEffect, useRef, useState } from "react"
 import { CodeBlock } from "../components/CodeBlock.tsx"
@@ -15,14 +14,15 @@ import {
   logoProps,
   type LogoFile,
   type LogoPreset,
+  type LogoTreatment,
 } from "../logo-files.ts"
 import { frameSide, PNG_SCALES, standaloneSvg, svgToPng, type ExportFrame } from "../svg-export.ts"
 import { useSeo } from "../useSeo.ts"
 
 // The page follows the brand handbook (posthog.com/handbook/brand/assets): first the approved
 // logo versions as presets, each with when to use it and a one-click export; then the do's and
-// don'ts; then — collapsed, for when no preset fits — a builder for any layout, color, canvas,
-// or holiday; and last the React API behind all of it.
+// don'ts; then — collapsed, for when no preset fits — a builder for any layout, variant, or
+// canvas; and last the React API behind all of it.
 //
 // The package ships the logo only as a component, so every PNG/SVG here is snapshotted from
 // what `<Logo>` rendered on the page (see svg-export.ts). A square/circle `frame` grows the
@@ -268,17 +268,14 @@ function Seg<T extends string>({
   value,
   options,
   onChange,
-  disabled,
 }: {
   label: string
   value: T
   options: { value: T; label: string }[]
   onChange: (value: T) => void
-  /** Why this control doesn't apply right now; when set, the control is disabled. */
-  disabled?: string
 }) {
   return (
-    <div className={`builder-control${disabled ? " disabled" : ""}`} title={disabled}>
+    <div className="builder-control">
       <span className="builder-control-label">{label}</span>
       <div className="seg" role="group" aria-label={label}>
         {options.map((o) => (
@@ -287,7 +284,6 @@ function Seg<T extends string>({
             type="button"
             className={o.value === value ? "active" : undefined}
             aria-pressed={o.value === value}
-            disabled={!!disabled}
             onClick={() => onChange(o.value)}
           >
             {o.label}
@@ -300,63 +296,13 @@ function Seg<T extends string>({
 
 type Canvas = "tight" | ExportFrame
 
-/** A mono color choice; `color` is absent for "inherit" (the mark draws `currentColor`). */
-interface Tint {
-  slug: string
-  label: string
-  color?: string
-}
-
-function hue(hex: string): number {
-  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
-  const max = Math.max(r, g, b)
-  const d = max - Math.min(r, g, b)
-  if (d === 0) return 0
-  const h = max === r ? ((g - b) / d) % 6 : max === g ? (b - r) / d + 2 : (r - g) / d + 4
-  // Wrap reds (coral sits at ~358°) to the front, so the row starts red rather than ends.
-  return ((h * 60 + 360 + 15) % 360) - 15
-}
-
-/** Inherit, white, then every brand color's core tone, in rainbow order. */
-const TINTS: Tint[] = [
-  { slug: "inherit", label: "Inherit (currentColor)" },
-  { slug: "white", label: "White", color: "#fff" },
-  ...Object.entries(colors)
-    .map(([slug, c]) => ({ slug, label: c.name, color: c.core }))
-    .sort((a, b) => hue(a.color) - hue(b.color)),
+/** The builder's treatments, from `logo-files.ts`: the same approved color options the presets use. */
+const TREATMENTS: { value: LogoTreatment; label: string }[] = [
+  { value: "gradient", label: "Full color" },
+  { value: "print", label: "Print" },
+  { value: "black", label: "Black" },
+  { value: "white", label: "White" },
 ]
-
-/** A labelled row of round color swatches. */
-function Swatches({
-  value,
-  onChange,
-  disabled,
-}: {
-  value: Tint
-  onChange: (tint: Tint) => void
-  disabled?: string
-}) {
-  return (
-    <div className={`builder-control${disabled ? " disabled" : ""}`} title={disabled}>
-      <span className="builder-control-label">Color</span>
-      <div className="swatches" role="group" aria-label="Color">
-        {TINTS.map((t) => (
-          <button
-            key={t.slug}
-            type="button"
-            className={`swatch-dot${t.color ? "" : " inherit"}${t.slug === value.slug ? " active" : ""}`}
-            style={t.color ? { background: t.color } : undefined}
-            aria-label={t.label}
-            aria-pressed={t.slug === value.slug}
-            title={disabled ? undefined : t.label}
-            disabled={!!disabled}
-            onClick={() => onChange(t)}
-          />
-        ))}
-      </div>
-    </div>
-  )
-}
 
 /** Preview width per layout; smaller on a padded canvas so the crop guide fits the stage. */
 const PREVIEW_SIZE: Record<LogoLayout, { tight: number; framed: number }> = {
@@ -367,41 +313,35 @@ const PREVIEW_SIZE: Record<LogoLayout, { tight: number; framed: number }> = {
 }
 
 /**
- * Pick a layout, treatment, color, canvas, and (for the logomark) a holiday; see the logo,
- * export exactly that as a PNG/SVG, or copy the JSX that renders it. The logomark and
- * wordmark use their `Logo.*` subcomponents, since that's where the logomark-only props live.
+ * Pick a layout, treatment, and canvas; see the logo, export exactly that as a PNG/SVG, or
+ * copy the JSX that renders it. The logomark and wordmark use their `Logo.*` subcomponents.
  *
  * The file is snapshotted from the preview (see svg-export.ts) — with a square/circle canvas
  * the padding is baked in, and the dashed guide previews the crop with the same math.
  */
 function Builder() {
   const [layout, setLayout] = useState<LogoLayout>("landscape")
-  const [variant, setVariant] = useState<LogoVariant>("gradient")
-  const [tint, setTint] = useState<Tint>(TINTS[0])
+  const [picked, setPicked] = useState<LogoTreatment>("gradient")
   const [canvas, setCanvas] = useState<Canvas>("tight")
-  const [holiday, setHoliday] = useState<LogoHoliday | "none">("none")
 
   const isMark = layout === "logomark"
   const isWordmark = layout === "wordmark"
-  // `color` only means something for mono, and the wordmark is always mono.
-  const mono = isWordmark || variant === "mono"
-  const color = mono ? tint.color : undefined
+  // The wordmark is always mono, so it only comes in black or white.
+  const treatment = isWordmark && (picked === "gradient" || picked === "print") ? "black" : picked
+  const { variant, color } = logoProps(treatment)
   const frame = canvas === "tight" ? undefined : canvas
-  const markHoliday = isMark && holiday !== "none" ? holiday : undefined
 
   const props: string[] = []
   if (!isMark && !isWordmark && layout !== "landscape") props.push(`layout="${layout}"`)
   if (!isWordmark && variant !== "gradient") props.push(`variant="${variant}"`)
   if (color) props.push(`color="${color}"`)
-  if (markHoliday) props.push(`holiday="${markHoliday}"`)
   const tag = isMark ? "Logo.Logomark" : isWordmark ? "Logo.Wordmark" : "Logo"
   const jsx = `<${[tag, ...props].join(" ")} />`
 
-  // posthog-logo-stacked-print-square, posthog-logomark-white-christmas-circle, …
+  // posthog-logo-stacked-print-square, posthog-logomark-white-circle, …
   const fileName = [
     isMark ? "posthog-logomark" : isWordmark ? "posthog-wordmark" : `posthog-logo-${layout}`,
-    mono ? (tint.color ? tint.slug : "mono") : variant,
-    markHoliday,
+    treatment,
     frame,
   ]
     .filter(Boolean)
@@ -411,19 +351,13 @@ function Builder() {
     frame,
     fileName,
     usage: jsx,
-    measureKey: `${layout}-${markHoliday}`,
+    measureKey: layout,
   })
 
   const size = PREVIEW_SIZE[layout][frame ? "framed" : "tight"]
   const title = "PostHog logo builder preview"
   const preview = isMark ? (
-    <Logo.Logomark
-      size={size}
-      variant={variant}
-      color={color}
-      holiday={markHoliday}
-      title={title}
-    />
+    <Logo.Logomark size={size} variant={variant} color={color} title={title} />
   ) : isWordmark ? (
     <Logo.Wordmark size={size} color={color} title={title} />
   ) : (
@@ -446,19 +380,9 @@ function Builder() {
         />
         <Seg
           label="Variant"
-          value={variant}
-          onChange={setVariant}
-          disabled={isWordmark ? "The wordmark is always mono" : undefined}
-          options={[
-            { value: "gradient", label: "Full color" },
-            { value: "print", label: "Print" },
-            { value: "mono", label: "Mono" },
-          ]}
-        />
-        <Swatches
-          value={tint}
-          onChange={setTint}
-          disabled={mono ? undefined : "Color applies to the mono variant and the wordmark"}
+          value={treatment}
+          onChange={setPicked}
+          options={isWordmark ? TREATMENTS.slice(2) : TREATMENTS}
         />
         <Seg
           label="Canvas"
@@ -470,23 +394,12 @@ function Builder() {
             { value: "circle", label: "Circle" },
           ]}
         />
-        <Seg
-          label="Holiday"
-          value={holiday}
-          onChange={setHoliday}
-          disabled={isMark ? undefined : "Holidays dress up the logomark only"}
-          options={[
-            { value: "none", label: "None" },
-            { value: "christmas", label: "Christmas" },
-            { value: "halloween", label: "Halloween" },
-          ]}
-        />
       </div>
 
       <CopyStage
         exp={exp}
         frame={frame}
-        dark={mono && tint.slug === "white"}
+        dark={treatment === "white"}
         stageClassName="builder-stage"
         title={`${fileName}: click to copy the PNG, right-click for the SVG, JSX, or a download`}
       >
@@ -710,8 +623,8 @@ export function LogoPage() {
           <h2>None of these fit? Build a custom logo</h2>
         </summary>
         <p className="section-lede">
-          Pick a layout, a brand color, a square or circle canvas for avatars, or a holiday hat.
-          Then export it as a PNG or SVG, or copy the JSX.
+          Pick a layout, a variant, and a square or circle canvas for avatars. Then export it as a
+          PNG or SVG, or copy the JSX.
         </p>
         <Builder />
       </details>
