@@ -136,8 +136,8 @@ a:has(> code) {
 
 /* ---- Desktop ---- */
 /* posthog.com's default "keyboard garden" wallpaper — origami hogs tending the PostHog keys —
-   fixed behind everything. It sits mostly under the page panel on purpose: seen through the
-   frosted glass it's the soft shape that makes the translucency read, as it does there. */
+   fixed behind everything, big. Part of it sits under the page panel on purpose: seen through
+   the frosted glass it's the soft shape that makes the translucency read, as it does there. */
 .wallpaper {
   position: fixed;
   inset: 0;
@@ -147,9 +147,9 @@ a:has(> code) {
 }
 .wallpaper-hog {
   position: absolute;
-  right: max(-40px, calc(50vw - var(--maxw) / 2 - 300px));
-  bottom: -40px;
-  width: min(777px, 70vw);
+  right: -80px;
+  bottom: -80px;
+  width: max(min(1400px, 92vw), 520px);
   height: auto;
 }
 
@@ -964,13 +964,6 @@ button.asset:hover .asset-img.loaded {
   display: flex;
   flex-direction: column;
   gap: 6px;
-}
-.builder-control.disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-.builder-control.disabled .seg button {
-  cursor: not-allowed;
 }
 .builder-control-label {
   font-size: 12px;
