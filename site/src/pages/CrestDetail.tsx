@@ -35,7 +35,8 @@ export function CrestDetailPage() {
     return (
       <div>
         <PageHeader eyebrow="@posthog/brand/crests" title="Crest not found">
-          No crest with slug <code>{slug}</code>. <Link to="/crests">Back to all crests</Link>.
+          We don't have a crest called <code>{slug}</code>. <Link to="/crests">See all crests</Link>
+          .
         </PageHeader>
       </div>
     )
@@ -46,9 +47,10 @@ export function CrestDetailPage() {
   return (
     <div>
       <PageHeader eyebrow="@posthog/brand/crests" title={asset.name}>
-        <Link to="/crests">← All crests</Link> · slug <code>{slug}</code> · click either one to copy
-        its PNG, right-click for the import line or SVG ·{" "}
-        <a href={markdownPath(crestPagePath(slug))}>markdown</a>
+        Click either one to copy it as a PNG, or right-click for the import line or the SVG.
+        <br />
+        <Link to="/crests">All crests</Link> · <code>{slug}</code> ·{" "}
+        <a href={markdownPath(crestPagePath(slug))}>Markdown</a>
       </PageHeader>
 
       <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
@@ -70,7 +72,7 @@ export function CrestDetailPage() {
           />
         ) : (
           <div className="card" style={{ textAlign: "center", opacity: 0.6 }}>
-            <div style={{ padding: "48px 0" }}>No mini tier for this crest.</div>
+            <div style={{ padding: "48px 0" }}>This crest has no mini badge.</div>
           </div>
         )}
       </div>

@@ -16,7 +16,8 @@
     "posthog-js": "^1.438.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-router-dom": "^7.1.0"
+    "react-router-dom": "^7.1.0",
+    "sugar-high": "^2.5.2"
   },
   "devDependencies": {
     "@types/react": "^19.2.0",

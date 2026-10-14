@@ -6,9 +6,13 @@ import { colors } from "@posthog/brand/colors"
 import { GraphicsCrest } from "@posthog/brand/crests"
 import { HedgehogMoney, HedgehogExplorer, HedgehogChart } from "@posthog/brand/hoggies"
 import { Logo } from "@posthog/brand/logo"
+import posthog from "posthog-js"
 import { Link } from "react-router-dom"
 import { CodeBlock } from "../components/CodeBlock.tsx"
+import { CopyButton } from "../components/CopyButton.tsx"
 import { useSeo } from "../useSeo.ts"
+
+const INSTALL = "pnpm add @posthog/brand"
 
 const QUICK_START = `import { Logo } from "@posthog/brand/logo"
 import { HedgehogChart } from "@posthog/brand/hoggies"
@@ -17,9 +21,10 @@ import { colors } from "@posthog/brand/colors"
 
 <Logo size={160} title="PostHog" />
 <HedgehogChart size={96} />
-<GraphicsCrest size={64} />        {/* full crest */}
-<GraphicsCrest.Mini size={24} />  {/* mini badge */}
-colors.blue.core               // "#1490E8"`
+<GraphicsCrest size={64} />        // full crest
+<GraphicsCrest.Mini size={24} />   // mini badge
+
+colors.blue.core                   // "#1490E8"`
 
 const hoggieCount = findAssets({ namespace: "hoggies" }).length
 const crestCount = findAssets({ namespace: "crests", tier: "full" }).length
@@ -31,17 +36,28 @@ export function OverviewPage() {
   return (
     <div>
       <section className="hero">
-        <div className="hero-logo">
-          <Logo size={320} title="PostHog" />
+        <div>
+          <h1>PostHog brand assets</h1>
+          <p>
+            Our logo, colors, fonts, hedgehogs, and team crests, packaged for React. Install{" "}
+            <code>@posthog/brand</code> and everything works offline. Or self-serve them from here!
+          </p>
+          <div className="hero-actions">
+            <Link to="/hoggies" className="btn btn-primary">
+              Browse the hoggies
+            </Link>
+            <span className="install">
+              {INSTALL}
+              <CopyButton
+                value={INSTALL}
+                onCopied={() => posthog.capture("code copied", { snippet: "install" })}
+              />
+            </span>
+          </div>
         </div>
-        <h1>PostHog brand assets</h1>
-        <p>
-          The logo, colors, hedgehogs, and crests — as a bundled, offline React package. Everything
-          below is rendered live from <code>@posthog/brand</code>, no CDN and no screenshots. This
-          is meant to grow into the home for{" "}
-          <a href="https://posthog.com/handbook/company/brand-assets">brand assets</a>.
-        </p>
-        <span className="pill">pnpm add @posthog/brand</span>
+        <div className="hero-art">
+          <HedgehogExplorer title="A hedgehog explorer reading a map" />
+        </div>
       </section>
 
       <section className="section">
@@ -52,14 +68,16 @@ export function OverviewPage() {
       <section className="section">
         <h2>For AI agents</h2>
         <p className="section-lede">
-          Point your agent at <a href="/llms.txt">brand.posthog.com/llms.txt</a>. In a JS/TS project
-          it should install <code>@posthog/brand</code> and import what it needs; anywhere else,
-          every asset is a static file it can download directly — e.g.{" "}
-          <a href="/hoggies/chart.svg">/hoggies/chart.svg</a>,{" "}
-          <a href="/logo/posthog-logo.png">/logo/posthog-logo.png</a>. Every page also has a
-          markdown version (<a href="/index.md">/index.md</a>), and{" "}
-          <a href="/catalog.json">/catalog.json</a> lists everything. In browsers with WebMCP, this
-          site registers tools to search, inspect, and download assets.
+          Point your agent at <a href="/llms.txt">brand.posthog.com/llms.txt</a>. In a JS or TS
+          project it should install <code>@posthog/brand</code> and import what it needs. Anywhere
+          else, it can download any asset as a static file, like{" "}
+          <a href="/hoggies/chart.svg">/hoggies/chart.svg</a> or{" "}
+          <a href="/logo/posthog-logo.png">/logo/posthog-logo.png</a>.
+        </p>
+        <p className="section-lede">
+          Each page also comes as markdown (<a href="/index.md">/index.md</a>), and{" "}
+          <a href="/catalog.json">/catalog.json</a> lists every asset. In browsers that support
+          WebMCP, the site also registers tools to search, inspect, and download assets.
         </p>
       </section>
 
@@ -70,16 +88,16 @@ export function OverviewPage() {
             <div className="nav-card-preview">
               <Logo layout="stacked" size={64} />
             </div>
-            <h3>Logo →</h3>
-            <p>One parametric &lt;Logo&gt; — every lockup, gradient/print/mono, any color.</p>
+            <h3>Logo</h3>
+            <p>One &lt;Logo&gt; component for every lockup, in full color, print, or mono.</p>
           </Link>
 
           <Link to="/fonts" className="card nav-card">
             <div className="nav-card-preview" aria-hidden>
               <span style={{ fontWeight: 800, fontSize: 40, letterSpacing: "-0.02em" }}>Aa</span>
             </div>
-            <h3>Fonts →</h3>
-            <p>RoundHog, the brand typeface — eight bundled woff2 faces, ready to inject.</p>
+            <h3>Fonts</h3>
+            <p>RoundHog, our typeface. Eight woff2 faces ship with the package.</p>
           </Link>
 
           <Link to="/colors" className="card nav-card">
@@ -98,8 +116,10 @@ export function OverviewPage() {
                   />
                 ))}
             </div>
-            <h3>Colors →</h3>
-            <p>{colorCount} brand colors, each with a tonal ramp, gradient, and CSS token.</p>
+            <h3>Colors</h3>
+            <p>
+              {colorCount} brand colors with lighter and darker tones, gradients, and CSS variables.
+            </p>
           </Link>
 
           <Link to="/hoggies" className="card nav-card">
@@ -108,8 +128,8 @@ export function OverviewPage() {
               <HedgehogExplorer size={64} />
               <HedgehogChart size={64} />
             </div>
-            <h3>Hoggies →</h3>
-            <p>{hoggieCount} hedgehog illustrations as tree-shakeable React components.</p>
+            <h3>Hoggies</h3>
+            <p>{hoggieCount} hedgehog illustrations. Import only the ones you use.</p>
           </Link>
 
           <Link to="/crests" className="card nav-card">
@@ -117,8 +137,8 @@ export function OverviewPage() {
               <GraphicsCrest size={70} />
               <GraphicsCrest.Mini size={40} />
             </div>
-            <h3>Crests →</h3>
-            <p>{crestCount} team crests, each in a full and a mini badge tier.</p>
+            <h3>Crests</h3>
+            <p>{crestCount} team crests, each with a full illustration and a mini badge.</p>
           </Link>
         </div>
       </section>

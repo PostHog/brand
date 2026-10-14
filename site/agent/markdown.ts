@@ -86,7 +86,7 @@ function sharedVars(catalog: Catalog): Vars {
 /** Each section page's own placeholders, by its path in `PAGES` (template `pages/<name>.md`). */
 const SECTION_VARS: Record<string, (catalog: Catalog) => Vars> = {
   "/": () => ({
-    tools: list(TOOL_DEFINITIONS.map((tool) => `${code(tool.name)} — ${tool.description}`)),
+    tools: list(TOOL_DEFINITIONS.map((tool) => `${code(tool.name)}: ${tool.description}`)),
   }),
   "/logo": (catalog) => ({
     presets: table(
@@ -96,7 +96,7 @@ const SECTION_VARS: Record<string, (catalog: Catalog) => Vars> = {
         logo.preset!.when,
         link(`${logo.id}.svg`, logo.svg),
         link(`${logo.id}.png`, logo.png),
-        logo.jsx ? code(logo.jsx) : "—",
+        logo.jsx ? code(logo.jsx) : "None",
       ]),
     ),
     dos: list(LOGO_DOS),
@@ -109,7 +109,7 @@ const SECTION_VARS: Record<string, (catalog: Catalog) => Vars> = {
         logo.background,
         link("SVG", logo.svg),
         link(`PNG ${logo.width}×${logo.height}`, logo.png),
-        logo.jsx ? code(logo.jsx) : "— (export-only padding)",
+        logo.jsx ? code(logo.jsx) : "None (the padding is only in the file)",
       ]),
     ),
   }),
@@ -149,8 +149,8 @@ const SECTION_VARS: Record<string, (catalog: Catalog) => Vars> = {
           asset.tags.join(", "),
           link("SVG", full.svg),
           link("PNG", full.png),
-          mini ? link("SVG", mini.svg) : "—",
-          mini ? link("PNG", mini.png) : "—",
+          mini ? link("SVG", mini.svg) : "None",
+          mini ? link("PNG", mini.png) : "None",
           code(asset.component),
         ]
       }),
@@ -224,7 +224,7 @@ export function markdownPages(catalog: Catalog): Map<string, string> {
  */
 export function llmsTxt(catalog: Catalog): string {
   const assetLine = (asset: CatalogAsset) =>
-    `${link(asset.name, asset.markdown)}: ${asset.images.map((image) => image.svg).join(", ")}${asset.tags.length ? ` — ${asset.tags.join(", ")}` : ""}`
+    `${link(asset.name, asset.markdown)}: ${asset.images.map((image) => image.svg).join(", ")}${asset.tags.length ? ` (tags: ${asset.tags.join(", ")})` : ""}`
   return fill(template("llms.txt"), {
     ...sharedVars(catalog),
     description: PAGES[0]!.description,
@@ -232,7 +232,7 @@ export function llmsTxt(catalog: Catalog): string {
     npm: catalog.package.npm,
     logos: list(
       inPresetOrder(catalog.logos).map(
-        (logo) => `${logo.preset!.name} (${code(logo.id)}): ${logo.svg} — ${logo.preset!.when}`,
+        (logo) => `${logo.preset!.name} (${code(logo.id)}): ${logo.svg}. ${logo.preset!.when}`,
       ),
     ),
     hoggies: list(catalog.hoggies.map(assetLine)),

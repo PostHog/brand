@@ -34,7 +34,8 @@ export function HoggieDetailPage() {
     return (
       <div>
         <PageHeader eyebrow="@posthog/brand/hoggies" title="Hoggie not found">
-          No hoggie with slug <code>{slug}</code>. <Link to="/hoggies">Back to all hoggies</Link>.
+          We don't have a hoggie called <code>{slug}</code>.{" "}
+          <Link to="/hoggies">See all hoggies</Link>.
         </PageHeader>
       </div>
     )
@@ -50,16 +51,12 @@ export function HoggieDetailPage() {
   return (
     <div>
       <PageHeader eyebrow="@posthog/brand/hoggies" title={family.name}>
-        <Link to="/hoggies">← All hoggies</Link> · slug <code>{slug}</code>
-        {variants[0]?.key ? ` · ${variants.length} variants` : ""} · click to copy the PNG,
-        right-click for the import line or SVG ·{" "}
-        <a href={markdownPath(hoggiePagePath(slug))}>markdown</a>
-        {tags.length ? (
-          <>
-            <br />
-            Tags: {tags.join(", ")}
-          </>
-        ) : null}
+        Click {variants[0]?.key ? "a variant" : "it"} to copy it as a PNG, or right-click for the
+        import line or the SVG.
+        <br />
+        <Link to="/hoggies">All hoggies</Link> · <code>{slug}</code> ·{" "}
+        <a href={markdownPath(hoggiePagePath(slug))}>Markdown</a>
+        {tags.length ? ` · Tags: ${tags.join(", ")}` : null}
       </PageHeader>
 
       <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>

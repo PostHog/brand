@@ -1,6 +1,6 @@
 ## Two ways to get any asset
 
-**1. In a JavaScript/TypeScript project, use the npm package — it's the easiest route.** `@posthog/brand` bundles every asset on this site as typed, tree-shakeable imports: React components, raw SVG strings and PNG URLs. It works offline, needs no CDN or API key, and can't break like a hotlinked file.
+**1. In a JavaScript or TypeScript project, use the npm package.** It's the easiest route. `@posthog/brand` bundles every asset on this site as typed, tree-shakeable imports: React components, raw SVG strings and PNG URLs. It works offline without a CDN or an API key, and it won't break the way a hotlinked file can.
 
 ```sh
 {{install}}   # or: pnpm add / yarn add / bun add @posthog/brand
@@ -8,19 +8,19 @@
 
 ```tsx
 import { Logo } from "@posthog/brand/logo"
-import { HedgehogChart } from "@posthog/brand/hoggies"           // React component
+import { HedgehogChart } from "@posthog/brand/hoggies"            // React component
 import hedgehogChartSvg from "@posthog/brand/hoggies/svg/chart"   // SVG markup string, no React
 import hedgehogChartPng from "@posthog/brand/hoggies/png/chart"   // PNG URL, resolved by your bundler
 import { MarketingCrest } from "@posthog/brand/crests"
 import { colors } from "@posthog/brand/colors"
-import { findAssets } from "@posthog/brand"                        // search the catalog in code
+import { findAssets } from "@posthog/brand"                       // search the catalog in code
 
 <Logo />
 <HedgehogChart size={96} />
 <MarketingCrest size={64} />   <MarketingCrest.Mini size={24} />
 ```
 
-**2. Anywhere else — slides, docs, a design tool, another language — download the file.** Every asset is a static file at a stable URL: no auth, no API key, CORS enabled. Prefer the SVG (it scales without losing quality); use the PNG where SVG isn't accepted.
+**2. Anywhere else (slides, docs, a design tool, another language), download the file.** Every asset is a static file at a stable URL with CORS enabled, and you don't need auth or an API key to fetch it. Prefer the SVG, since it scales without losing quality. Use the PNG where SVG isn't accepted.
 
 | Asset                            | SVG                                   | PNG                                               |
 | -------------------------------- | ------------------------------------- | ------------------------------------------------- |

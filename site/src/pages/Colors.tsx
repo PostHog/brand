@@ -12,9 +12,9 @@ export function ColorsPage() {
     <div>
       <PageHeader eyebrow="@posthog/brand/colors" title="Colors">
         {ENTRIES.length} brand colors, each with a <code>core</code>, <code>lighter</code>, and{" "}
-        <code>darker</code> tone plus a gradient. Click any value to copy its hex. The same tokens
-        ship as CSS custom properties via <code>@posthog/brand/colors/css</code> — and theme this
-        very site.
+        <code>darker</code> tone plus a gradient. Click a value to copy its hex. The same colors
+        come as CSS variables from <code>@posthog/brand/colors/css</code>, which is also how this
+        site gets its colors.
       </PageHeader>
 
       <div className="grid grid-colors">

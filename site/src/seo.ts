@@ -56,11 +56,11 @@ export interface PageImage {
 export const PAGES: PageSeo[] = [
   {
     path: "/",
-    title: "PostHog brand assets — logo, colors, hedgehogs & crests",
+    title: "PostHog brand assets: logo, colors, hedgehogs and crests",
     label: "Overview",
     headline: "PostHog brand assets",
     description:
-      "Browse PostHog's brand assets: the logo, the RoundHog typeface, the brand color palette, 160+ hedgehog illustrations, and every team crest — all shipped as the offline React package @posthog/brand.",
+      "The PostHog logo, the RoundHog typeface, brand colors, 160+ hedgehog illustrations and the team crests. Download them or install the @posthog/brand React package.",
   },
   {
     path: "/logo",
@@ -68,15 +68,15 @@ export const PAGES: PageSeo[] = [
     label: "Logo",
     headline: "The PostHog logo",
     description:
-      "Every PostHog logo lockup in one parametric React component: landscape, stacked, logomark, and wordmark, in gradient, 4-color print, or mono — plus a logomark that jumps on click.",
+      "Every PostHog logo lockup from one React component: landscape, stacked, logomark and wordmark, in gradient, 4-color print or mono. Click the logomark and it jumps.",
   },
   {
     path: "/fonts",
-    title: "RoundHog — the PostHog brand typeface",
+    title: "RoundHog, the PostHog brand typeface",
     label: "Fonts",
     headline: "RoundHog, PostHog's typeface",
     description:
-      "RoundHog, PostHog's brand typeface, bundled offline as eight woff2 faces (Regular, Medium, SemiBold, Bold — upright and italic) with ready-to-inject @font-face CSS. No CDN, no loader config.",
+      "PostHog's brand typeface, bundled as eight woff2 faces (Regular, Medium, SemiBold and Bold, upright and italic) with the @font-face CSS to load them offline.",
   },
   {
     path: "/colors",
@@ -84,7 +84,7 @@ export const PAGES: PageSeo[] = [
     label: "Colors",
     headline: "The PostHog color palette",
     description:
-      "The PostHog brand color palette with hex values for every core, lighter, and darker tone plus gradients — copyable, and shipped as CSS custom properties and typed JavaScript tokens.",
+      "PostHog's brand colors, with hex values for each core, lighter and darker tone and its gradient. Click to copy, or use them as CSS custom properties and typed JS tokens.",
   },
   {
     path: "/crests",
@@ -92,15 +92,15 @@ export const PAGES: PageSeo[] = [
     label: "Crests",
     headline: "PostHog team crests",
     description:
-      "Every PostHog team crest, in both the full illustration and the mini badge tier — searchable, copyable, and available as tree-shakeable React components, SVG strings, and PNGs.",
+      "All of PostHog's team crests, each as a full illustration and a mini badge. Import them from @posthog/brand as React components, SVG strings or PNGs.",
   },
   {
     path: "/hoggies",
     title: "PostHog hedgehogs (hoggies)",
     label: "Hoggies",
-    headline: "Hoggies — PostHog's hedgehogs",
+    headline: "Hoggies, PostHog's hedgehogs",
     description:
-      "Search PostHog's library of 160+ hedgehog illustrations — the hoggies — and copy the import for any one. Each ships as a tree-shakeable React component, an inline SVG string, and an optimized PNG.",
+      "Search 160+ PostHog hedgehog illustrations (we call them hoggies) and copy the import for any of them. Each one ships as a React component, an SVG string and a PNG.",
   },
 ]
 
@@ -114,7 +114,7 @@ export const NOT_FOUND_PAGE: PageSeo = {
   title: "Page not found",
   label: "404",
   headline: "Nothing here but spikes",
-  description: "This page does not exist on brand.posthog.com.",
+  description: "There's no page at this address on brand.posthog.com.",
   noindex: true,
 }
 
@@ -136,7 +136,7 @@ export function crestPageSeo(name: string, slug: string, tags?: readonly string[
     title: `${name} crest`,
     label: name,
     headline: `The ${name} crest`,
-    description: `The ${name} team crest from PostHog — the full illustration and its mini badge. Download the SVG or PNG, or import it from @posthog/brand as a React component.${tagPhrase(tags)}`,
+    description: `The ${name} team crest from PostHog, as a full illustration and a mini badge. Download the SVG or PNG, or import it from @posthog/brand as a React component.${tagPhrase(tags)}`,
     parent: { path: "/crests", label: "Crests" },
     image: {
       url: absoluteUrl(assetFilePath({ type: "crest", slug, tier: "full" }, "png")),
@@ -158,10 +158,10 @@ export function hoggiePageSeo(
 ): PageSeo {
   return {
     path: hoggiePagePath(slug),
-    title: `${name} — PostHog hedgehog illustration`,
+    title: `${name}, a PostHog hedgehog illustration`,
     label: name,
     headline: `${name}, a PostHog hedgehog`,
-    description: `${name}, one of PostHog's hedgehog illustrations ("hoggies"). Download the SVG or PNG, or import it from @posthog/brand as a React component.${tagPhrase(tags)}`,
+    description: `${name} is one of PostHog's hedgehog illustrations, which we call hoggies. Download the SVG or PNG, or import it from @posthog/brand as a React component.${tagPhrase(tags)}`,
     parent: { path: "/hoggies", label: "Hoggies" },
     image: {
       url: absoluteUrl(assetFilePath({ type: "hoggie", slug, variant: firstVariant }, "png")),

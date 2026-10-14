@@ -110,7 +110,7 @@ function siteJsonLd(): string {
         "@id": `${SITE_URL}/#package`,
         name: "@posthog/brand",
         description:
-          "PostHog's brand assets — logo, RoundHog typeface, color tokens, hedgehog illustrations, and team crests — bundled as React components, SVG strings, and PNGs. Fully offline, no CDN.",
+          "PostHog's brand assets as an npm package: the logo, the RoundHog typeface, color tokens, hedgehog illustrations, and team crests, as React components, SVG strings, and PNGs. Works offline.",
         url: `${SITE_URL}/`,
         codeRepository: "https://github.com/PostHog/brand",
         programmingLanguage: "TypeScript",
@@ -242,7 +242,7 @@ function staticShell({ page, asset, listing }: Route): string {
   if (asset) {
     const downloads = asset.images
       .map((image) => {
-        return `<li>${escape(imageHeading(asset, image))}: <a href="${image.svg}">SVG</a> · <a href="${image.png}">PNG (${image.width}×${image.height})</a> — <code>${escape(image.jsx)}</code></li>`
+        return `<li>${escape(imageHeading(asset, image))}: <a href="${image.svg}">SVG</a> · <a href="${image.png}">PNG (${image.width}×${image.height})</a> · <code>${escape(image.jsx)}</code></li>`
       })
       .join("")
     body =
@@ -256,7 +256,7 @@ function staticShell({ page, asset, listing }: Route): string {
     const items = listing
       .map(
         (entry) =>
-          `<li><a href="${assetPagePath(entry)}">${escape(entry.name)}</a> — <code>${escape(entry.component)}</code></li>`,
+          `<li><a href="${assetPagePath(entry)}">${escape(entry.name)}</a>: <code>${escape(entry.component)}</code></li>`,
       )
       .join("")
     body = `<h2>All ${listing.length} ${escape(page.label.toLowerCase())}</h2><ul class="prerender-list">${items}</ul>`

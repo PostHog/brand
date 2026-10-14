@@ -26,8 +26,8 @@ export function HoggiesPage() {
   return (
     <div>
       <PageHeader eyebrow="@posthog/brand/hoggies" title="Hoggies">
-        {ALL.length} hedgehog illustrations, each a tree-shakeable React component. Click any one to
-        copy its PNG; right-click for its import line or SVG.
+        {ALL.length} hedgehog illustrations, each its own React component. Click one to copy it as a
+        PNG, or right-click for the import line or the SVG.
       </PageHeader>
 
       <div className="toolbar">
