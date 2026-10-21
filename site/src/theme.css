@@ -397,6 +397,22 @@ a:has(> code) {
   max-width: 100%;
 }
 /* Positioned so the copy flash (CopyFlash) can cover the whole tile. */
+/* Top-left of a tile, opposite the ↗ detail link; doesn't catch clicks meant for the tile. */
+.asset-new {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--posthog-yellow, #f7a501);
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+}
+
 button.asset {
   position: relative;
   cursor: pointer;

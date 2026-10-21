@@ -20,6 +20,19 @@ export function formatReleaseDate(date: string): string {
   })
 }
 
+/** How long an asset counts as new after the release that first shipped it. */
+const NEW_FOR_DAYS = 30
+
+/**
+ * Whether an asset first shipped within the last {@link NEW_FOR_DAYS} days — or hasn't
+ * shipped yet (synced since the last release). Checked against the visitor's clock rather
+ * than the build's, so a badge expires on time even if the site isn't redeployed.
+ */
+export function isNew(since: Release | undefined, now: number = Date.now()): boolean {
+  if (!since) return true
+  return now - Date.parse(`${since.date}T00:00:00Z`) < NEW_FOR_DAYS * 24 * 60 * 60 * 1000
+}
+
 /**
  * The earliest release that shipped any of `assets` — a variant family or a crest's two
  * tiers count from their oldest member. Undefined when none has shipped yet.

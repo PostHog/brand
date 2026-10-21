@@ -6,6 +6,7 @@ import { AssetTile } from "../components/AssetTile.tsx"
 import { EmptyState } from "../components/EmptyState.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
 import { hoggieJsx } from "../hoggie-families.ts"
+import { isNew } from "../release.ts"
 import { useSearchTracking } from "../useSearchTracking.ts"
 import { useSeo } from "../useSeo.ts"
 
@@ -65,6 +66,7 @@ export function HoggiesPage() {
                 usage={hoggieJsx(componentName, variant)}
                 svg={hoggieSvg(asset.slug, variant)}
                 to={hoggiePagePath(asset.slug)}
+                isNew={isNew(asset.since)}
               />
             )
           })}
