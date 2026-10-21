@@ -169,8 +169,9 @@ screen while the next chunk loads only if the boundary survives the navigation â
 the keyed one it remounted every click and flashed its fallback. Nav links also warm their
 chunk on hover/focus (`site/src/prefetch.ts`), and `main.tsx` skips its reload while such a
 speculative prefetch is in flight. The footer shows the
-package `release` the site was built from, and each detail page when its asset first shipped
-(`site/src/release.ts`; a variant family or a crest's two tiers count from the oldest member,
+package `release` the site was built from, and each detail page lists its asset's facts
+(`site/src/components/AssetFacts.tsx`: component, slug, the release that first shipped it,
+tags collapsed in a `<details>` that find-in-page still opens; `site/src/release.ts`; a variant family or a crest's two tiers count from the oldest member,
 also in `catalog.json` and the markdown twins); hoggie grid tiles get a "New" badge for 30 days
 after the release that first shipped them (`isNew`, checked against the visitor's clock so it
 expires without a redeploy). The site is

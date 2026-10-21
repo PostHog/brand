@@ -4,7 +4,7 @@ import { hoggiePng, hoggieSvg } from "../assets-hoggies.ts"
 import { AssetDetailCard } from "../components/AssetDetailCard.tsx"
 import { CodeBlock } from "../components/CodeBlock.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
-import { SinceNote } from "../components/SinceNote.tsx"
+import { AssetFacts, SinceValue, TagsValue } from "../components/AssetFacts.tsx"
 import { hoggieFamilies, hoggieJsx } from "../hoggie-families.ts"
 import { earliestSince } from "../release.ts"
 import { hoggiePageSeo } from "../seo.ts"
@@ -52,14 +52,35 @@ export function HoggieDetailPage() {
 
   return (
     <div>
-      <PageHeader eyebrow="@posthog/brand/hoggies" title={family.name}>
+      <PageHeader
+        eyebrow="@posthog/brand/hoggies"
+        title={family.name}
+        details={
+          <AssetFacts
+            facts={[
+              { label: "Component", value: <code>{component}</code> },
+              { label: "Slug", value: <code>{slug}</code> },
+              members.length > 1 && {
+                label: "Variants",
+                value: variants.map(({ key }) => <code key={key}>{key}</code>),
+              },
+              { label: "Added in", value: <SinceValue since={earliestSince(members)} /> },
+              tags.length > 0 && { label: "Tags", value: <TagsValue tags={tags} /> },
+              {
+                label: "More",
+                value: (
+                  <>
+                    <Link to="/hoggies">All hoggies</Link> ·{" "}
+                    <a href={markdownPath(hoggiePagePath(slug))}>Markdown</a>
+                  </>
+                ),
+              },
+            ]}
+          />
+        }
+      >
         Click {variants[0]?.key ? "a variant" : "it"} to copy it as a PNG, or right-click for the
         import line or the SVG.
-        <br />
-        <Link to="/hoggies">All hoggies</Link> · <code>{slug}</code> ·{" "}
-        <a href={markdownPath(hoggiePagePath(slug))}>Markdown</a> ·{" "}
-        <SinceNote since={earliestSince(members)} />
-        {tags.length ? ` · Tags: ${tags.join(", ")}` : null}
       </PageHeader>
 
       <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>

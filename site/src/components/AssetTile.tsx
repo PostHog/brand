@@ -88,7 +88,7 @@ export function AssetTile({
         <CopyFlash status={copy.status} />
       </button>
       {copy.menu}
-      {isNew ? <span className="asset-new">New</span> : null}
+      {isNew ? <span className="new-badge asset-new">New</span> : null}
       {to ? (
         <Link
           to={to}

@@ -292,6 +292,52 @@ a:has(> code) {
   margin: 0;
   max-width: 64ch;
 }
+/* A detail page's facts: label column + value column, one fact per row. */
+.asset-facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 8px 20px;
+  margin: 20px 0 0;
+  font-size: 15px;
+  max-width: 64ch;
+}
+.asset-facts > div {
+  display: contents;
+}
+.asset-facts dt {
+  color: var(--text-muted);
+}
+.asset-facts dd {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 6px;
+}
+.asset-facts a:has(> code) {
+  text-decoration: none;
+}
+/* Tags collapse to a count; the chips show when opened (or a find-in-page match opens it). */
+.tag-list > summary {
+  cursor: pointer;
+  color: var(--text-muted);
+}
+.tag-list ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.tag-list li {
+  padding: 1px 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-accent);
+  font-size: 13px;
+}
+
 /* The package subpath a page documents, as a small chip above its title. */
 .page-header .eyebrow {
   display: inline-block;
@@ -397,19 +443,25 @@ a:has(> code) {
   max-width: 100%;
 }
 /* Positioned so the copy flash (CopyFlash) can cover the whole tile. */
-/* Top-left of a tile, opposite the ↗ detail link; doesn't catch clicks meant for the tile. */
-.asset-new {
-  position: absolute;
-  top: 8px;
-  left: 8px;
+/* "New" pill: an asset first shipped in the last 30 days (`isNew` in release.ts). */
+.new-badge {
+  display: inline-block;
   padding: 2px 8px;
   border-radius: 999px;
   background: var(--posthog-yellow, #f7a501);
   color: var(--text);
   font-size: 11px;
   font-weight: 700;
+  line-height: 1.5;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  vertical-align: 0.1em;
+}
+/* On a tile: top-left, opposite the ↗ detail link, and not catching clicks meant for the tile. */
+.asset-new {
+  position: absolute;
+  top: 8px;
+  left: 8px;
   pointer-events: none;
 }
 
