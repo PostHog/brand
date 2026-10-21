@@ -63,6 +63,8 @@ function sharedVars(catalog: Catalog): Vars {
   const base: Vars = {
     site: SITE_URL,
     install: catalog.package.install,
+    version: catalog.package.version,
+    released: catalog.package.released,
     licenseSummary: catalog.license.summary,
     licenseUrl: catalog.license.url,
     logoCount: catalog.logos.length,
@@ -189,6 +191,9 @@ function assetPage(asset: CatalogAsset, shared: Vars): string {
     ...shared,
     name: asset.name,
     tags: asset.tags.length ? ` Tags: ${asset.tags.join(", ")}.` : "",
+    since: asset.since
+      ? ` Added in v${asset.since.version} (${asset.since.date}).`
+      : " Not in a release yet.",
     page: asset.page,
     import: asset.import,
     jsx: asset.images.map((image) => image.jsx).join("\n"),

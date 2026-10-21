@@ -106,15 +106,21 @@ jobs:
         run: npm install -g npm@latest
 
       - run: pnpm install --frozen-lockfile
-      - run: pnpm build
 
+      # Stamping records today as the release date and this version as `since` for every
+      # asset shipping for the first time (assets/releases.json, committed with the bump).
       - name: Bump version and changelog
         id: version
         run: |
           pnpm changeset version
+          node scripts/stamp-release.ts
           new_version=$(node -p "require('./package.json').version")
           echo "new_version=$new_version" >> "$GITHUB_OUTPUT"
           echo "Releasing v$new_version"
+
+      # After the bump, so the published `release` export and every `AssetMeta.since` carry
+      # this version — and before the commit, so a broken build never lands a bump on main.
+      - run: pnpm build
 
       - name: Check for changes
         id: changes

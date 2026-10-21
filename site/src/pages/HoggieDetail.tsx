@@ -4,7 +4,9 @@ import { hoggiePng, hoggieSvg } from "../assets-hoggies.ts"
 import { AssetDetailCard } from "../components/AssetDetailCard.tsx"
 import { CodeBlock } from "../components/CodeBlock.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
+import { SinceNote } from "../components/SinceNote.tsx"
 import { hoggieFamilies, hoggieJsx } from "../hoggie-families.ts"
+import { earliestSince } from "../release.ts"
 import { hoggiePageSeo } from "../seo.ts"
 import { useSeo } from "../useSeo.ts"
 
@@ -55,7 +57,8 @@ export function HoggieDetailPage() {
         import line or the SVG.
         <br />
         <Link to="/hoggies">All hoggies</Link> · <code>{slug}</code> ·{" "}
-        <a href={markdownPath(hoggiePagePath(slug))}>Markdown</a>
+        <a href={markdownPath(hoggiePagePath(slug))}>Markdown</a> ·{" "}
+        <SinceNote since={earliestSince(members)} />
         {tags.length ? ` · Tags: ${tags.join(", ")}` : null}
       </PageHeader>
 

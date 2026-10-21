@@ -1,0 +1,1194 @@
+{
+  "releases": {
+    "0.1.0": "2026-06-24",
+    "0.2.0": "2026-06-25",
+    "0.3.0": "2026-06-26",
+    "0.4.0": "2026-07-02",
+    "0.5.0": "2026-07-02",
+    "0.6.0": "2026-07-06",
+    "0.7.0": "2026-07-08",
+    "0.8.0": "2026-07-16",
+    "0.9.0": "2026-07-28",
+    "0.9.1": "2026-07-29",
+    "0.9.2": "2026-08-18",
+    "0.10.0": "2026-08-18",
+    "0.10.1": "2026-08-21",
+    "0.10.2": "2026-08-23",
+    "0.11.0": "2026-09-02",
+    "0.11.1": "2026-09-04",
+    "0.11.2": "2026-09-05",
+    "0.12.0": "2026-09-09",
+    "0.12.1": "2026-09-10",
+    "0.12.2": "2026-09-18",
+    "0.12.3": "2026-09-21",
+    "0.13.0": "2026-10-07",
+    "0.13.1": "2026-10-13",
+    "0.14.0": "2026-10-14"
+  },
+  "assets": {
+    "crests/full/a-default-crest": {
+      "since": "0.1.0",
+      "figmaNodeId": "24:738"
+    },
+    "crests/full/agent-infrastructure": {
+      "since": "0.13.1",
+      "figmaNodeId": "2111:4341"
+    },
+    "crests/full/ai-gateway": {
+      "since": "0.1.0",
+      "figmaNodeId": "180:3990"
+    },
+    "crests/full/ai-observability": {
+      "since": "0.1.0",
+      "figmaNodeId": "26:9397"
+    },
+    "crests/full/ai-research": {
+      "since": "0.1.0",
+      "figmaNodeId": "180:5202"
+    },
+    "crests/full/analytics-platform": {
+      "since": "0.1.0",
+      "figmaNodeId": "26:11164"
+    },
+    "crests/full/apm": {
+      "since": "0.1.0",
+      "figmaNodeId": "1092:3466"
+    },
+    "crests/full/batch-exports": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:17603"
+    },
+    "crests/full/billing": {
+      "since": "0.1.0",
+      "figmaNodeId": "26:8964"
+    },
+    "crests/full/blitzscale": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:8"
+    },
+    "crests/full/builder-relations": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:3259"
+    },
+    "crests/full/clickhouse": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:1310"
+    },
+    "crests/full/client-libraries": {
+      "since": "0.1.0",
+      "figmaNodeId": "24:1998"
+    },
+    "crests/full/cloud-foundations": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:1931"
+    },
+    "crests/full/cloud-platform": {
+      "since": "0.9.2",
+      "figmaNodeId": "693:3704"
+    },
+    "crests/full/conversations": {
+      "since": "0.1.0",
+      "figmaNodeId": "35:2046"
+    },
+    "crests/full/customer-analytics": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:18942"
+    },
+    "crests/full/customer-success": {
+      "since": "0.13.1",
+      "figmaNodeId": "2111:4721"
+    },
+    "crests/full/customer-success-eu": {
+      "since": "0.1.0",
+      "figmaNodeId": "180:4763"
+    },
+    "crests/full/customer-success-na": {
+      "since": "0.1.0",
+      "figmaNodeId": "180:5059"
+    },
+    "crests/full/data-modeling": {
+      "since": "0.1.0",
+      "figmaNodeId": "24:3214"
+    },
+    "crests/full/data-tools": {
+      "since": "0.1.0",
+      "figmaNodeId": "26:7146"
+    },
+    "crests/full/demand-gen": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:18817"
+    },
+    "crests/full/dev-experience": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:8543"
+    },
+    "crests/full/editorial": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:12950"
+    },
+    "crests/full/error-tracking": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:2289"
+    },
+    "crests/full/experiments": {
+      "since": "0.1.0",
+      "figmaNodeId": "24:469"
+    },
+    "crests/full/feature-flags": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:15004"
+    },
+    "crests/full/finance": {
+      "since": "0.13.1",
+      "figmaNodeId": "2111:3882"
+    },
+    "crests/full/forward-deployed-engineering": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:7256"
+    },
+    "crests/full/graphics": {
+      "since": "0.1.0",
+      "figmaNodeId": "24:2822"
+    },
+    "crests/full/growth": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:2731"
+    },
+    "crests/full/gtm-engineering": {
+      "since": "0.9.2",
+      "figmaNodeId": "693:4062"
+    },
+    "crests/full/ingestion": {
+      "since": "0.1.0",
+      "figmaNodeId": "26:9879"
+    },
+    "crests/full/managed-warehouse": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:11277"
+    },
+    "crests/full/marketing": {
+      "since": "0.1.0",
+      "figmaNodeId": "26:8090"
+    },
+    "crests/full/mcp-analytics": {
+      "since": "0.9.2",
+      "figmaNodeId": "693:3228"
+    },
+    "crests/full/new-business-sales": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:11512"
+    },
+    "crests/full/onboarding": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:3892"
+    },
+    "crests/full/people-ops": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:424"
+    },
+    "crests/full/platform-features": {
+      "since": "0.1.0",
+      "figmaNodeId": "26:10865"
+    },
+    "crests/full/platform-ux": {
+      "since": "0.1.0",
+      "figmaNodeId": "26:8347"
+    },
+    "crests/full/posthog-desktop": {
+      "since": "0.1.0",
+      "figmaNodeId": "26:7473"
+    },
+    "crests/full/product-analytics": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:15645"
+    },
+    "crests/full/product-lead-sales-east": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:25403"
+    },
+    "crests/full/product-led-sales-west": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:12065"
+    },
+    "crests/full/replay": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:19249"
+    },
+    "crests/full/rev-ops": {
+      "since": "0.13.1",
+      "figmaNodeId": "2111:3467"
+    },
+    "crests/full/security": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:8217"
+    },
+    "crests/full/self-driving": {
+      "since": "0.1.0",
+      "figmaNodeId": "35:2048"
+    },
+    "crests/full/support": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:841"
+    },
+    "crests/full/surveys": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:1571"
+    },
+    "crests/full/talent": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:7047"
+    },
+    "crests/full/warehouse-sources": {
+      "since": "0.1.0",
+      "figmaNodeId": "24:2570"
+    },
+    "crests/full/web-analytics": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:16582"
+    },
+    "crests/full/website": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:5320"
+    },
+    "crests/full/wizard-docs": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:20470"
+    },
+    "crests/full/workflows": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:18120"
+    },
+    "crests/full/youtube": {
+      "since": "0.1.0",
+      "figmaNodeId": "35:2049"
+    },
+    "crests/mini/a-default-crest": {
+      "since": "0.1.0",
+      "figmaNodeId": "24:1369"
+    },
+    "crests/mini/agent-infrastructure": {
+      "since": "0.13.1",
+      "figmaNodeId": "2111:4343"
+    },
+    "crests/mini/ai-gateway": {
+      "since": "0.1.0",
+      "figmaNodeId": "180:3992"
+    },
+    "crests/mini/ai-observability": {
+      "since": "0.1.0",
+      "figmaNodeId": "26:9399"
+    },
+    "crests/mini/ai-research": {
+      "since": "0.1.0",
+      "figmaNodeId": "180:5204"
+    },
+    "crests/mini/analytics-platform": {
+      "since": "0.1.0",
+      "figmaNodeId": "26:11166"
+    },
+    "crests/mini/apm": {
+      "since": "0.10.2",
+      "figmaNodeId": "1092:3468"
+    },
+    "crests/mini/batch-exports": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:17861"
+    },
+    "crests/mini/billing": {
+      "since": "0.1.0",
+      "figmaNodeId": "26:8966"
+    },
+    "crests/mini/blitzscale": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:392"
+    },
+    "crests/mini/builder-relations": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:3879"
+    },
+    "crests/mini/clickhouse": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:1558"
+    },
+    "crests/mini/client-libraries": {
+      "since": "0.1.0",
+      "figmaNodeId": "24:2000"
+    },
+    "crests/mini/cloud-foundations": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:2269"
+    },
+    "crests/mini/cloud-platform": {
+      "since": "0.9.2",
+      "figmaNodeId": "693:3706"
+    },
+    "crests/mini/conversations": {
+      "since": "0.9.2",
+      "figmaNodeId": "907:2572"
+    },
+    "crests/mini/customer-analytics": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:19095"
+    },
+    "crests/mini/customer-success": {
+      "since": "0.13.1",
+      "figmaNodeId": "2111:4723"
+    },
+    "crests/mini/customer-success-eu": {
+      "since": "0.1.0",
+      "figmaNodeId": "180:4765"
+    },
+    "crests/mini/customer-success-na": {
+      "since": "0.1.0",
+      "figmaNodeId": "180:5061"
+    },
+    "crests/mini/data-modeling": {
+      "since": "0.1.0",
+      "figmaNodeId": "24:3216"
+    },
+    "crests/mini/data-tools": {
+      "since": "0.1.0",
+      "figmaNodeId": "26:7148"
+    },
+    "crests/mini/demand-gen": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:18879"
+    },
+    "crests/mini/dev-experience": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:10215"
+    },
+    "crests/mini/editorial": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:13312"
+    },
+    "crests/mini/error-tracking": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:2705"
+    },
+    "crests/mini/experiments": {
+      "since": "0.1.0",
+      "figmaNodeId": "24:471"
+    },
+    "crests/mini/feature-flags": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:15324"
+    },
+    "crests/mini/finance": {
+      "since": "0.13.1",
+      "figmaNodeId": "2111:3884"
+    },
+    "crests/mini/forward-deployed-engineering": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:7433"
+    },
+    "crests/mini/graphics": {
+      "since": "0.1.0",
+      "figmaNodeId": "24:2824"
+    },
+    "crests/mini/growth": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:3239"
+    },
+    "crests/mini/gtm-engineering": {
+      "since": "0.9.2",
+      "figmaNodeId": "693:4064"
+    },
+    "crests/mini/ingestion": {
+      "since": "0.1.0",
+      "figmaNodeId": "26:9881"
+    },
+    "crests/mini/managed-warehouse": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:11394"
+    },
+    "crests/mini/marketing": {
+      "since": "0.1.0",
+      "figmaNodeId": "26:8092"
+    },
+    "crests/mini/mcp-analytics": {
+      "since": "0.9.2",
+      "figmaNodeId": "693:3230"
+    },
+    "crests/mini/new-business-sales": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:11788"
+    },
+    "crests/mini/onboarding": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:4422"
+    },
+    "crests/mini/people-ops": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:818"
+    },
+    "crests/mini/platform-features": {
+      "since": "0.1.0",
+      "figmaNodeId": "26:10867"
+    },
+    "crests/mini/platform-ux": {
+      "since": "0.1.0",
+      "figmaNodeId": "26:8349"
+    },
+    "crests/mini/posthog-desktop": {
+      "since": "0.1.0",
+      "figmaNodeId": "26:7475"
+    },
+    "crests/mini/product-analytics": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:16113"
+    },
+    "crests/mini/product-lead-sales-east": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:25885"
+    },
+    "crests/mini/product-led-sales-west": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:12507"
+    },
+    "crests/mini/replay": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:19859"
+    },
+    "crests/mini/rev-ops": {
+      "since": "0.13.1",
+      "figmaNodeId": "2111:3469"
+    },
+    "crests/mini/security": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:8528"
+    },
+    "crests/mini/self-driving": {
+      "since": "0.9.2",
+      "figmaNodeId": "907:2113"
+    },
+    "crests/mini/support": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:1285"
+    },
+    "crests/mini/surveys": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:1919"
+    },
+    "crests/mini/talent": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:7245"
+    },
+    "crests/mini/warehouse-sources": {
+      "since": "0.1.0",
+      "figmaNodeId": "24:2572"
+    },
+    "crests/mini/web-analytics": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:17092"
+    },
+    "crests/mini/website": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:6090"
+    },
+    "crests/mini/wizard-docs": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:22936"
+    },
+    "crests/mini/workflows": {
+      "since": "0.1.0",
+      "figmaNodeId": "23:18468"
+    },
+    "crests/mini/youtube": {
+      "since": "0.9.2",
+      "figmaNodeId": "907:1682"
+    },
+    "hoggies/9-9-6": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:176601"
+    },
+    "hoggies/70s-dance": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:93626"
+    },
+    "hoggies/angel": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:176611"
+    },
+    "hoggies/ape": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:115429"
+    },
+    "hoggies/art-thief": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:118219"
+    },
+    "hoggies/asleep": {
+      "since": "0.12.2",
+      "figmaNodeId": "1641:2818"
+    },
+    "hoggies/back-to-the-future": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:159877"
+    },
+    "hoggies/ball": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:146880"
+    },
+    "hoggies/banana": {
+      "since": "0.7.0",
+      "figmaNodeId": "306:201588"
+    },
+    "hoggies/basketball-coach": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:116090"
+    },
+    "hoggies/beaker": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:130609"
+    },
+    "hoggies/boombox": {
+      "since": "0.1.0",
+      "figmaNodeId": "465:4926"
+    },
+    "hoggies/burger": {
+      "since": "0.12.2",
+      "figmaNodeId": "1641:2813"
+    },
+    "hoggies/burning-money": {
+      "since": "0.11.0",
+      "figmaNodeId": "1164:8278"
+    },
+    "hoggies/business-evolution": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:176608"
+    },
+    "hoggies/cake": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:176613"
+    },
+    "hoggies/campfire-cowboy": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:176619"
+    },
+    "hoggies/card": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:146274"
+    },
+    "hoggies/caribana": {
+      "since": "0.7.0",
+      "figmaNodeId": "306:201590"
+    },
+    "hoggies/caveman": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:176616"
+    },
+    "hoggies/cereal": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:134071"
+    },
+    "hoggies/chart": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:140603"
+    },
+    "hoggies/chef": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:134932"
+    },
+    "hoggies/climber-1": {
+      "since": "0.12.2",
+      "figmaNodeId": "1641:2817"
+    },
+    "hoggies/climber-2": {
+      "since": "0.12.2",
+      "figmaNodeId": "1641:2814"
+    },
+    "hoggies/coconut": {
+      "since": "0.7.0",
+      "figmaNodeId": "306:201592"
+    },
+    "hoggies/code-bubble": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:176621"
+    },
+    "hoggies/coding-group": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:176622"
+    },
+    "hoggies/coffee-cup": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:106993"
+    },
+    "hoggies/coffee-run": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:176609"
+    },
+    "hoggies/commuter": {
+      "since": "0.11.2",
+      "figmaNodeId": "1337:3629"
+    },
+    "hoggies/construction-1": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:156237"
+    },
+    "hoggies/construction-2": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:145101"
+    },
+    "hoggies/cool-car": {
+      "since": "0.12.2",
+      "figmaNodeId": "1641:2811"
+    },
+    "hoggies/cowboy-lasso": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:176614"
+    },
+    "hoggies/croissant": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:120697"
+    },
+    "hoggies/cursor": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:139811"
+    },
+    "hoggies/dadd-ai-1": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:134437"
+    },
+    "hoggies/dadd-ai-2": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:128870"
+    },
+    "hoggies/data-thief": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:112864"
+    },
+    "hoggies/desk-wizard": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:122702"
+    },
+    "hoggies/director": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:97259"
+    },
+    "hoggies/dj": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:96127"
+    },
+    "hoggies/doc-brown": {
+      "since": "0.2.0",
+      "figmaNodeId": "404:97810"
+    },
+    "hoggies/doctor-1": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:176618"
+    },
+    "hoggies/doctor-2": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:176620"
+    },
+    "hoggies/doll-house": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:143350"
+    },
+    "hoggies/dr-manhattan": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:155722"
+    },
+    "hoggies/drake-nah": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:144650"
+    },
+    "hoggies/drake-yah": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:139374"
+    },
+    "hoggies/driving-hogzilla": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:133635"
+    },
+    "hoggies/dynamite": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:105032"
+    },
+    "hoggies/einstein": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:96667"
+    },
+    "hoggies/einstein-group": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:128485"
+    },
+    "hoggies/error": {
+      "since": "0.12.2",
+      "figmaNodeId": "1641:2819"
+    },
+    "hoggies/evel": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:124569"
+    },
+    "hoggies/experiment": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:144007"
+    },
+    "hoggies/explorer": {
+      "since": "0.11.0",
+      "figmaNodeId": "1164:10786"
+    },
+    "hoggies/final-evolution": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:151196"
+    },
+    "hoggies/float": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:135351"
+    },
+    "hoggies/football-coach": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:129605"
+    },
+    "hoggies/football-player": {
+      "since": "0.12.2",
+      "figmaNodeId": "1641:2816"
+    },
+    "hoggies/gardener-1": {
+      "since": "0.9.0",
+      "figmaNodeId": "463:4370"
+    },
+    "hoggies/gardener-2": {
+      "since": "0.9.0",
+      "figmaNodeId": "463:4369"
+    },
+    "hoggies/gatsby": {
+      "since": "0.12.0",
+      "figmaNodeId": "1337:4326"
+    },
+    "hoggies/gladiator-1": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:115089"
+    },
+    "hoggies/gladiator-2": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:176610"
+    },
+    "hoggies/gravedigger": {
+      "since": "0.7.0",
+      "figmaNodeId": "306:201586"
+    },
+    "hoggies/greek": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:159874"
+    },
+    "hoggies/haha-bizzniss": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:92030"
+    },
+    "hoggies/hand-clasp": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:176604"
+    },
+    "hoggies/heart": {
+      "since": "0.9.2",
+      "figmaNodeId": "909:5996"
+    },
+    "hoggies/hipster": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:150722"
+    },
+    "hoggies/hogpatch": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:138258"
+    },
+    "hoggies/honey": {
+      "since": "0.9.2",
+      "figmaNodeId": "909:5993"
+    },
+    "hoggies/hooligan": {
+      "since": "0.11.2",
+      "figmaNodeId": "1336:2092"
+    },
+    "hoggies/hoot": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:125872"
+    },
+    "hoggies/hot-popcorn": {
+      "since": "0.12.1",
+      "figmaNodeId": "1481:5256"
+    },
+    "hoggies/hourglass": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:176612"
+    },
+    "hoggies/im-the-driver": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:120299"
+    },
+    "hoggies/ipad": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:114535"
+    },
+    "hoggies/jack-dawson": {
+      "since": "0.2.0",
+      "figmaNodeId": "404:99782"
+    },
+    "hoggies/judge": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:92734"
+    },
+    "hoggies/katy-perry": {
+      "since": "0.7.0",
+      "figmaNodeId": "307:203272"
+    },
+    "hoggies/lemon-wrangler-1": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:176607"
+    },
+    "hoggies/lemon-wrangler-2": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:150166"
+    },
+    "hoggies/lemon-wrangler-3": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:142723"
+    },
+    "hoggies/lemonade": {
+      "since": "0.2.0",
+      "figmaNodeId": "404:100309"
+    },
+    "hoggies/level-up": {
+      "since": "0.11.0",
+      "figmaNodeId": "1164:10789"
+    },
+    "hoggies/lifeguard": {
+      "since": "0.2.0",
+      "figmaNodeId": "404:99227"
+    },
+    "hoggies/loops": {
+      "since": "0.11.2",
+      "figmaNodeId": "1336:686"
+    },
+    "hoggies/magnifying-glass": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:132663"
+    },
+    "hoggies/mailbox": {
+      "since": "0.11.0",
+      "figmaNodeId": "1164:10782"
+    },
+    "hoggies/marathon": {
+      "since": "0.13.1",
+      "figmaNodeId": "2038:4005"
+    },
+    "hoggies/megaphone": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:125232"
+    },
+    "hoggies/money": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:106406"
+    },
+    "hoggies/mountie": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:159876"
+    },
+    "hoggies/mr-potato-head-1": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:119642"
+    },
+    "hoggies/mr-potato-head-2": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:113749"
+    },
+    "hoggies/namaste": {
+      "since": "0.11.2",
+      "figmaNodeId": "1336:1428"
+    },
+    "hoggies/noir-1": {
+      "since": "0.7.0",
+      "figmaNodeId": "404:90201"
+    },
+    "hoggies/noir-2": {
+      "since": "0.7.0",
+      "figmaNodeId": "305:86622"
+    },
+    "hoggies/noir-3": {
+      "since": "0.8.0",
+      "figmaNodeId": "351:86631"
+    },
+    "hoggies/noir-4": {
+      "since": "0.8.0",
+      "figmaNodeId": "351:86633"
+    },
+    "hoggies/noir-5": {
+      "since": "0.8.0",
+      "figmaNodeId": "351:86635"
+    },
+    "hoggies/office-worker": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:176615"
+    },
+    "hoggies/oprah": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:176606"
+    },
+    "hoggies/organized": {
+      "since": "0.7.0",
+      "figmaNodeId": "305:86636"
+    },
+    "hoggies/panic": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:109934"
+    },
+    "hoggies/party": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:159875"
+    },
+    "hoggies/pearl-necklace": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:148878"
+    },
+    "hoggies/peek-over": {
+      "since": "0.13.1",
+      "figmaNodeId": "2038:4003"
+    },
+    "hoggies/phone-call": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:137145"
+    },
+    "hoggies/pinata": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:122076"
+    },
+    "hoggies/pit-viper": {
+      "since": "0.11.2",
+      "figmaNodeId": "1336:1432"
+    },
+    "hoggies/pope": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:132161"
+    },
+    "hoggies/puzzle": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:108850"
+    },
+    "hoggies/reading": {
+      "since": "0.8.0",
+      "figmaNodeId": "352:86637"
+    },
+    "hoggies/reading-is-magic": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:116927"
+    },
+    "hoggies/reaper": {
+      "since": "0.12.1",
+      "figmaNodeId": "1481:5257"
+    },
+    "hoggies/remote-work": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:141093"
+    },
+    "hoggies/reporter": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:103790"
+    },
+    "hoggies/research": {
+      "since": "0.8.0",
+      "figmaNodeId": "352:86639"
+    },
+    "hoggies/robot": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:118706"
+    },
+    "hoggies/rocket": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:108075"
+    },
+    "hoggies/roller-coaster": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:104535"
+    },
+    "hoggies/rose": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:138788"
+    },
+    "hoggies/safari": {
+      "since": "0.11.0",
+      "figmaNodeId": "1165:14666"
+    },
+    "hoggies/sailor": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:113470"
+    },
+    "hoggies/sales": {
+      "since": "0.13.1",
+      "figmaNodeId": "2038:4004"
+    },
+    "hoggies/scientist": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:176617"
+    },
+    "hoggies/scorpion": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:176605"
+    },
+    "hoggies/scott-pilgrim": {
+      "since": "0.2.0",
+      "figmaNodeId": "404:98633"
+    },
+    "hoggies/self-driving": {
+      "since": "0.12.2",
+      "figmaNodeId": "1641:2815"
+    },
+    "hoggies/selfie": {
+      "since": "0.11.2",
+      "figmaNodeId": "1337:3632"
+    },
+    "hoggies/shocked": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:141527"
+    },
+    "hoggies/sitting": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:148347"
+    },
+    "hoggies/sleepy": {
+      "since": "0.12.1",
+      "figmaNodeId": "1481:5255"
+    },
+    "hoggies/soapbox": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:105686"
+    },
+    "hoggies/soccer-coach": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:121447"
+    },
+    "hoggies/speaker-1": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:103214"
+    },
+    "hoggies/speaker-2": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:136634"
+    },
+    "hoggies/stamp-approved": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:176603"
+    },
+    "hoggies/stamp-denied": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:131146"
+    },
+    "hoggies/star": {
+      "since": "0.9.2",
+      "figmaNodeId": "909:5995"
+    },
+    "hoggies/steve-jobs": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:90656"
+    },
+    "hoggies/stop": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:109392"
+    },
+    "hoggies/success": {
+      "since": "0.12.2",
+      "figmaNodeId": "1641:2812"
+    },
+    "hoggies/sunburn": {
+      "since": "0.7.0",
+      "figmaNodeId": "306:201594"
+    },
+    "hoggies/superhero": {
+      "since": "0.9.2",
+      "figmaNodeId": "909:5997"
+    },
+    "hoggies/surfer": {
+      "since": "0.7.0",
+      "figmaNodeId": "305:86638"
+    },
+    "hoggies/survey": {
+      "since": "0.2.0",
+      "figmaNodeId": "404:101772"
+    },
+    "hoggies/swimmer-1": {
+      "since": "0.7.0",
+      "figmaNodeId": "309:86621"
+    },
+    "hoggies/swimmer-2": {
+      "since": "0.7.0",
+      "figmaNodeId": "309:86623"
+    },
+    "hoggies/terminator": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:123483"
+    },
+    "hoggies/the-bride": {
+      "since": "0.2.0",
+      "figmaNodeId": "404:101189"
+    },
+    "hoggies/toilet": {
+      "since": "0.12.1",
+      "figmaNodeId": "1481:5254"
+    },
+    "hoggies/tourist": {
+      "since": "0.11.2",
+      "figmaNodeId": "1336:2094"
+    },
+    "hoggies/town-crier": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:107835"
+    },
+    "hoggies/traffic-controller": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:91258"
+    },
+    "hoggies/traffic-police": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:159878"
+    },
+    "hoggies/transformer": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:102603"
+    },
+    "hoggies/trenchcoat": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:147803"
+    },
+    "hoggies/two-player": {
+      "since": "0.11.0",
+      "figmaNodeId": "1164:10784"
+    },
+    "hoggies/waiter": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:135928"
+    },
+    "hoggies/will-smith": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:95445"
+    },
+    "hoggies/wizard-1": {
+      "since": "0.7.0",
+      "figmaNodeId": "307:201602"
+    },
+    "hoggies/wizard-2": {
+      "since": "0.7.0",
+      "figmaNodeId": "307:201603"
+    },
+    "hoggies/wizard-3": {
+      "since": "0.7.0",
+      "figmaNodeId": "307:201601"
+    },
+    "hoggies/wizard-4": {
+      "since": "0.7.0",
+      "figmaNodeId": "306:201596"
+    },
+    "hoggies/wizard-5": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:112325"
+    },
+    "hoggies/workflows": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:110704"
+    },
+    "hoggies/x-ray": {
+      "since": "0.1.0",
+      "figmaNodeId": "404:176602"
+    }
+  }
+}

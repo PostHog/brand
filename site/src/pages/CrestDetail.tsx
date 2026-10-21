@@ -4,6 +4,8 @@ import { crestPagePath, markdownPath } from "../agent-paths.ts"
 import { crestPng, crestSvg } from "../assets-crests.ts"
 import { AssetDetailCard } from "../components/AssetDetailCard.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
+import { SinceNote } from "../components/SinceNote.tsx"
+import { earliestSince } from "../release.ts"
 import { crestPageSeo } from "../seo.ts"
 import { useSeo } from "../useSeo.ts"
 
@@ -50,7 +52,8 @@ export function CrestDetailPage() {
         Click either one to copy it as a PNG, or right-click for the import line or the SVG.
         <br />
         <Link to="/crests">All crests</Link> · <code>{slug}</code> ·{" "}
-        <a href={markdownPath(crestPagePath(slug))}>Markdown</a>
+        <a href={markdownPath(crestPagePath(slug))}>Markdown</a> ·{" "}
+        <SinceNote since={earliestSince([asset, getAsset("crests", slug, "mini")])} />
       </PageHeader>
 
       <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>

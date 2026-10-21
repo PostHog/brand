@@ -1,6 +1,6 @@
 # {{name}}, a PostHog hedgehog
 
-> {{name}}, a PostHog hedgehog illustration (a "hoggie").{{tags}}
+> {{name}}, a PostHog hedgehog illustration (a "hoggie").{{tags}}{{since}}
 
 HTML version: {{page}} · All docs for agents: {{site}}/llms.txt
 

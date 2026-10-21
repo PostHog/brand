@@ -17,7 +17,7 @@ import { componentName } from "./naming.ts"
 import type { CrestTier, Namespace } from "./types.ts"
 
 export { NAMESPACES, CREST_TIERS } from "./types.ts"
-export type { AssetMeta, Namespace, CrestTier, BrandColor, BrandColors } from "./types.ts"
+export type { AssetMeta, Namespace, CrestTier, BrandColor, BrandColors, Release } from "./types.ts"
 
 // Component factory's public type + shared props.
 export type { SvgAssetComponent } from "./runtime/create-svg-asset.tsx"
@@ -30,6 +30,9 @@ export type { AssetProps, AssetSvgProps } from "./runtime/props.ts"
 // Cross-namespace manifest + search (React-free, zero image payload).
 export { allAssets } from "./generated/manifest.ts"
 export { findAssets, getAsset, getVariants, type FindAssetsFilter } from "./search.ts"
+
+// This package's version and the day it was released.
+export { release } from "./generated/release.ts"
 
 /**
  * The generated React component name for an asset, e.g. ("hoggies","chart") →
