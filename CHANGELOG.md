@@ -1,5 +1,15 @@
 # @posthog/brand
 
+## 0.15.1
+
+### Patch Changes
+
+- 05ce5a8: Sync brand assets from Figma (3 added).
+
+  **hoggies**
+
+  - Added 3: Highlighter, Ichabod, Swole
+
 ## 0.15.0
 
 ### Minor Changes

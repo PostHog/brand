@@ -24,7 +24,8 @@
     "0.13.0": "2026-10-07",
     "0.13.1": "2026-10-13",
     "0.14.0": "2026-10-14",
-    "0.15.0": "2026-10-22"
+    "0.15.0": "2026-10-22",
+    "0.15.1": "2026-10-22"
   },
   "assets": {
     "crests/full/a-default-crest": {
@@ -787,6 +788,10 @@
       "since": "0.9.2",
       "figmaNodeId": "909:5996"
     },
+    "hoggies/highlighter": {
+      "since": "0.15.1",
+      "figmaNodeId": "2252:2404"
+    },
     "hoggies/hipster": {
       "since": "0.1.0",
       "figmaNodeId": "404:150722"
@@ -814,6 +819,10 @@
     "hoggies/hourglass": {
       "since": "0.1.0",
       "figmaNodeId": "404:176612"
+    },
+    "hoggies/ichabod": {
+      "since": "0.15.1",
+      "figmaNodeId": "2252:2406"
     },
     "hoggies/im-the-driver": {
       "since": "0.1.0",
@@ -1114,6 +1123,10 @@
     "hoggies/swimmer-2": {
       "since": "0.7.0",
       "figmaNodeId": "309:86623"
+    },
+    "hoggies/swole": {
+      "since": "0.15.1",
+      "figmaNodeId": "2252:2402"
     },
     "hoggies/terminator": {
       "since": "0.1.0",
