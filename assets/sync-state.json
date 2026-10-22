@@ -1,6 +1,6 @@
 {
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2412212581621824833",
+  "figmaVersion": "2412869445907548104",
   "entries": {
     "hoggies/70s-dance": {
       "figmaNodeId": "404:93626",
@@ -290,6 +290,10 @@
       "figmaNodeId": "909:5996",
       "nodeHash": "5d795f93faa70fc5"
     },
+    "hoggies/highlighter": {
+      "figmaNodeId": "2252:2404",
+      "nodeHash": "4214ce49837d0ba5"
+    },
     "hoggies/hipster": {
       "figmaNodeId": "404:150722",
       "nodeHash": "5b95f13eeb905e96"
@@ -317,6 +321,10 @@
     "hoggies/hourglass": {
       "figmaNodeId": "404:176612",
       "nodeHash": "a4a64e32a285c055"
+    },
+    "hoggies/ichabod": {
+      "figmaNodeId": "2252:2406",
+      "nodeHash": "7ff074bad83b351e"
     },
     "hoggies/im-the-driver": {
       "figmaNodeId": "404:120299",
@@ -617,6 +625,10 @@
     "hoggies/swimmer-2": {
       "figmaNodeId": "309:86623",
       "nodeHash": "ff38322aa426ab5d"
+    },
+    "hoggies/swole": {
+      "figmaNodeId": "2252:2402",
+      "nodeHash": "695bc20290d639e3"
     },
     "hoggies/terminator": {
       "figmaNodeId": "404:123483",

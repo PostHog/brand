@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-19T22:31:04Z",
+  "generatedAt": "2026-10-21T17:39:02Z",
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2412212581621824833",
+  "figmaVersion": "2412869445907548104",
   "namespace": "hoggies",
   "entries": [
     {
@@ -1395,6 +1395,31 @@
       "pngBytes": 50232
     },
     {
+      "slug": "highlighter",
+      "name": "Highlighter",
+      "namespace": "hoggies",
+      "figmaNodeId": "2252:2404",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "markers",
+        "highlighter",
+        "sweat",
+        "spinning",
+        "running",
+        "balancing",
+        "trying",
+        "working hard",
+        "stressed",
+        "pink",
+        "yellow",
+        "green"
+      ],
+      "svgBytes": 141570,
+      "pngBytes": 47513
+    },
+    {
       "slug": "hipster",
       "name": "Hipster",
       "namespace": "hoggies",
@@ -1529,6 +1554,29 @@
       ],
       "svgBytes": 127916,
       "pngBytes": 51702
+    },
+    {
+      "slug": "ichabod",
+      "name": "Ichabod",
+      "namespace": "hoggies",
+      "figmaNodeId": "2252:2406",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "headless",
+        "horseman",
+        "ichabod crane",
+        "cape",
+        "pumpkin",
+        "flame",
+        "fire",
+        "haunted",
+        "halloween",
+        "purple"
+      ],
+      "svgBytes": 181363,
+      "pngBytes": 75481
     },
     {
       "slug": "im-the-driver",
@@ -3040,6 +3088,28 @@
       ],
       "svgBytes": 332292,
       "pngBytes": 46126
+    },
+    {
+      "slug": "swole",
+      "name": "Swole",
+      "namespace": "hoggies",
+      "figmaNodeId": "2252:2402",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "swole",
+        "muscle",
+        "workout",
+        "strong",
+        "bicep",
+        "tank top",
+        "red shirt",
+        "sweat",
+        "sweaty"
+      ],
+      "svgBytes": 140028,
+      "pngBytes": 42518
     },
     {
       "slug": "terminator",
