@@ -4,6 +4,8 @@ import { crestPagePath, markdownPath } from "../agent-paths.ts"
 import { crestPng, crestSvg } from "../assets-crests.ts"
 import { AssetDetailCard } from "../components/AssetDetailCard.tsx"
 import { PageHeader } from "../components/PageHeader.tsx"
+import { AssetFacts, SinceValue, TagsValue } from "../components/AssetFacts.tsx"
+import { earliestSince } from "../release.ts"
 import { crestPageSeo } from "../seo.ts"
 import { useSeo } from "../useSeo.ts"
 
@@ -46,11 +48,38 @@ export function CrestDetailPage() {
 
   return (
     <div>
-      <PageHeader eyebrow="@posthog/brand/crests" title={asset.name}>
-        Click either one to copy it as a PNG, or right-click for the import line or the SVG.
-        <br />
-        <Link to="/crests">All crests</Link> · <code>{slug}</code> ·{" "}
-        <a href={markdownPath(crestPagePath(slug))}>Markdown</a>
+      <PageHeader
+        eyebrow="@posthog/brand/crests"
+        title={asset.name}
+        details={
+          <AssetFacts
+            facts={[
+              { label: "Component", value: <code>{baseName}</code> },
+              { label: "Slug", value: <code>{slug}</code> },
+              {
+                label: "Added in",
+                value: (
+                  <SinceValue since={earliestSince([asset, getAsset("crests", slug, "mini")])} />
+                ),
+              },
+              asset.tags?.length
+                ? { label: "Tags", value: <TagsValue tags={asset.tags} /> }
+                : false,
+              {
+                label: "More",
+                value: (
+                  <>
+                    <Link to="/crests">All crests</Link> ·{" "}
+                    <a href={markdownPath(crestPagePath(slug))}>Markdown</a>
+                  </>
+                ),
+              },
+            ]}
+          />
+        }
+      >
+        {miniImg.src ? "Click either one" : "Click it"} to copy it as a PNG, or right-click for the
+        import line or the SVG.
       </PageHeader>
 
       <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>

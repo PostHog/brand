@@ -5,6 +5,7 @@ import { markdownPath } from "./agent-paths.ts"
 import { ErrorBoundary } from "./components/ErrorBoundary.tsx"
 import { OverviewPage } from "./pages/Overview.tsx"
 import { prefetchRoute } from "./prefetch.ts"
+import { formatReleaseDate, release, releaseUrl } from "./release.ts"
 import { setWebMcpNavigate } from "./webmcp.ts"
 import origamiGardenWebp from "./assets/origami-garden.webp"
 
@@ -106,7 +107,8 @@ function Layout({ children }: { children: ReactNode }) {
         <a href={REPO_URL}>
           <code>@posthog/brand</code>
         </a>{" "}
-        package.
+        package, at <a href={releaseUrl(release.version)}>v{release.version}</a> (released{" "}
+        {formatReleaseDate(release.date)}).
         <br />
         For agents: <a href="/llms.txt">llms.txt</a> ·{" "}
         <a href={markdownPath(page)}>This page as markdown</a> ·{" "}

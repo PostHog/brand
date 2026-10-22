@@ -1,6 +1,6 @@
 # The {{name}} crest
 
-> {{name}}, a PostHog team crest.{{tags}}
+> {{name}}, a PostHog team crest.{{tags}}{{since}}
 
 HTML version: {{page}} · All docs for agents: {{site}}/llms.txt
 

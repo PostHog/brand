@@ -46,6 +46,19 @@ export interface AssetMeta {
    * component has none. Folded into `findAssets`' free-text search and the `tags` filter.
    */
   tags?: string[]
+  /**
+   * The release that first shipped this asset. Absent only in a build from source made
+   * between a sync that added the asset and the next release.
+   */
+  since?: Release
+}
+
+/** A published version of `@posthog/brand` and the day it was released. */
+export interface Release {
+  /** Semver version, e.g. "0.14.0". */
+  version: string
+  /** Release date, UTC, as `YYYY-MM-DD`. */
+  date: string
 }
 
 /**

@@ -24,6 +24,8 @@ interface AssetTileProps {
   svg: SvgLoader
   /** When set, renders a corner link to this route (e.g. an isolated detail page). */
   to?: string
+  /** Shows a "New" badge in the corner (see `isNew` in release.ts). */
+  isNew?: boolean
 }
 
 /**
@@ -41,6 +43,7 @@ export function AssetTile({
   usage,
   svg,
   to,
+  isNew,
 }: AssetTileProps) {
   const [loaded, setLoaded] = useState(false)
   const copy = useAssetCopy({ asset, importLine, usage, png: src, svg })
@@ -85,6 +88,7 @@ export function AssetTile({
         <CopyFlash status={copy.status} />
       </button>
       {copy.menu}
+      {isNew ? <span className="new-badge asset-new">New</span> : null}
       {to ? (
         <Link
           to={to}

@@ -4,7 +4,7 @@
 
 HTML version: {{site}}/ · All docs for agents: {{site}}/llms.txt
 
-This site is the home of PostHog's brand assets: {{logoCount}} logo files, the RoundHog typeface, {{colorCount}} brand colors, {{hoggieCount}} hedgehog illustrations ("hoggies") and {{crestCount}} team crests.
+This site is the home of PostHog's brand assets: {{logoCount}} logo files, the RoundHog typeface, {{colorCount}} brand colors, {{hoggieCount}} hedgehog illustrations ("hoggies") and {{crestCount}} team crests. It is built from `@posthog/brand` v{{version}}, released {{released}}.
 
 {{twoWays}}
 

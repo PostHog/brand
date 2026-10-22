@@ -11,13 +11,19 @@
 // `@posthog/brand/hoggies/svg/chart`. Built once per process (`loadAgentData` is memoized) and
 // shared by the build (agent-plugin.ts, seo-plugin.ts) and the dev server.
 
-import { findAssets, getComponentName, type CrestTier } from "@posthog/brand"
+import {
+  findAssets,
+  getAsset,
+  getComponentName,
+  release,
+  type CrestTier,
+  type Release,
+} from "@posthog/brand"
 import { colorCssVariable, colors } from "@posthog/brand/colors"
 import { colorsCss } from "@posthog/brand/colors/css"
 import { roundHog } from "@posthog/brand/fonts"
 import { fontFaceCss } from "@posthog/brand/fonts/css"
 import { readFileSync } from "node:fs"
-import { createRequire } from "node:module"
 import { basename } from "node:path"
 import { fileURLToPath } from "node:url"
 import {
@@ -30,6 +36,7 @@ import {
 } from "../src/agent-paths.ts"
 import { hoggieFamilies, hoggieJsx } from "../src/hoggie-families.ts"
 import { LOGO_FILES, LOGO_PRESETS, type LogoFile } from "../src/logo-files.ts"
+import { earliestSince } from "../src/release.ts"
 import { PAGES, SITE_NAME, SITE_URL } from "../src/seo.ts"
 import { logoPng, logoPngSize, logoSvg } from "./logo-render.ts"
 
@@ -59,6 +66,8 @@ export interface CatalogAsset {
   slug: string
   name: string
   tags: string[]
+  /** The package release that first shipped it (a family: its oldest member); absent if unreleased. */
+  since?: Release
   /** Absolute URLs of the HTML page and its markdown twin. */
   page: string
   markdown: string
@@ -112,6 +121,8 @@ export interface Catalog {
   package: {
     name: string
     version: string
+    /** Release date of `version` (UTC, `YYYY-MM-DD`). */
+    released: string
     install: string
     npm: string
     repository: string
@@ -143,9 +154,6 @@ const PNG = "image/png"
 export const LICENSE_URL = "https://github.com/PostHog/brand/blob/main/LICENSE"
 export const LICENSE_SUMMARY =
   "PostHog's brand assets are PostHog trademarks, made available under the PolyForm Strict License 1.0.0 (source-available, not open source: commercial use, use in your own projects, distribution and derivative works are not licensed). For licensing inquiries, contact hey@posthog.com."
-
-const require = createRequire(import.meta.url)
-const PACKAGE_VERSION: string = require("@posthog/brand/package.json").version
 
 /** A leaf module of the package, as consumers import it, e.g. `@posthog/brand/hoggies/svg/chart`. */
 function leafModule(group: string, kind: "svg" | "png", slug: string): string {
@@ -203,7 +211,13 @@ async function assetImage(
 
 function assetEntry(
   type: CatalogAsset["type"],
-  { slug, name, tags, component }: Pick<CatalogAsset, "slug" | "name" | "tags" | "component">,
+  {
+    slug,
+    name,
+    tags,
+    since,
+    component,
+  }: Pick<CatalogAsset, "slug" | "name" | "tags" | "since" | "component">,
   images: CatalogImage[],
 ): CatalogAsset {
   const page = assetPagePath({ type, slug })
@@ -212,6 +226,7 @@ function assetEntry(
     slug,
     name,
     tags,
+    since,
     page: absoluteUrl(page),
     markdown: absoluteUrl(markdownPath(page)),
     component,
@@ -241,7 +256,7 @@ async function hoggies(files: Map<string, AgentFile>): Promise<CatalogAsset[]> {
           )
         }),
       )
-      return assetEntry("hoggie", family, images)
+      return assetEntry("hoggie", { ...family, since: earliestSince(family.members) }, images)
     }),
   )
   return entries.sort(byName)
@@ -265,7 +280,8 @@ async function crests(files: Map<string, AgentFile>): Promise<CatalogAsset[]> {
           ),
         ),
       )
-      return assetEntry("crest", { ...asset, tags: asset.tags ?? [], component }, images)
+      const since = earliestSince([asset, getAsset("crests", slug, "mini")])
+      return assetEntry("crest", { ...asset, tags: asset.tags ?? [], since, component }, images)
     }),
   )
   return entries.sort(byName)
@@ -356,7 +372,8 @@ async function build(): Promise<AgentData> {
     },
     package: {
       name: "@posthog/brand",
-      version: PACKAGE_VERSION,
+      version: release.version,
+      released: release.date,
       install: "npm install @posthog/brand",
       npm: "https://www.npmjs.com/package/@posthog/brand",
       repository: "https://github.com/PostHog/brand",

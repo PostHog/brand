@@ -193,13 +193,22 @@ The root export is **React-free and image-free** — types, the cross-namespace 
 enough helpers to build an asset picker without pulling in a single illustration:
 
 ```ts
-import { allAssets, findAssets, getAsset, getComponentName, getVariants } from "@posthog/brand"
+import {
+  allAssets,
+  findAssets,
+  getAsset,
+  getComponentName,
+  getVariants,
+  release,
+} from "@posthog/brand"
 
 findAssets({ namespace: "hoggies", text: "director" })
 findAssets({ namespace: "crests", tier: "mini", text: "marketing" })
 getAsset("crests", "marketing", "mini") // full AssetMeta; tier disambiguates the slug
 getComponentName("hoggies", "director") // "HedgehogDirector"
 getVariants("hoggies", "construction") // a numbered family's members, variant "1" first
+getAsset("hoggies", "marathon")?.since // { version: "0.13.1", date: "2026-10-13" }, when it first shipped
+release // { version: "0.14.0", date: "2026-10-14" }, this package's version and release date
 ```
 
 Per-namespace manifests live at `@posthog/brand/<g>/metadata` if you don't want the whole set.

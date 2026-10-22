@@ -33,6 +33,7 @@ import {
   loadAgentData,
 } from "./agent/data.ts"
 import { absoluteUrl, assetPagePath, markdownPath } from "./src/agent-paths.ts"
+import { formatReleaseDate } from "./src/release.ts"
 import {
   breadcrumbJsonLd,
   crestPageSeo,
@@ -247,7 +248,8 @@ function staticShell({ page, asset, listing }: Route): string {
       .join("")
     body =
       `<p>Import from <code>${escape(asset.import)}</code>.` +
-      `${asset.tags.length ? ` Tags: ${escape(asset.tags.join(", "))}.` : ""}</p>` +
+      `${asset.tags.length ? ` Tags: ${escape(asset.tags.join(", "))}.` : ""}` +
+      `${asset.since ? ` Added in v${asset.since.version} (${formatReleaseDate(asset.since.date)}).` : ""}</p>` +
       `<h2>Download</h2><ul>${downloads}</ul>` +
       `<p><a href="${page.parent?.path ?? "/"}">All ${escape(page.parent?.label.toLowerCase() ?? "assets")}</a></p>`
   }
