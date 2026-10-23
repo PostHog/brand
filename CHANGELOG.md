@@ -1,5 +1,16 @@
 # @posthog/brand
 
+## 0.15.2
+
+### Patch Changes
+
+- c671f86: Sync brand assets from Figma (1 added).
+
+  **hoggies**
+
+  - Added 1: Workmaxxing
+  - Updated 93: Greek, Highlighter, Honey, Hooligan, Hot / Popcorn, Hourglass, Ichabod, Ipad, Jack Dawson, Judge, Katy Perry, Lemon Wrangler 1, Lemon Wrangler 2, Lemon Wrangler 3, Lemonade, Level Up, Lifeguard, Loops, Mailbox, Marathon, Megaphone, Money, Mountie, Mr Potato Head 1, Mr Potato Head 2, Namaste, Noir 2, Noir 3, Noir 4, Noir 5, Office Worker, Oprah, Organized, Panic, Pearl Necklace, Peek Over, Phone Call, Piñata, Pit Viper, Pope, Puzzle, Reading, Reaper, Remote Work, Reporter, Research, Robot, Rocket, Roller Coaster, Rose, Safari, Sailor, Sales, Scientist, Scorpion, Scott Pilgrim, Self-driving, Selfie, Shocked, Sleepy, Soapbox, Soccer Coach, Speaker 1, Speaker 2, Stamp Approved, Stamp Denied, Star, Stop, Success, Superhero, Surfer, Survey, Swimmer 1, Swimmer 2, Terminator, The Bride, Toilet, Tourist, Town Crier, Traffic Controller, Traffic Police, Transformer, Trenchcoat, Two Player, Waiter, Will Smith, Wizard 1, Wizard 2, Wizard 3, Wizard 4, Wizard 5, Workflows, X-ray
+
 ## 0.15.1
 
 ### Patch Changes
