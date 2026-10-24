@@ -22,6 +22,16 @@ export interface FontFace {
   url: string
   /** Font format token for the `@font-face` `src`. Always "woff2" here. */
   format: "woff2"
+  /** The same face cut down to Latin characters, about a quarter of the full file size. */
+  latin: FontSubset
+}
+
+/** A face cut down to some characters, registered with a `unicode-range`. */
+export interface FontSubset {
+  /** Absolute URL of the subset woff2 file, resolved the same way as {@link FontFace.url}. */
+  url: string
+  /** CSS `unicode-range` that lists exactly the characters the subset file has. */
+  unicodeRange: string
 }
 
 /** A bundled font family: its CSS `font-family` name and every face it ships. */
