@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-22T16:36:59Z",
+  "generatedAt": "2026-10-23T09:24:46Z",
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2413225825064136874",
+  "figmaVersion": "2413487711231975296",
   "namespace": "hoggies",
   "entries": [
     {
@@ -1135,8 +1135,8 @@
         "surprised",
         "khaki"
       ],
-      "svgBytes": 156156,
-      "pngBytes": 44000
+      "svgBytes": 156160,
+      "pngBytes": 43875
     },
     {
       "slug": "final-evolution",
