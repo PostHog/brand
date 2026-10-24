@@ -16,7 +16,7 @@
 //   // 3. Grab a single face URL:
 //   import { roundHogRegularUrl } from "@posthog/brand/fonts";
 
-export type { FontFace, FontFamily, FontStyle } from "./types.ts"
+export type { FontFace, FontFamily, FontStyle, FontSubset } from "./types.ts"
 
 export {
   roundHog,

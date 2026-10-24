@@ -333,16 +333,25 @@ function brandColors(files: Map<string, AgentFile>): CatalogColor[] {
 }
 
 function fonts(files: Map<string, AgentFile>): Catalog["fonts"] {
-  const faces = roundHog.faces.map((face) => {
-    const file = fileURLToPath(face.url)
-    const name = basename(file)
+  const serve = (url: string, dir: string): string => {
+    const file = fileURLToPath(url)
+    const name = `${dir}${basename(file)}`
     files.set(`/fonts/${name}`, { contentType: "font/woff2", read: () => readFileSync(file) })
-    return { face, name }
-  })
+    return name
+  }
+  const faces = roundHog.faces.map((face) => ({
+    face,
+    name: serve(face.url, ""),
+    latinName: serve(face.latin.url, "latin/"),
+  }))
   // Relative URLs: the stylesheet sits next to the faces, so it works from any origin.
   const css = fontFaceCss({
     family: roundHog.family,
-    faces: faces.map(({ face, name }) => ({ ...face, url: name })),
+    faces: faces.map(({ face, name, latinName }) => ({
+      ...face,
+      url: name,
+      latin: { ...face.latin, url: latinName },
+    })),
   })
   files.set("/fonts/roundhog.css", {
     contentType: "text/css; charset=utf-8",

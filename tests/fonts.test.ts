@@ -1,4 +1,13 @@
+import { join } from "node:path"
+import { fileURLToPath } from "node:url"
+import { readFileSync } from "node:fs"
 import { describe, expect, it } from "vitest"
+import {
+  LATIN_TARGET_RANGES,
+  codepointsInRanges,
+  fontCodepoints,
+  toUnicodeRange,
+} from "../scripts/lib/fonts.ts"
 import { fontFaceCss, roundHog, roundHogFaces, roundHogFontFaceCss } from "../src/fonts/index.ts"
 
 describe("roundHog font", () => {
@@ -27,10 +36,11 @@ describe("roundHog font", () => {
 })
 
 describe("fontFaceCss", () => {
-  it("emits one @font-face per face with swap + format", () => {
+  it("emits a full and a Latin @font-face per face with swap + format", () => {
     const css = roundHogFontFaceCss
     expect(css).toBe(fontFaceCss(roundHog))
-    expect(css.match(/@font-face/g)).toHaveLength(8)
+    expect(css.match(/@font-face/g)).toHaveLength(16)
+    expect(css.match(/unicode-range: /g)).toHaveLength(8)
     expect(css).toContain('font-family: "RoundHog";')
     expect(css).toContain("font-display: swap;")
     expect(css).toContain('format("woff2")')
@@ -38,4 +48,29 @@ describe("fontFaceCss", () => {
     expect(css).toContain("font-weight: 800;")
     expect(css).toContain("font-style: italic;")
   })
+
+  it("puts each Latin rule after its full rule, so browsers try the subset first", () => {
+    for (const face of roundHogFaces) {
+      expect(roundHogFontFaceCss.indexOf(face.latin.url)).toBeGreaterThan(
+        roundHogFontFaceCss.indexOf(`url("${face.url}")`),
+      )
+    }
+  })
+})
+
+describe("roundHog Latin subsets", () => {
+  const fontsDir = join(import.meta.dirname, "..", "assets", "fonts")
+  const fileOf = (url: string): string => fileURLToPath(url).split("/src/fonts/").at(-1) ?? ""
+  const codepointsOf = (url: string): Promise<number[]> =>
+    fontCodepoints(readFileSync(join(fontsDir, fileOf(url))))
+
+  it.each(roundHogFaces.map((f) => [`${f.weight}/${f.style}`, f] as const))(
+    "%s declares exactly the Latin characters the full face has",
+    async (_, face) => {
+      const latin = codepointsInRanges(LATIN_TARGET_RANGES)
+      const inTarget = (await codepointsOf(face.url)).filter((cp) => latin.has(cp))
+      expect(face.latin.unicodeRange).toBe(toUnicodeRange(inTarget))
+      expect(await codepointsOf(face.latin.url)).toEqual(inTarget)
+    },
+  )
 })
