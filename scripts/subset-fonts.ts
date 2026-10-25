@@ -4,22 +4,21 @@
 
 import { readdirSync, readFileSync, writeFileSync } from "node:fs"
 import { join } from "node:path"
-import subsetFont from "subset-font"
 import {
   LATIN_TARGET_RANGES,
   codepointsInRanges,
   fontCodepoints,
+  latinSubset,
   toUnicodeRange,
 } from "./lib/fonts.ts"
 
 const FONTS = join(import.meta.dirname, "..", "assets", "fonts")
 const latin = codepointsInRanges(LATIN_TARGET_RANGES)
-const text = String.fromCodePoint(...latin)
 
 const ranges = new Set<string>()
 for (const file of readdirSync(FONTS).filter((f) => f.endsWith(".woff2"))) {
   const full = readFileSync(join(FONTS, file))
-  writeFileSync(join(FONTS, "latin", file), await subsetFont(full, text, { targetFormat: "woff2" }))
+  writeFileSync(join(FONTS, "latin", file), await latinSubset(full))
   ranges.add(toUnicodeRange((await fontCodepoints(full)).filter((cp) => latin.has(cp))))
 }
 

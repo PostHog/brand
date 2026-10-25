@@ -6,6 +6,7 @@ import {
   LATIN_TARGET_RANGES,
   codepointsInRanges,
   fontCodepoints,
+  latinSubset,
   toUnicodeRange,
 } from "../scripts/lib/fonts.ts"
 import { fontFaceCss, roundHog, roundHogFaces, roundHogFontFaceCss } from "../src/fonts/index.ts"
@@ -70,16 +71,15 @@ describe("fontFaceCss", () => {
 describe("roundHog Latin subsets", () => {
   const fontsDir = join(import.meta.dirname, "..", "assets", "fonts")
   const fileOf = (url: string): string => fileURLToPath(url).split("/src/fonts/").at(-1) ?? ""
-  const codepointsOf = (url: string): Promise<number[]> =>
-    fontCodepoints(readFileSync(join(fontsDir, fileOf(url))))
+  const read = (url: string): Buffer => readFileSync(join(fontsDir, fileOf(url)))
 
   it.each(roundHogFaces.map((f) => [`${f.weight}/${f.style}`, f] as const))(
-    "%s declares exactly the Latin characters the full face has",
+    "%s ships the current subset of its own full face, with its exact Latin range",
     async (_, face) => {
       const latin = codepointsInRanges(LATIN_TARGET_RANGES)
-      const inTarget = (await codepointsOf(face.url)).filter((cp) => latin.has(cp))
+      const inTarget = (await fontCodepoints(read(face.url))).filter((cp) => latin.has(cp))
       expect(face.latin.unicodeRange).toBe(toUnicodeRange(inTarget))
-      expect(await codepointsOf(face.latin.url)).toEqual(inTarget)
+      expect(read(face.latin.url).equals(await latinSubset(read(face.url)))).toBe(true)
     },
   )
 })

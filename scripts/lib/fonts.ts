@@ -1,5 +1,6 @@
 import fontverter from "fontverter"
 import { Blob, Face } from "harfbuzzjs"
+import subsetFont from "subset-font"
 
 // The Latin subset of RoundHog: the characters most PostHog text uses. Browsers load
 // the small subset file for these and fetch the full face only for other scripts.
@@ -52,4 +53,10 @@ export function toUnicodeRange(codepoints: Iterable<number>): string {
 export async function fontCodepoints(font: Buffer): Promise<number[]> {
   const sfnt = await fontverter.convert(font, "sfnt")
   return [...new Face(new Blob(sfnt)).collectUnicodes()].sort((a, b) => a - b)
+}
+
+/** The Latin subset of a full face, as woff2. */
+export function latinSubset(font: Buffer): Promise<Buffer> {
+  const text = String.fromCodePoint(...codepointsInRanges(LATIN_TARGET_RANGES))
+  return subsetFont(font, text, { targetFormat: "woff2" })
 }
