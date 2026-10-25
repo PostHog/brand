@@ -49,6 +49,15 @@ describe("fontFaceCss", () => {
     expect(css).toContain("font-style: italic;")
   })
 
+  it("emits only the full rule for a face without a Latin subset", () => {
+    const css = fontFaceCss({
+      family: "Custom",
+      faces: [{ weight: 400, style: "normal", url: "custom.woff2", format: "woff2" }],
+    })
+    expect(css.match(/@font-face/g)).toHaveLength(1)
+    expect(css).not.toContain("unicode-range")
+  })
+
   it("puts each Latin rule after its full rule, so browsers try the subset first", () => {
     for (const face of roundHogFaces) {
       expect(roundHogFontFaceCss.indexOf(face.latin.url)).toBeGreaterThan(

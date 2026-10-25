@@ -38,7 +38,7 @@ export function fontFaceCss(font: FontFamily): string {
       // rule: Latin text loads only the small subset file.
       .flatMap((face: FontFace) => [
         fontFaceRule(font, face, face.url),
-        fontFaceRule(font, face, face.latin.url, face.latin.unicodeRange),
+        ...(face.latin ? [fontFaceRule(font, face, face.latin.url, face.latin.unicodeRange)] : []),
       ])
       .join("\n\n")
   )

@@ -21,7 +21,7 @@ import {
 } from "@posthog/brand"
 import { colorCssVariable, colors } from "@posthog/brand/colors"
 import { colorsCss } from "@posthog/brand/colors/css"
-import { roundHog } from "@posthog/brand/fonts"
+import { roundHog, roundHogFaces } from "@posthog/brand/fonts"
 import { fontFaceCss } from "@posthog/brand/fonts/css"
 import { readFileSync } from "node:fs"
 import { basename } from "node:path"
@@ -339,7 +339,7 @@ function fonts(files: Map<string, AgentFile>): Catalog["fonts"] {
     files.set(`/fonts/${name}`, { contentType: "font/woff2", read: () => readFileSync(file) })
     return name
   }
-  const faces = roundHog.faces.map((face) => ({
+  const faces = roundHogFaces.map((face) => ({
     face,
     name: serve(face.url, ""),
     latinName: serve(face.latin.url, "latin/"),

@@ -45,7 +45,7 @@ function latinSubset(url: URL): FontSubset {
  * explicitly so a body weight never falls back to Medium — CSS font fallback is
  * per-missing-glyph, not per-missing-weight.
  */
-export const roundHogFaces: readonly FontFace[] = [
+export const roundHogFaces: readonly (FontFace & { latin: FontSubset })[] = [
   {
     weight: 400,
     style: "normal",
