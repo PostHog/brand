@@ -4,7 +4,10 @@ import { Blob, Face } from "harfbuzzjs"
 // The Latin subset of RoundHog: the characters most PostHog text uses. Browsers load
 // the small subset file for these and fetch the full face only for other scripts.
 
-/** The Latin block set Google Fonts uses for its `latin` subset, as inclusive ranges. */
+/**
+ * The Latin block set Google Fonts uses for its `latin` subset, plus every combining mark
+ * (U+0300-036F) so a letter and its accent load from the same file. Inclusive ranges.
+ */
 export const LATIN_TARGET_RANGES: ReadonlyArray<readonly [number, number]> = [
   [0x0000, 0x00ff],
   [0x0131, 0x0131],
@@ -13,9 +16,7 @@ export const LATIN_TARGET_RANGES: ReadonlyArray<readonly [number, number]> = [
   [0x02c6, 0x02c6],
   [0x02da, 0x02da],
   [0x02dc, 0x02dc],
-  [0x0304, 0x0304],
-  [0x0308, 0x0308],
-  [0x0329, 0x0329],
+  [0x0300, 0x036f],
   [0x2000, 0x206f],
   [0x20ac, 0x20ac],
   [0x2122, 0x2122],

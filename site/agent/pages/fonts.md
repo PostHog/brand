@@ -15,7 +15,7 @@ document.head.appendChild(style)
 // then: font-family: "RoundHog", sans-serif;
 ```
 
-Or `import { roundHog } from "@posthog/brand/fonts"` for the face metadata (family, weights, styles, URLs) to build your own `@font-face` or preload tags. Each face has a `latin` subset (`face.latin.url`, `face.latin.unicodeRange`) about a quarter of the full size. Register it after the full face, and preload the subset, not the full face.
+Or `import { roundHog } from "@posthog/brand/fonts"` for the face metadata (family, weights, styles, URLs) to build your own `@font-face` or preload tags. Each face has a `latin` subset (`face.latin.url`, `face.latin.unicodeRange`) less than half the full size. Register it after the full face, and preload the subset, not the full face.
 
 ## Files
 

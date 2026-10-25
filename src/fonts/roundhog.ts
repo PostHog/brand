@@ -33,7 +33,7 @@ export const roundHogBoldItalicUrl: string = new URL(
 
 // Latin subsets of the faces above. Regenerate them with `pnpm fonts:subset`.
 export const roundHogLatinUnicodeRange: string =
-  "U+0, U+20-7E, U+A0-AC, U+AE-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+2000-200B, U+2010-2027, U+202F-2055, U+2057, U+205F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+FEFF"
+  "U+0, U+20-7E, U+A0-AC, U+AE-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+300-304, U+306-30A, U+30C, U+30F, U+313, U+315, U+31B, U+323, U+326-328, U+32C, U+337-338, U+342-343, U+346-36F, U+2000-200B, U+2010-2027, U+202F-2055, U+2057, U+205F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+FEFF"
 
 function latinSubset(url: URL): FontSubset {
   return { url: url.href, unicodeRange: roundHogLatinUnicodeRange }
