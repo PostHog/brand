@@ -104,9 +104,12 @@ metadata or a single URL instead of the CSS string:
 import { roundHog, roundHogRegularUrl } from "@posthog/brand/fonts"
 
 roundHog.family // "RoundHog"
-roundHog.faces // [{ weight, style, url, format }, …] — the eight bundled faces
+roundHog.faces // [{ weight, style, url, format, latin }, …] — the eight bundled faces
 roundHogRegularUrl // the bundled woff2 URL for 400 upright
 ```
+
+Each face's `latin` field is a Latin-only cut of it, less than half the size, with a `url` and
+a `unicodeRange`. Register it after the full face, and preload the subset, not the full face.
 
 The files are also reachable by subpath — `@posthog/brand/fonts/RoundHog.woff2` — so a build
 step can `require.resolve` one to copy into a static dir.
