@@ -22,6 +22,22 @@ export interface FontFace {
   url: string
   /** Font format token for the `@font-face` `src`. Always "woff2" here. */
   format: "woff2"
+  /**
+   * The same face cut into subsets by script (latin, cyrillic, …) whose ranges don't
+   * overlap. When set, `fontFaceCss` registers the subsets instead of the full face, so
+   * a page loads only the subsets for the characters it shows.
+   */
+  subsets?: readonly FontSubset[]
+}
+
+/** A face cut down to some characters, registered with a `unicode-range`. */
+export interface FontSubset {
+  /** Which characters it has, e.g. "latin", "latin-ext", "greek", "cyrillic" or "rest". */
+  name: string
+  /** Absolute URL of the subset woff2 file, resolved the same way as {@link FontFace.url}. */
+  url: string
+  /** CSS `unicode-range` that lists exactly the characters the subset file has. */
+  unicodeRange: string
 }
 
 /** A bundled font family: its CSS `font-family` name and every face it ships. */

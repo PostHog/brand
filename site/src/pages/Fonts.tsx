@@ -27,7 +27,36 @@ document.head.appendChild(style)
 const META_USAGE = `import { roundHog } from "@posthog/brand/fonts"
 
 roundHog.family                    // "RoundHog"
-roundHog.faces.map((f) => f.url)   // the bundled woff2 URLs`
+roundHog.faces[0].subsets          // [{ name: "latin", url, unicodeRange }, …]
+roundHog.faces[0].url              // the full face, for downloads and design tools
+
+// One @font-face per subset, each with its unicodeRange. Leave the full face out:
+// its range covers everything, so a page with any non-Latin character loads it too.`
+
+const PRELOAD_USAGE = `import { roundHogFaces } from "@posthog/brand/fonts"
+
+// Preload the Latin subset of the faces your first screen shows.
+const regular = roundHogFaces.find((f) => f.weight === 400 && f.style === "normal")
+const href = regular?.subsets.find((s) => s.name === "latin")?.url
+
+<link rel="preload" as="font" type="font/woff2" crossOrigin="" href={href} />`
+
+// What each subset holds, in the order the package lists them.
+const SUBSETS: ReadonlyArray<{ name: string; holds: string }> = [
+  {
+    name: "latin",
+    holds:
+      "English and Western European letters, accents, punctuation, €, and the arrows, math, keyboard (⌘ ⌥), box drawing and dingbat symbols the PostHog UI uses. Almost every page needs only this.",
+  },
+  {
+    name: "latin-ext",
+    holds:
+      "Central and Eastern European Latin (ą, ő, ž), Vietnamese, phonetic letters and other currency signs.",
+  },
+  { name: "greek", holds: "Greek, including polytonic." },
+  { name: "cyrillic", holds: "Cyrillic." },
+  { name: "rest", holds: "Superscripts, fractions, letterlike symbols and private-use glyphs." },
+]
 
 function faceLabel(face: FontFace): string {
   const weight = `${WEIGHT_NAMES[face.weight] ?? face.weight} ${face.weight}`
@@ -81,16 +110,53 @@ export function FontsPage() {
       </section>
 
       <section className="section">
+        <h2>Subsets</h2>
+        <p>
+          A full face is about 120 KB, and most of that is scripts a page rarely shows. So each face
+          is also cut into five subsets by script, each with a <code>unicode-range</code>. The
+          ranges don't overlap, so the browser downloads a subset only when the page shows one of
+          its characters, and never the full face. Latin text loads about 50 KB per face. A Cyrillic
+          or Greek name adds 10–15 KB.
+        </p>
+        <div className="card props-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Subset</th>
+                <th>Holds</th>
+              </tr>
+            </thead>
+            <tbody>
+              {SUBSETS.map(({ name, holds }) => (
+                <tr key={name}>
+                  <td className="nowrap">
+                    <code>{name}</code>
+                  </td>
+                  <td>{holds}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section className="section">
         <h2>Use it</h2>
         <p>
-          Add the <code>@font-face</code> rules to a <code>&lt;style&gt;</code> tag. They already
-          point at the bundled woff2 files.
+          Add the <code>@font-face</code> rules to a <code>&lt;style&gt;</code> tag. They register
+          every subset of every face, already pointing at the bundled woff2 files.
         </p>
         <CodeBlock slug="fonts-css" code={CSS_USAGE} />
         <p style={{ marginTop: 24 }}>
-          Or write your own <code>@font-face</code> rules and preload links from the metadata.
+          Or write your own <code>@font-face</code> rules from the metadata. Register the subsets,
+          not the full face.
         </p>
         <CodeBlock slug="fonts-metadata" code={META_USAGE} />
+        <p style={{ marginTop: 24 }}>
+          To preload, preload the <code>latin</code> subset. Preloading the full face downloads
+          bytes the page never uses.
+        </p>
+        <CodeBlock slug="fonts-preload" code={PRELOAD_USAGE} />
       </section>
     </div>
   )

@@ -54,7 +54,13 @@ Figma brand book  --sync.ts-->  assets/<namespace>/  --codegen.ts-->  src/genera
   `new URL("./RoundHog*.woff2", import.meta.url)` refs in `src/fonts/roundhog.ts` resolve the
   same way the PNGs do. `./fonts` exports the face metadata + per-face URLs; `./fonts/css`
   exports a ready-to-inject `@font-face` string; `./fonts/*` exposes the raw woff2 by subpath.
-  To change/add faces, drop the woff2 in `assets/fonts/` and edit `src/fonts/` (with a changeset).
+  Each face is also cut by script into subsets with non-overlapping `unicode-range`s (latin,
+  latin-ext, greek, cyrillic, rest — `SUBSET_TARGETS` in `scripts/lib/fonts.ts`) in
+  `assets/fonts/subsets/`; `roundHogFontFaceCss` registers those instead of the full face, so a
+  page loads only the scripts it shows and never the full file. `pnpm fonts:subset` writes them
+  and the committed `src/fonts/subsets.ts` (their URLs + ranges; don't hand-edit). To
+  change/add faces, drop the woff2 in `assets/fonts/`, run `pnpm fonts:subset`, and edit
+  `src/fonts/` (with a changeset). `tests/fonts.test.ts` fails if a subset or its range is stale.
 
 ## Conventions
 

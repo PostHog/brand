@@ -21,7 +21,7 @@ import {
 } from "@posthog/brand"
 import { colorCssVariable, colors } from "@posthog/brand/colors"
 import { colorsCss } from "@posthog/brand/colors/css"
-import { roundHog } from "@posthog/brand/fonts"
+import { roundHog, roundHogFaces } from "@posthog/brand/fonts"
 import { fontFaceCss } from "@posthog/brand/fonts/css"
 import { readFileSync } from "node:fs"
 import { basename } from "node:path"
@@ -110,6 +110,8 @@ export interface CatalogFontFace {
   weight: number
   style: string
   woff2: string
+  /** The face cut by script, with non-overlapping ranges. Web pages should load these. */
+  subsets: Array<{ name: string; woff2: string; unicodeRange: string }>
 }
 
 export interface Catalog {
@@ -333,16 +335,21 @@ function brandColors(files: Map<string, AgentFile>): CatalogColor[] {
 }
 
 function fonts(files: Map<string, AgentFile>): Catalog["fonts"] {
-  const faces = roundHog.faces.map((face) => {
-    const file = fileURLToPath(face.url)
-    const name = basename(file)
+  const serve = (url: string, dir: string): string => {
+    const file = fileURLToPath(url)
+    const name = `${dir}${basename(file)}`
     files.set(`/fonts/${name}`, { contentType: "font/woff2", read: () => readFileSync(file) })
-    return { face, name }
-  })
+    return name
+  }
+  const faces = roundHogFaces.map((face) => ({
+    face,
+    name: serve(face.url, ""),
+    subsets: face.subsets.map((s) => ({ ...s, url: serve(s.url, "subsets/") })),
+  }))
   // Relative URLs: the stylesheet sits next to the faces, so it works from any origin.
   const css = fontFaceCss({
     family: roundHog.family,
-    faces: faces.map(({ face, name }) => ({ ...face, url: name })),
+    faces: faces.map(({ face, name, subsets }) => ({ ...face, url: name, subsets })),
   })
   files.set("/fonts/roundhog.css", {
     contentType: "text/css; charset=utf-8",
@@ -351,10 +358,15 @@ function fonts(files: Map<string, AgentFile>): Catalog["fonts"] {
   return {
     family: roundHog.family,
     css: absoluteUrl("/fonts/roundhog.css"),
-    faces: faces.map(({ face, name }) => ({
+    faces: faces.map(({ face, name, subsets }) => ({
       weight: face.weight,
       style: face.style,
       woff2: absoluteUrl(`/fonts/${name}`),
+      subsets: subsets.map((s) => ({
+        name: s.name,
+        woff2: absoluteUrl(`/fonts/${s.url}`),
+        unicodeRange: s.unicodeRange,
+      })),
     })),
   }
 }

@@ -104,9 +104,14 @@ metadata or a single URL instead of the CSS string:
 import { roundHog, roundHogRegularUrl } from "@posthog/brand/fonts"
 
 roundHog.family // "RoundHog"
-roundHog.faces // [{ weight, style, url, format }, …] — the eight bundled faces
+roundHog.faces // [{ weight, style, url, format, subsets }, …] — the eight bundled faces
 roundHogRegularUrl // the bundled woff2 URL for 400 upright
 ```
+
+Each face's `subsets` cut it by script — `latin`, `latin-ext`, `greek`, `cyrillic` and `rest` —
+each with a `url` and a `unicodeRange`. The ranges don't overlap, so registering the subsets instead
+of the full face (as `roundHogFontFaceCss` does) makes a page load only the scripts it shows: about
+50 KB per face for Latin text, against about 120 KB for the full face. Preload the `latin` subset.
 
 The files are also reachable by subpath — `@posthog/brand/fonts/RoundHog.woff2` — so a build
 step can `require.resolve` one to copy into a static dir.

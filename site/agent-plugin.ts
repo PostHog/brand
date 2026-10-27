@@ -25,7 +25,7 @@ import { SITE_URL } from "./src/agent-paths.ts"
  * so Vite's own requests (sources, CSS, the tiles' `/@fs/…` PNGs, fonts) pass straight through.
  */
 const AGENT_PATH =
-  /^\/(?:(?:hoggies|crests|logo|fonts)\/[^/]+\.\w+|llms(?:-full)?\.txt|catalog\.json|colors\.(?:json|css))$|\.md$/
+  /^\/(?:(?:(?:hoggies|crests|logo)\/|fonts\/(?:subsets\/)?)[^/]+\.\w+|llms(?:-full)?\.txt|catalog\.json|colors\.(?:json|css))$|\.md$/
 
 const MARKDOWN = "text/markdown; charset=utf-8"
 const TEXT = "text/plain; charset=utf-8"

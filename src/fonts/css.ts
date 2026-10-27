@@ -12,22 +12,34 @@
 import type { FontFace, FontFamily } from "./types.ts"
 import { roundHog } from "./roundhog.ts"
 
+function fontFaceRule(
+  font: FontFamily,
+  face: FontFace,
+  url: string,
+  unicodeRange?: string,
+): string {
+  return [
+    "@font-face {",
+    `  font-family: "${font.family}";`,
+    `  font-style: ${face.style};`,
+    `  font-weight: ${face.weight};`,
+    "  font-display: swap;",
+    `  src: url("${url}") format("${face.format}");`,
+    ...(unicodeRange ? [`  unicode-range: ${unicodeRange};`] : []),
+    "}",
+  ].join("\n")
+}
+
 /** Build the `@font-face` rules for one {@link FontFamily}. Exported for reuse. */
 export function fontFaceCss(font: FontFamily): string {
   return font.faces
-    .map((face: FontFace) =>
-      [
-        "@font-face {",
-        `  font-family: "${font.family}";`,
-        `  font-style: ${face.style};`,
-        `  font-weight: ${face.weight};`,
-        "  font-display: swap;",
-        `  src: url("${face.url}") format("${face.format}");`,
-        "}",
-      ].join("\n"),
+    .flatMap((face: FontFace) =>
+      face.subsets
+        ? face.subsets.map((s) => fontFaceRule(font, face, s.url, s.unicodeRange))
+        : [fontFaceRule(font, face, face.url)],
     )
     .join("\n\n")
 }
 
-/** RoundHog's eight faces as a single `@font-face` CSS string. */
+/** RoundHog's eight faces as `@font-face` rules, one per subset of each face. */
 export const roundHogFontFaceCss: string = fontFaceCss(roundHog)
