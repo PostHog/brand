@@ -342,16 +342,12 @@ function fonts(files: Map<string, AgentFile>): Catalog["fonts"] {
   const faces = roundHogFaces.map((face) => ({
     face,
     name: serve(face.url, ""),
-    latinName: serve(face.latin.url, "latin/"),
+    subsets: face.subsets.map((s) => ({ ...s, url: serve(s.url, "subsets/") })),
   }))
   // Relative URLs: the stylesheet sits next to the faces, so it works from any origin.
   const css = fontFaceCss({
     family: roundHog.family,
-    faces: faces.map(({ face, name, latinName }) => ({
-      ...face,
-      url: name,
-      latin: { ...face.latin, url: latinName },
-    })),
+    faces: faces.map(({ face, name, subsets }) => ({ ...face, url: name, subsets })),
   })
   files.set("/fonts/roundhog.css", {
     contentType: "text/css; charset=utf-8",

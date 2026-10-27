@@ -32,17 +32,14 @@ function fontFaceRule(
 
 /** Build the `@font-face` rules for one {@link FontFamily}. Exported for reuse. */
 export function fontFaceCss(font: FontFamily): string {
-  return (
-    font.faces
-      // Browsers try the last matching rule first, so the Latin rule follows the full
-      // rule: Latin text loads only the small subset file.
-      .flatMap((face: FontFace) => [
-        fontFaceRule(font, face, face.url),
-        ...(face.latin ? [fontFaceRule(font, face, face.latin.url, face.latin.unicodeRange)] : []),
-      ])
-      .join("\n\n")
-  )
+  return font.faces
+    .flatMap((face: FontFace) =>
+      face.subsets
+        ? face.subsets.map((s) => fontFaceRule(font, face, s.url, s.unicodeRange))
+        : [fontFaceRule(font, face, face.url)],
+    )
+    .join("\n\n")
 }
 
-/** RoundHog's eight faces as a single `@font-face` CSS string. */
+/** RoundHog's eight faces as `@font-face` rules, one per subset of each face. */
 export const roundHogFontFaceCss: string = fontFaceCss(roundHog)

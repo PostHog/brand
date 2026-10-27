@@ -5,6 +5,7 @@
 // with no CDN and no loader config.
 
 import type { FontFace, FontFamily, FontSubset } from "./types.ts"
+import { roundHogSubsets } from "./subsets.ts"
 
 /** CSS `font-family` name for RoundHog. */
 export const ROUND_HOG_FAMILY: string = "RoundHog"
@@ -31,76 +32,68 @@ export const roundHogBoldItalicUrl: string = new URL(
   import.meta.url,
 ).href
 
-// Latin subsets of the faces above. Regenerate them with `pnpm fonts:subset`.
-export const roundHogLatinUnicodeRange: string =
-  "U+0, U+20-7E, U+A0-AC, U+AE-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+300-304, U+306-30A, U+30C, U+30F, U+313, U+315, U+31B, U+323, U+326-328, U+32C, U+337-338, U+342-343, U+346-36F, U+2000-200B, U+2010-2027, U+202F-2055, U+2057, U+205F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+FEFF"
-
-function latinSubset(url: URL): FontSubset {
-  return { url: url.href, unicodeRange: roundHogLatinUnicodeRange }
-}
-
 /**
  * Every RoundHog face. Weight mapping follows the PostHog app's type scale:
  * Regular→400, Medium→500, SemiBold→700, Bold→800. Regular (400) is shipped
  * explicitly so a body weight never falls back to Medium — CSS font fallback is
  * per-missing-glyph, not per-missing-weight.
  */
-export const roundHogFaces: readonly (FontFace & { latin: FontSubset })[] = [
+export const roundHogFaces: readonly (FontFace & { subsets: readonly FontSubset[] })[] = [
   {
     weight: 400,
     style: "normal",
     url: roundHogRegularUrl,
     format: "woff2",
-    latin: latinSubset(new URL("./latin/RoundHog.woff2", import.meta.url)),
+    subsets: roundHogSubsets["RoundHog"],
   },
   {
     weight: 400,
     style: "italic",
     url: roundHogItalicUrl,
     format: "woff2",
-    latin: latinSubset(new URL("./latin/RoundHog-Italic.woff2", import.meta.url)),
+    subsets: roundHogSubsets["RoundHog-Italic"],
   },
   {
     weight: 500,
     style: "normal",
     url: roundHogMediumUrl,
     format: "woff2",
-    latin: latinSubset(new URL("./latin/RoundHog-Medium.woff2", import.meta.url)),
+    subsets: roundHogSubsets["RoundHog-Medium"],
   },
   {
     weight: 500,
     style: "italic",
     url: roundHogMediumItalicUrl,
     format: "woff2",
-    latin: latinSubset(new URL("./latin/RoundHog-Medium-Italic.woff2", import.meta.url)),
+    subsets: roundHogSubsets["RoundHog-Medium-Italic"],
   },
   {
     weight: 700,
     style: "normal",
     url: roundHogSemiBoldUrl,
     format: "woff2",
-    latin: latinSubset(new URL("./latin/RoundHog-SemiBold.woff2", import.meta.url)),
+    subsets: roundHogSubsets["RoundHog-SemiBold"],
   },
   {
     weight: 700,
     style: "italic",
     url: roundHogSemiBoldItalicUrl,
     format: "woff2",
-    latin: latinSubset(new URL("./latin/RoundHog-SemiBold-Italic.woff2", import.meta.url)),
+    subsets: roundHogSubsets["RoundHog-SemiBold-Italic"],
   },
   {
     weight: 800,
     style: "normal",
     url: roundHogBoldUrl,
     format: "woff2",
-    latin: latinSubset(new URL("./latin/RoundHog-Bold.woff2", import.meta.url)),
+    subsets: roundHogSubsets["RoundHog-Bold"],
   },
   {
     weight: 800,
     style: "italic",
     url: roundHogBoldItalicUrl,
     format: "woff2",
-    latin: latinSubset(new URL("./latin/RoundHog-Bold-Italic.woff2", import.meta.url)),
+    subsets: roundHogSubsets["RoundHog-Bold-Italic"],
   },
 ]
 
