@@ -27,7 +27,8 @@
     "0.15.0": "2026-10-22",
     "0.15.1": "2026-10-22",
     "0.15.2": "2026-10-23",
-    "0.15.3": "2026-10-24"
+    "0.15.3": "2026-10-24",
+    "0.15.4": "2026-10-27"
   },
   "assets": {
     "crests/full/a-default-crest": {
@@ -890,6 +891,10 @@
       "since": "0.1.0",
       "figmaNodeId": "404:125232"
     },
+    "hoggies/mixmaster": {
+      "since": "0.15.4",
+      "figmaNodeId": "2359:1483"
+    },
     "hoggies/money": {
       "since": "0.1.0",
       "figmaNodeId": "404:106406"
@@ -949,6 +954,10 @@
     "hoggies/party": {
       "since": "0.1.0",
       "figmaNodeId": "404:159875"
+    },
+    "hoggies/patient": {
+      "since": "0.15.4",
+      "figmaNodeId": "2359:1484"
     },
     "hoggies/pearl-necklace": {
       "since": "0.1.0",

@@ -1,5 +1,16 @@
 # @posthog/brand
 
+## 0.15.4
+
+### Patch Changes
+
+- 7b23682: Sync brand assets from Figma (2 added).
+
+  **hoggies**
+
+  - Added 2: Mixmaster, Patient
+  - Updated 69: Hot / Popcorn, Money, Mountie, Mr Potato Head 1, Noir 1, Noir 2, Noir 4, Noir 5, Office Worker, Oprah, Party, Pearl Necklace, Peek Over, Phone Call, Piñata, Pit Viper, Pope, Reading, Reading Is Magic, Reaper, Remote Work, Reporter, Research, Robot, Rocket, Rose, Safari, Sailor, Sales, Scientist, Scorpion, Scott Pilgrim, Self-driving, Shocked, Sitting, Sleepy, Soapbox, Soccer Coach, Speaker 1, Speaker 2, Stamp Approved, Star, Steve Jobs, Stop, Success, Sunburn, Superhero, Surfer, Survey, Swimmer 2, Swole, Terminator, The Bride, Toilet, Tourist, Town Crier, Traffic Controller, Transformer, Trenchcoat, Two Player, Waiter, Will Smith, Wizard 1, Wizard 2, Wizard 3, Wizard 5, Workflows, Workmaxxing, X-ray
+
 ## 0.15.3
 
 ### Patch Changes
