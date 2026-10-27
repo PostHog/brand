@@ -110,6 +110,8 @@ export interface CatalogFontFace {
   weight: number
   style: string
   woff2: string
+  /** The face cut by script, with non-overlapping ranges. Web pages should load these. */
+  subsets: Array<{ name: string; woff2: string; unicodeRange: string }>
 }
 
 export interface Catalog {
@@ -356,10 +358,15 @@ function fonts(files: Map<string, AgentFile>): Catalog["fonts"] {
   return {
     family: roundHog.family,
     css: absoluteUrl("/fonts/roundhog.css"),
-    faces: faces.map(({ face, name }) => ({
+    faces: faces.map(({ face, name, subsets }) => ({
       weight: face.weight,
       style: face.style,
       woff2: absoluteUrl(`/fonts/${name}`),
+      subsets: subsets.map((s) => ({
+        name: s.name,
+        woff2: absoluteUrl(`/fonts/${s.url}`),
+        unicodeRange: s.unicodeRange,
+      })),
     })),
   }
 }

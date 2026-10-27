@@ -117,10 +117,11 @@ const SECTION_VARS: Record<string, (catalog: Catalog) => Vars> = {
   }),
   "/fonts": (catalog) => ({
     faces: table(
-      ["Weight", "Style", "woff2"],
+      ["Weight", "Style", "Subsets", "Full face"],
       catalog.fonts.faces.map((face) => [
         String(face.weight),
         face.style,
+        face.subsets.map((s) => link(s.name, s.woff2)).join(" · "),
         link(face.woff2, face.woff2),
       ]),
     ),
