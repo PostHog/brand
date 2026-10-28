@@ -11,11 +11,11 @@
 //   1. `transformIndexHtml` injects the shared head block — icons, Open Graph, Twitter card,
 //      canonical, and site-level JSON-LD — from `src/seo.ts`, in dev and in build alike.
 //   2. `closeBundle` stamps out one static HTML file per route from the built `index.html`,
-//      swapping that block for the route's own metadata and filling `#root` with a plain
-//      HTML summary of the page (headline, lede, internal links, and for the catalog routes
-//      the full asset list; for an asset page, its download URLs and import). React replaces
-//      `#root` the moment it mounts, so this is purely what a non-executing client reads. It
-//      also writes `sitemap.xml`, with each asset page's image.
+//      swapping that block for the route's own metadata and adding a plain HTML summary of the
+//      page (headline, lede, internal links, and for the catalog routes the full asset list;
+//      for an asset page, its download URLs and import) in a `<noscript>` after `#root`. A
+//      browser running JS never paints it, so it's purely what a non-executing client reads.
+//      It also writes `sitemap.xml`, with each asset page's image.
 //
 // Everything is driven by `PAGES` in `src/seo.ts`, the same table the runtime `useSeo` hook
 // reads, so the served HTML and the client-side navigation can never disagree. The asset pages
@@ -226,13 +226,15 @@ function headBlock({ page, asset }: Route): string {
 }
 
 /**
- * Plain-HTML stand-in for the React tree, written into `#root` of each prerendered route.
+ * Plain-HTML stand-in for the React tree, written into a `<noscript>` after `#root` on each
+ * prerendered route.
  *
  * It exists for clients that never run the bundle: it gives them the page's heading, lede,
  * and links, and — on the catalog routes — the actual asset names, which is the thing an
  * answer engine is being asked about ("does PostHog have a hedgehog holding a…"). An asset
- * page lists its download URLs and import. React's `createRoot(...).render()` clears the
- * container on mount, so the browser shows it only for the moment before hydration.
+ * page lists its download URLs and import. It's in `<noscript>` rather than inside `#root`
+ * so a browser that runs the bundle never paints it: inside `#root` it flashed as unstyled
+ * text until React mounted. Crawlers that read the HTML as served still see all of it.
  */
 function staticShell({ page, asset, listing }: Route): string {
   const links = PAGES.filter((other) => other.path !== page.path)
@@ -365,7 +367,7 @@ export function brandSeo(): Plugin {
         const { page } = route
         const html = built
           .replace(new RegExp(`${START}[\\s\\S]*?${END}`), headBlock(route))
-          .replace(ROOT_DIV, `<div id="root">${staticShell(route)}</div>`)
+          .replace(ROOT_DIV, `${ROOT_DIV}<noscript>${staticShell(route)}</noscript>`)
         // `/` → index.html, `/logo` → logo.html and `/crests/x` → crests/x.html (Pages
         // serves both at their extensionless paths), and the 404 shell → the 404.html Pages
         // serves for everything unmatched.
