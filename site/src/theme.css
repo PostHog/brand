@@ -123,9 +123,8 @@ a:has(> code) {
   outline-offset: 2px;
 }
 
-/* Static pre-render shell (seo-plugin.ts writes it into #root for crawlers and no-JS
-   clients). React clears it on mount, so this only has to look composed for a moment —
-   and stay readable for anyone who never gets the bundle. */
+/* Static pre-render shell (seo-plugin.ts writes it into a <noscript> for crawlers and no-JS
+   clients). Only a browser without JavaScript paints it, so it just has to stay readable. */
 .prerender-list {
   columns: 3 220px;
   gap: 24px;
