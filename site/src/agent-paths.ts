@@ -6,6 +6,7 @@
 //   /crests/<slug>.svg|png         a crest's full illustration
 //   /crests/<slug>-mini.svg|png    its mini badge
 //   /logo/<id>.svg|png             a logo file (see logo-files.ts)
+//   /badges/<id>.svg|png           a "Built with PostHog" website badge (see badge-files.ts)
 //   /<page>.md                     the markdown twin of every HTML page (/ → /index.md)
 
 import type { CrestTier } from "@posthog/brand"
@@ -13,12 +14,18 @@ import type { CrestTier } from "@posthog/brand"
 /** Canonical origin. Deployed from `main` to Cloudflare Pages. */
 export const SITE_URL = "https://brand.posthog.com"
 
+/** The brand assets' license (PolyForm Strict), linked from the docs, the catalog and pages. */
+export const LICENSE_URL = "https://github.com/PostHog/brand/blob/main/LICENSE"
+
 export type ImageFormat = "svg" | "png"
 
-/** An asset that has static files: a hoggie (or one variant), a crest tier, or a logo file. */
+/**
+ * An asset that has static files: a hoggie (or one variant), a crest tier, a logo file, or a
+ * website badge.
+ */
 export interface AssetRef {
-  type: "hoggie" | "crest" | "logo"
-  /** The hoggie/crest slug, or the logo file id (e.g. `posthog-logo-stacked-white`). */
+  type: "hoggie" | "crest" | "logo" | "badge"
+  /** The hoggie/crest slug, or the logo file or badge id (e.g. `posthog-logo-stacked-white`). */
   slug: string
   /** A hoggie variant family member's key, e.g. "2". */
   variant?: string
@@ -54,6 +61,7 @@ const SECTION: Record<AssetRef["type"], string> = {
   hoggie: "hoggies",
   crest: "crests",
   logo: "logo",
+  badge: "badges",
 }
 
 /** Site path of an asset's static file, e.g. `/crests/marketing-mini.png`. */
@@ -63,7 +71,7 @@ export function assetFilePath(asset: AssetRef, format: ImageFormat): string {
 
 /** Base name (no extension) a downloaded copy is saved as, e.g. `posthog-hedgehog-noir-5`. */
 export function assetFileName(asset: AssetRef): string {
-  if (asset.type === "logo") return asset.slug
+  if (asset.type === "logo" || asset.type === "badge") return asset.slug
   return `posthog-${asset.type === "hoggie" ? "hedgehog" : "crest"}-${stem(asset)}`
 }
 

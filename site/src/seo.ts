@@ -102,6 +102,14 @@ export const PAGES: PageSeo[] = [
     description:
       "Search 160+ PostHog hedgehog illustrations (we call them hoggies) and copy the import for any of them. Each one ships as a React component, an SVG string and a PNG.",
   },
+  {
+    path: "/badges",
+    title: "Built with PostHog badges",
+    label: "Badges",
+    headline: "Built with PostHog badges",
+    description:
+      "Two website badges that show your product is built with PostHog. Copy the HTML or Markdown into your site or README, or download the SVG or PNG.",
+  },
 ]
 
 /**

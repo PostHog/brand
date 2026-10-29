@@ -21,9 +21,9 @@ export interface ToolDefinition {
 
 const ASSET_TYPE = {
   type: "string",
-  enum: ["hoggie", "crest", "logo"],
+  enum: ["hoggie", "crest", "logo", "badge"],
   description:
-    'Which kind of asset: "hoggie" (a hedgehog illustration), "crest" (a team crest) or "logo" (a logo file).',
+    'Which kind of asset: "hoggie" (a hedgehog illustration), "crest" (a team crest), "logo" (a logo file) or "badge" (a "Built with PostHog" website badge for other sites to embed, whose entry includes ready-to-paste HTML and Markdown embed code and the terms of use).',
 }
 
 export const TOOL_DEFINITIONS: readonly ToolDefinition[] = [
@@ -31,7 +31,7 @@ export const TOOL_DEFINITIONS: readonly ToolDefinition[] = [
     name: "search_brand_assets",
     title: "Search PostHog brand assets",
     description:
-      "Search PostHog's brand assets (hedgehog illustrations or \"hoggies\", team crests, and logo files) by name, slug, or tag. Returns each match's static SVG/PNG URLs, its page, and the @posthog/brand import that renders it.",
+      'Search PostHog\'s brand assets (hedgehog illustrations or "hoggies", team crests, logo files, and "Built with PostHog" website badges) by name, slug, or tag. Returns each match\'s static SVG/PNG URLs, its page, and the @posthog/brand import that renders it.',
     inputSchema: {
       type: "object",
       properties: {
@@ -57,7 +57,7 @@ export const TOOL_DEFINITIONS: readonly ToolDefinition[] = [
     name: "get_brand_asset",
     title: "Get a PostHog brand asset",
     description:
-      'Everything about one asset by type and slug (a logo\'s slug is its file id, e.g. "posthog-logo-stacked-white"): every variant or tier with its SVG/PNG URLs and PNG size, the JSX and import for @posthog/brand, and its tags.',
+      'Everything about one asset by type and slug (a logo\'s slug is its file id, e.g. "posthog-logo-stacked-white"; a website badge\'s is its id, "posthog-badge" or "posthog-badge-dark"): every variant or tier with its SVG/PNG URLs and PNG size, the JSX and import for @posthog/brand, and its tags. A website badge has no JSX or import: it returns its embed `html` and `markdown`, its `link`, and the `usage` terms.',
     inputSchema: {
       type: "object",
       properties: {
@@ -94,7 +94,7 @@ export const TOOL_DEFINITIONS: readonly ToolDefinition[] = [
       type: "object",
       properties: {
         type: ASSET_TYPE,
-        slug: { type: "string", description: "The asset slug (or logo file id)." },
+        slug: { type: "string", description: "The asset slug (or logo file or website badge id)." },
         format: { type: "string", enum: ["svg", "png"], description: "File format." },
         variant: {
           type: "string",
@@ -114,7 +114,7 @@ export const TOOL_DEFINITIONS: readonly ToolDefinition[] = [
     name: "open_brand_page",
     title: "Show a page of PostHog Brand",
     description:
-      'Navigate this site to a page so the user can see it: "/", "/logo", "/fonts", "/colors", "/hoggies", "/crests", or one asset\'s page ("/hoggies/<slug>", "/crests/<slug>").',
+      'Navigate this site to a page so the user can see it: "/", "/logo", "/fonts", "/colors", "/hoggies", "/crests", "/badges", or one asset\'s page ("/hoggies/<slug>", "/crests/<slug>").',
     inputSchema: {
       type: "object",
       properties: {

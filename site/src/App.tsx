@@ -1,7 +1,8 @@
 import { Logo } from "@posthog/brand/logo"
 import { lazy, type ReactNode, Suspense, useEffect } from "react"
-import { NavLink, Route, Routes, useLocation, useNavigate } from "react-router-dom"
-import { markdownPath } from "./agent-paths.ts"
+import { Link, NavLink, Route, Routes, useLocation, useNavigate } from "react-router-dom"
+import { assetFilePath, markdownPath } from "./agent-paths.ts"
+import { BADGE_ALT, BADGE_SIZE, BADGES } from "./badge-files.ts"
 import { ErrorBoundary } from "./components/ErrorBoundary.tsx"
 import { OverviewPage } from "./pages/Overview.tsx"
 import { prefetchRoute } from "./prefetch.ts"
@@ -17,12 +18,14 @@ const loadFontsPage = () => import("./pages/Fonts.tsx")
 const loadColorsPage = () => import("./pages/Colors.tsx")
 const loadHoggiesPage = () => import("./pages/Hoggies.tsx")
 const loadCrestsPage = () => import("./pages/Crests.tsx")
+const loadBadgesPage = () => import("./pages/Badges.tsx")
 
 const LogoPage = lazy(() => loadLogoPage().then((m) => ({ default: m.LogoPage })))
 const FontsPage = lazy(() => loadFontsPage().then((m) => ({ default: m.FontsPage })))
 const ColorsPage = lazy(() => loadColorsPage().then((m) => ({ default: m.ColorsPage })))
 const HoggiesPage = lazy(() => loadHoggiesPage().then((m) => ({ default: m.HoggiesPage })))
 const CrestsPage = lazy(() => loadCrestsPage().then((m) => ({ default: m.CrestsPage })))
+const BadgesPage = lazy(() => loadBadgesPage().then((m) => ({ default: m.BadgesPage })))
 const CrestDetailPage = lazy(() =>
   import("./pages/CrestDetail.tsx").then((m) => ({ default: m.CrestDetailPage })),
 )
@@ -47,13 +50,15 @@ interface NavItem {
   load?: () => Promise<unknown>
 }
 
+// The assets people come for lead (the logo, then the hoggies, with the crests beside them),
+// then the foundations. The brand mark already links home, so there's no "Overview" item, and
+// the badges are linked from the footer, which shows one.
 const NAV: NavItem[] = [
-  { to: "/", label: "Overview", end: true },
   { to: "/logo", label: "Logo", end: false, load: loadLogoPage },
-  { to: "/fonts", label: "Fonts", end: false, load: loadFontsPage },
-  { to: "/colors", label: "Colors", end: false, load: loadColorsPage },
-  { to: "/crests", label: "Crests", end: false, load: loadCrestsPage },
   { to: "/hoggies", label: "Hoggies", end: false, load: loadHoggiesPage },
+  { to: "/crests", label: "Crests", end: false, load: loadCrestsPage },
+  { to: "/colors", label: "Colors", end: false, load: loadColorsPage },
+  { to: "/fonts", label: "Fonts", end: false, load: loadFontsPage },
 ]
 
 function Layout({ children }: { children: ReactNode }) {
@@ -92,9 +97,6 @@ function Layout({ children }: { children: ReactNode }) {
             })}
           </div>
           <div className="nav-actions">
-            <a className="nav-link-plain" href={REPO_URL}>
-              GitHub
-            </a>
             <a className="btn btn-primary btn-sm" href={NPM_URL}>
               Install
             </a>
@@ -103,17 +105,35 @@ function Layout({ children }: { children: ReactNode }) {
       </header>
       <main className="page">{children}</main>
       <footer className="footer">
-        Every asset on this site comes from the{" "}
-        <a href={REPO_URL}>
-          <code>@posthog/brand</code>
-        </a>{" "}
-        package, at <a href={releaseUrl(release.version)}>v{release.version}</a> (released{" "}
-        {formatReleaseDate(release.date)}).
-        <br />
-        For agents: <a href="/llms.txt">llms.txt</a> ·{" "}
-        <a href={markdownPath(page)}>This page as markdown</a> ·{" "}
-        <a href="/catalog.json">catalog.json</a>. Each asset is also a static <code>.svg</code> and{" "}
-        <code>.png</code> file.
+        <p className="footer-text">
+          Every asset on this site comes from the{" "}
+          <a href={REPO_URL}>
+            <code>@posthog/brand</code>
+          </a>{" "}
+          package, at <a href={releaseUrl(release.version)}>v{release.version}</a> (released{" "}
+          {formatReleaseDate(release.date)}).
+          <br />
+          For agents: <a href="/llms.txt">llms.txt</a> ·{" "}
+          <a href={markdownPath(page)}>This page as markdown</a> ·{" "}
+          <a href="/catalog.json">catalog.json</a>. Each asset is also a static <code>.svg</code>{" "}
+          and <code>.png</code> file.
+        </p>
+        {/* Our own badge, dogfooding the embed: it links to the Badges page rather than
+            posthog.com, since everyone here already knows where PostHog lives. */}
+        <Link
+          to="/badges"
+          className="footer-badge"
+          onMouseEnter={() => prefetchRoute(loadBadgesPage)}
+          onFocus={() => prefetchRoute(loadBadgesPage)}
+        >
+          <img
+            src={assetFilePath({ type: "badge", slug: BADGES[0].id }, "svg")}
+            alt={BADGE_ALT}
+            width={BADGE_SIZE.width}
+            height={BADGE_SIZE.height}
+          />
+          <span>Get a badge for your site</span>
+        </Link>
       </footer>
     </>
   )
@@ -150,6 +170,7 @@ export function App() {
             <Route path="/colors" element={<ColorsPage />} />
             <Route path="/hoggies" element={<HoggiesPage />} />
             <Route path="/crests" element={<CrestsPage />} />
+            <Route path="/badges" element={<BadgesPage />} />
             <Route path="/crests/:slug" element={<CrestDetailPage />} />
             <Route path="/hoggies/:slug" element={<HoggieDetailPage />} />
             <Route path="*" element={<NotFoundPage />} />
