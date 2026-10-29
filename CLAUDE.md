@@ -70,7 +70,7 @@ Figma brand book  --sync.ts-->  assets/<namespace>/  --codegen.ts-->  src/genera
 - Component name carries the family word + PascalCase(slug): hoggies prefix it
   (`Hedgehog<Name>`); crests append it (`<Name>Crest`) so the name reads the
   same in every crest export. SVG string export = lowerFirst(component)+`Svg`, PNG URL
-  export = lowerFirst(component)+`Png` (e.g. `marketingCrestSvg`, `hedgehogDoctorHogPng`).
+  export = lowerFirst(component)+`Png` (e.g. `marketingCrestSvg`, `hedgehogDirectorPng`).
 - **Crest tiers**: crests come in two sizes — `full` and `mini` — keyed off the Figma
   `Property 1` variant (`figma-pages.ts` `tierVariantProp`) and lifted into `AssetMeta.tier`
   rather than the slug. Each tier is its own **export group** (`ASSET_GROUPS` in `types.ts`):
@@ -258,7 +258,9 @@ can't load a font, so the lettering is a RoundHog outline that `node scripts/gen
 writes (harfbuzzjs + fontverter, `scripts/lib/outline.ts`); `tests/badge-text.test.ts` fails if
 it is stale. The renderer prefixes the logo's ids per badge and throws if a file isn't
 self-contained (`<text>`, `<style>`, `href=`, `currentColor`…). The logo's clear space (the "P"
-height, 9.44 px at 80 px wide) sets the layout, so keep it when changing sizes.
+height, 9.44 px at 80 px wide) sets the layout, so keep it when changing sizes. The site footer shows the light
+badge (from its static file) linking to `/badges`; the page isn't in the top nav, which keeps to
+Logo · Hoggies · Crests · Colors · Fonts (the brand mark links home, so there's no Overview item).
 
 **Analytics**: `initAnalytics` (`site/src/analytics.ts`) runs `posthog.init` once in `main.tsx`
 before render (posthog.com's project; `person_profiles: "always"`; capturing opted out in dev) and

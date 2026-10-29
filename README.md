@@ -4,7 +4,8 @@
 
 Every PostHog brand asset in one npm package: the **logo**, the **colors**, the **font**
 (RoundHog), 160+ **hedgehogs**, and the team **crests** — as React components, raw SVGs, PNG
-URLs, color tokens, and `woff2` files. All bundled, so **nothing is fetched at runtime**.
+URLs, color tokens, and `woff2` files. All bundled, so **nothing is fetched at runtime**. Plus
+a ["Built with PostHog" badge](#built-with-posthog-badges) for your site or README.
 
 ```bash
 pnpm add @posthog/brand
@@ -22,7 +23,7 @@ pnpm add @posthog/brand
 import { Logo } from "@posthog/brand/logo"
 import { colors } from "@posthog/brand/colors"
 import { roundHogFontFaceCss } from "@posthog/brand/fonts/css"
-import { HedgehogDoctorHog } from "@posthog/brand/hoggies"
+import { HedgehogDirector } from "@posthog/brand/hoggies"
 import { MarketingCrest } from "@posthog/brand/crests"
 ```
 
@@ -123,9 +124,9 @@ step can `require.resolve` one to copy into a static dir.
 The hedgehogs. Each is a component named `Hedgehog<Name>`:
 
 ```tsx
-import { HedgehogDoctorHog, HedgehogWizard } from "@posthog/brand/hoggies"
+import { HedgehogDirector, HedgehogWizard } from "@posthog/brand/hoggies"
 
-<HedgehogDoctorHog size={120} title="A hedgehog doctor" />
+<HedgehogDirector size={120} title="A hedgehog film director" />
 <HedgehogWizard variant="5" size={120} /> // wizards come in five flavors
 ```
 
@@ -213,10 +214,25 @@ getAsset("crests", "marketing", "mini") // full AssetMeta; tier disambiguates th
 getComponentName("hoggies", "director") // "HedgehogDirector"
 getVariants("hoggies", "construction") // a numbered family's members, variant "1" first
 getAsset("hoggies", "marathon")?.since // { version: "0.13.1", date: "2026-10-13" }, when it first shipped
-release // { version: "0.14.0", date: "2026-10-14" }, this package's version and release date
+release // { version: "0.16.0", date: "2026-10-27" }, this package's version and release date
 ```
 
 Per-namespace manifests live at `@posthog/brand/<g>/metadata` if you don't want the whole set.
+
+## Built with PostHog badges
+
+[![Built with PostHog](https://brand.posthog.com/badges/posthog-badge.svg)](https://brand.posthog.com/badges)
+
+Using PostHog? Show it. Two badges, a light and a dark plate, live on the demo site rather than in
+the package, so you hotlink them from a website or README with no install:
+
+```md
+[![Built with PostHog](https://brand.posthog.com/badges/posthog-badge.svg)](https://posthog.com/?utm_source=badge&utm_medium=referral&utm_content=posthog-badge)
+```
+
+[brand.posthog.com/badges](https://brand.posthog.com/badges) has both, with HTML and Markdown
+embed code, PNGs, and the usage terms. Use them as they are, and no smaller than 100×50 px. The
+demo site wears the light one in its footer, linking to that page.
 
 ## How assets get here
 
@@ -227,25 +243,29 @@ Action renders every component to SVG + PNG through the Figma API, commits what 
 release: version bump, then npm publish via trusted publishing (OIDC), gated on Slack approval
 per the [SDK release process](https://posthog.com/handbook/engineering/sdks/releases).
 
-Two things are hand-maintained rather than synced, because they're small and rarely change:
-the palette ([`static/colors.ts`](./static/colors.ts)) and the logo geometry
-([`src/logo/`](./src/logo)).
+Three things are hand-maintained rather than synced, because they're small and rarely change:
+the palette ([`static/colors.ts`](./static/colors.ts)), the logo geometry
+([`src/logo/`](./src/logo)), and the RoundHog font files ([`assets/fonts/`](./assets/fonts)).
 
 ## Demo site
 
 [brand.posthog.com](https://brand.posthog.com) is built from [`site/`](./site) — a Vite + React
 app that imports `@posthog/brand` as a workspace dependency, so it renders the **real built
-components** and doubles as an integration test of the published exports. It deploys to
-Cloudflare Pages.
+components** and doubles as an integration test of the published exports. It has a page for the
+logo (the approved versions, do's and don'ts, and a builder), the hoggies and crests (search,
+click to copy a PNG, right-click for the SVG or import line), the colors, and the font, in that
+order in the nav. The badges page sits outside the nav, linked from the badge in the footer. It
+deploys to Cloudflare Pages.
 
 ```bash
 pnpm dev:site       # build the package, then run the site locally
 pnpm build:site     # build the package, then the static site into site/dist
-pnpm gen:site-icons # re-render the favicons and the social card up there ☝️
+pnpm gen:site-icons # re-render the favicons from the <Logo> geometry
 ```
 
-The icons and that big image at the top of this README are generated from the package itself —
-the `<Logo>` geometry, the palette, and a few hedgehogs. The build also writes one static HTML
+The favicons are rendered from the package's own `<Logo>` geometry. The big image at the top of
+this README (also the site's social card) is a designed illustration, committed as-is. The build
+also writes one static HTML
 file per page (and per hoggie and crest), with real metadata and content, plus `sitemap.xml`,
 so crawlers and answer engines that never run JavaScript still get the goods. See
 [`site/seo-plugin.ts`](./site/seo-plugin.ts).
@@ -253,7 +273,8 @@ so crawlers and answer engines that never run JavaScript still get the goods. Se
 It's built for agents too: [`/llms.txt`](https://brand.posthog.com/llms.txt), a markdown twin of
 every page (add `.md`), [`/catalog.json`](https://brand.posthog.com/catalog.json), and every
 asset as a static file at a stable URL (`/hoggies/chart.svg`, `/crests/marketing-mini.png`,
-`/logo/posthog-logo-stacked-white.svg`, …) for anything that isn't a JS project. In browsers with
+`/logo/posthog-logo-stacked-white.svg`, `/badges/posthog-badge.svg`, `/fonts/roundhog.css`,
+`/colors.json`, …) for anything that isn't a JS project. In browsers with
 WebMCP it registers tools to search, inspect and download assets. See
 [`site/agent-plugin.ts`](./site/agent-plugin.ts).
 

@@ -182,8 +182,7 @@ a:has(> code) {
   flex-wrap: wrap;
 }
 /* posthog.com's default OSButton: bare text, an outline on hover, a filled pill when active. */
-.nav-links a,
-.nav-link-plain {
+.nav-links a {
   color: var(--text);
   font-weight: 500;
   font-size: 15px;
@@ -192,8 +191,7 @@ a:has(> code) {
   border: 1px solid transparent;
   border-radius: 6px;
 }
-.nav-links a:hover,
-.nav-link-plain:hover {
+.nav-links a:hover {
   color: var(--text);
   border-color: var(--border-strong);
 }
@@ -205,17 +203,13 @@ a:has(> code) {
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 6px;
   margin-left: auto;
+  /* A resting .btn is lifted 2px over its 3D edge; this centers its face on the links. */
+  padding-top: 4px;
 }
-/* Seven links fit beside the logo and both actions down to about 840px. Below that the GitHub
-   link (the footer links the repo too) makes room, so no link wraps onto a row of its own. */
-@media (max-width: 880px) {
-  .nav-link-plain {
-    display: none;
-  }
-}
-@media (max-width: 760px) {
+/* Five links fit beside the logo and the Install button down to about 680px; below that they move to
+   a row of their own under the logo. */
+@media (max-width: 680px) {
   .taskbar {
     flex-wrap: wrap;
     gap: 6px 12px;
@@ -223,6 +217,8 @@ a:has(> code) {
   .nav-links {
     order: 3;
     width: 100%;
+    /* Pull the first link's padding and border back so its text lines up with the logo. */
+    margin-left: -11px;
   }
 }
 
@@ -261,12 +257,53 @@ a:has(> code) {
   -webkit-backdrop-filter: var(--glass-blur);
   color: var(--text-muted);
   font-size: 13px;
-  text-align: center;
+  /* The release and agent links on the left, our own badge on the right. */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 24px;
+}
+.footer-text {
+  margin: 0;
+}
+.footer-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 4px;
+  color: var(--text-muted);
+  font-size: 12px;
+  text-decoration: none;
+}
+.footer-badge img {
+  display: block;
+  transition: transform 120ms ease;
+}
+.footer-badge:hover img {
+  transform: translateY(-1px);
+}
+.footer-badge:hover span {
+  color: var(--text);
+  text-decoration: underline;
+}
+@media (prefers-reduced-motion: reduce) {
+  .footer-badge img {
+    transition: none;
+  }
 }
 @media (max-width: 1192px) {
   .footer {
     margin-left: 8px;
     margin-right: 8px;
+  }
+}
+/* Too narrow for both side by side: the badge goes under the text. */
+@media (max-width: 640px) {
+  .footer,
+  .footer-badge {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 
