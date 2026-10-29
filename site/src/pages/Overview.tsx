@@ -8,6 +8,8 @@ import { HedgehogMoney, HedgehogExplorer, HedgehogChart } from "@posthog/brand/h
 import { Logo } from "@posthog/brand/logo"
 import posthog from "posthog-js"
 import { Link } from "react-router-dom"
+import { assetFilePath } from "../agent-paths.ts"
+import { BADGE_SIZE, BADGES } from "../badge-files.ts"
 import { CodeBlock } from "../components/CodeBlock.tsx"
 import { CopyButton } from "../components/CopyButton.tsx"
 import { useSeo } from "../useSeo.ts"
@@ -139,6 +141,22 @@ export function OverviewPage() {
             </div>
             <h3>Crests</h3>
             <p>{crestCount} team crests, each with a full illustration and a mini badge.</p>
+          </Link>
+
+          <Link to="/badges" className="card nav-card">
+            <div className="nav-card-preview">
+              {BADGES.map((badge) => (
+                <img
+                  key={badge.id}
+                  src={assetFilePath({ type: "badge", slug: badge.id }, "svg")}
+                  alt=""
+                  width={BADGE_SIZE.width}
+                  height={BADGE_SIZE.height}
+                />
+              ))}
+            </div>
+            <h3>Badges</h3>
+            <p>A “Built with PostHog” badge for your site's footer or README.</p>
           </Link>
         </div>
       </section>

@@ -16,6 +16,11 @@
 {{logos}}
 - All {{logoCount}} logo files (every color and canvas): {{site}}/logo.md
 
+## Website badges
+
+{{badges}}
+- Embed code and terms of use: {{site}}/badges.md
+
 ## Hoggies ({{hoggieCount}})
 
 {{hoggies}}

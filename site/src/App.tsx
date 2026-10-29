@@ -17,12 +17,14 @@ const loadFontsPage = () => import("./pages/Fonts.tsx")
 const loadColorsPage = () => import("./pages/Colors.tsx")
 const loadHoggiesPage = () => import("./pages/Hoggies.tsx")
 const loadCrestsPage = () => import("./pages/Crests.tsx")
+const loadBadgesPage = () => import("./pages/Badges.tsx")
 
 const LogoPage = lazy(() => loadLogoPage().then((m) => ({ default: m.LogoPage })))
 const FontsPage = lazy(() => loadFontsPage().then((m) => ({ default: m.FontsPage })))
 const ColorsPage = lazy(() => loadColorsPage().then((m) => ({ default: m.ColorsPage })))
 const HoggiesPage = lazy(() => loadHoggiesPage().then((m) => ({ default: m.HoggiesPage })))
 const CrestsPage = lazy(() => loadCrestsPage().then((m) => ({ default: m.CrestsPage })))
+const BadgesPage = lazy(() => loadBadgesPage().then((m) => ({ default: m.BadgesPage })))
 const CrestDetailPage = lazy(() =>
   import("./pages/CrestDetail.tsx").then((m) => ({ default: m.CrestDetailPage })),
 )
@@ -54,6 +56,7 @@ const NAV: NavItem[] = [
   { to: "/colors", label: "Colors", end: false, load: loadColorsPage },
   { to: "/crests", label: "Crests", end: false, load: loadCrestsPage },
   { to: "/hoggies", label: "Hoggies", end: false, load: loadHoggiesPage },
+  { to: "/badges", label: "Badges", end: false, load: loadBadgesPage },
 ]
 
 function Layout({ children }: { children: ReactNode }) {
@@ -150,6 +153,7 @@ export function App() {
             <Route path="/colors" element={<ColorsPage />} />
             <Route path="/hoggies" element={<HoggiesPage />} />
             <Route path="/crests" element={<CrestsPage />} />
+            <Route path="/badges" element={<BadgesPage />} />
             <Route path="/crests/:slug" element={<CrestDetailPage />} />
             <Route path="/hoggies/:slug" element={<HoggieDetailPage />} />
             <Route path="*" element={<NotFoundPage />} />

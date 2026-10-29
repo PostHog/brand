@@ -11,7 +11,13 @@
 // are captured as `$mcp_tool_call` events.
 
 import posthog from "posthog-js"
-import type { Catalog, CatalogAsset, CatalogColor, CatalogLogo } from "../agent/data.ts"
+import type {
+  Catalog,
+  CatalogAsset,
+  CatalogBadge,
+  CatalogColor,
+  CatalogLogo,
+} from "../agent/data.ts"
 import { absoluteUrl, assetFileName, assetFilePath, type AssetRef } from "./agent-paths.ts"
 import { assetProperties } from "./analytics.ts"
 import { inPresetOrder, LOGO_DONTS, LOGO_DOS } from "./logo-files.ts"
@@ -51,8 +57,8 @@ interface ToolFailure {
   content: { type: "text"; text: string }[]
 }
 
-/** Any catalog entry a tool can return: a hoggie, a crest, or a logo file. */
-type Entry = CatalogAsset | CatalogLogo
+/** Any catalog entry a tool can return: a hoggie, a crest, a logo file, or a website badge. */
+type Entry = CatalogAsset | CatalogLogo | CatalogBadge
 
 function failure(text: string): ToolFailure {
   return { isError: true, content: [{ type: "text", text }] }
@@ -80,7 +86,18 @@ function hits(catalog: Catalog): Hit[] {
     haystack: `${entry.id} ${entry.title} ${entry.layout} ${entry.treatment} ${entry.frame ?? ""} ${entry.preset?.name ?? ""} ${entry.background} background`,
     value: entry,
   })
-  return [...catalog.logos.map(logo), ...catalog.hoggies.map(asset), ...catalog.crests.map(asset)]
+  const badge = (entry: CatalogBadge): Hit => ({
+    type: "badge",
+    name: entry.name,
+    haystack: `${entry.id} ${entry.name} ${entry.background} background built with posthog website badge footer readme embed`,
+    value: entry,
+  })
+  return [
+    ...catalog.logos.map(logo),
+    ...catalog.badges.map(badge),
+    ...catalog.hoggies.map(asset),
+    ...catalog.crests.map(asset),
+  ]
 }
 
 async function search(
@@ -97,21 +114,24 @@ async function search(
       const haystack = hit.haystack.toLowerCase()
       return words.every((word) => haystack.includes(word))
     })
-    // Whole-query name matches first, then alphabetical.
+    // Whole-query name matches first, then alphabetical. Badges keep catalog order (the sort is
+    // stable), so the standard one, the default, comes before the dark one.
     .sort(
       (a, b) =>
         Number(b.name.toLowerCase().includes(query)) -
-          Number(a.name.toLowerCase().includes(query)) || a.name.localeCompare(b.name),
+          Number(a.name.toLowerCase().includes(query)) ||
+        (a.type === "badge" && b.type === "badge" ? 0 : a.name.localeCompare(b.name)),
     )
   return {
     total: matches.length,
     results: matches.slice(0, limit).map((hit) => hit.value),
-    note: "Prefer the SVG URL; in a JS/TS project, `npm install @posthog/brand` and use the `import` instead of downloading.",
+    note: "Prefer the SVG URL; in a JS/TS project, `npm install @posthog/brand` and use the `import` instead of downloading. For a website badge, paste its `html` or `markdown`, which link to posthog.com.",
   }
 }
 
 function findEntry(catalog: Catalog, type: string, slug: string): Entry | undefined {
   if (type === "logo") return catalog.logos.find((logo) => logo.id === slug)
+  if (type === "badge") return catalog.badges.find((badge) => badge.id === slug)
   const list = type === "hoggie" ? catalog.hoggies : type === "crest" ? catalog.crests : []
   return list.find((entry) => entry.slug === slug)
 }
@@ -169,8 +189,8 @@ async function download(
   const entry = findEntry(catalog, type, slug)
   if (!entry) return failure(`No ${type} with slug "${slug}". Use search_brand_assets to find it.`)
 
-  let asset: AssetRef = { type: "logo", slug }
-  if (entry.type !== "logo") {
+  let asset: AssetRef = { type: entry.type === "badge" ? "badge" : "logo", slug }
+  if (entry.type === "hoggie" || entry.type === "crest") {
     const { images } = entry
     const image =
       entry.type === "crest"
@@ -196,6 +216,7 @@ async function openPage(input: Record<string, unknown>): Promise<{ opened: strin
   const path =
     str(input.path)
       .replace(/^https?:\/\/[^/]+/, "")
+      .replace(/[?#].*$/, "")
       .replace(/\/+$/, "") || "/"
   const catalog = await loadCatalog()
   const url = absoluteUrl(path)

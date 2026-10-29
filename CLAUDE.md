@@ -128,7 +128,7 @@ the bump to `main`, and publishes to npm via trusted publishing (OIDC). Publishi
 ## Demo site
 
 `site/` is a Vite + React SPA that showcases the whole package (overview, logo, colors, hoggies,
-crests). The repo is a pnpm workspace (`pnpm-workspace.yaml`); `site/` is a separate private
+crests), plus the "Built with PostHog" website badges (`/badges`, below). The repo is a pnpm workspace (`pnpm-workspace.yaml`); `site/` is a separate private
 package (`@posthog/brand-site`) that depends on `@posthog/brand` via `workspace:*` and imports it
 through the real `exports` map (→ `dist/`), so it doubles as an integration test of the published
 surface. Because of that, the lib must be built first: `pnpm dev:site` / `pnpm build:site`
@@ -225,14 +225,16 @@ per hoggie (a variant family is one page), from `crestPageSeo`/`hoggiePageSeo` i
 which `CrestDetailPage`/`HoggieDetailPage` also call — each with the asset's own PNG as its
 share image, an `ImageObject` JSON-LD node, and a three-level breadcrumb — plus `404.html`
 (same shell, `noindex`, no canonical) and `sitemap.xml` (with Google image entries). Every
-page's head carries `<link rel="alternate" type="text/markdown">` to its markdown twin.
+page's head carries `<link rel="alternate" type="text/markdown">` to its markdown twin. The
+`/badges` shell also lists each badge with its embed code and the usage terms (`Route.badges`).
 
 **Agents** (`site/agent-plugin.ts`, `site/agent/`): the build also publishes, from one
 catalog (`agent/data.ts`, read straight from the package's built `dist/` leaf modules):
 every asset as a static file at a stable, unhashed URL — `/hoggies/<slug>[-<variant>].svg|png`,
 `/crests/<slug>[-mini].svg|png`, `/logo/<id>.svg|png` (rendered by `agent/logo-render.ts` from
 `src/logo/geometry.ts`; the file set is `site/src/logo-files.ts`, which the Logo page's presets
-also render from), `/fonts/*.woff2` + `roundhog.css`, `/colors.json|css` — plus the markdown
+also render from), `/badges/<id>.svg|png` (below), `/fonts/*.woff2` + `roundhog.css`,
+`/colors.json|css` — plus the markdown
 twin of every page (`/logo.md`, `/hoggies/chart.md`, `/` → `/index.md`; the prose is plain
 markdown in `site/agent/pages/` with `{{placeholders}}` that `agent/markdown.ts` fills with the
 data-driven tables/lists — edit the `.md`, not the TS),
@@ -245,6 +247,19 @@ or the WebMCP origin trial: set the (public, origin-bound) trial token as the bu
 `WEBMCP_ORIGIN_TRIAL_TOKEN` (committed in `site/.env.production`, expires 2027-03-30; a Cloudflare Pages env var overrides it) and the `originTrials` plugin (`site/origin-trial-plugin.ts`) emits
 `<meta http-equiv="origin-trial">` on every page; unset, no tag.
 
+**Website badges** (`/badges`): two "Built with PostHog" badges (a light and a dark plate) that
+other sites hotlink from `/badges/<id>.svg` (100×50, PNG 300×150). One table,
+`site/src/badge-files.ts`, holds the badges, their embed code (HTML and Markdown, linking
+`posthog.com/?utm_source=badge&utm_medium=referral&utm_content=<id>`) and the usage terms, and
+feeds the page, the markdown, the shell, `catalog.json` (`badges[]`) and WebMCP (`type: "badge"`).
+`agent/badge-render.ts` draws each one from the landscape lockup in `src/logo/geometry.ts` and the
+"Built with" lettering in `site/src/badge-text.ts`. Shown through `<img>` on other sites, a badge
+can't load a font, so the lettering is a RoundHog outline that `node scripts/gen-badge-text.ts`
+writes (harfbuzzjs + fontverter, `scripts/lib/outline.ts`); `tests/badge-text.test.ts` fails if
+it is stale. The renderer prefixes the logo's ids per badge and throws if a file isn't
+self-contained (`<text>`, `<style>`, `href=`, `currentColor`…). The logo's clear space (the "P"
+height, 9.44 px at 80 px wide) sets the layout, so keep it when changing sizes.
+
 **Analytics**: `initAnalytics` (`site/src/analytics.ts`) runs `posthog.init` once in `main.tsx`
 before render (posthog.com's project; `person_profiles: "always"`; capturing opted out in dev) and
 call sites use `posthog.capture` directly. It sets `capture_webmcp` — tools must register _after_
@@ -253,9 +268,11 @@ init, since posthog-js wraps
 `$browser_type: "bot"`) rather than dropped; surveys/conversations/tours are off (they're
 posthog.com's). Custom events: `asset copied`/`asset downloaded` (via `useAssetCopy`'s required
 `asset` ref and `DownloadLinks`), `assets searched`, `crest tier toggled`,
-`code copied` (`snippet` = the `slug` every `<CodeBlock>` must pass). Agents that fetch the static files directly (never running JS) aren't captured.
+`code copied` (`snippet` = the `slug` every `<CodeBlock>` must pass; the badges' are
+`<badge-id>-html` and `<badge-id>-markdown`). Agents that fetch the static files directly (never running JS) aren't captured.
 The build also writes `_headers` (markdown content type, CORS on the agent files, canonical
-`Link` from each `.md` to its page).
+`Link` from each `.md` to its page, and for the hotlinked `/badges/*` a day of caching and
+`Cross-Origin-Resource-Policy: cross-origin`).
 
 There is **no `_redirects` file** (`_headers` is fine; it doesn't rewrite), and the old committed one was deleted: Pages serves
 `dist/logo.html` at `/logo` and `dist/crests/marketing.html` at `/crests/marketing` by itself,

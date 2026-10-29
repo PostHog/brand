@@ -2,7 +2,8 @@
 // seo-plugin.ts). After the bundle is written it emits, from the catalog in agent/data.ts:
 //
 //   • every asset as a static file at a stable URL — /hoggies/<slug>.svg|png,
-//     /crests/<slug>[-mini].svg|png, /logo/<id>.svg|png, /fonts/*.woff2, /colors.json|css —
+//     /crests/<slug>[-mini].svg|png, /logo/<id>.svg|png, /badges/<id>.svg|png, /fonts/*.woff2,
+//     /colors.json|css —
 //     so an agent (or a person) can fetch one directly, no package, no auth;
 //   • the markdown twin of every page (/logo.md, /hoggies/chart.md, …), /llms.txt,
 //     /llms-full.txt and /catalog.json;
@@ -25,7 +26,7 @@ import { SITE_URL } from "./src/agent-paths.ts"
  * so Vite's own requests (sources, CSS, the tiles' `/@fs/…` PNGs, fonts) pass straight through.
  */
 const AGENT_PATH =
-  /^\/(?:(?:(?:hoggies|crests|logo)\/|fonts\/(?:subsets\/)?)[^/]+\.\w+|llms(?:-full)?\.txt|catalog\.json|colors\.(?:json|css))$|\.md$/
+  /^\/(?:(?:(?:hoggies|crests|logo|badges)\/|fonts\/(?:subsets\/)?)[^/]+\.\w+|llms(?:-full)?\.txt|catalog\.json|colors\.(?:json|css))$|\.md$/
 
 const MARKDOWN = "text/markdown; charset=utf-8"
 const TEXT = "text/plain; charset=utf-8"
@@ -52,7 +53,8 @@ async function buildFiles(): Promise<Map<string, AgentFile>> {
 /**
  * Cloudflare Pages `_headers`. The markdown twins point search engines at their HTML page as
  * canonical, rather than `noindex` (which answer engines may honor too); `/index.md` drops it,
- * since `:splat` would make its canonical `/index` rather than `/`.
+ * since `:splat` would make its canonical `/index` rather than `/`. The badges are hotlinked
+ * from other sites: CORP lets pages that require it (COEP) embed them, and they cache for a day.
  */
 const HEADERS = `# Written by agent-plugin.ts.
 /*.md
@@ -81,6 +83,10 @@ const HEADERS = `# Written by agent-plugin.ts.
   Access-Control-Allow-Origin: *
 /logo/*
   Access-Control-Allow-Origin: *
+/badges/*
+  Access-Control-Allow-Origin: *
+  Cross-Origin-Resource-Policy: cross-origin
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
 `
 
 export function brandAgentFiles(): Plugin {

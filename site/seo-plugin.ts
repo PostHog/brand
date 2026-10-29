@@ -27,12 +27,14 @@ import { dirname, join } from "node:path"
 import type { Plugin } from "vite"
 import {
   type CatalogAsset,
+  type CatalogBadge,
   type CatalogImage,
   imageHeading,
   LICENSE_URL,
   loadAgentData,
 } from "./agent/data.ts"
 import { absoluteUrl, assetPagePath, markdownPath } from "./src/agent-paths.ts"
+import { BADGE_ALT, BADGE_USAGE } from "./src/badge-files.ts"
 import { formatReleaseDate } from "./src/release.ts"
 import {
   breadcrumbJsonLd,
@@ -130,6 +132,8 @@ interface Route {
   asset?: CatalogAsset
   /** The assets a catalog page lists, linked from its static shell. */
   listing?: CatalogAsset[]
+  /** The website badges the badges page shows, with their embed code. */
+  badges?: CatalogBadge[]
   /** PNG URLs of the page's images, for the image sitemap. */
   images?: string[]
 }
@@ -236,7 +240,7 @@ function headBlock({ page, asset }: Route): string {
  * so a browser that runs the bundle never paints it: inside `#root` it flashed as unstyled
  * text until React mounted. Crawlers that read the HTML as served still see all of it.
  */
-function staticShell({ page, asset, listing }: Route): string {
+function staticShell({ page, asset, listing, badges }: Route): string {
   const links = PAGES.filter((other) => other.path !== page.path)
     .map((other) => `<a href="${other.path}">${escape(other.label)}</a>`)
     .join(" · ")
@@ -266,6 +270,21 @@ function staticShell({ page, asset, listing }: Route): string {
     body = `<h2>All ${listing.length} ${escape(page.label.toLowerCase())}</h2><ul class="prerender-list">${items}</ul>`
   }
 
+  if (badges) {
+    const sections = badges
+      .map(
+        (badge) =>
+          `<h2>${escape(badge.name)}</h2>` +
+          `<p><img src="${badge.svg}" alt="${escape(BADGE_ALT)}" width="${badge.displaySize.width}" height="${badge.displaySize.height}" /> ${escape(badge.when)}</p>` +
+          `<p><a href="${badge.svg}">SVG</a> · <a href="${badge.png}">PNG (${badge.width}×${badge.height})</a></p>` +
+          `<p>For a website:</p><pre><code>${escape(badge.html)}</code></pre>` +
+          `<p>For a README:</p><pre><code>${escape(badge.markdown)}</code></pre>`,
+      )
+      .join("")
+    const usage = BADGE_USAGE.map((item) => `<li>${escape(item)}</li>`).join("")
+    body = `${sections}<h2 id="usage">Using the badges</h2><ul>${usage}</ul>`
+  }
+
   return [
     `<main class="page">`,
     `<h1>${escape(page.headline)}</h1>`,
@@ -281,7 +300,7 @@ function staticShell({ page, asset, listing }: Route): string {
 
 /**
  * `<urlset>` covering every route, with each page's images (Google image sitemap): an asset
- * page's renderings, and every logo file on /logo.
+ * page's renderings, every logo file on /logo, and every website badge on /badges.
  */
 function sitemap(routes: Route[]): string {
   const urls = routes
@@ -340,6 +359,7 @@ export function brandSeo(): Plugin {
       }
       const pageImages: Record<string, string[]> = {
         "/logo": catalog.logos.map((logo) => logo.png),
+        "/badges": catalog.badges.map((badge) => badge.png),
       }
       const assetRoute = (asset: CatalogAsset, page: PageSeo): Route => ({
         page,
@@ -350,6 +370,7 @@ export function brandSeo(): Plugin {
         ...PAGES.map((page) => ({
           page,
           listing: listings[page.path],
+          badges: page.path === "/badges" ? catalog.badges : undefined,
           images: pageImages[page.path],
         })),
         ...catalog.crests.map((asset) =>

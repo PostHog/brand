@@ -1,10 +1,11 @@
 // Everything the site publishes for agents, as one in-memory model:
 //
-//   • `catalog` — every logo file, hoggie, crest, color and font face, with absolute URLs to
-//     its static files and the package import that renders it. Served as `/catalog.json`, and
-//     the input to all the markdown (see markdown.ts) and to the WebMCP tools.
-//   • `files` — site path → how to produce that file: each asset's SVG and PNG, the logo
-//     renders, the woff2 faces, and the color tokens.
+//   • `catalog` — every logo file, website badge, hoggie, crest, color and font face, with
+//     absolute URLs to its static files and the package import that renders it. Served as
+//     `/catalog.json`, and the input to all the markdown (see markdown.ts) and to the WebMCP
+//     tools.
+//   • `files` — site path → how to produce that file: each asset's SVG and PNG, the logo and
+//     badge renders, the woff2 faces, and the color tokens.
 //
 // Sources are imported from `@posthog/brand` through its exports map — the same modules npm
 // consumers import — so a downloaded `/hoggies/chart.svg` is byte-for-byte the package's
@@ -32,12 +33,23 @@ import {
   type AssetRef,
   assetPagePath,
   hoggieStem,
+  LICENSE_URL,
   markdownPath,
 } from "../src/agent-paths.ts"
+import {
+  BADGE_SIZE,
+  BADGE_USAGE,
+  BADGES,
+  type Badge,
+  badgeHtml,
+  badgeLink,
+  badgeMarkdown,
+} from "../src/badge-files.ts"
 import { hoggieFamilies, hoggieJsx } from "../src/hoggie-families.ts"
 import { LOGO_FILES, LOGO_PRESETS, type LogoFile } from "../src/logo-files.ts"
 import { earliestSince } from "../src/release.ts"
 import { PAGES, SITE_NAME, SITE_URL } from "../src/seo.ts"
+import { BADGE_PNG_SIZE, badgePng, badgeSvg } from "./badge-render.ts"
 import { logoPng, logoPngSize, logoSvg } from "./logo-render.ts"
 
 // ---- Catalog shape (public: this is /catalog.json) ----------------------------------------
@@ -95,6 +107,30 @@ export interface CatalogLogo {
   preset?: { name: string; when: string }
 }
 
+/** A "Built with PostHog" badge for other sites to embed (see src/badge-files.ts). */
+export interface CatalogBadge {
+  type: "badge"
+  id: string
+  name: string
+  when: string
+  background: Badge["background"]
+  svg: string
+  png: string
+  /** Pixel size of the PNG. */
+  width: number
+  height: number
+  /** The size to embed it at, in CSS px: the SVG's own size. */
+  displaySize: { width: number; height: number }
+  /** Where the embed code links. */
+  link: string
+  /** Ready-to-paste embed code, for a website and for a README. */
+  html: string
+  markdown: string
+  /** Who can show the badges, and how, and the page that says so. */
+  usage: readonly string[]
+  usageUrl: string
+}
+
 export interface CatalogColor {
   slug: string
   name: string
@@ -131,6 +167,7 @@ export interface Catalog {
   }
   license: { summary: string; url: string }
   logos: CatalogLogo[]
+  badges: CatalogBadge[]
   hoggies: CatalogAsset[]
   crests: CatalogAsset[]
   colors: CatalogColor[]
@@ -153,7 +190,7 @@ export interface AgentData {
 const SVG = "image/svg+xml"
 const PNG = "image/png"
 
-export const LICENSE_URL = "https://github.com/PostHog/brand/blob/main/LICENSE"
+export { LICENSE_URL }
 export const LICENSE_SUMMARY =
   "PostHog's brand assets are PostHog trademarks, made available under the PolyForm Strict License 1.0.0 (source-available, not open source: commercial use, use in your own projects, distribution and derivative works are not licensed). For licensing inquiries, contact hey@posthog.com."
 
@@ -313,6 +350,28 @@ function logos(files: Map<string, AgentFile>): CatalogLogo[] {
   })
 }
 
+function badges(files: Map<string, AgentFile>): CatalogBadge[] {
+  return BADGES.map((badge) => {
+    const svgPath = assetFilePath({ type: "badge", slug: badge.id }, "svg")
+    const pngPath = assetFilePath({ type: "badge", slug: badge.id }, "png")
+    files.set(svgPath, { contentType: SVG, read: () => badgeSvg(badge) })
+    files.set(pngPath, { contentType: PNG, read: () => badgePng(badge) })
+    return {
+      type: "badge",
+      ...badge,
+      svg: absoluteUrl(svgPath),
+      png: absoluteUrl(pngPath),
+      ...BADGE_PNG_SIZE,
+      displaySize: { ...BADGE_SIZE },
+      link: badgeLink(badge),
+      html: badgeHtml(badge),
+      markdown: badgeMarkdown(badge),
+      usage: BADGE_USAGE,
+      usageUrl: `${absoluteUrl("/badges")}#usage`,
+    }
+  })
+}
+
 function brandColors(files: Map<string, AgentFile>): CatalogColor[] {
   files.set("/colors.css", { contentType: "text/css; charset=utf-8", read: () => colorsCss })
   const entries = Object.entries(colors)
@@ -392,6 +451,7 @@ async function build(): Promise<AgentData> {
     },
     license: { summary: LICENSE_SUMMARY, url: LICENSE_URL },
     logos: logos(files),
+    badges: badges(files),
     hoggies: await hoggies(files),
     crests: await crests(files),
     colors: brandColors(files),

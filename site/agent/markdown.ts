@@ -8,6 +8,7 @@
 
 import { readFileSync } from "node:fs"
 import { absoluteUrl, assetPagePath, markdownPath, SITE_URL } from "../src/agent-paths.ts"
+import { BADGE_SIZE, BADGE_USAGE } from "../src/badge-files.ts"
 import { inPresetOrder, LOGO_DONTS, LOGO_DOS } from "../src/logo-files.ts"
 import { PAGES } from "../src/seo.ts"
 import { TOOL_DEFINITIONS } from "../src/webmcp-tools.ts"
@@ -71,6 +72,7 @@ function sharedVars(catalog: Catalog): Vars {
     colorCount: catalog.colors.length,
     hoggieCount: catalog.hoggies.length,
     crestCount: catalog.crests.length,
+    badgeCount: catalog.badges.length,
     // Every section page but the home page, as a markdown link list.
     sections: list(
       PAGES.filter((page) => page.path !== "/").map(
@@ -159,6 +161,38 @@ const SECTION_VARS: Record<string, (catalog: Catalog) => Vars> = {
       }),
     ),
   }),
+  "/badges": (catalog) => ({
+    badgeSize: `${BADGE_SIZE.width}×${BADGE_SIZE.height}`,
+    badges: table(
+      ["Badge", "When to use it", "SVG", "PNG"],
+      catalog.badges.map((badge) => [
+        `${badge.name} (${code(badge.id)})`,
+        badge.when,
+        link(`${badge.id}.svg`, badge.svg),
+        link(`PNG ${badge.width}×${badge.height}`, badge.png),
+      ]),
+    ),
+    snippets: catalog.badges
+      .map((badge) =>
+        [
+          `### ${badge.name}`,
+          "",
+          "For a website:",
+          "",
+          "```html",
+          badge.html,
+          "```",
+          "",
+          "For a README:",
+          "",
+          "```markdown",
+          badge.markdown,
+          "```",
+        ].join("\n"),
+      )
+      .join("\n\n"),
+    usage: list(BADGE_USAGE),
+  }),
   "/hoggies": (catalog) => ({
     hoggies: table(
       ["Name", "Page", "Tags", "SVG", "PNG", "JSX"],
@@ -239,6 +273,13 @@ export function llmsTxt(catalog: Catalog): string {
     logos: list(
       inPresetOrder(catalog.logos).map(
         (logo) => `${logo.preset!.name} (${code(logo.id)}): ${logo.svg}. ${logo.preset!.when}`,
+      ),
+    ),
+    // The link carries the URL, so no punctuation lands right after a bare one.
+    badges: list(
+      catalog.badges.map(
+        (badge) =>
+          `${link(badge.name, badge.svg)} (${code(badge.id)}, ${BADGE_SIZE.width}×${BADGE_SIZE.height} px): ${badge.when}`,
       ),
     ),
     hoggies: list(catalog.hoggies.map(assetLine)),
