@@ -433,11 +433,6 @@ const PROPS: { name: string; type: string; def?: string; note: ReactNode }[] = [
 
 const LOGOMARK_PROPS: typeof PROPS = [
   {
-    name: "holiday",
-    type: `"christmas" | "halloween"`,
-    note: "Adds a seasonal hat. It never changes by date on its own.",
-  },
-  {
     name: "jumpOnClick",
     type: "boolean",
     def: "false",
