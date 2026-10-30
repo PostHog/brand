@@ -35,9 +35,8 @@ export function frameSide(width: number, height: number, frame: ExportFrame): nu
 /**
  * Serializes a rendered `<svg>` into a standalone document.
  *
- * - The viewBox grows to cover anything drawn outside it: the holiday hats poke past the
- *   logomark's box and the live element shows them via `overflow: visible`, but a
- *   standalone SVG (or its raster) clips at the viewBox.
+ * - The viewBox grows to cover anything drawn outside it: the live element shows overflow
+ *   via `overflow: visible`, but a standalone SVG (or its raster) clips at the viewBox.
  * - `currentColor` is resolved to the element's computed color, since the page CSS that
  *   supplied it doesn't travel with the copy.
  * - Page-only attributes (CSS sizing, a11y wiring, inline style) are dropped; width/height

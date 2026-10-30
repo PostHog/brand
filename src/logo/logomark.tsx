@@ -7,7 +7,7 @@ import {
   useRef,
 } from "react"
 import type { ForwardRefExoticComponent, MouseEvent, RefAttributes } from "react"
-import { LOGO_HOLIDAY_ACCESSORIES, LOGO_VIEW_BOX, LOGOMARK_PARTS } from "./geometry.ts"
+import { LOGO_VIEW_BOX, LOGOMARK_PARTS } from "./geometry.ts"
 import type { LogomarkHandle, LogomarkProps } from "./types.ts"
 
 function escapeXml(value: string): string {
@@ -51,7 +51,6 @@ const LogomarkBase: ForwardRefExoticComponent<LogomarkProps & RefAttributes<Logo
       autoJumpMs,
       jumpHeight = 12,
       airtimeMs = 400,
-      holiday,
       onClick,
       ...rest
     } = props
@@ -128,13 +127,11 @@ const LogomarkBase: ForwardRefExoticComponent<LogomarkProps & RefAttributes<Logo
     }
 
     const { blue, red, yellow, head, defs } = LOGOMARK_PARTS[variant]
-    // A holiday accessory rides inside the head group, so it moves (and jumps) with the head.
-    const accessory = holiday ? LOGO_HOLIDAY_ACCESSORIES[holiday] : ""
     const body =
       `<g data-logo-part="blue">${blue}</g>` +
       `<g data-logo-part="red">${red}</g>` +
       `<g data-logo-part="yellow">${yellow}</g>` +
-      `<g data-logo-part="head">${head}${accessory}</g>` +
+      `<g data-logo-part="head">${head}</g>` +
       defs
     const inner = title ? `<title>${escapeXml(title)}</title>${body}` : body
 
@@ -153,10 +150,9 @@ const LogomarkBase: ForwardRefExoticComponent<LogomarkProps & RefAttributes<Logo
       "aria-hidden": title ? undefined : true,
       ...sizing,
       style: {
-        // Parts leave the viewBox mid-jump, and a holiday hat pokes past the head's
-        // silhouette — either way, don't clip at the viewBox edge. A plain static logomark
-        // has nothing outside its box, so it clips as usual.
-        ...(canJump || holiday != null ? { overflow: "visible" as const } : null),
+        // Parts leave the viewBox mid-jump, so don't clip at its edge. A plain static
+        // logomark has nothing outside its box, so it clips as usual.
+        ...(canJump ? { overflow: "visible" as const } : null),
         ...(jumpOnClick ? { cursor: "pointer", userSelect: "none" as const } : null),
         ...(variant === "mono" && color != null ? { color } : null),
         ...style,
