@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-02T16:19:05Z",
+  "generatedAt": "2026-11-03T23:22:58Z",
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2417303659739472075",
+  "figmaVersion": "2417780564874695240",
   "namespace": "hoggies",
   "entries": [
     {
@@ -155,6 +155,28 @@
       "pngBytes": 58664
     },
     {
+      "slug": "baller",
+      "name": "Baller",
+      "namespace": "hoggies",
+      "figmaNodeId": "2451:2967",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "dunk",
+        "jump",
+        "jumper",
+        "basketball",
+        "jersey",
+        "number one",
+        "1",
+        "ball",
+        "hand of hog"
+      ],
+      "svgBytes": 243212,
+      "pngBytes": 41757
+    },
+    {
       "slug": "banana",
       "name": "Banana",
       "namespace": "hoggies",
@@ -214,6 +236,30 @@
       "pngBytes": 40650
     },
     {
+      "slug": "book-pile",
+      "name": "Book Pile",
+      "namespace": "hoggies",
+      "figmaNodeId": "2451:2966",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "reading",
+        "sitting",
+        "sitting on books",
+        "stack of books",
+        "learning",
+        "studying",
+        "study",
+        "learn",
+        "green",
+        "red",
+        "blue"
+      ],
+      "svgBytes": 172904,
+      "pngBytes": 49630
+    },
+    {
       "slug": "boombox",
       "name": "Boombox",
       "namespace": "hoggies",
@@ -270,8 +316,8 @@
         "stop burning money",
         "flames"
       ],
-      "svgBytes": 271355,
-      "pngBytes": 57072
+      "svgBytes": 271669,
+      "pngBytes": 57081
     },
     {
       "slug": "business-evolution",
@@ -1579,6 +1625,30 @@
       "pngBytes": 75702
     },
     {
+      "slug": "idea",
+      "name": "Idea",
+      "namespace": "hoggies",
+      "figmaNodeId": "2451:2968",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "sweater vest",
+        "jumper",
+        "lightbulb",
+        "bulb",
+        "idea",
+        "bright",
+        "thinking",
+        "surprised",
+        "head scratch",
+        "green",
+        "khaki"
+      ],
+      "svgBytes": 159407,
+      "pngBytes": 44573
+    },
+    {
       "slug": "im-the-driver",
       "name": "I'm The Driver",
       "namespace": "hoggies",
@@ -2186,6 +2256,29 @@
       ],
       "svgBytes": 237467,
       "pngBytes": 44704
+    },
+    {
+      "slug": "osmosis",
+      "name": "Osmosis",
+      "namespace": "hoggies",
+      "figmaNodeId": "2451:2969",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "naked",
+        "book",
+        "green",
+        "hat",
+        "book on head",
+        "thinking",
+        "eyes closed",
+        "open book",
+        "learning",
+        "through osmosis"
+      ],
+      "svgBytes": 107142,
+      "pngBytes": 36382
     },
     {
       "slug": "panic",

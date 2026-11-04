@@ -1,6 +1,6 @@
 {
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2417303659739472075",
+  "figmaVersion": "2417780564874695240",
   "entries": {
     "hoggies/70s-dance": {
       "figmaNodeId": "404:93626",
@@ -34,6 +34,10 @@
       "figmaNodeId": "404:146880",
       "nodeHash": "4e15b35c6f75ec38"
     },
+    "hoggies/baller": {
+      "figmaNodeId": "2451:2967",
+      "nodeHash": "5fb425c8539b5dad"
+    },
     "hoggies/banana": {
       "figmaNodeId": "306:201588",
       "nodeHash": "f41152adb1e24aef"
@@ -46,6 +50,10 @@
       "figmaNodeId": "404:130609",
       "nodeHash": "4b4cf2d2fbbe7629"
     },
+    "hoggies/book-pile": {
+      "figmaNodeId": "2451:2966",
+      "nodeHash": "cca0ff8ae0117cff"
+    },
     "hoggies/boombox": {
       "figmaNodeId": "465:4926",
       "nodeHash": "c2751abe74777a26"
@@ -56,7 +64,7 @@
     },
     "hoggies/burning-money": {
       "figmaNodeId": "1164:8278",
-      "nodeHash": "bd1c4c8c86f73ece"
+      "nodeHash": "91d9fe6f70fb280d"
     },
     "hoggies/business-evolution": {
       "figmaNodeId": "404:176608",
@@ -326,6 +334,10 @@
       "figmaNodeId": "2252:2406",
       "nodeHash": "731160951b79a74f"
     },
+    "hoggies/idea": {
+      "figmaNodeId": "2451:2968",
+      "nodeHash": "f8bad3cac2ac07b0"
+    },
     "hoggies/im-the-driver": {
       "figmaNodeId": "404:120299",
       "nodeHash": "218061cbc0fd5821"
@@ -445,6 +457,10 @@
     "hoggies/organized": {
       "figmaNodeId": "305:86636",
       "nodeHash": "5233f46812557ef5"
+    },
+    "hoggies/osmosis": {
+      "figmaNodeId": "2451:2969",
+      "nodeHash": "195207b1dad8dc11"
     },
     "hoggies/panic": {
       "figmaNodeId": "404:109934",
