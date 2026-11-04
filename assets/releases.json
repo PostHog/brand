@@ -30,7 +30,8 @@
     "0.15.3": "2026-10-24",
     "0.15.4": "2026-10-27",
     "0.16.0": "2026-10-27",
-    "0.17.0": "2026-10-30"
+    "0.17.0": "2026-10-30",
+    "0.17.1": "2026-11-04"
   },
   "assets": {
     "crests/full/a-default-crest": {
@@ -537,6 +538,10 @@
       "since": "0.1.0",
       "figmaNodeId": "404:146880"
     },
+    "hoggies/baller": {
+      "since": "0.17.1",
+      "figmaNodeId": "2451:2967"
+    },
     "hoggies/banana": {
       "since": "0.7.0",
       "figmaNodeId": "306:201588"
@@ -548,6 +553,10 @@
     "hoggies/beaker": {
       "since": "0.1.0",
       "figmaNodeId": "404:130609"
+    },
+    "hoggies/book-pile": {
+      "since": "0.17.1",
+      "figmaNodeId": "2451:2966"
     },
     "hoggies/boombox": {
       "since": "0.1.0",
@@ -829,6 +838,10 @@
       "since": "0.15.1",
       "figmaNodeId": "2252:2406"
     },
+    "hoggies/idea": {
+      "since": "0.17.1",
+      "figmaNodeId": "2451:2968"
+    },
     "hoggies/im-the-driver": {
       "since": "0.1.0",
       "figmaNodeId": "404:120299"
@@ -948,6 +961,10 @@
     "hoggies/organized": {
       "since": "0.7.0",
       "figmaNodeId": "305:86636"
+    },
+    "hoggies/osmosis": {
+      "since": "0.17.1",
+      "figmaNodeId": "2451:2969"
     },
     "hoggies/panic": {
       "since": "0.1.0",

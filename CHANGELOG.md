@@ -1,5 +1,16 @@
 # @posthog/brand
 
+## 0.17.1
+
+### Patch Changes
+
+- 5b4ccf3: Sync brand assets from Figma (4 added).
+
+  **hoggies**
+
+  - Added 4: Baller, Book Pile, Idea, Osmosis
+  - Updated 1: Burning Money
+
 ## 0.17.0
 
 ### Minor Changes
