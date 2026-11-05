@@ -1,6 +1,6 @@
 {
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2417780564874695240",
+  "figmaVersion": "2418153905414166505",
   "entries": {
     "hoggies/70s-dance": {
       "figmaNodeId": "404:93626",
@@ -385,6 +385,10 @@
     "hoggies/loops": {
       "figmaNodeId": "1336:686",
       "nodeHash": "f6f63408d237c8ff"
+    },
+    "hoggies/luchador": {
+      "figmaNodeId": "2466:951",
+      "nodeHash": "05bdc74678b82663"
     },
     "hoggies/magnifying-glass": {
       "figmaNodeId": "404:132663",

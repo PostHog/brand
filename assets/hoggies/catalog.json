@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-03T23:22:58Z",
+  "generatedAt": "2026-11-05T00:20:15Z",
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2417780564874695240",
+  "figmaVersion": "2418153905414166505",
   "namespace": "hoggies",
   "entries": [
     {
@@ -1874,6 +1874,27 @@
       ],
       "svgBytes": 169619,
       "pngBytes": 52232
+    },
+    {
+      "slug": "luchador",
+      "name": "Luchador",
+      "namespace": "hoggies",
+      "figmaNodeId": "2466:951",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "mask",
+        "wrestler",
+        "jumping",
+        "elbow",
+        "luchador",
+        "singlet",
+        "colorful",
+        "angry"
+      ],
+      "svgBytes": 261057,
+      "pngBytes": 58515
     },
     {
       "slug": "magnifying-glass",
