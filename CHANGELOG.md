@@ -1,5 +1,15 @@
 # @posthog/brand
 
+## 0.17.2
+
+### Patch Changes
+
+- 075f000: Sync brand assets from Figma (1 added).
+
+  **hoggies**
+
+  - Added 1: Luchador
+
 ## 0.17.1
 
 ### Patch Changes
