@@ -275,8 +275,14 @@ maker's rules); buttons, segmented controls, inputs and the heading are the site
 NOT a copy: `src/image-maker/hoggies.ts` builds every maker's list from the package
 (`findAssets` + `getVariants`, tags plus the name, files at `/hoggies/<stem>.svg`), so a synced
 hoggie shows up on the next deploy. The only hand-kept hoggie data is
-`src/image-maker/data/hoggie-topics.json` (post topics by file stem, scored above tags by the blog
-maker's auto-match). The rest of a maker's data is `src/image-maker/data/<engine>.json` (fonts,
+`src/image-maker/data/hoggie-topics.json`, and it stays hand-kept on purpose: the Figma tags say
+what a hoggie looks like, while topics tie PostHog subjects to it (`sql` → Desk Wizard, `pricing` →
+Burning Money), and nothing in the package carries that. Without topics, far fewer real blog
+titles match any hoggie. Keys are file stems (`climber-2`, as in `/hoggies/<stem>.svg`), values are
+`|`-separated lowercase words or phrases, matched as whole words in the title and description (a
+trailing `s` also matches). The blog maker's auto-match scores a topic 3 and a tag 1 and takes the
+highest total. To change which hoggie a kind of post gets, edit this file; a key whose hoggie is
+renamed or removed is ignored, so update it with the rename. The rest of a maker's data is `src/image-maker/data/<engine>.json` (fonts,
 logos, customer logos and themes, build mode authors), pointing at same-origin files: the agent
 files (`/fonts/*.woff2`, `/logo/*.svg`) and `site/public/image-makers/` (Squeak Bold for event
 headlines, build mode logo, paper rip and author photos, and the posthog.com/customers logos).
@@ -287,6 +293,7 @@ dropped from the link, and downloads are a plain `<a download>`. The blog maker 
 image from `#new-<hex JSON>` (title, description, highlight, authors, hoggie, colors; documented
 in `site/agent/pages/tools/images/blog.md`), which is how agents hand a v0 header to an author. The
 page panel is wider on maker routes (`.page-wide`). Events: `image downloaded`, `image link copied`.
+Run them locally with `pnpm dev:site` and open `/tools/images`.
 
 **Analytics**: `initAnalytics` (`site/src/analytics.ts`) runs `posthog.init` once in `main.tsx`
 before render (posthog.com's project; `person_profiles: "always"`; capturing opted out in dev) and
