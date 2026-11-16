@@ -260,7 +260,33 @@ it is stale. The renderer prefixes the logo's ids per badge and throws if a file
 self-contained (`<text>`, `<style>`, `href=`, `currentColor`…). The logo's clear space (the "P"
 height, 9.44 px at 80 px wide) sets the layout, so keep it when changing sizes. The site footer shows the light
 badge (from its static file) linking to `/badges`; the page isn't in the top nav, which keeps to
-Logo · Hoggies · Crests · Colors · Fonts (the brand mark links home, so there's no Overview item).
+Logo · Hoggies · Crests · Colors · Fonts · Image makers (the brand mark links home, so there's no Overview item).
+
+**Image makers** (`/tools/images`, in the top nav after Fonts): the team's image makers. This
+site is their only source (the Claude artifacts they started as are retired). `/tools/images` is
+the home page (`pages/ImageMakers.tsx`, one card per maker with an example in
+`src/assets/image-makers/`); each maker is `/tools/images/<slug>` (`blog`, `events`, `build-mode`,
+`customer-stories`), rendered by `pages/ImageMaker.tsx` from the one table in
+`src/image-maker/makers.ts`. Each maker's code is plain DOM JS in
+`src/image-maker/makers/<engine>.js` (`MARKUP` + `mount(env)`, typed by the `.d.ts` beside it). All
+four share one stylesheet, `src/image-maker/maker.css`, scoped to `.mk` (`.mk-<engine>` for one
+maker's rules); buttons, segmented controls, inputs and the heading are the site's own `.btn`,
+`.seg`, `.input` and `.page-header`, so restyle those in theme.css, not per maker. The hoggies are
+NOT a copy: `src/image-maker/hoggies.ts` builds every maker's list from the package
+(`findAssets` + `getVariants`, tags plus the name, files at `/hoggies/<stem>.svg`), so a synced
+hoggie shows up on the next deploy. The only hand-kept hoggie data is
+`src/image-maker/data/hoggie-topics.json` (post topics by file stem, scored above tags by the blog
+maker's auto-match). The rest of a maker's data is `src/image-maker/data/<engine>.json` (fonts,
+logos, customer logos and themes, build mode authors), pointing at same-origin files: the agent
+files (`/fonts/*.woff2`, `/logo/*.svg`) and `site/public/image-makers/` (Squeak Bold for event
+headlines, build mode logo, paper rip and author photos, and the posthog.com/customers logos).
+`src/image-maker/host.ts` gives each maker its storage, uploads and downloads (`env.host`): images
+are kept in this browser's localStorage (the list on the left), every edit rewrites `?image=`
+(base64url JSON) so the link is the save, uploads stay in the browser as object URLs and are
+dropped from the link, and downloads are a plain `<a download>`. The blog maker also makes a new
+image from `#new-<hex JSON>` (title, description, highlight, authors, hoggie, colors; documented
+in `site/agent/pages/tools/images/blog.md`), which is how agents hand a v0 header to an author. The
+page panel is wider on maker routes (`.page-wide`). Events: `image downloaded`, `image link copied`.
 
 **Analytics**: `initAnalytics` (`site/src/analytics.ts`) runs `posthog.init` once in `main.tsx`
 before render (posthog.com's project; `person_profiles: "always"`; capturing opted out in dev) and

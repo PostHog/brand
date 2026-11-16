@@ -1,0 +1,12 @@
+{
+  "fonts": {
+    "400": "/fonts/RoundHog.woff2",
+    "500": "/fonts/RoundHog-Medium.woff2",
+    "600": "/fonts/RoundHog-SemiBold.woff2",
+    "700": "/fonts/RoundHog-Bold.woff2"
+  },
+  "logos": {
+    "black": "/logo/posthog-logo.svg",
+    "white": "/logo/posthog-logo-white.svg"
+  }
+}

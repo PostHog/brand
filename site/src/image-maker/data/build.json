@@ -1,0 +1,16 @@
+{
+  "fonts": {
+    "400": "/fonts/RoundHog.woff2",
+    "500": "/fonts/RoundHog-Medium.woff2",
+    "600": "/fonts/RoundHog-SemiBold.woff2",
+    "700": "/fonts/RoundHog-Bold.woff2"
+  },
+  "logos": { "black": "/logo/posthog-logo.svg", "white": "/logo/posthog-logo-white.svg" },
+  "buildLogo": "/image-makers/build/build-mode-logo.png",
+  "rip": "/image-makers/build/paper-rip.png",
+  "authors": {
+    "Ian Vanagas": "/image-makers/build/ian-vanagas.png",
+    "Jina Yoon": "/image-makers/build/jina-yoon.png",
+    "Cleo Lant": "/image-makers/build/cleo-lant.png"
+  }
+}
