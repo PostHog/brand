@@ -19,6 +19,8 @@ const loadColorsPage = () => import("./pages/Colors.tsx")
 const loadHoggiesPage = () => import("./pages/Hoggies.tsx")
 const loadCrestsPage = () => import("./pages/Crests.tsx")
 const loadBadgesPage = () => import("./pages/Badges.tsx")
+const loadImageMakersPage = () => import("./pages/ImageMakers.tsx")
+const loadImageMakerPage = () => import("./pages/ImageMaker.tsx")
 
 const LogoPage = lazy(() => loadLogoPage().then((m) => ({ default: m.LogoPage })))
 const FontsPage = lazy(() => loadFontsPage().then((m) => ({ default: m.FontsPage })))
@@ -26,6 +28,10 @@ const ColorsPage = lazy(() => loadColorsPage().then((m) => ({ default: m.ColorsP
 const HoggiesPage = lazy(() => loadHoggiesPage().then((m) => ({ default: m.HoggiesPage })))
 const CrestsPage = lazy(() => loadCrestsPage().then((m) => ({ default: m.CrestsPage })))
 const BadgesPage = lazy(() => loadBadgesPage().then((m) => ({ default: m.BadgesPage })))
+const ImageMakersPage = lazy(() =>
+  loadImageMakersPage().then((m) => ({ default: m.ImageMakersPage })),
+)
+const ImageMakerPage = lazy(() => loadImageMakerPage().then((m) => ({ default: m.ImageMakerPage })))
 const CrestDetailPage = lazy(() =>
   import("./pages/CrestDetail.tsx").then((m) => ({ default: m.CrestDetailPage })),
 )
@@ -51,7 +57,7 @@ interface NavItem {
 }
 
 // The assets people come for lead (the logo, then the hoggies, with the crests beside them),
-// then the foundations. The brand mark already links home, so there's no "Overview" item, and
+// then the foundations, then the image makers. The brand mark already links home, so there's no "Overview" item, and
 // the badges are linked from the footer, which shows one.
 const NAV: NavItem[] = [
   { to: "/logo", label: "Logo", end: false, load: loadLogoPage },
@@ -59,6 +65,7 @@ const NAV: NavItem[] = [
   { to: "/crests", label: "Crests", end: false, load: loadCrestsPage },
   { to: "/colors", label: "Colors", end: false, load: loadColorsPage },
   { to: "/fonts", label: "Fonts", end: false, load: loadFontsPage },
+  { to: "/tools/images", label: "Image makers", end: false, load: loadImageMakersPage },
 ]
 
 function Layout({ children }: { children: ReactNode }) {
@@ -103,7 +110,10 @@ function Layout({ children }: { children: ReactNode }) {
           </div>
         </nav>
       </header>
-      <main className="page">{children}</main>
+      {/* A maker's three-column editor needs a wider panel than the reading pages. */}
+      <main className={page.startsWith("/tools/images/") ? "page page-wide" : "page"}>
+        {children}
+      </main>
       <footer className="footer">
         <p className="footer-text">
           Every asset on this site comes from the{" "}
@@ -171,6 +181,8 @@ export function App() {
             <Route path="/hoggies" element={<HoggiesPage />} />
             <Route path="/crests" element={<CrestsPage />} />
             <Route path="/badges" element={<BadgesPage />} />
+            <Route path="/tools/images" element={<ImageMakersPage />} />
+            <Route path="/tools/images/:slug" element={<ImageMakerPage />} />
             <Route path="/crests/:slug" element={<CrestDetailPage />} />
             <Route path="/hoggies/:slug" element={<HoggieDetailPage />} />
             <Route path="*" element={<NotFoundPage />} />

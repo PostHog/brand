@@ -1,0 +1,895 @@
+/* The image makers' editor (/tools/images/<maker>): the image list, the stage and the settings
+   panel. Buttons, segmented controls, inputs and the heading use the site's own .btn, .seg,
+   .input and .page-header (theme.css); only the editor's layout lives here. Rules for one maker
+   are scoped to .mk-<engine>. */
+.mk {
+  --danger: #c4161c;
+  --warn: #b33a00;
+  --hover: rgba(35, 37, 29, 0.05);
+  --accent-soft: rgba(235, 157, 42, 0.2);
+}
+.mk * {
+  box-sizing: border-box;
+}
+/* Zero specificity, so the site's .btn, .seg and .input keep their own type. */
+:where(.mk) :where(button, input, textarea, select) {
+  font: inherit;
+  color: inherit;
+}
+:where(.mk) :where(button) {
+  cursor: pointer;
+}
+/* The makers toggle rows with the hidden attribute; their flex/grid rules would win otherwise. */
+.mk [hidden] {
+  display: none !important;
+}
+
+/* ---- Window: heading across the top, then list · stage · settings ---- */
+.mk .main {
+  display: grid;
+  grid-template-columns: 252px minmax(0, 1fr) 340px;
+  grid-template-rows: auto minmax(0, 1fr);
+  height: max(640px, calc(100vh - 120px));
+  border: 1px solid rgba(158, 160, 150, 0.55);
+  border-radius: 12px;
+  background: rgba(253, 253, 248, 0.55);
+  overflow: hidden;
+}
+.mk .maker-head {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 32px;
+  flex-wrap: wrap;
+  padding: 22px 28px 20px;
+  border-bottom: 1px solid var(--border);
+  min-width: 0;
+}
+.mk .mh-text {
+  min-width: 0;
+  flex: 1 1 380px;
+  margin: 0;
+}
+.mk .mh-text h1 {
+  margin-bottom: 4px;
+}
+.mk .mh-text .eyebrow {
+  text-decoration: none;
+}
+.mk .mh-text .eyebrow:hover {
+  color: var(--text);
+  border-color: var(--border-hover);
+}
+.mk .mh-text .eyebrow::before {
+  content: "← ";
+}
+.mk .mh-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  min-width: 0;
+}
+.mk .mh-status {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  justify-content: flex-end;
+  max-width: 460px;
+  min-width: 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.mk .mh-status .doc-name::before {
+  content: "Editing: ";
+}
+.mk .save-state {
+  white-space: nowrap;
+}
+.mk .save-state:not(:empty)::before {
+  content: "· ";
+}
+.mk-build .save-state {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 320px;
+}
+.mk .dl {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.mk .dl select {
+  height: 32px;
+  padding: 0 34px 0 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  appearance: none;
+  cursor: pointer;
+  background: var(--surface)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2365675e' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")
+    no-repeat right 12px center / 14px 14px;
+  font-weight: 600;
+}
+.mk .dl select:hover {
+  border-color: var(--border-hover);
+}
+
+/* ---- Buttons: the site's .btn, plus the editor's extras ---- */
+.mk .btn svg {
+  width: 18px;
+  height: 18px;
+}
+.mk .btn.danger {
+  color: var(--danger);
+}
+.mk .btn[disabled] {
+  opacity: 0.55;
+  cursor: default;
+  transform: none;
+  box-shadow: none;
+}
+.mk label.btn {
+  cursor: pointer;
+}
+.mk .new-btn {
+  align-self: flex-start;
+  gap: 10px;
+  padding: 8px 16px 8px 12px;
+  font-size: 15px;
+}
+.mk .new-btn svg {
+  width: 22px;
+  height: 22px;
+  color: var(--btn-edge);
+}
+.mk .icon-btn {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+}
+.mk .icon-btn:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+.mk .icon-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ---- Image list ---- */
+.mk .list {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-right: 1px solid var(--border);
+}
+.mk .list-head {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.mk .list-label {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.mk .list-empty {
+  padding: 8px 16px;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+.mk .notice {
+  margin: 12px 16px 0;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface-accent);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.mk .thumbs {
+  list-style: none;
+  margin: 0;
+  padding: 0 12px 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 0;
+}
+.mk .thumb {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  padding: 8px 8px 8px 4px;
+  border-radius: 12px;
+}
+.mk .thumb:hover {
+  background: var(--hover);
+}
+.mk .thumb .num {
+  color: var(--text-muted);
+  font-size: 12px;
+  text-align: right;
+  padding-top: 4px;
+  font-variant-numeric: tabular-nums;
+}
+.mk .thumb canvas {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: block;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background: var(--surface-accent);
+}
+.mk-event .thumb canvas {
+  aspect-ratio: 1 / 1;
+}
+.mk .thumb[aria-current="true"] canvas {
+  border-color: var(--btn-face);
+}
+.mk .thumb .meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: 6px;
+  min-width: 0;
+}
+.mk .thumb .t {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow-wrap: anywhere;
+}
+.mk .thumb .d {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ---- Stage ---- */
+.mk .stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* "safe": when the stage overflows it scrolls from the top instead of cutting it off. */
+  justify-content: safe center;
+  gap: 12px;
+  min-width: 0;
+  min-height: 0;
+  padding: 24px;
+  overflow: auto;
+}
+.mk .canvas-wrap {
+  position: relative;
+  flex-shrink: 0;
+  max-width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: var(--shadow-window);
+  background: #fff;
+}
+/* The preview fits the stage: in the three-column layout the stage is a size container, so
+   100cqh is the height it has (less the hint below the preview). */
+@media (min-width: 901px) {
+  .mk .stage {
+    container-type: size;
+  }
+}
+.mk-blog .canvas-wrap,
+.mk-customer .canvas-wrap {
+  width: min(100%, 1200px, calc((100cqh - 36px) * 16 / 9));
+  aspect-ratio: 16 / 9;
+}
+.mk-event .canvas-wrap {
+  width: min(100%, 760px, calc(100cqh - 36px));
+  aspect-ratio: 1 / 1;
+}
+/* Build mode: the size being edited (its ratio in --ar), above the strip of the other sizes,
+   whose height follows the stage's width (three 16:9 thumbnails plus their labels). */
+.mk-build .canvas-wrap {
+  --strip: calc((min(100cqw, 1200px) - 24px) / 3 * 0.5625 + 34px);
+  width: min(100%, 1200px, calc(max(200px, 100cqh - 84px - var(--strip)) * var(--ar)));
+  aspect-ratio: var(--ar);
+}
+.mk .canvas-wrap canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.mk .stage-hint {
+  color: var(--text-muted);
+  font-size: 13px;
+  text-align: center;
+  margin: 0;
+}
+
+/* ---- Settings panel ---- */
+.mk .props {
+  overflow-y: auto;
+  min-height: 0;
+  border-left: 1px solid var(--border);
+}
+.mk .mk-section {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.mk .mk-section:last-child {
+  border-bottom: none;
+}
+.mk .mk-section h2 {
+  margin: 0;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+.mk .section-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.mk .field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.mk .field > label,
+.mk .field > .lbl {
+  font-size: 13px;
+  font-weight: 600;
+}
+.mk .row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.mk .hint {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+.mk .hint.warn {
+  color: var(--warn);
+}
+.mk .actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.mk .input {
+  width: 100%;
+  min-width: 0;
+  flex: none;
+  font-size: 14px;
+}
+.mk textarea.input {
+  min-height: 68px;
+  resize: vertical;
+  line-height: 1.35;
+}
+.mk .title-input {
+  min-height: 92px;
+}
+.mk-event .title-input {
+  text-transform: uppercase;
+}
+.mk .seg {
+  align-self: flex-start;
+}
+.mk .swatches {
+  display: grid;
+  grid-template-columns: repeat(7, 28px);
+  gap: 8px;
+}
+.mk .sw {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid rgba(30, 31, 35, 0.18);
+  border-radius: 50%;
+}
+.mk .sw[aria-pressed="true"]::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border: 2px solid var(--btn-edge);
+  border-radius: 50%;
+}
+.mk .range-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 48px;
+  gap: 10px;
+  align-items: center;
+}
+.mk-build .range-row {
+  grid-template-columns: minmax(0, 1fr) 56px;
+}
+.mk .range-row output {
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.mk input[type="range"] {
+  width: 100%;
+  accent-color: var(--btn-face);
+}
+.mk .switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.mk .switch input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--btn-face);
+}
+.mk .switch input:disabled + span {
+  color: var(--text-muted);
+}
+
+/* A picture with its name and buttons: the hoggie (blog, event, customer) or an upload (build). */
+.mk .hog-card,
+.mk .pic-card {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+}
+.mk .hog-card .pic,
+.mk .pic-card .pic {
+  width: 84px;
+  height: 84px;
+  padding: 0;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: var(--text-muted);
+}
+.mk label.pic {
+  cursor: pointer;
+}
+.mk .hog-card .pic img,
+.mk .pic-card .pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.mk .hog-card .pic svg {
+  width: 44px;
+  height: 44px;
+}
+.mk .pic-card .pic svg {
+  width: 32px;
+  height: 32px;
+}
+.mk .hog-card .info,
+.mk .pic-card .info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+  min-width: 0;
+}
+.mk .hog-card .name,
+.mk .pic-card .name {
+  font-weight: 600;
+  font-size: 15px;
+}
+.mk .hog-card .how,
+.mk .pic-card .how {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Authors (blog: one name per row; build: a photo beside each name). */
+.mk .co-authors {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.mk .co-authors:empty {
+  display: none;
+}
+.mk .co-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 32px;
+  gap: 6px;
+  align-items: center;
+}
+.mk-build .co-authors {
+  gap: 10px;
+}
+.mk-build .co-row {
+  grid-template-columns: 44px minmax(0, 1fr) 32px;
+  gap: 12px;
+}
+.mk .author-row {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+}
+.mk .avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--posthog-tangerine, #ff5c1c);
+  overflow: hidden;
+}
+.mk .avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+/* ---- Hoggie gallery ---- */
+.mk dialog.gallery {
+  width: min(1040px, calc(100vw - 32px));
+  height: min(760px, calc(100vh - 32px));
+  padding: 0;
+  border: 1px solid rgba(158, 160, 150, 0.55);
+  border-radius: 12px;
+  background: var(--glass-window);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  color: var(--text);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
+}
+.mk dialog.gallery::backdrop {
+  background: rgba(20, 21, 24, 0.45);
+}
+.mk .g-wrap {
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+.mk .g-head {
+  padding: 20px 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.mk .g-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.mk .g-title h2 {
+  margin: 0;
+  font-size: 22px;
+  flex: 1;
+}
+.mk .g-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.mk .g-search .input {
+  flex: 1 1 280px;
+  width: auto;
+}
+.mk .g-count {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+.mk .g-grid {
+  overflow-y: auto;
+  padding: 16px 24px 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
+  gap: 12px;
+  align-content: start;
+}
+.mk .g-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 8px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+.mk .g-item:hover {
+  border-color: var(--border-hover);
+}
+.mk .g-item[aria-pressed="true"] {
+  border: 2px solid var(--btn-face);
+}
+.mk .g-item img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+}
+.mk .g-item span {
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.2;
+}
+.mk .g-item.auto .auto-mark {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--btn-edge);
+}
+.mk .g-item.auto svg {
+  width: 44px;
+  height: 44px;
+}
+
+/* ---- Event: partner logos ---- */
+.mk .logos {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mk .logo-item {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+}
+.mk .logo-item .lp {
+  width: 64px;
+  height: 40px;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mk .logo-item .lp img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.mk .logo-item .ln {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ---- Build mode: the size being edited, and a strip of every size ---- */
+.mk .stage-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  width: min(100%, 1200px);
+}
+.mk .stage-head .size-name {
+  font-weight: 700;
+  font-size: 16px;
+}
+.mk .stage-head .size-dims,
+.mk .stage-head .size-note {
+  color: var(--text-muted);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.mk .stage-head .size-note {
+  margin-left: auto;
+  text-align: right;
+}
+.mk .strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  width: min(100%, 1200px);
+  align-items: end;
+}
+.mk .mini {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: stretch;
+  padding: 6px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background: transparent;
+  text-align: left;
+}
+.mk .mini:hover {
+  background: var(--hover);
+  border-color: var(--border);
+}
+.mk .mini canvas {
+  width: 100%;
+  display: block;
+  border-radius: 4px;
+  box-shadow: var(--shadow-window);
+  background: #fff;
+}
+.mk .mini .lbl {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  font-size: 13px;
+  font-weight: 600;
+}
+.mk .mini .lbl span {
+  color: var(--text-muted);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+.mk .sub-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+.mk .sub-box h3 {
+  margin: 0;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mk .sub-box h3 .tag {
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--btn-edge);
+  background: var(--accent-soft);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+/* ---- Customer stories: the logo search ---- */
+.mk .logo-status {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+}
+.mk .logo-status .lp {
+  width: 84px;
+  height: 52px;
+  padding: 6px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mk .logo-status .lp.dark {
+  background: #1e1f23;
+}
+.mk .logo-status .lp img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.mk .logo-status .lp span {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+}
+.mk .find-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+}
+.mk .find-result {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.mk .find-result:empty {
+  display: none;
+}
+.mk .find-result.ok {
+  border-color: transparent;
+  background: rgba(71, 200, 97, 0.14);
+}
+.mk .find-result.miss {
+  border-color: var(--warn);
+}
+.mk .find-result .picks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+@media (max-width: 900px) {
+  .mk .main {
+    height: auto;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+  }
+  .mk .mh-side {
+    align-items: flex-start;
+  }
+  .mk .mh-status {
+    justify-content: flex-start;
+  }
+  .mk .list {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .mk .thumbs {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 12px;
+  }
+  .mk .thumb {
+    width: 170px;
+    flex-shrink: 0;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mk-event .thumb {
+    width: 120px;
+  }
+  .mk .thumb .num {
+    display: none;
+  }
+  .mk .canvas-wrap {
+    width: 100% !important;
+  }
+  .mk .strip {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mk .props {
+    border-left: none;
+    border-top: 1px solid var(--border);
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .mk dialog.gallery {
+    background: var(--surface);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}

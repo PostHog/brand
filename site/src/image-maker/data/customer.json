@@ -1,0 +1,517 @@
+{
+  "customers": [
+    {
+      "name": "4DayWeek",
+      "slug": "4dayweek",
+      "industries": ["recruitment"]
+    },
+    {
+      "name": "11x",
+      "slug": "11x",
+      "industries": ["ai"]
+    },
+    {
+      "name": "Adauris",
+      "slug": "adauris",
+      "industries": ["saas", "publishing"]
+    },
+    {
+      "name": "Airbus",
+      "slug": "airbus",
+      "industries": [],
+      "light": "/image-makers/customers/airbus-light.svg",
+      "dark": "/image-makers/customers/airbus-dark.svg"
+    },
+    {
+      "name": "AssemblyAI",
+      "slug": "assemblyai",
+      "industries": ["api platform"],
+      "light": "/image-makers/customers/assemblyai-light.svg",
+      "dark": "/image-makers/customers/assemblyai-dark.svg"
+    },
+    {
+      "name": "Arena",
+      "slug": "arena",
+      "industries": ["llms"],
+      "light": "/image-makers/customers/arena-light.svg",
+      "dark": "/image-makers/customers/arena-dark.svg"
+    },
+    {
+      "name": "Brainboard",
+      "slug": "brainboard",
+      "industries": ["saas", "devtool"],
+      "light": "/image-makers/customers/brainboard-light.svg",
+      "dark": "/image-makers/customers/brainboard-dark.svg"
+    },
+    {
+      "name": "carVertical",
+      "slug": "carvertical",
+      "industries": ["automotive"],
+      "light": "/image-makers/customers/carvertical-light.svg",
+      "dark": "/image-makers/customers/carvertical-dark.svg"
+    },
+    {
+      "name": "Clerk",
+      "slug": "clerk",
+      "industries": ["saas"],
+      "light": "/image-makers/customers/clerk-light.svg",
+      "dark": "/image-makers/customers/clerk-dark.svg"
+    },
+    {
+      "name": "CloudPeek",
+      "slug": "cloudpeek",
+      "industries": ["cybersecurity"],
+      "light": "/image-makers/customers/cloudpeek-light.png",
+      "dark": "/image-makers/customers/cloudpeek-dark.png"
+    },
+    {
+      "name": "Conductor",
+      "slug": "conductor",
+      "industries": ["devtool"]
+    },
+    {
+      "name": "Contra",
+      "slug": "contra",
+      "industries": ["saas"],
+      "light": "/image-makers/customers/contra-light.svg",
+      "dark": "/image-makers/customers/contra-dark.svg"
+    },
+    {
+      "name": "Convex",
+      "slug": "convex",
+      "industries": ["saas"],
+      "light": "/image-makers/customers/convex-light.svg",
+      "dark": "/image-makers/customers/convex-dark.svg"
+    },
+    {
+      "name": "Creatify",
+      "slug": "creatify",
+      "industries": ["ai"],
+      "light": "/image-makers/customers/creatify-light.png",
+      "dark": "/image-makers/customers/creatify-dark.png"
+    },
+    {
+      "name": "Croissant",
+      "slug": "croissant",
+      "industries": ["saas"],
+      "light": "/image-makers/customers/croissant-light.png",
+      "dark": "/image-makers/customers/croissant-dark.png"
+    },
+    {
+      "name": "CounterPress",
+      "slug": "counterpress",
+      "industries": ["saas", "publishing"],
+      "light": "/image-makers/customers/counterpress-light.svg",
+      "dark": "/image-makers/customers/counterpress-dark.svg"
+    },
+    {
+      "name": "ElevenLabs",
+      "slug": "elevenlabs",
+      "industries": ["ai"],
+      "light": "/image-makers/customers/elevenlabs-light.svg",
+      "dark": "/image-makers/customers/elevenlabs-dark.svg"
+    },
+    {
+      "name": "Exa",
+      "slug": "exa",
+      "industries": ["ai", "search"],
+      "light": "/image-makers/customers/exa-light.svg",
+      "dark": "/image-makers/customers/exa-dark.svg"
+    },
+    {
+      "name": "Fastr",
+      "slug": "fastr",
+      "industries": ["e-commerce, martech"]
+    },
+    {
+      "name": "Fireworks AI",
+      "slug": "fireworksai",
+      "industries": ["ai"],
+      "light": "/image-makers/customers/fireworksai-light.svg",
+      "dark": "/image-makers/customers/fireworksai-dark.svg"
+    },
+    {
+      "name": "Gankster",
+      "slug": "gankster",
+      "industries": ["gaming"],
+      "light": "/image-makers/customers/gankster-light.svg",
+      "dark": "/image-makers/customers/gankster-dark.svg"
+    },
+    {
+      "name": "Great Expectations",
+      "slug": "great-expectations",
+      "industries": ["saas", "data"]
+    },
+    {
+      "name": "Grantable",
+      "slug": "grantable",
+      "industries": ["saas"],
+      "light": "/image-makers/customers/grantable-light.svg",
+      "dark": "/image-makers/customers/grantable-dark.svg"
+    },
+    {
+      "name": "KiloCode",
+      "slug": "kilocode",
+      "industries": ["ai"]
+    },
+    {
+      "name": "Legit Media",
+      "slug": "legit-media",
+      "industries": ["news and media"]
+    },
+    {
+      "name": "Greptile",
+      "slug": "greptile",
+      "industries": ["saas"],
+      "light": "/image-makers/customers/greptile-light.svg",
+      "dark": "/image-makers/customers/greptile-dark.svg"
+    },
+    {
+      "name": "Groove",
+      "slug": "groove",
+      "industries": ["support"]
+    },
+    {
+      "name": "Hasura",
+      "slug": "hasura",
+      "industries": ["devtool"],
+      "light": "/image-makers/customers/hasura-light.svg",
+      "dark": "/image-makers/customers/hasura-dark.svg"
+    },
+    {
+      "name": "HeadshotPro",
+      "slug": "headshotpro",
+      "industries": ["ai"],
+      "light": "/image-makers/customers/headshotpro-light.svg",
+      "dark": "/image-makers/customers/headshotpro-dark.svg"
+    },
+    {
+      "name": "Heygen",
+      "slug": "heygen",
+      "industries": [],
+      "light": "/image-makers/customers/heygen-light.svg",
+      "dark": "/image-makers/customers/heygen-dark.svg"
+    },
+    {
+      "name": "HostAI",
+      "slug": "hostai",
+      "industries": ["ai"],
+      "light": "/image-makers/customers/hostai-light.svg",
+      "dark": "/image-makers/customers/hostai-dark.svg"
+    },
+    {
+      "name": "Jaxxon",
+      "slug": "jaxxon",
+      "industries": ["fashion"],
+      "light": "/image-makers/customers/jaxxon-light.svg",
+      "dark": "/image-makers/customers/jaxxon-dark.svg"
+    },
+    {
+      "name": "Juicebox",
+      "slug": "juicebox",
+      "industries": ["ai"],
+      "light": "/image-makers/customers/juicebox-light.svg",
+      "dark": "/image-makers/customers/juicebox-dark.svg"
+    },
+    {
+      "name": "Juno",
+      "slug": "juno",
+      "industries": ["healthcare", "ai"],
+      "light": "/image-makers/customers/juno-light.svg",
+      "dark": "/image-makers/customers/juno-dark.svg"
+    },
+    {
+      "name": "Mention Me",
+      "slug": "mention-me",
+      "industries": ["marketing platform"],
+      "light": "/image-makers/customers/mention-me-light.svg",
+      "dark": "/image-makers/customers/mention-me-dark.svg",
+      "hog": "Hand Clasp"
+    },
+    {
+      "name": "Legora",
+      "slug": "legora",
+      "industries": ["ai", "legal"],
+      "light": "/image-makers/customers/legora-light.svg",
+      "dark": "/image-makers/customers/legora-dark.svg"
+    },
+    {
+      "name": "Mintlify",
+      "slug": "mintlify",
+      "industries": ["saas", "devtool"],
+      "light": "/image-makers/customers/mintlify-light.svg",
+      "dark": "/image-makers/customers/mintlify-dark.svg"
+    },
+    {
+      "name": "Mistral AI",
+      "slug": "mistralai",
+      "industries": [],
+      "light": "/image-makers/customers/mistralai-light.svg",
+      "dark": "/image-makers/customers/mistralai-dark.svg"
+    },
+    {
+      "name": "National Design Studio",
+      "slug": "nationaldesignstudio",
+      "industries": [],
+      "light": "/image-makers/customers/nationaldesignstudio-light.svg",
+      "dark": "/image-makers/customers/nationaldesignstudio-dark.svg"
+    },
+    {
+      "name": "Netdata",
+      "slug": "netdata",
+      "industries": ["saas", "devtool"],
+      "light": "/image-makers/customers/netdata-light.svg",
+      "dark": "/image-makers/customers/netdata-dark.svg"
+    },
+    {
+      "name": "Octomind",
+      "slug": "octomind",
+      "industries": ["devtool", "saas"]
+    },
+    {
+      "name": "OpenSauced",
+      "slug": "opensauced",
+      "industries": ["saas", "devtool"],
+      "light": "/image-makers/customers/opensauced-light.svg",
+      "dark": "/image-makers/customers/opensauced-dark.svg"
+    },
+    {
+      "name": "Paper",
+      "slug": "paper",
+      "industries": ["saas"],
+      "light": "/image-makers/customers/paper-light.svg",
+      "dark": "/image-makers/customers/paper-dark.svg"
+    },
+    {
+      "name": "Phantom",
+      "slug": "phantom",
+      "industries": ["cryptocurrency & blockchain"],
+      "light": "/image-makers/customers/phantom-light.svg",
+      "dark": "/image-makers/customers/phantom-dark.svg"
+    },
+    {
+      "name": "Pry",
+      "slug": "pry",
+      "industries": ["financial planning software"],
+      "light": "/image-makers/customers/pry-light.svg",
+      "dark": "/image-makers/customers/pry-dark.svg"
+    },
+    {
+      "name": "Purple Wave",
+      "slug": "purplewave",
+      "industries": ["e-commerce"],
+      "light": "/image-makers/customers/purplewave-light.svg",
+      "dark": "/image-makers/customers/purplewave-dark.svg"
+    },
+    {
+      "name": "Qred",
+      "slug": "qred",
+      "industries": ["fintech"],
+      "light": "/image-makers/customers/qred-light.svg",
+      "dark": "/image-makers/customers/qred-dark.svg"
+    },
+    {
+      "name": "Qubs",
+      "slug": "qubs",
+      "industries": ["ad tech", "hospitality", "digital signage"]
+    },
+    {
+      "name": "Raycast",
+      "slug": "raycast",
+      "industries": [],
+      "light": "/image-makers/customers/raycast-light.svg",
+      "dark": "/image-makers/customers/raycast-dark.svg"
+    },
+    {
+      "name": "RayFit",
+      "slug": "rayfit",
+      "industries": ["fitness"],
+      "light": "/image-makers/customers/rayfit-light.png",
+      "dark": "/image-makers/customers/rayfit-dark.png"
+    },
+    {
+      "name": "Railway",
+      "slug": "railway",
+      "industries": ["devtool"],
+      "light": "/image-makers/customers/railway-light.svg",
+      "dark": "/image-makers/customers/railway-dark.svg"
+    },
+    {
+      "name": "Runable",
+      "slug": "runable",
+      "industries": ["ai"],
+      "light": "/image-makers/customers/runable-light.svg",
+      "dark": "/image-makers/customers/runable-dark.svg"
+    },
+    {
+      "name": "Rebtel",
+      "slug": "rebtel",
+      "industries": ["telecom"],
+      "light": "/image-makers/customers/rebtel-light.svg",
+      "dark": "/image-makers/customers/rebtel-dark.svg",
+      "prefer": "original"
+    },
+    {
+      "name": "ResearchGate",
+      "slug": "researchgate",
+      "industries": ["science", "social network"],
+      "light": "/image-makers/customers/researchgate-light.svg",
+      "dark": "/image-makers/customers/researchgate-dark.svg"
+    },
+    {
+      "name": "Resend",
+      "slug": "resend",
+      "industries": [],
+      "light": "/image-makers/customers/resend-light.svg",
+      "dark": "/image-makers/customers/resend-dark.svg"
+    },
+    {
+      "name": "Significa",
+      "slug": "significa",
+      "industries": ["agency"],
+      "light": "/image-makers/customers/significa-light.svg",
+      "dark": "/image-makers/customers/significa-dark.svg"
+    },
+    {
+      "name": "SoundBoost",
+      "slug": "soundboost",
+      "industries": ["ai", "music"],
+      "light": "/image-makers/customers/soundboost-light.svg",
+      "dark": "/image-makers/customers/soundboost-dark.svg",
+      "hog": "Dj"
+    },
+    {
+      "name": "Speakeasy",
+      "slug": "speakeasy",
+      "industries": ["devtool"],
+      "light": "/image-makers/customers/speakeasy-light.svg",
+      "dark": "/image-makers/customers/speakeasy-dark.svg"
+    },
+    {
+      "name": "SquadS Ventures",
+      "slug": "squadsventures",
+      "industries": [],
+      "light": "/image-makers/customers/squadsventures-light.svg",
+      "dark": "/image-makers/customers/squadsventures-dark.svg"
+    },
+    {
+      "name": "Supabase",
+      "slug": "supabase",
+      "industries": ["devtool"],
+      "light": "/image-makers/customers/supabase-light.svg",
+      "dark": "/image-makers/customers/supabase-dark.svg"
+    },
+    {
+      "name": "Suped",
+      "slug": "suped",
+      "industries": ["saas"],
+      "light": "/image-makers/customers/suped-light.png",
+      "dark": "/image-makers/customers/suped-dark.png"
+    },
+    {
+      "name": "StartEngine",
+      "slug": "startengine",
+      "industries": [],
+      "light": "/image-makers/customers/startengine-light.svg",
+      "dark": "/image-makers/customers/startengine-dark.svg"
+    },
+    {
+      "name": "Trust",
+      "slug": "trust",
+      "industries": [],
+      "light": "/image-makers/customers/trust-light.svg",
+      "dark": "/image-makers/customers/trust-dark.svg",
+      "aliases": ["Trust Wallet", "trustwallet"]
+    },
+    {
+      "name": "UK Government",
+      "slug": "ukgovt",
+      "industries": [],
+      "light": "/image-makers/customers/ukgovt-light.svg",
+      "dark": "/image-makers/customers/ukgovt-dark.svg",
+      "aliases": ["GOV.UK", "UK Government", "gov uk"]
+    },
+    {
+      "name": "Vendasta",
+      "slug": "vendasta",
+      "industries": ["saas"],
+      "light": "/image-makers/customers/vendasta-light.svg",
+      "dark": "/image-makers/customers/vendasta-dark.svg"
+    },
+    {
+      "name": "Webshare",
+      "slug": "webshare",
+      "industries": ["devtool"],
+      "light": "/image-makers/customers/webshare-light.svg",
+      "dark": "/image-makers/customers/webshare-dark.svg"
+    },
+    {
+      "name": "WisprFlow",
+      "slug": "wisprflow",
+      "industries": [],
+      "light": "/image-makers/customers/wisprflow-light.svg",
+      "dark": "/image-makers/customers/wisprflow-dark.svg"
+    },
+    {
+      "name": "Witty Works",
+      "slug": "wittyworks",
+      "industries": ["saas", "browser extension"],
+      "light": "/image-makers/customers/wittyworks-light.svg",
+      "dark": "/image-makers/customers/wittyworks-dark.svg"
+    },
+    {
+      "name": "Y Combinator",
+      "slug": "ycombinator",
+      "industries": ["saas", "education"],
+      "light": "/image-makers/customers/ycombinator-light.svg",
+      "dark": "/image-makers/customers/ycombinator-dark.svg",
+      "prefer": "original",
+      "aliases": ["YC", "Y Combinator"]
+    },
+    {
+      "name": "Zealot",
+      "slug": "zealot",
+      "industries": ["recruitment"],
+      "light": "/image-makers/customers/zealot-light.png"
+    }
+  ],
+  "themes": [
+    [
+      "Dj",
+      "audio|music|musician|musicians|sound|mastering|podcast|podcasts|radio|dj|song|songs|beats"
+    ],
+    ["Director", "video|film|films|movie|movies|streaming|studio|creator|creators|youtube"],
+    ["Robot", "ai|llm|llms|agent|agents|gpt|machine learning|ml|model|models|automation"],
+    [
+      "Money",
+      "fintech|finance|financial|bank|banking|payment|payments|billing|invoice|invoicing|accounting|crypto|insurance|lending"
+    ],
+    [
+      "Doctor",
+      "health|healthcare|medical|clinic|clinical|patient|patients|hospital|pharma|telehealth|wellness"
+    ],
+    [
+      "Code Bubble",
+      "developer|developers|devtools|api|apis|sdk|code|coding|open source|infrastructure|cloud|platform"
+    ],
+    ["Chart", "analytics|data|dashboard|dashboards|insights|metrics|bi|reporting"],
+    ["Traffic Police", "security|cybersecurity|privacy|compliance|identity|auth|fraud"],
+    [
+      "Reading Is Magic",
+      "education|edtech|learning|course|courses|school|schools|students|teachers|tutoring"
+    ],
+    ["Two Player", "gaming|game|games|esports|player|players"],
+    ["Tourist", "travel|booking|hotel|hotels|trips|tourism|airline"],
+    ["Chef", "food|restaurant|restaurants|recipe|recipes|meal|meals|grocery|delivery"],
+    ["Sales", "sales|crm|ecommerce|e-commerce|shop|shopping|store|retail|marketplace|commerce"],
+    ["Megaphone", "marketing|ads|advertising|social|community|brand|growth"],
+    ["Mailbox", "email|newsletter|newsletters|inbox|messaging|chat"],
+    ["Judge", "legal|law|lawyer|lawyers|contracts"],
+    ["Coding Group", "hr|hiring|recruiting|recruitment|talent|people|team|teams|workforce"],
+    ["Commuter", "logistics|shipping|fleet|transport|transportation|mobility|rideshare"],
+    ["Construction", "construction|real estate|property|proptech|housing|architecture"],
+    ["Gardener", "climate|energy|solar|sustainability|agriculture|farming"],
+    ["Organized", "productivity|project management|tasks|workflow|scheduling|calendar"],
+    ["Rocket", "startup|startups|launch|yc|founder|founders"]
+  ]
+}

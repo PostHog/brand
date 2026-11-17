@@ -730,7 +730,8 @@ button.asset:hover .asset-img.loaded {
 .seg button:hover {
   color: var(--text);
 }
-.seg button.active {
+.seg button.active,
+.seg button[aria-pressed="true"] {
   background: var(--surface);
   border-color: var(--border-strong);
   color: var(--text);
@@ -1525,4 +1526,121 @@ button.asset:hover .asset-img.loaded {
   display: flex;
   justify-content: center;
   gap: 10px;
+}
+
+/* ---- Image makers (/tools/images and /tools/images/<maker>) ---- */
+/* Home: one card per maker, an example image above its name and sizes. */
+.maker-cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+@media (max-width: 960px) {
+  .maker-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .maker-cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.maker-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  color: inherit;
+  font-weight: 400;
+  text-decoration: none;
+  transition: border-color 120ms ease;
+}
+.maker-card:hover {
+  color: inherit;
+  border-color: var(--border-hover);
+}
+.maker-card:hover .btn {
+  transform: translateY(-3px);
+  box-shadow:
+    0 3px 0 var(--base),
+    0 4.5px 0 var(--edge);
+}
+.maker-card-shot {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  background: var(--surface-accent);
+  border-bottom: 1px solid var(--border);
+}
+.maker-card-shot img {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  max-width: calc(100% - 40px);
+  max-height: calc(100% - 32px);
+  border-radius: 3px;
+  box-shadow:
+    0 1px 2px rgba(35, 37, 29, 0.1),
+    0 6px 16px -6px rgba(35, 37, 29, 0.3);
+}
+.maker-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  padding: 14px 16px 16px;
+}
+.maker-card-name {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+.maker-card-desc {
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.maker-card-sizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.maker-card-sizes code {
+  font-size: 11.5px;
+}
+.maker-card-foot {
+  margin-top: auto;
+  padding-top: 6px;
+}
+.maker-card-soon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  height: 100%;
+  min-height: 220px;
+  padding: 20px;
+  border: 1.5px dashed var(--border-strong);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-size: 14px;
+}
+.maker-card-soon strong {
+  color: var(--text);
+  font-size: 15px;
+}
+.maker-card-soon p {
+  margin: 0;
+}
+
+/* A maker page: a wider panel, because the editor has three columns (image-maker/maker.css). */
+.page.page-wide {
+  max-width: 1400px;
+  padding: 16px;
+}
+@media (max-width: 640px) {
+  .page.page-wide {
+    padding: 8px;
+  }
 }

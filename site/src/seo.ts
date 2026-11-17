@@ -15,6 +15,7 @@ import {
   hoggiePagePath,
   SITE_URL,
 } from "./agent-paths.ts"
+import { MAKER_CATALOG, MAKERS_PATH, makerPath } from "./image-maker/catalog.ts"
 
 export { SITE_URL }
 export const SITE_NAME = "PostHog Brand"
@@ -110,6 +111,25 @@ export const PAGES: PageSeo[] = [
     description:
       "Two website badges that show your product is built with PostHog. Copy the HTML or Markdown into your site or README, or download the SVG or PNG.",
   },
+  {
+    path: "/tools/images",
+    title: "PostHog image makers",
+    label: "Image makers",
+    headline: "Make a PostHog image",
+    description:
+      "Make PostHog blog headers, event posts, build mode art and customer story images from the brand's hoggies, colors and RoundHog type, then download them as PNGs. The settings live in the link, so it is easy to share.",
+  },
+  // One page per image maker, from the makers' own table (image-maker/catalog.ts).
+  ...MAKER_CATALOG.map(
+    (maker): PageSeo => ({
+      path: makerPath(maker.slug),
+      title: maker.seo.title,
+      label: maker.name,
+      headline: maker.seo.headline,
+      description: maker.seo.description,
+      parent: { path: MAKERS_PATH, label: "Image makers" },
+    }),
+  ),
 ]
 
 /**
