@@ -46,12 +46,12 @@ import {
   badgeMarkdown,
 } from "../src/badge-files.ts"
 import {
-  HERO_IMAGES,
-  HERO_IMAGES_PATH,
-  type HeroImageGroup,
-  heroImagePath,
-  heroImageSize,
-} from "../src/hero-images.ts"
+  MARKETING_ASSETS,
+  MARKETING_ASSETS_PATH,
+  type MarketingAssetGroup,
+  marketingAssetPath,
+  marketingAssetSize,
+} from "../src/marketing-assets.ts"
 import { hoggieFamilies, hoggieJsx } from "../src/hoggie-families.ts"
 import { LOGO_FILES, LOGO_PRESETS, type LogoFile } from "../src/logo-files.ts"
 import { earliestSince } from "../src/release.ts"
@@ -138,13 +138,13 @@ export interface CatalogBadge {
   usageUrl: string
 }
 
-/** A hero image from the brand book (see src/hero-images.ts): a finished, designed PNG. */
-export interface CatalogHeroImage {
-  type: "hero-image"
+/** A marketing asset from the brand book (see src/marketing-assets.ts): a finished, designed PNG. */
+export interface CatalogMarketingAsset {
+  type: "marketing-asset"
   id: string
   name: string
   /** Which kind it is: `product-heroes` or `app-store`. */
-  group: HeroImageGroup["id"]
+  group: MarketingAssetGroup["id"]
   /** What its kind is for. */
   usedFor: string
   alt: string
@@ -152,7 +152,7 @@ export interface CatalogHeroImage {
   /** Pixel size of the PNG. */
   width: number
   height: number
-  /** The section of the Hero images page it is on. */
+  /** The section of the Marketing assets page it is on. */
   page: string
 }
 
@@ -193,7 +193,7 @@ export interface Catalog {
   license: { summary: string; url: string }
   logos: CatalogLogo[]
   badges: CatalogBadge[]
-  heroImages: CatalogHeroImage[]
+  marketingAssets: CatalogMarketingAsset[]
   hoggies: CatalogAsset[]
   crests: CatalogAsset[]
   colors: CatalogColor[]
@@ -398,18 +398,18 @@ function badges(files: Map<string, AgentFile>): CatalogBadge[] {
   })
 }
 
-function heroImages(): CatalogHeroImage[] {
-  return HERO_IMAGES.map(({ group, ...image }) => ({
-    type: "hero-image",
+function marketingAssets(): CatalogMarketingAsset[] {
+  return MARKETING_ASSETS.map(({ group, ...image }) => ({
+    type: "marketing-asset",
     id: image.id,
     name: image.name,
     group: group.id,
     usedFor: group.what,
     alt: image.alt,
     // Committed to `site/public/`, so Vite copies them to dist/ itself: no AgentFile to add.
-    png: absoluteUrl(heroImagePath(image.id)),
-    ...heroImageSize(group),
-    page: `${absoluteUrl(HERO_IMAGES_PATH)}#${group.id}`,
+    png: absoluteUrl(marketingAssetPath(image.id)),
+    ...marketingAssetSize(group),
+    page: `${absoluteUrl(MARKETING_ASSETS_PATH)}#${group.id}`,
   }))
 }
 
@@ -493,7 +493,7 @@ async function build(): Promise<AgentData> {
     license: { summary: LICENSE_SUMMARY, url: LICENSE_URL },
     logos: logos(files),
     badges: badges(files),
-    heroImages: heroImages(),
+    marketingAssets: marketingAssets(),
     hoggies: await hoggies(files),
     crests: await crests(files),
     colors: brandColors(files),

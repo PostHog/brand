@@ -21,10 +21,10 @@
 {{badges}}
 - Embed code and terms of use: {{site}}/badges.md
 
-## Hero images
+## Marketing assets
 
-{{heroImages}}
-- What each kind is for, and how to use it: {{site}}/hero-images.md
+{{marketingAssets}}
+- What each kind is for, and how to use it: {{site}}/marketing-assets.md
 
 ## Hoggies ({{hoggieCount}})
 

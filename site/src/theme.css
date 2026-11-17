@@ -1347,10 +1347,10 @@ button.asset:hover .asset-img.loaded {
   }
 }
 
-/* ---- Hero images ---- */
+/* ---- Marketing assets ---- */
 /* One row per kind that scrolls sideways, every preview the same height so the landscape heroes
    and the portrait phones each line up. The card is as wide as its image; the name wraps under it. */
-.hero-row {
+.marketing-row {
   display: flex;
   gap: 12px;
   list-style: none;
@@ -1365,20 +1365,20 @@ button.asset:hover .asset-img.loaded {
   scrollbar-color: color-mix(in srgb, var(--text) 22%, transparent) transparent;
 }
 /* …and Safari, which ignores `scrollbar-color`, reads these instead. */
-.hero-row::-webkit-scrollbar {
+.marketing-row::-webkit-scrollbar {
   height: 8px;
 }
-.hero-row::-webkit-scrollbar-track {
+.marketing-row::-webkit-scrollbar-track {
   background: transparent;
 }
-.hero-row::-webkit-scrollbar-thumb {
+.marketing-row::-webkit-scrollbar-thumb {
   background: color-mix(in srgb, var(--text) 22%, transparent);
   border-radius: 999px;
 }
-.hero-row::-webkit-scrollbar-thumb:hover {
+.marketing-row::-webkit-scrollbar-thumb:hover {
   background: color-mix(in srgb, var(--text) 38%, transparent);
 }
-.hero-card {
+.marketing-card {
   flex: none;
   width: min-content;
   display: flex;
@@ -1386,20 +1386,20 @@ button.asset:hover .asset-img.loaded {
   overflow: hidden;
   scroll-snap-align: start;
 }
-.hero-preview {
+.marketing-preview {
   display: block;
   background: var(--surface-accent);
   border-bottom: 1px solid var(--border);
 }
-.hero-preview img {
+.marketing-preview img {
   display: block;
   width: auto;
   height: 300px;
 }
-.hero-row-app-store .hero-preview img {
+.marketing-row-app-store .marketing-preview img {
   height: 380px;
 }
-.hero-body {
+.marketing-body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1407,19 +1407,19 @@ button.asset:hover .asset-img.loaded {
   padding: 10px 12px 12px;
   flex: 1;
 }
-.hero-body h3 {
+.marketing-body h3 {
   font-size: 14px;
   margin: 0;
 }
-.hero-body .btn {
+.marketing-body .btn {
   margin-top: auto;
   white-space: nowrap;
 }
 @media (max-width: 640px) {
-  .hero-preview img {
+  .marketing-preview img {
     height: 200px;
   }
-  .hero-row-app-store .hero-preview img {
+  .marketing-row-app-store .marketing-preview img {
     height: 300px;
   }
 }
