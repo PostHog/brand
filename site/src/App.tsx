@@ -21,7 +21,7 @@ const loadColorsPage = () => import("./pages/Colors.tsx")
 const loadHoggiesPage = () => import("./pages/Hoggies.tsx")
 const loadCrestsPage = () => import("./pages/Crests.tsx")
 const loadBadgesPage = () => import("./pages/Badges.tsx")
-const loadHeroImagesPage = () => import("./pages/HeroImages.tsx")
+const loadMarketingAssetsPage = () => import("./pages/MarketingAssets.tsx")
 const loadImageMakersPage = () => import("./pages/ImageMakers.tsx")
 const loadImageMakerPage = () => import("./pages/ImageMaker.tsx")
 
@@ -31,7 +31,9 @@ const ColorsPage = lazy(() => loadColorsPage().then((m) => ({ default: m.ColorsP
 const HoggiesPage = lazy(() => loadHoggiesPage().then((m) => ({ default: m.HoggiesPage })))
 const CrestsPage = lazy(() => loadCrestsPage().then((m) => ({ default: m.CrestsPage })))
 const BadgesPage = lazy(() => loadBadgesPage().then((m) => ({ default: m.BadgesPage })))
-const HeroImagesPage = lazy(() => loadHeroImagesPage().then((m) => ({ default: m.HeroImagesPage })))
+const MarketingAssetsPage = lazy(() =>
+  loadMarketingAssetsPage().then((m) => ({ default: m.MarketingAssetsPage })),
+)
 const ImageMakersPage = lazy(() =>
   loadImageMakersPage().then((m) => ({ default: m.ImageMakersPage })),
 )
@@ -97,10 +99,10 @@ const NAV: (NavItem | NavGroup)[] = [
         load: loadFontsPage,
       },
       {
-        to: "/hero-images",
-        label: "Hero images",
+        to: "/marketing-assets",
+        label: "Marketing assets",
         description: "Product heroes and App Store screenshots",
-        load: loadHeroImagesPage,
+        load: loadMarketingAssetsPage,
       },
     ],
   },
@@ -285,7 +287,7 @@ export function App() {
             <Route path="/hoggies" element={<HoggiesPage />} />
             <Route path="/crests" element={<CrestsPage />} />
             <Route path="/badges" element={<BadgesPage />} />
-            <Route path="/hero-images" element={<HeroImagesPage />} />
+            <Route path="/marketing-assets" element={<MarketingAssetsPage />} />
             <Route path="/tools/images" element={<ImageMakersPage />} />
             <Route path="/tools/images/:slug" element={<ImageMakerPage />} />
             <Route path="/crests/:slug" element={<CrestDetailPage />} />

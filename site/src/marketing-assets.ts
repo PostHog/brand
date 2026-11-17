@@ -1,16 +1,16 @@
-// The hero images from the brand book's "hero images" Figma page: one table shared by the Hero
-// images page, the build (`seo-plugin.ts`, `agent/`), which lists them in the prerendered page,
-// the sitemap, the markdown and llms.txt, and `scripts/fetch-hero-images.ts`, which renders each
-// one from Figma into `site/public/hero-images/`. Plain data, so every one of those can import it.
+// The marketing assets from the brand book's "hero images" Figma page: one table shared by the
+// Marketing assets page, the build (`seo-plugin.ts`, `agent/`), which lists them in the prerendered page,
+// the sitemap, the markdown and llms.txt, and `scripts/fetch-marketing-assets.ts`, which renders each
+// one from Figma into `site/public/marketing-assets/`. Plain data, so every one of those can import it.
 //
 // The files are committed, not built: they're designed raster art, rendered by Figma at full
 // resolution, so a deploy can't re-make them. Re-run the fetch script after the design changes.
 
 /** The Figma file (the PostHog Brand Book) the images are rendered from. */
-export const HERO_FIGMA_FILE = "EqKxlSFoOCkRXCnHi4C3eE"
+export const MARKETING_FIGMA_FILE = "EqKxlSFoOCkRXCnHi4C3eE"
 
-export interface HeroImage {
-  /** File stem and stable id: `/hero-images/<id>.png`. */
+export interface MarketingAsset {
+  /** File stem and stable id: `/marketing-assets/<id>.png`. */
   id: string
   /** Its headline, as the image reads. */
   name: string
@@ -19,7 +19,7 @@ export interface HeroImage {
   alt: string
 }
 
-export interface HeroImageGroup {
+export interface MarketingAssetGroup {
   id: "product-heroes" | "app-store"
   title: string
   /** What the group is for. */
@@ -32,10 +32,10 @@ export interface HeroImageGroup {
   scale: number
   /** Width of the page's preview, in px. */
   previewWidth: number
-  images: readonly HeroImage[]
+  images: readonly MarketingAsset[]
 }
 
-export const HERO_IMAGE_GROUPS: readonly HeroImageGroup[] = [
+export const MARKETING_ASSET_GROUPS: readonly MarketingAssetGroup[] = [
   {
     id: "product-heroes",
     title: "Product heroes",
@@ -153,28 +153,28 @@ export const HERO_IMAGE_GROUPS: readonly HeroImageGroup[] = [
   },
 ]
 
-export const HERO_IMAGES_PATH = "/hero-images"
+export const MARKETING_ASSETS_PATH = "/marketing-assets"
 
-/** Every hero image, in page order, with its group. */
-export const HERO_IMAGES: readonly (HeroImage & { group: HeroImageGroup })[] =
-  HERO_IMAGE_GROUPS.flatMap((group) => group.images.map((image) => ({ ...image, group })))
+/** Every marketing asset, in page order, with its group. */
+export const MARKETING_ASSETS: readonly (MarketingAsset & { group: MarketingAssetGroup })[] =
+  MARKETING_ASSET_GROUPS.flatMap((group) => group.images.map((image) => ({ ...image, group })))
 
 /** Size of an image's PNG, in px. */
-export function heroImageSize(group: HeroImageGroup): { width: number; height: number } {
+export function marketingAssetSize(group: MarketingAssetGroup): { width: number; height: number } {
   return { width: group.frame.width * group.scale, height: group.frame.height * group.scale }
 }
 
 /** Site path of an image's full-resolution PNG. */
-export function heroImagePath(id: string): string {
-  return `${HERO_IMAGES_PATH}/${id}.png`
+export function marketingAssetPath(id: string): string {
+  return `${MARKETING_ASSETS_PATH}/${id}.png`
 }
 
 /** Site path of the smaller WebP the page shows. */
-export function heroPreviewPath(id: string): string {
-  return `${HERO_IMAGES_PATH}/previews/${id}.webp`
+export function marketingPreviewPath(id: string): string {
+  return `${MARKETING_ASSETS_PATH}/previews/${id}.webp`
 }
 
 /** Base name a downloaded copy is saved as. */
-export function heroFileName(id: string): string {
-  return `posthog-hero-${id}`
+export function marketingFileName(id: string): string {
+  return `posthog-marketing-${id}`
 }

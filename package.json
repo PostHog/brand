@@ -150,7 +150,7 @@
     "dev:site": "pnpm build && pnpm --filter @posthog/brand-site dev",
     "build:site": "pnpm build && pnpm --filter @posthog/brand-site build",
     "gen:site-icons": "pnpm --filter @posthog/brand-site gen:icons",
-    "fetch:hero-images": "pnpm --filter @posthog/brand-site fetch:hero-images",
+    "fetch:marketing-assets": "pnpm --filter @posthog/brand-site fetch:marketing-assets",
     "changeset": "changeset",
     "release": "changeset publish"
   },

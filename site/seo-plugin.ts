@@ -28,7 +28,7 @@ import type { Plugin } from "vite"
 import {
   type CatalogAsset,
   type CatalogBadge,
-  type CatalogHeroImage,
+  type CatalogMarketingAsset,
   type CatalogImage,
   imageHeading,
   LICENSE_URL,
@@ -36,7 +36,7 @@ import {
 } from "./agent/data.ts"
 import { absoluteUrl, assetPagePath, markdownPath } from "./src/agent-paths.ts"
 import { BADGE_ALT, BADGE_USAGE } from "./src/badge-files.ts"
-import { HERO_IMAGE_GROUPS } from "./src/hero-images.ts"
+import { MARKETING_ASSET_GROUPS } from "./src/marketing-assets.ts"
 import { formatReleaseDate } from "./src/release.ts"
 import {
   breadcrumbJsonLd,
@@ -136,8 +136,8 @@ interface Route {
   listing?: CatalogAsset[]
   /** The website badges the badges page shows, with their embed code. */
   badges?: CatalogBadge[]
-  /** The hero images the hero images page shows. */
-  heroImages?: CatalogHeroImage[]
+  /** The marketing assets the marketing assets page shows. */
+  marketingAssets?: CatalogMarketingAsset[]
   /** PNG URLs of the page's images, for the image sitemap. */
   images?: string[]
 }
@@ -244,7 +244,7 @@ function headBlock({ page, asset }: Route): string {
  * so a browser that runs the bundle never paints it: inside `#root` it flashed as unstyled
  * text until React mounted. Crawlers that read the HTML as served still see all of it.
  */
-function staticShell({ page, asset, listing, badges, heroImages }: Route): string {
+function staticShell({ page, asset, listing, badges, marketingAssets }: Route): string {
   const links = PAGES.filter((other) => other.path !== page.path)
     .map((other) => `<a href="${other.path}">${escape(other.label)}</a>`)
     .join(" · ")
@@ -289,9 +289,9 @@ function staticShell({ page, asset, listing, badges, heroImages }: Route): strin
     body = `${sections}<h2 id="usage">Using the badges</h2><ul>${usage}</ul>`
   }
 
-  if (heroImages) {
-    body = HERO_IMAGE_GROUPS.map((group) => {
-      const items = heroImages
+  if (marketingAssets) {
+    body = MARKETING_ASSET_GROUPS.map((group) => {
+      const items = marketingAssets
         .filter((image) => image.group === group.id)
         .map(
           (image) =>
@@ -318,8 +318,8 @@ function staticShell({ page, asset, listing, badges, heroImages }: Route): strin
 
 /**
  * `<urlset>` covering every route, with each page's images (Google image sitemap): an asset
- * page's renderings, every logo file on /logo, every website badge on /badges, and every hero
- * image on /hero-images.
+ * page's renderings, every logo file on /logo, every website badge on /badges, and every
+ * marketing asset on /marketing-assets.
  */
 function sitemap(routes: Route[]): string {
   const urls = routes
@@ -379,7 +379,7 @@ export function brandSeo(): Plugin {
       const pageImages: Record<string, string[]> = {
         "/logo": catalog.logos.map((logo) => logo.png),
         "/badges": catalog.badges.map((badge) => badge.png),
-        "/hero-images": catalog.heroImages.map((image) => image.png),
+        "/marketing-assets": catalog.marketingAssets.map((image) => image.png),
       }
       const assetRoute = (asset: CatalogAsset, page: PageSeo): Route => ({
         page,
@@ -391,7 +391,7 @@ export function brandSeo(): Plugin {
           page,
           listing: listings[page.path],
           badges: page.path === "/badges" ? catalog.badges : undefined,
-          heroImages: page.path === "/hero-images" ? catalog.heroImages : undefined,
+          marketingAssets: page.path === "/marketing-assets" ? catalog.marketingAssets : undefined,
           images: pageImages[page.path],
         })),
         ...catalog.crests.map((asset) =>

@@ -88,12 +88,12 @@ export const PAGES: PageSeo[] = [
       "PostHog's brand colors, with hex values for each core, lighter and darker tone and its gradient. Click to copy, or use them as CSS custom properties and typed JS tokens.",
   },
   {
-    path: "/hero-images",
-    title: "PostHog hero images",
-    label: "Hero images",
-    headline: "PostHog hero images",
+    path: "/marketing-assets",
+    title: "PostHog marketing assets",
+    label: "Marketing assets",
+    headline: "PostHog marketing assets",
     description:
-      "PostHog's product hero images for landing pages, launch posts and social, and the App Store screenshots for the iPhone app, each as a full-resolution PNG, with what it's for.",
+      "PostHog's marketing assets: product hero images for landing pages, launch posts and social, and the App Store screenshots for the iPhone app, each as a full-resolution PNG, with what it's for.",
   },
   {
     path: "/crests",
