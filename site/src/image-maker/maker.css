@@ -271,7 +271,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  /* "safe": when the stage overflows it scrolls from the top instead of cutting it off. */
+  justify-content: safe center;
   gap: 12px;
   min-width: 0;
   min-height: 0;
@@ -287,14 +288,28 @@
   box-shadow: var(--shadow-window);
   background: #fff;
 }
+/* The preview fits the stage: in the three-column layout the stage is a size container, so
+   100cqh is the height it has (less the hint below the preview). */
+@media (min-width: 901px) {
+  .mk .stage {
+    container-type: size;
+  }
+}
 .mk-blog .canvas-wrap,
 .mk-customer .canvas-wrap {
-  width: min(100%, 1200px, calc((100vh - 170px) * 16 / 9));
+  width: min(100%, 1200px, calc((100cqh - 36px) * 16 / 9));
   aspect-ratio: 16 / 9;
 }
 .mk-event .canvas-wrap {
-  width: min(100%, 760px, calc(100vh - 160px));
+  width: min(100%, 760px, calc(100cqh - 36px));
   aspect-ratio: 1 / 1;
+}
+/* Build mode: the size being edited (its ratio in --ar), above the strip of the other sizes,
+   whose height follows the stage's width (three 16:9 thumbnails plus their labels). */
+.mk-build .canvas-wrap {
+  --strip: calc((min(100cqw, 1200px) - 24px) / 3 * 0.5625 + 34px);
+  width: min(100%, 1200px, calc(max(200px, 100cqh - 84px - var(--strip)) * var(--ar)));
+  aspect-ratio: var(--ar);
 }
 .mk .canvas-wrap canvas {
   width: 100%;
@@ -377,10 +392,10 @@
   resize: vertical;
   line-height: 1.35;
 }
-.mk #fTitle {
+.mk .title-input {
   min-height: 92px;
 }
-.mk-event #fTitle {
+.mk-event .title-input {
   text-transform: uppercase;
 }
 .mk .seg {

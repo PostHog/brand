@@ -1,9 +1,5 @@
 {
-  "fonts": {
-    "semibold": "/fonts/RoundHog-SemiBold.woff2",
-    "bold": "/fonts/RoundHog-Bold.woff2",
-    "squeak": "/image-makers/squeak-bold.woff2"
-  },
+  "squeak": "/image-makers/squeak-bold.woff2",
   "logos": {
     "black": "/logo/posthog-logo.svg",
     "white": "/logo/posthog-logo-white.svg"

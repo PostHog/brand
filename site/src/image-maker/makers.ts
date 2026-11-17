@@ -1,22 +1,18 @@
 // The image makers: one entry per format, shared by the home page (/tools/images) and each maker's
-// page (/tools/images/<slug>). Each maker's drawing code is plain DOM JS under `image-maker/makers/`
-// (see host.ts for how it runs here); it loads only on its own page.
+// page (/tools/images/<slug>). Each maker is a React component under `image-maker/makers/<engine>/`
+// (its document in model.ts, its drawing in draw.ts) built on the shared editor in `editor/`; it
+// loads only on its own page.
 
+import { type ComponentType, type LazyExoticComponent, lazy } from "react"
 import blogPreview from "../assets/image-makers/blog.webp"
 import buildPreview from "../assets/image-makers/build-mode.webp"
 import customerPreview from "../assets/image-makers/customer-story.webp"
 import eventPreview from "../assets/image-makers/event.webp"
-import { makerHoggies } from "./hoggies.ts"
-
-export interface MakerModule {
-  MARKUP: string
-  mount: (env: { data: unknown; host: { use: (name: string) => Promise<unknown> } }) => () => void
-}
 
 export interface Maker {
   /** URL segment under /tools/images, and the localStorage namespace. */
   slug: string
-  /** Its ported code under image-maker/makers/, and the CSS scope class (`mk-<engine>`). */
+  /** Its folder under image-maker/makers/, and the CSS scope class (`mk-<engine>`). */
   engine: "blog" | "event" | "build" | "customer"
   name: string
   description: string
@@ -25,7 +21,7 @@ export interface Maker {
   previewAlt: string
   /** Square previews sit inside the 16:9 card frame. */
   square?: boolean
-  load: () => Promise<{ module: MakerModule; data: unknown }>
+  Component: LazyExoticComponent<ComponentType>
 }
 
 export const MAKERS: Maker[] = [
@@ -39,13 +35,7 @@ export const MAKERS: Maker[] = [
     preview: blogPreview,
     previewAlt:
       "Example blog header: “The hidden cost of running your own analytics” with the Burning Money hoggie",
-    load: async () => {
-      const [module, data] = await Promise.all([
-        import("./makers/blog.js"),
-        import("./data/blog.json"),
-      ])
-      return { module: module as MakerModule, data: { ...data.default, hogs: makerHoggies() } }
-    },
+    Component: lazy(() => import("./makers/blog/BlogMaker.tsx")),
   },
   {
     slug: "events",
@@ -58,13 +48,7 @@ export const MAKERS: Maker[] = [
     previewAlt:
       "Example event image: PostHog hog meetup in London with a calendar tile for December 3 and the Party hoggie",
     square: true,
-    load: async () => {
-      const [module, data] = await Promise.all([
-        import("./makers/event.js"),
-        import("./data/event.json"),
-      ])
-      return { module: module as MakerModule, data: { ...data.default, hogs: makerHoggies() } }
-    },
+    Component: lazy(() => import("./makers/event/EventMaker.tsx")),
   },
   {
     slug: "build-mode",
@@ -76,13 +60,7 @@ export const MAKERS: Maker[] = [
     preview: buildPreview,
     previewAlt:
       "Example build mode image: “The end of engineers?” on a blueprint grid with a robot and the author",
-    load: async () => {
-      const [module, data] = await Promise.all([
-        import("./makers/build.js"),
-        import("./data/build.json"),
-      ])
-      return { module: module as MakerModule, data: data.default }
-    },
+    Component: lazy(() => import("./makers/build/BuildMaker.tsx")),
   },
   {
     slug: "customer-stories",
@@ -94,13 +72,7 @@ export const MAKERS: Maker[] = [
     preview: customerPreview,
     previewAlt:
       "Example customer story image: the Supabase logo on green with two hoggies shaking hands",
-    load: async () => {
-      const [module, data] = await Promise.all([
-        import("./makers/customer.js"),
-        import("./data/customer.json"),
-      ])
-      return { module: module as MakerModule, data: { ...data.default, hogs: makerHoggies() } }
-    },
+    Component: lazy(() => import("./makers/customer/CustomerMaker.tsx")),
   },
 ]
 

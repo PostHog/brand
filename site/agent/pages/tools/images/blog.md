@@ -4,7 +4,7 @@
 
 HTML version: {{site}}/tools/images/blog · All image makers: {{site}}/tools/images.md
 
-The title wraps on its own (Enter or `|` forces a break). Type a word or phrase from it as the highlight. Add up to 3 authors, each on their own line. The hoggie is matched to the title and the description unless you pick one; the SEO / AEO switch limits hoggies and colors to that set. The description is not drawn on the image.
+The title wraps on its own (Enter or `|` forces a break). Type a word or phrase from it as the highlight. Add up to 3 authors, each on their own line. The hoggie is matched to the title and the description unless you pick one; the SEO / AEO switch limits hoggies and colors to that set. The description has no field in the maker: it comes only from a link (`description` below, or a shared `?image=` link), and it isn't drawn on the image.
 
 The image is drawn in the browser and downloaded as a PNG. Every setting lives in the page link (`?image=`), so a link reopens the same image. Uploaded files stay in the browser and aren't part of the link.
 

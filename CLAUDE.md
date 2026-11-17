@@ -267,11 +267,21 @@ site is their only source (the Claude artifacts they started as are retired). `/
 the home page (`pages/ImageMakers.tsx`, one card per maker with an example in
 `src/assets/image-makers/`); each maker is `/tools/images/<slug>` (`blog`, `events`, `build-mode`,
 `customer-stories`), rendered by `pages/ImageMaker.tsx` from the one table in
-`src/image-maker/makers.ts`. Each maker's code is plain DOM JS in
-`src/image-maker/makers/<engine>.js` (`MARKUP` + `mount(env)`, typed by the `.d.ts` beside it). All
-four share one stylesheet, `src/image-maker/maker.css`, scoped to `.mk` (`.mk-<engine>` for one
-maker's rules); buttons, segmented controls, inputs and the heading are the site's own `.btn`,
-`.seg`, `.input` and `.page-header`, so restyle those in theme.css, not per maker. The hoggies are
+`src/image-maker/makers.ts` (each maker a lazy component). A maker is a folder,
+`src/image-maker/makers/<engine>/`: `model.ts` (its saved document, `blank()`, sizes, colors),
+`draw.ts` (pure canvas drawing of one document, used for the stage, the thumbnails and the PNG, so
+they can't drift) and `<Name>Maker.tsx` (its settings panel). Everything else is the shared editor
+in `src/image-maker/editor/`: `MakerFrame.tsx` (heading, Copy link, the image list, Duplicate/Delete),
+`fields.tsx` (the settings controls), `PaintedCanvas.tsx` (a canvas that paints sharply at its
+on-screen size and repaints when an image or font arrives), `HoggieGallery.tsx` (the hoggie picker
+and its search ranking), `canvas.ts` (text measuring, the image cache, `requestFonts`) and
+`download.ts`. Drawings use RoundHog as the site registers it (`@posthog/brand/fonts/css` in
+`main.tsx`: SemiBold is weight 700, Bold 800 — the `SEMIBOLD`/`BOLD` constants), and
+`requestFonts` loads the faces (and unicode-range subsets) a text needs, since canvas text doesn't
+trigger web font loads. All four share one stylesheet, `src/image-maker/maker.css`, scoped to `.mk`
+(`.mk-<engine>` for one maker's rules); buttons, segmented controls, inputs and the heading are the
+site's own `.btn`, `.seg`, `.input` and `.page-header`, so restyle those in theme.css, not per
+maker. The hoggies are
 NOT a copy: `src/image-maker/hoggies.ts` builds every maker's list from the package
 (`findAssets` + `getVariants`, tags plus the name, files at `/hoggies/<stem>.svg`), so a synced
 hoggie shows up on the next deploy. The only hand-kept hoggie data is
@@ -282,14 +292,16 @@ titles match any hoggie. Keys are file stems (`climber-2`, as in `/hoggies/<stem
 `|`-separated lowercase words or phrases, matched as whole words in the title and description (a
 trailing `s` also matches). The blog maker's auto-match scores a topic 3 and a tag 1 and takes the
 highest total. To change which hoggie a kind of post gets, edit this file; a key whose hoggie is
-renamed or removed is ignored, so update it with the rename. The rest of a maker's data is `src/image-maker/data/<engine>.json` (fonts,
-logos, customer logos and themes, build mode authors), pointing at same-origin files: the agent
-files (`/fonts/*.woff2`, `/logo/*.svg`) and `site/public/image-makers/` (Squeak Bold for event
-headlines, build mode logo, paper rip and author photos, and the posthog.com/customers logos).
-`src/image-maker/host.ts` gives each maker its storage, uploads and downloads (`env.host`): images
-are kept in this browser's localStorage (the list on the left), every edit rewrites `?image=`
-(base64url JSON) so the link is the save, uploads stay in the browser as object URLs and are
-dropped from the link, and downloads are a plain `<a download>`. The blog maker also makes a new
+renamed or removed is ignored, so update it with the rename. The rest of a maker's data is `src/image-maker/data/<engine>.json` (logos,
+customer logos and themes, build mode authors), pointing at same-origin files: the agent files
+(`/logo/*.svg`) and `site/public/image-makers/` (Squeak Bold for event headlines, build mode logo,
+paper rip and author photos, and the posthog.com/customers logos). `editor/store.ts`
+(`useImageStore`) keeps a maker's images: this browser's localStorage (the list on the left, newest
+40), saved a moment after each edit, and the address bar's `?image=` (base64url JSON, `link.ts`),
+which always describes the image being edited, so the link is the save. Opening a link to an image
+already in the list selects it rather than adding a copy. Uploads are object URLs kept in the
+document for the session and dropped from links and storage (`withoutUploads`); downloads wait
+for the drawing's images, then save through a plain `<a download>`. The blog maker also makes a new
 image from `#new-<hex JSON>` (title, description, highlight, authors, hoggie, colors; documented
 in `site/agent/pages/tools/images/blog.md`), which is how agents hand a v0 header to an author. The
 page panel is wider on maker routes (`.page-wide`). Events: `image downloaded`, `image link copied`.

@@ -1,12 +1,4 @@
 {
-  "fonts": {
-    "600": "/fonts/RoundHog-SemiBold.woff2",
-    "700": "/fonts/RoundHog-Bold.woff2"
-  },
-  "logos": {
-    "black": "/logo/posthog-logo.svg",
-    "white": "/logo/posthog-logo-white.svg"
-  },
   "customers": [
     {
       "name": "4DayWeek",
