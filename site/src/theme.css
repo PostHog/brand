@@ -268,10 +268,13 @@ a:has(> code) {
 .nav-menu-panel[hidden] {
   display: none;
 }
+/* The panel's links read like the top-level ones: an outline on hover, the same filled pill
+   when it's the current page. */
 .nav-menu-panel a {
   display: flex;
   flex-direction: column;
-  padding: 7px 10px;
+  padding: 6px 9px;
+  border: 1px solid transparent;
   border-radius: 6px;
   color: var(--text);
   font-weight: 600;
@@ -281,20 +284,29 @@ a:has(> code) {
 }
 .nav-menu-panel a:hover {
   color: var(--text);
-  background: rgba(229, 231, 224, 0.7);
+  border-color: var(--border-strong);
 }
 .nav-menu-panel a.active {
-  background: rgba(229, 231, 224, 0.9);
-  box-shadow: inset 3px 0 0 var(--btn-face);
+  background: rgba(229, 231, 224, 0.7);
+  border-color: var(--border);
 }
-/* The makers, under "Image makers": a line down their left, like a sub-list. */
+/* The makers, under "Image makers": a line down their left, like a sub-list. It's drawn beside
+   the link rather than as its border, so each link keeps the full outline and pill. */
 .nav-menu-panel a.nested {
-  margin-left: 10px;
-  padding: 4px 10px;
-  border-left: 1px solid var(--border);
-  border-radius: 0 6px 6px 0;
+  position: relative;
+  margin-left: 16px;
+  padding: 3px 9px;
   font-weight: 500;
   font-size: 14px;
+}
+.nav-menu-panel a.nested::before {
+  content: "";
+  position: absolute;
+  /* Out past the border box and across the 2px gap, so the line runs unbroken. */
+  top: -2px;
+  bottom: -2px;
+  left: -8px;
+  border-left: 1px solid var(--border);
 }
 .nav-menu-panel a.nested + a:not(.nested) {
   margin-top: 4px;
@@ -1332,6 +1344,83 @@ button.asset:hover .asset-img.loaded {
   }
   .badge-body {
     padding: 0 6px 8px;
+  }
+}
+
+/* ---- Hero images ---- */
+/* One row per kind that scrolls sideways, every preview the same height so the landscape heroes
+   and the portrait phones each line up. The card is as wide as its image; the name wraps under it. */
+.hero-row {
+  display: flex;
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 10px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  overscroll-behavior-x: contain;
+  /* The default scrollbar lays an opaque track over the frosted panel. A thin translucent thumb
+     on no track lets the glass show through. Chrome and Firefox read these two properties… */
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--text) 22%, transparent) transparent;
+}
+/* …and Safari, which ignores `scrollbar-color`, reads these instead. */
+.hero-row::-webkit-scrollbar {
+  height: 8px;
+}
+.hero-row::-webkit-scrollbar-track {
+  background: transparent;
+}
+.hero-row::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--text) 22%, transparent);
+  border-radius: 999px;
+}
+.hero-row::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--text) 38%, transparent);
+}
+.hero-card {
+  flex: none;
+  width: min-content;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+.hero-preview {
+  display: block;
+  background: var(--surface-accent);
+  border-bottom: 1px solid var(--border);
+}
+.hero-preview img {
+  display: block;
+  width: auto;
+  height: 300px;
+}
+.hero-row-app-store .hero-preview img {
+  height: 380px;
+}
+.hero-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px 12px;
+  flex: 1;
+}
+.hero-body h3 {
+  font-size: 14px;
+  margin: 0;
+}
+.hero-body .btn {
+  margin-top: auto;
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .hero-preview img {
+    height: 200px;
+  }
+  .hero-row-app-store .hero-preview img {
+    height: 300px;
   }
 }
 

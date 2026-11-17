@@ -9,6 +9,7 @@
 import { readFileSync } from "node:fs"
 import { absoluteUrl, assetPagePath, markdownPath, SITE_URL } from "../src/agent-paths.ts"
 import { BADGE_SIZE, BADGE_USAGE } from "../src/badge-files.ts"
+import { HERO_IMAGE_GROUPS } from "../src/hero-images.ts"
 import { MAKER_CATALOG, makerPath } from "../src/image-maker/catalog.ts"
 import { inPresetOrder, LOGO_DONTS, LOGO_DOS } from "../src/logo-files.ts"
 import { PAGES } from "../src/seo.ts"
@@ -142,6 +143,28 @@ const SECTION_VARS: Record<string, (catalog: Catalog) => Vars> = {
         code(`var(${color.cssVariables.core})`),
       ]),
     ),
+  }),
+  "/hero-images": (catalog) => ({
+    heroImages: HERO_IMAGE_GROUPS.map((group) =>
+      [
+        `## ${group.title}`,
+        "",
+        group.what,
+        "",
+        list(group.how),
+        "",
+        table(
+          ["Image", "Id", "PNG"],
+          catalog.heroImages
+            .filter((image) => image.group === group.id)
+            .map((image) => [
+              image.name,
+              code(image.id),
+              link(`PNG ${image.width}×${image.height}`, image.png),
+            ]),
+        ),
+      ].join("\n"),
+    ).join("\n\n"),
   }),
   "/crests": (catalog) => ({
     crests: table(
@@ -290,6 +313,12 @@ export function llmsTxt(catalog: Catalog): string {
         (badge) =>
           `${link(badge.name, badge.svg)} (${code(badge.id)}, ${BADGE_SIZE.width}×${BADGE_SIZE.height} px): ${badge.when}`,
       ),
+    ),
+    heroImages: list(
+      HERO_IMAGE_GROUPS.map((group) => {
+        const images = catalog.heroImages.filter((image) => image.group === group.id)
+        return `${group.title} (${images.length}, PNG ${images[0]!.width}×${images[0]!.height}): ${images.map((image) => link(image.name, image.png)).join(", ")}`
+      }),
     ),
     hoggies: list(catalog.hoggies.map(assetLine)),
     crests: list(catalog.crests.map(assetLine)),

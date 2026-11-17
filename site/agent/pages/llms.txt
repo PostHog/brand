@@ -21,6 +21,11 @@
 {{badges}}
 - Embed code and terms of use: {{site}}/badges.md
 
+## Hero images
+
+{{heroImages}}
+- What each kind is for, and how to use it: {{site}}/hero-images.md
+
 ## Hoggies ({{hoggieCount}})
 
 {{hoggies}}

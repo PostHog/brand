@@ -262,7 +262,20 @@ self-contained (`<text>`, `<style>`, `href=`, `currentColor`…). The logo's cle
 height, 9.44 px at 80 px wide) sets the layout, so keep it when changing sizes. The site footer shows the light
 badge (from its static file) linking to `/badges`; in the top nav it sits under Tools.
 
-**Top nav** (`NAV` in `site/src/App.tsx`): Logo · Hoggies · Brand kit ▾ (Crests, Colors, Fonts) ·
+**Hero images** (`/hero-images`, under Brand kit): finished, designed raster images from the brand
+book's "hero images" Figma page: 4 product heroes (1600×1100 frames → 3200×2200 PNG, 2x matches the
+garden art inside) and 10 App Store screenshots (440×956 → 1320×2868, the App Store's 6.9" iPhone
+size). The page is kept short on purpose: one line (missing something → the Graphics team), then
+one sideways-scrolling row per kind; what each kind is for and how to use it is only in the
+markdown twin and the prerendered shell. NOT Figma-synced or in the npm package: one table,
+`site/src/hero-images.ts` (frame node ids, render scale, copy), feeds the page, the shell, the
+sitemap, the markdown (`agent/pages/hero-images.md`), llms.txt and `catalog.json` (`heroImages[]`).
+The files are committed to `site/public/hero-images/` (lossless PNG, ~31 MB, plus the page's WebP
+`previews/`), written by `FIGMA_TOKEN=… pnpm fetch:hero-images` (`site/scripts/fetch-hero-images.ts`,
+which fails if a frame changed size). Re-run it when the Figma page changes. The page's backgrounds
+(core and garden) are left out on purpose.
+
+**Top nav** (`NAV` in `site/src/App.tsx`): Logo · Hoggies · Brand kit ▾ (Crests, Colors, Fonts, Hero images) ·
 Tools ▾ (Image makers, each maker from `catalog.ts`, Website badges); the brand mark links home, so
 there's no Overview item. A group is a `NavMenu` (`site/src/components/NavMenu.tsx`): a button
 opening a panel of links, which closes on Escape, an outside click, focus leaving it or a followed
