@@ -46,7 +46,7 @@ body {
 
 body {
   min-height: 100vh;
-  /* The garden: soft greens, lighter up top where the sun is. */
+  /* The garden's greens, shown until the wallpaper's grass loads. */
   background:
     radial-gradient(ellipse 70% 50% at 15% 0%, #d6ebb8 0%, transparent 70%),
     radial-gradient(ellipse 60% 60% at 100% 100%, #7cb35a 0%, transparent 70%),
@@ -135,7 +135,7 @@ a:has(> code) {
 
 /* ---- Desktop ---- */
 /* posthog.com's default "keyboard garden" wallpaper — origami hogs tending the PostHog keys —
-   fixed behind everything, big. Part of it sits under the page panel on purpose: seen through
+   fixed behind everything. Part of it sits under the page panel on purpose: seen through
    the frosted glass it's the soft shape that makes the translucency read, as it does there. */
 .wallpaper {
   position: fixed;
@@ -143,13 +143,28 @@ a:has(> code) {
   z-index: -1;
   overflow: hidden;
   pointer-events: none;
+  /* The grass the hogs stand on — posthog.com's own image, sized and anchored as it is there,
+     with a portrait crop for phones. */
+  background: url("./assets/garden-grass.webp") right bottom / cover no-repeat;
 }
+@media (max-width: 640px) {
+  .wallpaper {
+    background-image: url("./assets/garden-grass-mobile.webp");
+  }
+}
+/* Sized and anchored as on posthog.com: 777px wide in the bottom-right corner, full width on
+   narrow screens. */
 .wallpaper-hog {
   position: absolute;
-  right: -80px;
-  bottom: -80px;
-  width: max(min(1400px, 92vw), 520px);
+  right: 0;
+  bottom: 0;
+  width: 777px;
   height: auto;
+}
+@media (max-width: 767px) {
+  .wallpaper-hog {
+    width: 100%;
+  }
 }
 
 /* ---- Taskbar (the top nav) ---- */

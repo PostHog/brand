@@ -182,8 +182,9 @@ also in `catalog.json` and the markdown twins); hoggie grid tiles get a "New" ba
 after the release that first shipped them (`isNew`, checked against the visitor's clock so it
 expires without a redeploy). The site is
 themed from the package's own `colorsCss` tokens and styled after posthog.com (`site/src/theme.css`:
-frosted translucent nav/page panels over a garden backdrop with posthog.com's origami keyboard-garden
-hogs (`site/src/assets/origami-garden.webp`), its raised 3D
+frosted translucent nav/page panels over posthog.com's keyboard-garden wallpaper — its grass
+(`site/src/assets/garden-grass.webp`, `garden-grass-mobile.webp` at ≤640px) and origami hogs
+(`site/src/assets/origami-garden.webp`) — its raised 3D
 buttons and callout boxes; solid surfaces under `prefers-reduced-transparency`). `<CodeBlock>`
 highlights its TSX with `sugar-high` (colors are the `--sh-*` properties in theme.css); keep
 trailing `//` comments in a snippet aligned to one column. Because `@posthog/brand` is consumed through
