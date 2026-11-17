@@ -46,7 +46,7 @@ body {
 
 body {
   min-height: 100vh;
-  /* The garden: soft greens, lighter up top where the sun is. */
+  /* The garden's greens, shown until the wallpaper's grass loads. */
   background:
     radial-gradient(ellipse 70% 50% at 15% 0%, #d6ebb8 0%, transparent 70%),
     radial-gradient(ellipse 60% 60% at 100% 100%, #7cb35a 0%, transparent 70%),
@@ -143,6 +143,14 @@ a:has(> code) {
   z-index: -1;
   overflow: hidden;
   pointer-events: none;
+  /* The grass the hogs stand on — posthog.com's own image, sized and anchored as it is there,
+     with a portrait crop for phones. */
+  background: url("./assets/garden-grass.webp") right bottom / cover no-repeat;
+}
+@media (max-width: 640px) {
+  .wallpaper {
+    background-image: url("./assets/garden-grass-mobile.webp");
+  }
 }
 .wallpaper-hog {
   position: absolute;
