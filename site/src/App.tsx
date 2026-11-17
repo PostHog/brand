@@ -4,6 +4,8 @@ import { Link, NavLink, Route, Routes, useLocation, useNavigate } from "react-ro
 import { assetFilePath, markdownPath } from "./agent-paths.ts"
 import { BADGE_ALT, BADGE_SIZE, BADGES } from "./badge-files.ts"
 import { ErrorBoundary } from "./components/ErrorBoundary.tsx"
+import { NavMenu } from "./components/NavMenu.tsx"
+import { MAKER_CATALOG } from "./image-maker/catalog.ts"
 import { OverviewPage } from "./pages/Overview.tsx"
 import { prefetchRoute } from "./prefetch.ts"
 import { formatReleaseDate, release, releaseUrl } from "./release.ts"
@@ -51,28 +53,115 @@ const NPM_URL = "https://www.npmjs.com/package/@posthog/brand"
 interface NavItem {
   to: string
   label: string
-  end: boolean
+  /** Only active on exactly this path, not on the pages under it. */
+  end?: boolean
+  /** A line under the label, in a group's panel. */
+  description?: string
+  /** Indented under the item before it, in a group's panel. */
+  nested?: boolean
   /** Chunk to warm when the link is hovered or focused. Overview ships in the initial bundle. */
   load?: () => Promise<unknown>
 }
 
-// The assets people come for lead (the logo, then the hoggies, with the crests beside them),
-// then the foundations, then the image makers. The brand mark already links home, so there's no "Overview" item, and
-// the badges are linked from the footer, which shows one.
-const NAV: NavItem[] = [
-  { to: "/logo", label: "Logo", end: false, load: loadLogoPage },
-  { to: "/hoggies", label: "Hoggies", end: false, load: loadHoggiesPage },
-  { to: "/crests", label: "Crests", end: false, load: loadCrestsPage },
-  { to: "/colors", label: "Colors", end: false, load: loadColorsPage },
-  { to: "/fonts", label: "Fonts", end: false, load: loadFontsPage },
-  { to: "/tools/images", label: "Image makers", end: false, load: loadImageMakersPage },
+interface NavGroup {
+  label: string
+  items: NavItem[]
+}
+
+// The assets people come for lead (the logo, then the hoggies), then the rest of the brand kit
+// in one group, then the tools. The brand mark already links home, so there's no "Overview" item.
+const NAV: (NavItem | NavGroup)[] = [
+  { to: "/logo", label: "Logo", load: loadLogoPage },
+  { to: "/hoggies", label: "Hoggies", load: loadHoggiesPage },
+  {
+    label: "Brand kit",
+    items: [
+      {
+        to: "/crests",
+        label: "Crests",
+        description: "A crest for every team, full size and mini",
+        load: loadCrestsPage,
+      },
+      {
+        to: "/colors",
+        label: "Colors",
+        description: "The palette, as tokens and CSS variables",
+        load: loadColorsPage,
+      },
+      {
+        to: "/fonts",
+        label: "Fonts",
+        description: "RoundHog, the brand typeface",
+        load: loadFontsPage,
+      },
+    ],
+  },
+  {
+    label: "Tools",
+    items: [
+      {
+        to: "/tools/images",
+        end: true,
+        label: "Image makers",
+        description: "Blog, event and social images, made in the browser",
+        load: loadImageMakersPage,
+      },
+      ...MAKER_CATALOG.map((maker) => ({
+        to: `/tools/images/${maker.slug}`,
+        label: maker.name,
+        nested: true,
+        load: loadImageMakerPage,
+      })),
+      {
+        to: "/badges",
+        label: "Website badges",
+        description: "A “Built with PostHog” badge for your site",
+        load: loadBadgesPage,
+      },
+    ],
+  },
 ]
+
+const isGroup = (entry: NavItem | NavGroup): entry is NavGroup => "items" in entry
+
+const isUnder = (page: string, to: string) => page === to || page.startsWith(`${to}/`)
+
+// A maker's editor fills the window instead of scrolling (theme.css `.app-fit`), and has no footer.
+const MAKER_PATHS = new Set(MAKER_CATALOG.map((maker) => `/tools/images/${maker.slug}`))
+
+function NavItemLink({ item }: { item: NavItem }) {
+  const { load } = item
+  const prefetch = load ? () => prefetchRoute(load) : undefined
+  return (
+    <NavLink
+      to={item.to}
+      end={item.end}
+      className={({ isActive }) =>
+        [item.nested && "nested", isActive && "active"].filter(Boolean).join(" ") || undefined
+      }
+      // Start the chunk on intent rather than on click, so by the time the
+      // navigation transition runs there is usually nothing left to wait for.
+      onMouseEnter={prefetch}
+      onFocus={prefetch}
+    >
+      {item.description ? (
+        <>
+          <span className="nav-item-label">{item.label}</span>
+          <span className="nav-item-desc">{item.description}</span>
+        </>
+      ) : (
+        item.label
+      )}
+    </NavLink>
+  )
+}
 
 function Layout({ children }: { children: ReactNode }) {
   const { pathname } = useLocation()
   const page = pathname.length > 1 ? pathname.replace(/\/+$/, "") : pathname
+  const maker = MAKER_PATHS.has(page)
   return (
-    <>
+    <div className={maker ? "app app-fit" : "app"}>
       {/* The "desktop" behind the frosted chrome: posthog.com's default keyboard-garden
           wallpaper, origami hogs tending the PostHog keys, blurred through the nav and panel. */}
       <div className="wallpaper" aria-hidden="true">
@@ -84,24 +173,26 @@ function Layout({ children }: { children: ReactNode }) {
             <Logo size={104} title="PostHog Brand" />
           </NavLink>
           <div className="nav-links">
-            {NAV.map((item) => {
-              const { load } = item
-              const prefetch = load ? () => prefetchRoute(load) : undefined
-              return (
-                <NavLink
-                  key={item.to}
-                  to={item.to}
-                  end={item.end}
-                  className={({ isActive }) => (isActive ? "active" : undefined)}
-                  // Start the chunk on intent rather than on click, so by the time the
-                  // navigation transition runs there is usually nothing left to wait for.
-                  onMouseEnter={prefetch}
-                  onFocus={prefetch}
+            {NAV.map((entry) =>
+              isGroup(entry) ? (
+                <NavMenu
+                  key={entry.label}
+                  label={entry.label}
+                  active={entry.items.some((item) => isUnder(page, item.to))}
+                  onWarm={() => {
+                    for (const load of new Set(entry.items.map((item) => item.load))) {
+                      if (load) prefetchRoute(load)
+                    }
+                  }}
                 >
-                  {item.label}
-                </NavLink>
-              )
-            })}
+                  {entry.items.map((item) => (
+                    <NavItemLink key={item.to} item={item} />
+                  ))}
+                </NavMenu>
+              ) : (
+                <NavItemLink key={entry.to} item={entry} />
+              ),
+            )}
           </div>
           <div className="nav-actions">
             <a className="btn btn-primary btn-sm" href={NPM_URL}>
@@ -111,41 +202,46 @@ function Layout({ children }: { children: ReactNode }) {
         </nav>
       </header>
       {/* A maker's three-column editor needs a wider panel than the reading pages. */}
-      <main className={page.startsWith("/tools/images/") ? "page page-wide" : "page"}>
-        {children}
-      </main>
-      <footer className="footer">
-        <p className="footer-text">
-          Every asset on this site comes from the{" "}
-          <a href={REPO_URL}>
-            <code>@posthog/brand</code>
-          </a>{" "}
-          package, at <a href={releaseUrl(release.version)}>v{release.version}</a> (released{" "}
-          {formatReleaseDate(release.date)}).
-          <br />
-          For agents: <a href="/llms.txt">llms.txt</a> ·{" "}
-          <a href={markdownPath(page)}>This page as markdown</a> ·{" "}
-          <a href="/catalog.json">catalog.json</a>. Each asset is also a static <code>.svg</code>{" "}
-          and <code>.png</code> file.
-        </p>
-        {/* Our own badge, dogfooding the embed: it links to the Badges page rather than
+      <main className={maker ? "page page-wide" : "page"}>{children}</main>
+      {/* An editor is a workspace, not a page to read to the end, so it goes without. */}
+      {maker ? null : <Footer page={page} />}
+    </div>
+  )
+}
+
+function Footer({ page }: { page: string }) {
+  return (
+    <footer className="footer">
+      <p className="footer-text">
+        Every asset on this site comes from the{" "}
+        <a href={REPO_URL}>
+          <code>@posthog/brand</code>
+        </a>{" "}
+        package, at <a href={releaseUrl(release.version)}>v{release.version}</a> (released{" "}
+        {formatReleaseDate(release.date)}).
+        <br />
+        For agents: <a href="/llms.txt">llms.txt</a> ·{" "}
+        <a href={markdownPath(page)}>This page as markdown</a> ·{" "}
+        <a href="/catalog.json">catalog.json</a>. Each asset is also a static <code>.svg</code> and{" "}
+        <code>.png</code> file.
+      </p>
+      {/* Our own badge, dogfooding the embed: it links to the Badges page rather than
             posthog.com, since everyone here already knows where PostHog lives. */}
-        <Link
-          to="/badges"
-          className="footer-badge"
-          onMouseEnter={() => prefetchRoute(loadBadgesPage)}
-          onFocus={() => prefetchRoute(loadBadgesPage)}
-        >
-          <img
-            src={assetFilePath({ type: "badge", slug: BADGES[0].id }, "svg")}
-            alt={BADGE_ALT}
-            width={BADGE_SIZE.width}
-            height={BADGE_SIZE.height}
-          />
-          <span>Get a badge for your site</span>
-        </Link>
-      </footer>
-    </>
+      <Link
+        to="/badges"
+        className="footer-badge"
+        onMouseEnter={() => prefetchRoute(loadBadgesPage)}
+        onFocus={() => prefetchRoute(loadBadgesPage)}
+      >
+        <img
+          src={assetFilePath({ type: "badge", slug: BADGES[0].id }, "svg")}
+          alt={BADGE_ALT}
+          width={BADGE_SIZE.width}
+          height={BADGE_SIZE.height}
+        />
+        <span>Get a badge for your site</span>
+      </Link>
+    </footer>
   )
 }
 

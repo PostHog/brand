@@ -21,6 +21,14 @@ export function withoutUploads(value: unknown): unknown {
   return value
 }
 
+/** Whether a document holds any uploaded file, which a link can't carry. */
+export function hasUploads(value: unknown): boolean {
+  if (typeof value === "string") return value.startsWith("blob:")
+  if (Array.isArray(value)) return value.some(hasUploads)
+  if (value && typeof value === "object") return Object.values(value).some(hasUploads)
+  return false
+}
+
 function toBase64Url(text: string): string {
   const bytes = new TextEncoder().encode(text)
   let bin = ""

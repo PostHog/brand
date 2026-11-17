@@ -26,7 +26,7 @@ When a drawing changed on purpose, look at the new download, then save it over t
 node scripts/compare-png.ts --save ~/Downloads/what-is-product-analytics.png tests/makers/blog/seo/what-is-product-analytics.png
 ```
 
-To add a case, make the image in the maker, press **Copy link**, add the link to the list below, and `--save` its download into `tests/makers/<maker>/<case>/`. Uploaded files aren't part of a link, so a case that needs a picture points at a file the site serves (`/image-makers/…`) instead. If a maker's saved settings change shape, update the case links too (an old link still opens, with new settings at their defaults).
+To add a case, make the image in the maker, press **Share** (it copies the link), add the link to the list below, and `--save` its download into `tests/makers/<maker>/<case>/`. Uploaded files aren't part of a link, so a case that needs a picture points at a file the site serves (`/image-makers/…`) instead. If a maker's saved settings change shape, update the case links too (an old link still opens, with new settings at their defaults).
 
 The references were made on macOS. Other systems draw text slightly differently, so on Linux or Windows, download the cases from the unchanged code first and compare against those.
 

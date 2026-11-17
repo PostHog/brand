@@ -1,8 +1,9 @@
-import posthog from "posthog-js"
 import { type ReactNode, memo, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import { PaintedCanvas } from "./PaintedCanvas.tsx"
 import { PlusIcon } from "./icons.tsx"
+import type { Doc } from "./link.ts"
+import { ShareButton } from "./Share.tsx"
 import type { Item } from "./store.ts"
 import "../maker.css"
 
@@ -15,6 +16,7 @@ export function MakerFrame({
   title,
   lede,
   docName,
+  image,
   status,
   downloads,
   list,
@@ -29,6 +31,8 @@ export function MakerFrame({
   title: string
   lede: ReactNode
   docName: string
+  /** The image being edited, for its Share link. */
+  image: object
   status: string
   downloads: ReactNode
   list: ReactNode
@@ -50,7 +54,7 @@ export function MakerFrame({
           </div>
           <div className="mh-side">
             <div className="dl">
-              <CopyLinkButton slug={slug} />
+              <ShareButton slug={slug} image={image as Doc} name={docName} />
               {downloads}
             </div>
             <div className="mh-status">
@@ -69,28 +73,6 @@ export function MakerFrame({
       </div>
       {children}
     </div>
-  )
-}
-
-function CopyLinkButton({ slug }: { slug: string }) {
-  const [label, setLabel] = useState("Copy link")
-  const timer = useRef(0)
-  const copy = () => {
-    // The address bar always carries the image being edited (store.ts keeps it current).
-    navigator.clipboard.writeText(window.location.href).then(
-      () => {
-        setLabel("Link copied")
-        posthog.capture("image link copied", { format: slug })
-        window.clearTimeout(timer.current)
-        timer.current = window.setTimeout(() => setLabel("Copy link"), 1600)
-      },
-      () => setLabel("Copy the address bar"),
-    )
-  }
-  return (
-    <button className="btn" type="button" onClick={copy}>
-      {label}
-    </button>
   )
 }
 
