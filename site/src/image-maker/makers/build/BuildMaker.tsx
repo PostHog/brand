@@ -152,6 +152,7 @@ export default function BuildMaker() {
       title="Build mode images"
       lede="Build mode art on the blueprint grid, made once and exported for LinkedIn, the website, X and Substack."
       docName={plainTitle(d)}
+      image={d}
       status={store.status}
       downloads={
         <>
@@ -258,15 +259,9 @@ export default function BuildMaker() {
                 )
               }
             />
-            <Swatches
-              label="Highlight color"
-              options={HL_KEYS.map((k) => ({ key: k, color: HL[k][0] }))}
-              value={d.highlight}
-              onChange={(highlight) => edit({ highlight })}
-            />
           </Section>
 
-          <Section title="Author">
+          <Section title="Authors">
             <div className="author-row">
               <Avatar name={d.author} />
               <Field label="Author">
@@ -338,7 +333,7 @@ export default function BuildMaker() {
             </Hint>
           </Section>
 
-          <Section title="Image">
+          <Section title="Your image">
             <PictureCard
               kind="pic-card"
               picture={imageUrl ? <img src={imageUrl} alt="" /> : <ImageIcon />}
@@ -358,7 +353,7 @@ export default function BuildMaker() {
               </button>
               {imageUrl ? (
                 <button
-                  className="btn btn-sm danger"
+                  className="btn btn-sm"
                   type="button"
                   onClick={() => edit({ imgId: "", imgName: "" })}
                 >
@@ -439,6 +434,15 @@ export default function BuildMaker() {
                 </button>
               </div>
             </div>
+          </Section>
+
+          <Section title="Colors">
+            <Swatches
+              label="Highlight"
+              options={HL_KEYS.map((k) => ({ key: k, color: HL[k][0] }))}
+              value={d.highlight}
+              onChange={(highlight) => edit({ highlight })}
+            />
           </Section>
 
           <Section title="Layout">

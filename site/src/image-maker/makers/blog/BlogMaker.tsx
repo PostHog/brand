@@ -170,6 +170,7 @@ export default function BlogMaker() {
       title="Blog images"
       lede="Post and newsletter headers with a highlighted phrase, the author and a hoggie matched to the title."
       docName={plainTitle(d)}
+      image={d}
       status={store.status}
       downloads={
         <>
@@ -222,17 +223,6 @@ export default function BlogMaker() {
       }
       settings={
         <>
-          <Section title="Post type">
-            <Switch checked={seo} onChange={setSeo}>
-              SEO / AEO post
-            </Switch>
-            <Hint>
-              {seo
-                ? "SEO / AEO hoggies only, light backgrounds, and the highlight matches the background."
-                : "Limits hoggies and colors to the SEO / AEO set."}
-            </Hint>
-          </Section>
-
           <Section title="Post">
             <TextField
               label="Title"
@@ -260,6 +250,19 @@ export default function BlogMaker() {
               }
             />
             <SubheadingField key={current.id} value={d.sub} onChange={(sub) => edit({ sub })} />
+            <div className="field">
+              <Switch checked={seo} onChange={setSeo}>
+                SEO / AEO post
+              </Switch>
+              <Hint>
+                {seo
+                  ? "SEO / AEO hoggies only, light backgrounds, and the highlight matches the background."
+                  : "Limits hoggies and colors to the SEO / AEO set."}
+              </Hint>
+            </div>
+          </Section>
+
+          <Section title="Authors">
             <Field
               label="Author"
               hint={

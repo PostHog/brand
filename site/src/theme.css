@@ -196,24 +196,113 @@ a:has(> code) {
   gap: 2px;
   flex-wrap: wrap;
 }
-/* posthog.com's default OSButton: bare text, an outline on hover, a filled pill when active. */
-.nav-links a {
+/* posthog.com's default OSButton: bare text, an outline on hover, a filled pill when active.
+   A group's button (NavMenu) looks the same, with a chevron. */
+.nav-links > a,
+.nav-menu-button {
   color: var(--text);
+  font: inherit;
   font-weight: 500;
   font-size: 15px;
+  line-height: inherit;
   text-decoration: none;
   padding: 4px 10px;
   border: 1px solid transparent;
   border-radius: 6px;
+  background: transparent;
 }
-.nav-links a:hover {
+.nav-links > a:hover,
+.nav-menu-button:hover {
   color: var(--text);
   border-color: var(--border-strong);
 }
-.nav-links a.active {
+.nav-links > a.active,
+.nav-menu-button.active {
   font-weight: 700;
   background: rgba(229, 231, 224, 0.7);
   border-color: var(--border);
+}
+.nav-menu {
+  position: relative;
+}
+.nav-menu-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+.nav-menu-button svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  color: var(--text-muted);
+  transition: rotate 120ms ease;
+}
+.nav-menu-button[aria-expanded="true"] {
+  border-color: var(--border-strong);
+}
+.nav-menu-button[aria-expanded="true"] svg {
+  rotate: 180deg;
+}
+/* Solid rather than frosted: a backdrop-filter nested in the frosted taskbar can't see the page
+   behind it, so it would blur nothing. */
+.nav-menu-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: -6px;
+  z-index: 1;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: rgba(253, 253, 248, 0.97);
+  box-shadow: var(--shadow-window);
+}
+.nav-menu-panel[hidden] {
+  display: none;
+}
+.nav-menu-panel a {
+  display: flex;
+  flex-direction: column;
+  padding: 7px 10px;
+  border-radius: 6px;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.3;
+  text-decoration: none;
+}
+.nav-menu-panel a:hover {
+  color: var(--text);
+  background: rgba(229, 231, 224, 0.7);
+}
+.nav-menu-panel a.active {
+  background: rgba(229, 231, 224, 0.9);
+  box-shadow: inset 3px 0 0 var(--btn-face);
+}
+/* The makers, under "Image makers": a line down their left, like a sub-list. */
+.nav-menu-panel a.nested {
+  margin-left: 10px;
+  padding: 4px 10px;
+  border-left: 1px solid var(--border);
+  border-radius: 0 6px 6px 0;
+  font-weight: 500;
+  font-size: 14px;
+}
+.nav-menu-panel a.nested + a:not(.nested) {
+  margin-top: 4px;
+}
+.nav-item-desc {
+  color: var(--text-muted);
+  font-weight: 400;
+  font-size: 13px;
 }
 .nav-actions {
   display: flex;
@@ -222,10 +311,16 @@ a:has(> code) {
   /* A resting .btn is lifted 2px over its 3D edge; this centers its face on the links. */
   padding-top: 4px;
 }
-/* Five links fit beside the logo and the Install button down to about 680px; below that they move to
-   a row of their own under the logo. */
-@media (max-width: 680px) {
+@media (prefers-reduced-motion: reduce) {
+  .nav-menu-button svg {
+    transition: none;
+  }
+}
+/* The links fit beside the logo and the Install button down to about 620px; below that they
+   move to a row of their own under the logo, and a group's panel spans the taskbar. */
+@media (max-width: 620px) {
   .taskbar {
+    position: relative;
     flex-wrap: wrap;
     gap: 6px 12px;
   }
@@ -234,6 +329,15 @@ a:has(> code) {
     width: 100%;
     /* Pull the first link's padding and border back so its text lines up with the logo. */
     margin-left: -11px;
+  }
+  .nav-menu {
+    position: static;
+  }
+  .nav-menu-panel {
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    width: auto;
   }
 }
 
@@ -1649,13 +1753,32 @@ button.asset:hover .asset-img.loaded {
   margin: 0;
 }
 
-/* A maker page: a wider panel, because the editor has three columns (image-maker/maker.css). */
+/* A maker page: a wider panel, because the editor has three columns (image-maker/maker.css).
+   The editor is the panel's whole content, so the panel drops its padding and lets it run to
+   the edges. */
 .page.page-wide {
   max-width: 1400px;
-  padding: 16px;
+  padding: 0;
+  overflow: hidden;
 }
-@media (max-width: 640px) {
-  .page.page-wide {
-    padding: 8px;
+/* ...and on a screen wide enough for the three columns, the editor fills the window under the
+   taskbar (no footer, no page scroll): the list and the settings scroll inside it, and the stage
+   scales the image to the room it has. Below about 600px of height that gets too cramped to
+   use, so the page scrolls instead. Narrower screens stack the columns and scroll as usual. */
+@media (min-width: 901px) {
+  .app-fit {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 600px;
+  }
+  .app-fit .page-wide {
+    flex: 1 1 auto;
+    min-height: 0;
+    width: calc(100% - 16px);
+    margin: 8px auto;
+    display: flex;
+    flex-direction: column;
   }
 }

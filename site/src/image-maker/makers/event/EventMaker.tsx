@@ -158,6 +158,7 @@ export default function EventMaker() {
       title="Event images"
       lede="Square event posts with a calendar tile, time, location, partner logos and a hoggie or your own picture."
       docName={firstLine(d)}
+      image={d}
       status={store.status}
       downloads={
         <>
@@ -231,38 +232,6 @@ export default function EventMaker() {
                 </>
               }
             />
-            <Segmented
-              label="Headline fit"
-              options={[
-                { value: "fit", label: "Fill the width" },
-                { value: "even", label: "Same size" },
-              ]}
-              value={d.headline === "even" ? "even" : "fit"}
-              onChange={(headline) => edit({ headline })}
-            />
-            <Range
-              label="Headline size"
-              min={60}
-              max={150}
-              step={5}
-              suffix="%"
-              value={+d.hlScale || 100}
-              onChange={(hlScale) => edit({ hlScale })}
-            />
-            <div className="field">
-              <Switch
-                checked={!!d.glow && whiteHead}
-                disabled={!whiteHead}
-                onChange={(glow) => edit({ glow })}
-              >
-                Headline glow
-              </Switch>
-              <Hint>
-                {whiteHead
-                  ? "A soft white glow around the headline."
-                  : "Glow is only for white text. Turn off Dark text in Colors to use it."}
-              </Hint>
-            </div>
             <Field label="Date">
               {(id) => (
                 <input
@@ -426,82 +395,13 @@ export default function EventMaker() {
                   onChange={(y) => editPhoto({ y })}
                 />
                 <Switch checked={!!ph.flip} onChange={(flip) => editPhoto({ flip })}>
-                  Flip
+                  Flip the image
                 </Switch>
                 <Switch checked={!!ph.front} onChange={(front) => editPhoto({ front })}>
                   In front of the hoggie
                 </Switch>
               </div>
             ) : null}
-          </Section>
-
-          <Section title="Colors">
-            <Swatches
-              label="Background"
-              options={COLOR_KEYS.map((k) => ({
-                key: k,
-                color: swatch(k, 500).css,
-                label: colorLabel(k),
-              }))}
-              value={d.bg}
-              onChange={(bg) => edit({ bg })}
-            />
-            <Swatches
-              label="Calendar"
-              options={COLOR_KEYS.map((k) => ({
-                key: k,
-                color: swatch(k, 700).css,
-                label: colorLabel(k),
-              }))}
-              value={d.cal}
-              onChange={(cal) => edit({ cal })}
-            />
-            <div className="field">
-              <Switch checked={!!d.calFlip} onChange={(calFlip) => edit({ calFlip })}>
-                Flip month text
-              </Switch>
-              <Hint>
-                The month on the calendar is{" "}
-                {(d.calFlip ? whiteHead : !whiteHead) ? "dark" : "white"}. Turn this on to make it
-                the opposite of the other text.
-              </Hint>
-            </div>
-            <Swatches<FooterKey>
-              label="Footer"
-              options={(["white", ...COLOR_KEYS] as FooterKey[]).map((k) => ({
-                key: k,
-                color: k === "white" ? "#ffffff" : swatch(k, 500).css,
-                label: colorLabel(k),
-              }))}
-              value={d.footer}
-              onChange={(footer) => edit({ footer })}
-            />
-            <Segmented
-              label="PostHog logo"
-              options={[
-                { value: "auto", label: "Auto" },
-                { value: "white", label: "White" },
-                { value: "black", label: "Black" },
-              ]}
-              value={logoColor}
-              onChange={(c) => edit({ logoColor: c })}
-              hint={
-                logoColor === "auto" ? (
-                  <Hint>
-                    Auto picks {footSwatch(d.footer).light ? "white" : "black"} for this footer
-                    color.
-                  </Hint>
-                ) : null
-              }
-            />
-            <div className="field">
-              <Switch checked={!!d.darkText} onChange={(darkText) => edit({ darkText })}>
-                Dark text
-              </Switch>
-              <Hint>
-                Text is white unless this is on. Use it on light colors like yellow, lemon or lime.
-              </Hint>
-            </div>
           </Section>
 
           <Section title="Partner logos">
@@ -551,6 +451,112 @@ export default function EventMaker() {
               onChange={onLogo}
             />
             {full ? <Hint>That’s the maximum of 4 logos.</Hint> : null}
+          </Section>
+
+          <Section title="Colors">
+            <Swatches
+              label="Background"
+              options={COLOR_KEYS.map((k) => ({
+                key: k,
+                color: swatch(k, 500).css,
+                label: colorLabel(k),
+              }))}
+              value={d.bg}
+              onChange={(bg) => edit({ bg })}
+            />
+            <Segmented
+              label="Text"
+              options={[
+                { value: "dark", label: "Dark" },
+                { value: "white", label: "White" },
+              ]}
+              value={d.darkText ? "dark" : "white"}
+              onChange={(t) => edit({ darkText: t === "dark" })}
+              hint={<Hint>Dark text reads better on light colors like yellow, lemon or lime.</Hint>}
+            />
+            <Swatches
+              label="Calendar"
+              options={COLOR_KEYS.map((k) => ({
+                key: k,
+                color: swatch(k, 700).css,
+                label: colorLabel(k),
+              }))}
+              value={d.cal}
+              onChange={(cal) => edit({ cal })}
+            />
+            <div className="field">
+              <Switch checked={!!d.calFlip} onChange={(calFlip) => edit({ calFlip })}>
+                Flip month text
+              </Switch>
+              <Hint>
+                The month on the calendar is{" "}
+                {(d.calFlip ? whiteHead : !whiteHead) ? "dark" : "white"}. Turn this on to make it
+                the opposite of the other text.
+              </Hint>
+            </div>
+            <Swatches<FooterKey>
+              label="Footer"
+              options={(["white", ...COLOR_KEYS] as FooterKey[]).map((k) => ({
+                key: k,
+                color: k === "white" ? "#ffffff" : swatch(k, 500).css,
+                label: colorLabel(k),
+              }))}
+              value={d.footer}
+              onChange={(footer) => edit({ footer })}
+            />
+            <Segmented
+              label="PostHog logo"
+              options={[
+                { value: "auto", label: "Auto" },
+                { value: "white", label: "White" },
+                { value: "black", label: "Black" },
+              ]}
+              value={logoColor}
+              onChange={(c) => edit({ logoColor: c })}
+              hint={
+                logoColor === "auto" ? (
+                  <Hint>
+                    Auto picks {footSwatch(d.footer).light ? "white" : "black"} for this footer
+                    color.
+                  </Hint>
+                ) : null
+              }
+            />
+          </Section>
+
+          <Section title="Headline style">
+            <Segmented
+              label="Headline fit"
+              options={[
+                { value: "fit", label: "Fill the width" },
+                { value: "even", label: "Same size" },
+              ]}
+              value={d.headline === "even" ? "even" : "fit"}
+              onChange={(headline) => edit({ headline })}
+            />
+            <Range
+              label="Headline size"
+              min={60}
+              max={150}
+              step={5}
+              suffix="%"
+              value={+d.hlScale || 100}
+              onChange={(hlScale) => edit({ hlScale })}
+            />
+            <div className="field">
+              <Switch
+                checked={!!d.glow && whiteHead}
+                disabled={!whiteHead}
+                onChange={(glow) => edit({ glow })}
+              >
+                Headline glow
+              </Switch>
+              <Hint>
+                {whiteHead
+                  ? "A soft white glow around the headline."
+                  : "Glow is only for white text. Set Text to White under Colors to use it."}
+              </Hint>
+            </div>
           </Section>
 
           <ImageActions key={current.id} onDuplicate={store.duplicate} onDelete={store.remove} />

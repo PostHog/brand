@@ -260,10 +260,15 @@ writes (harfbuzzjs + fontverter, `scripts/lib/outline.ts`); `tests/badge-text.te
 it is stale. The renderer prefixes the logo's ids per badge and throws if a file isn't
 self-contained (`<text>`, `<style>`, `href=`, `currentColor`…). The logo's clear space (the "P"
 height, 9.44 px at 80 px wide) sets the layout, so keep it when changing sizes. The site footer shows the light
-badge (from its static file) linking to `/badges`; the page isn't in the top nav, which keeps to
-Logo · Hoggies · Crests · Colors · Fonts · Image makers (the brand mark links home, so there's no Overview item).
+badge (from its static file) linking to `/badges`; in the top nav it sits under Tools.
 
-**Image makers** (`/tools/images`, in the top nav after Fonts): the team's image makers. This
+**Top nav** (`NAV` in `site/src/App.tsx`): Logo · Hoggies · Brand kit ▾ (Crests, Colors, Fonts) ·
+Tools ▾ (Image makers, each maker from `catalog.ts`, Website badges); the brand mark links home, so
+there's no Overview item. A group is a `NavMenu` (`site/src/components/NavMenu.tsx`): a button
+opening a panel of links, which closes on Escape, an outside click, focus leaving it or a followed
+link. Below 620px the links take a row under the logo and a group's panel spans the taskbar.
+
+**Image makers** (`/tools/images`, in the top nav under Tools): the team's image makers. This
 site is their only source (the Claude artifacts they started as are retired). `/tools/images` is
 the home page (`pages/ImageMakers.tsx`, one card per maker with an example in
 `src/assets/image-makers/`); each maker is `/tools/images/<slug>` (`blog`, `events`, `build-mode`,
@@ -275,7 +280,7 @@ list of makers (`agent/markdown.ts` → `{{makers}}` in `agent/pages/tools/image
 `src/image-maker/makers/<engine>/`: `model.ts` (its saved document, `blank()`, sizes, colors),
 `draw.ts` (pure canvas drawing of one document, used for the stage, the thumbnails and the PNG, so
 they can't drift) and `<Name>Maker.tsx` (its settings panel). Everything else is the shared editor
-in `src/image-maker/editor/`: `MakerFrame.tsx` (heading, Copy link, the image list, Duplicate/Delete),
+in `src/image-maker/editor/`: `MakerFrame.tsx` (heading, the image list, Duplicate/Delete), `Share.tsx` (the Share button: one click copies the image's link, built from the document rather than the address bar so it's never an edit behind, and opens a panel with the link, what it carries, an uploads warning and the system share sheet),
 `fields.tsx` (the settings controls), `PaintedCanvas.tsx` (a canvas that paints sharply at its
 on-screen size and repaints when an image or font arrives), `HoggieGallery.tsx` (the hoggie picker
 and its search ranking), `canvas.ts` (text measuring, the image cache, `requestFonts`) and
@@ -307,8 +312,11 @@ already in the list selects it rather than adding a copy. Uploads are object URL
 document for the session and dropped from links and storage (`withoutUploads`); downloads wait
 for the drawing's images, then save through a plain `<a download>`. The blog maker also makes a new
 image from `#new-<hex JSON>` (title, description, highlight, authors, hoggie, colors; documented
-in `site/agent/pages/tools/images/blog.md`), which is how agents hand a v0 header to an author. The
-page panel is wider on maker routes (`.page-wide`). Events: `image downloaded`, `image link copied`.
+in `site/agent/pages/tools/images/blog.md`), which is how agents hand a v0 header to an author. On maker routes
+the page panel is wider (`.page-wide`) and there is no footer, and from 901px wide the editor fills
+the window instead of scrolling (`.app-fit` in theme.css, set by `Layout` for the catalog's maker
+paths, min height 600px): the list and settings scroll inside it and the stage scales the image to
+the room it has. At 900px and below the columns stack and the page scrolls. Settings run in the same order in every maker: what the image says (title or event details, then authors), its pictures (hoggie, your image, logos), colors, then fine-tuning (layout, headline style), and This image (Duplicate/Delete) last. Events: `image downloaded`, `image link copied` (`via`: the Share button or the panel's Copy), `image link shared` (system share sheet).
 Run them locally with `pnpm dev:site` and open `/tools/images`.
 
 To check a change to a maker's drawing, use the reference snapshots in `site/tests/makers/`

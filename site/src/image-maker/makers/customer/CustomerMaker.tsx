@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { HoggieGallery } from "../../editor/HoggieGallery.tsx"
 import { ImageActions, ImageList, MakerFrame } from "../../editor/MakerFrame.tsx"
 import { PaintedCanvas } from "../../editor/PaintedCanvas.tsx"
@@ -223,7 +223,6 @@ export default function CustomerMaker() {
   )
 
   // ---- Download ----
-  const sizeId = useId()
   const [scale, setScale] = useState<1 | 2>(1)
   const download = async () => {
     const name = `customer-story-${slugify(displayName(d), "customer-story")}${scale === 2 ? "@2x" : ""}.png`
@@ -252,14 +251,12 @@ export default function CustomerMaker() {
       title="Customer story images"
       lede="Customer story headers with the company’s logo from posthog.com/customers, a hoggie and brand colors."
       docName={displayName(d)}
+      image={d}
       status={store.status}
       downloads={
         <>
-          <label htmlFor={sizeId} hidden>
-            Download size
-          </label>
           <select
-            id={sizeId}
+            aria-label="Download size"
             title="Download size"
             value={scale}
             onChange={(e) => setScale(e.target.value === "2" ? 2 : 1)}
