@@ -15,6 +15,7 @@ import {
   hoggiePagePath,
   SITE_URL,
 } from "./agent-paths.ts"
+import { MAKER_CATALOG, MAKERS_PATH, makerPath } from "./image-maker/catalog.ts"
 
 export { SITE_URL }
 export const SITE_NAME = "PostHog Brand"
@@ -118,42 +119,17 @@ export const PAGES: PageSeo[] = [
     description:
       "Make PostHog blog headers, event posts, build mode art and customer story images from the brand's hoggies, colors and RoundHog type, then download them as PNGs. The settings live in the link, so it is easy to share.",
   },
-  {
-    path: "/tools/images/blog",
-    title: "PostHog blog image maker",
-    label: "Blog images",
-    headline: "Make a PostHog blog image",
-    description:
-      "Make a 1920 × 1080 PostHog blog header: a title with a highlighted phrase, the authors, and a hoggie matched to the title. Download it as a PNG.",
-    parent: { path: "/tools/images", label: "Image makers" },
-  },
-  {
-    path: "/tools/images/events",
-    title: "PostHog event image maker",
-    label: "Event images",
-    headline: "Make a PostHog event image",
-    description:
-      "Make a 1080 × 1080 PostHog event post with a headline, calendar tile, time, location, partner logos and a hoggie. Download it as a PNG.",
-    parent: { path: "/tools/images", label: "Image makers" },
-  },
-  {
-    path: "/tools/images/build-mode",
-    title: "PostHog build mode image maker",
-    label: "Build mode images",
-    headline: "Make a build mode image",
-    description:
-      "Make build mode art on the blueprint grid once and download it for LinkedIn, the website, X and Substack.",
-    parent: { path: "/tools/images", label: "Image makers" },
-  },
-  {
-    path: "/tools/images/customer-stories",
-    title: "PostHog customer story image maker",
-    label: "Customer story images",
-    headline: "Make a PostHog customer story image",
-    description:
-      "Make a 1920 × 1080 customer story header with the company's logo from posthog.com/customers, a hoggie and brand colors. Download it as a PNG.",
-    parent: { path: "/tools/images", label: "Image makers" },
-  },
+  // One page per image maker, from the makers' own table (image-maker/catalog.ts).
+  ...MAKER_CATALOG.map(
+    (maker): PageSeo => ({
+      path: makerPath(maker.slug),
+      title: maker.seo.title,
+      label: maker.name,
+      headline: maker.seo.headline,
+      description: maker.seo.description,
+      parent: { path: MAKERS_PATH, label: "Image makers" },
+    }),
+  ),
 ]
 
 /**

@@ -266,8 +266,11 @@ Logo · Hoggies · Crests · Colors · Fonts · Image makers (the brand mark lin
 site is their only source (the Claude artifacts they started as are retired). `/tools/images` is
 the home page (`pages/ImageMakers.tsx`, one card per maker with an example in
 `src/assets/image-makers/`); each maker is `/tools/images/<slug>` (`blog`, `events`, `build-mode`,
-`customer-stories`), rendered by `pages/ImageMaker.tsx` from the one table in
-`src/image-maker/makers.ts` (each maker a lazy component). A maker is a folder,
+`customer-stories`), rendered by `pages/ImageMaker.tsx`. The makers are listed once, in
+`src/image-maker/catalog.ts` (plain data: slug, names, card text, sizes, SEO title/headline/
+description, the agent docs' one-line summary), which the home page and routes (`makers.ts`, adding
+each maker's preview and lazy component), the page metadata (`seo.ts` `PAGES`) and the agent docs'
+list of makers (`agent/markdown.ts` → `{{makers}}` in `agent/pages/tools/images.md`) all read. A maker is a folder,
 `src/image-maker/makers/<engine>/`: `model.ts` (its saved document, `blank()`, sizes, colors),
 `draw.ts` (pure canvas drawing of one document, used for the stage, the thumbnails and the PNG, so
 they can't drift) and `<Name>Maker.tsx` (its settings panel). Everything else is the shared editor
@@ -306,6 +309,29 @@ image from `#new-<hex JSON>` (title, description, highlight, authors, hoggie, co
 in `site/agent/pages/tools/images/blog.md`), which is how agents hand a v0 header to an author. The
 page panel is wider on maker routes (`.page-wide`). Events: `image downloaded`, `image link copied`.
 Run them locally with `pnpm dev:site` and open `/tools/images`.
+
+To check a change to a maker's drawing, use the reference snapshots in `site/tests/makers/`
+(README there): open a case's link, download it, and compare with
+`node scripts/compare-png.ts <reference> <download>` (from `site/`). They show what the makers draw
+now, not a spec, and CI doesn't check them: when a drawing changes on purpose, save the new download
+over its reference (`--save`) in the same commit, and add or drop cases freely.
+
+**Adding an image maker** (`<slug>` is its URL segment, `<engine>` its folder):
+
+1. `src/image-maker/makers/<engine>/`: `model.ts` (the document type extending `Stamped`,
+   `blank()`), `draw.ts` (draws one document; take images through `loadedImage` and list them in
+   an `imagesOf` for downloads), and `<Name>Maker.tsx` (default export, built from `MakerFrame`,
+   `ImageList`, `ImageActions`, `fields.tsx` and `useImageStore("<slug>", blank)`). Copy the
+   closest existing maker; build mode is the smallest.
+2. An entry in `src/image-maker/catalog.ts`. That alone adds its page metadata, prerendered page,
+   sitemap entry and line in the agent docs.
+3. Its preview and component in `src/image-maker/makers.ts` (`tsc` fails until both are there),
+   with the preview image in `src/assets/image-makers/`.
+4. Its agent doc, `site/agent/pages/tools/images/<slug>.md` (copy a sibling; the build fails
+   without it).
+5. Its styles, if any, in `src/image-maker/maker.css` under `.mk-<engine>`; most makers need only
+   the shared rules (the stage sizing for a new aspect ratio, for one).
+6. A case or two in `site/tests/makers/` (README), so the next change has something to compare.
 
 **Analytics**: `initAnalytics` (`site/src/analytics.ts`) runs `posthog.init` once in `main.tsx`
 before render (posthog.com's project; `person_profiles: "always"`; capturing opted out in dev) and

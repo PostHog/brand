@@ -35,7 +35,9 @@ function saveBlob(filename: string, blob: Blob) {
 
 /** Draws at full size and downloads the PNG. Rejects if the browser can't make the file. */
 export async function downloadPng(maker: string, req: PngRequest): Promise<void> {
-  await imagesReady(req.images ?? [])
+  // Wait for the drawing's images and for any RoundHog faces still loading, so a quick click
+  // never exports a placeholder or a fallback font.
+  await Promise.all([imagesReady(req.images ?? []), document.fonts.ready])
   const scale = req.scale ?? 1
   const canvas = document.createElement("canvas")
   canvas.width = Math.round(req.width * scale)

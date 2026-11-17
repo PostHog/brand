@@ -8,10 +8,7 @@ The image makers draw PostHog images in the browser from the brand's own hoggies
 
 ## Makers
 
-- [Blog images]({{site}}/tools/images/blog.md): 1920 × 1080 post and newsletter headers, with a highlighted phrase, up to 3 authors and a hoggie matched to the title.
-- [Event images]({{site}}/tools/images/events.md): 1080 × 1080 event posts with a calendar tile, time, location, partner logos and a hoggie or your own picture.
-- [Build mode images]({{site}}/tools/images/build-mode.md): build mode art on the blueprint grid for LinkedIn, the website, X and Substack.
-- [Customer story images]({{site}}/tools/images/customer-stories.md): 1920 × 1080 customer story headers with the company's logo from posthog.com/customers.
+{{makers}}
 
 ## Using the images
 

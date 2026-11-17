@@ -9,6 +9,7 @@
 import { readFileSync } from "node:fs"
 import { absoluteUrl, assetPagePath, markdownPath, SITE_URL } from "../src/agent-paths.ts"
 import { BADGE_SIZE, BADGE_USAGE } from "../src/badge-files.ts"
+import { MAKER_CATALOG, makerPath } from "../src/image-maker/catalog.ts"
 import { inPresetOrder, LOGO_DONTS, LOGO_DOS } from "../src/logo-files.ts"
 import { PAGES } from "../src/seo.ts"
 import { TOOL_DEFINITIONS } from "../src/webmcp-tools.ts"
@@ -159,6 +160,14 @@ const SECTION_VARS: Record<string, (catalog: Catalog) => Vars> = {
           code(asset.component),
         ]
       }),
+    ),
+  }),
+  "/tools/images": () => ({
+    makers: list(
+      MAKER_CATALOG.map(
+        (maker) =>
+          `${link(maker.name, absoluteUrl(markdownPath(makerPath(maker.slug))))}: ${maker.agentSummary}`,
+      ),
     ),
   }),
   "/badges": (catalog) => ({
