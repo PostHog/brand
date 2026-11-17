@@ -8,6 +8,7 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "gen:icons": "node scripts/gen-brand-icons.ts",
+    "fetch:hero-images": "node scripts/fetch-hero-images.ts",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit"
   },

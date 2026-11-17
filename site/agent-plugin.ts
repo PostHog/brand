@@ -83,6 +83,8 @@ const HEADERS = `# Written by agent-plugin.ts.
   Access-Control-Allow-Origin: *
 /logo/*
   Access-Control-Allow-Origin: *
+/hero-images/*
+  Access-Control-Allow-Origin: *
 /badges/*
   Access-Control-Allow-Origin: *
   Cross-Origin-Resource-Policy: cross-origin
