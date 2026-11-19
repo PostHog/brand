@@ -70,15 +70,13 @@ jobs:
         if: steps.changes.outputs.changed == 'true'
         run: node scripts/write-sync-changeset.ts
 
-      # Commit assets + the changeset directly to main (verified API commit, no PR).
-      # This push triggers the Release workflow via its .changeset/*.md path filter.
+      # Commit assets + the changeset directly to main (verified API commits, no PR).
+      # Split into several commits when a big re-render would exceed GitHub's 45 MB
+      # request cap; the changeset lands in the last one, which triggers the Release
+      # workflow via its .changeset/*.md path filter.
       - name: Commit assets to main
         if: steps.changes.outputs.changed == 'true'
-        uses: planetscale/ghcommit-action@25309d8005ac7c3bcd61d3fe19b69e0fe47dbdde
-        with:
-          commit_message: "chore: sync brand assets"
-          repo: ${{ github.repository }}
-          branch: main
-          file_pattern: "assets .changeset"
+        run: |
+          node scripts/commit-to-main.ts --message "chore: sync brand assets" --branch main assets .changeset
         env:
           GITHUB_TOKEN: ${{ steps.releaser.outputs.token }}
