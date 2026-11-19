@@ -32,7 +32,8 @@
     "0.16.0": "2026-10-27",
     "0.17.0": "2026-10-30",
     "0.17.1": "2026-11-04",
-    "0.17.2": "2026-11-05"
+    "0.17.2": "2026-11-05",
+    "0.17.3": "2026-11-19"
   },
   "assets": {
     "crests/full/a-default-crest": {
@@ -515,6 +516,10 @@
       "since": "0.1.0",
       "figmaNodeId": "404:93626"
     },
+    "hoggies/alien": {
+      "since": "0.17.3",
+      "figmaNodeId": "2683:11673"
+    },
     "hoggies/angel": {
       "since": "0.1.0",
       "figmaNodeId": "404:176611"
@@ -554,6 +559,10 @@
     "hoggies/beaker": {
       "since": "0.1.0",
       "figmaNodeId": "404:130609"
+    },
+    "hoggies/biking": {
+      "since": "0.17.3",
+      "figmaNodeId": "2683:11672"
     },
     "hoggies/book-pile": {
       "since": "0.17.1",
@@ -606,6 +615,10 @@
     "hoggies/chef": {
       "since": "0.1.0",
       "figmaNodeId": "404:134932"
+    },
+    "hoggies/cleaver": {
+      "since": "0.17.3",
+      "figmaNodeId": "2683:11669"
     },
     "hoggies/climber-1": {
       "since": "0.12.2",
@@ -795,6 +808,10 @@
       "since": "0.1.0",
       "figmaNodeId": "404:92030"
     },
+    "hoggies/haircut": {
+      "since": "0.17.3",
+      "figmaNodeId": "2683:11674"
+    },
     "hoggies/hand-clasp": {
       "since": "0.1.0",
       "figmaNodeId": "404:176604"
@@ -827,10 +844,6 @@
       "since": "0.1.0",
       "figmaNodeId": "404:125872"
     },
-    "hoggies/hot-popcorn": {
-      "since": "0.12.1",
-      "figmaNodeId": "1481:5256"
-    },
     "hoggies/hourglass": {
       "since": "0.1.0",
       "figmaNodeId": "404:176612"
@@ -851,9 +864,17 @@
       "since": "0.1.0",
       "figmaNodeId": "404:114535"
     },
+    "hoggies/iv": {
+      "since": "0.17.3",
+      "figmaNodeId": "2683:11676"
+    },
     "hoggies/jack-dawson": {
       "since": "0.2.0",
       "figmaNodeId": "404:99782"
+    },
+    "hoggies/jester": {
+      "since": "0.17.3",
+      "figmaNodeId": "2683:11675"
     },
     "hoggies/judge": {
       "since": "0.1.0",
@@ -935,6 +956,10 @@
       "since": "0.11.2",
       "figmaNodeId": "1336:1428"
     },
+    "hoggies/neural": {
+      "since": "0.17.3",
+      "figmaNodeId": "2683:11678"
+    },
     "hoggies/noir-1": {
       "since": "0.7.0",
       "figmaNodeId": "404:90201"
@@ -1003,9 +1028,25 @@
       "since": "0.11.2",
       "figmaNodeId": "1336:1432"
     },
+    "hoggies/popcorn": {
+      "since": "0.12.1",
+      "figmaNodeId": "1481:5256"
+    },
     "hoggies/pope": {
       "since": "0.1.0",
       "figmaNodeId": "404:132161"
+    },
+    "hoggies/portal-1": {
+      "since": "0.17.3",
+      "figmaNodeId": "2683:11681"
+    },
+    "hoggies/portal-2": {
+      "since": "0.17.3",
+      "figmaNodeId": "2683:11680"
+    },
+    "hoggies/portal-3": {
+      "since": "0.17.3",
+      "figmaNodeId": "2683:11679"
     },
     "hoggies/puzzle": {
       "since": "0.1.0",
@@ -1095,6 +1136,10 @@
       "since": "0.12.1",
       "figmaNodeId": "1481:5255"
     },
+    "hoggies/slices": {
+      "since": "0.17.3",
+      "figmaNodeId": "2683:11677"
+    },
     "hoggies/soapbox": {
       "since": "0.1.0",
       "figmaNodeId": "404:105686"
@@ -1110,6 +1155,10 @@
     "hoggies/speaker-2": {
       "since": "0.1.0",
       "figmaNodeId": "404:136634"
+    },
+    "hoggies/spoon": {
+      "since": "0.17.3",
+      "figmaNodeId": "2683:11670"
     },
     "hoggies/stamp-approved": {
       "since": "0.1.0",
@@ -1158,6 +1207,10 @@
     "hoggies/swimmer-2": {
       "since": "0.7.0",
       "figmaNodeId": "309:86623"
+    },
+    "hoggies/swirl": {
+      "since": "0.17.3",
+      "figmaNodeId": "2683:11671"
     },
     "hoggies/swole": {
       "since": "0.15.1",

@@ -1,5 +1,21 @@
 # @posthog/brand
 
+## 0.17.3
+
+### Patch Changes
+
+- ff8235a: Sync brand assets from Figma (14 added, 1 removed).
+
+  **hoggies**
+
+  - Added 14: Alien, Biking, Cleaver, Haircut, Iv, Jester, Neural, Popcorn, Portal 1, Portal 2, Portal 3, Slices, Spoon, Swirl
+  - Removed 1: Hot / Popcorn
+  - Updated 158: Angel, Ape, Asleep, Back To The Future, Ball, Baller, Banana, Beaker, Book Pile, Boombox, Burger, Burning Money, Business Evolution, Cake, Campfire Cowboy, Card, Caribana, Caveman, Cereal, Chart, Chef, Climber 1, Climber 2, Coconut, Code Bubble, Coding Group, Coffee Cup, Coffee Run, Commuter, Construction 1, Construction 2, Cool Car, Cowboy Lasso, Croissant, Cursor, Dadd-ai 1, Dadd-ai 2, Data Thief, Desk Wizard, Director, Dj, Doc Brown, Doctor 1, Doctor 2, Doll House, Dr. Manhattan, Drake Nah, Drake Yah, Driving Hogzilla, Dynamite, Einstein, Einstein Group, Error, Evel, Experiment, Explorer, Final Evolution, Float, Football Coach, Football Player, Gardener 2, Gatsby, Gladiator 1, Gladiator 2, Gravedigger, Greek, Haha Bizzniss, Hand Clasp, Heart, Highlighter, Hipster, Hogpatch, Honey, Hooligan, Hoot, Hourglass, I'm The Driver, Ichabod, Idea, Ipad, Lifeguard, Loops, Luchador, Magnifying Glass, Mailbox, Marathon, Megaphone, Mixmaster, Money, Mountie, Mr Potato Head 1, Mr Potato Head 2, Namaste, Noir 1, Noir 2, Noir 3, Noir 4, Noir 5, Office Worker, Organized, Osmosis, Panic, Party, Patient, Pearl Necklace, Peek Over, Phone Call, Piñata, Pit Viper, Pope, Reading, Reading Is Magic, Reaper, Remote Work, Reporter, Research, Robot, Rocket, Rose, Safari, Sailor, Sales, Scientist, Scorpion, Scott Pilgrim, Self-driving, Selfie, Shocked, Sitting, Sleepy, Soapbox, Soccer Coach, Speaker 1, Speaker 2, Stamp Approved, Stamp Denied, Star, Steve Jobs, Stop, Success, Sunburn, Superhero, Swimmer 2, Terminator, The Bride, Toilet, Tourist, Traffic Controller, Traffic Police, Transformer, Two Player, Waiter, Will Smith, Wizard 1, Wizard 4, Wizard 5, Workmaxxing, X-ray
+
+  **crests**
+
+  - Updated 1: Growth Mini
+
 ## 0.17.2
 
 ### Patch Changes
