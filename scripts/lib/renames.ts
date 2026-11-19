@@ -29,6 +29,8 @@ export interface RenameRule {
 export const RENAMES: Partial<Record<Namespace, Record<string, RenameRule>>> = {
   hoggies: {
     "9-9-6": { slug: "996", name: "996" },
+    // Renamed "Hot / Popcorn" → "Popcorn" in Figma; keep the published `HedgehogHotPopcorn`.
+    popcorn: { slug: "hot-popcorn", name: "Popcorn" },
   },
 }
 
