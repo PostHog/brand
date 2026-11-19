@@ -120,7 +120,10 @@ Figma brand book  --sync.ts-->  assets/<namespace>/  --codegen.ts-->  src/genera
 
 No PRs — everything is committed directly to `main` (verified API commits via the
 Releaser GitHub App). Daily `sync.yml` (needs the `FIGMA_TOKEN` secret) commits new assets +
-a changeset to `main`; that triggers `release.yml`, which (gated by the `Release`
+a changeset to `main` through `scripts/commit-to-main.ts` (GraphQL `createCommitOnBranch`,
+split into several commits when a big re-render would exceed GitHub's 45 MB request cap;
+deletions, catalogs, `sync-state.json` and the changeset go in the last one, so every commit
+builds and the release fires once); that triggers `release.yml`, which (gated by the `Release`
 environment + Slack approval, per the PostHog SDK handbook) runs `changeset version`, commits
 the bump to `main`, and publishes to npm via trusted publishing (OIDC). Publishing
 `@posthog/brand` requires the npm trusted-publishing config to be set up for that package name.
