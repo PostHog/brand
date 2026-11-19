@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-13T16:49:33Z",
+  "generatedAt": "2026-11-19T21:52:31Z",
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2421391730951804427",
+  "figmaVersion": "2423689120785250812",
   "namespace": "crests",
   "entries": [
     {
@@ -641,8 +641,8 @@
       "tier": "mini",
       "figmaNodeId": "23:3239",
       "aspectRatio": 1,
-      "svgBytes": 8452,
-      "pngBytes": 3595
+      "svgBytes": 4754,
+      "pngBytes": 3331
     },
     {
       "slug": "gtm-engineering",
