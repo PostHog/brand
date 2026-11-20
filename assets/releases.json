@@ -34,7 +34,8 @@
     "0.17.1": "2026-11-04",
     "0.17.2": "2026-11-05",
     "0.17.3": "2026-11-19",
-    "0.17.4": "2026-11-20"
+    "0.17.4": "2026-11-20",
+    "0.17.5": "2026-11-20"
   },
   "assets": {
     "crests/full/a-default-crest": {
@@ -768,6 +769,10 @@
     "hoggies/final-evolution": {
       "since": "0.1.0",
       "figmaNodeId": "404:151196"
+    },
+    "hoggies/finger-guns": {
+      "since": "0.17.5",
+      "figmaNodeId": "2734:5820"
     },
     "hoggies/float": {
       "since": "0.1.0",
