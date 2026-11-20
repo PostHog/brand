@@ -28,6 +28,8 @@ import {
 
 const PAD_X = 128
 const PAD_Y = 120
+/** Shown, grayed out, where the title goes until there is one. */
+const PLACEHOLDER_TITLE = "Write your title"
 
 // ---- Text layout: words made of pieces, each with its own weight and highlight ----
 
@@ -313,8 +315,9 @@ export function drawPost(ctx: CanvasRenderingContext2D, d: BlogDoc): DrawResult 
     hit = { x: 920, y: 254, w: 1000, h: 826 }
   }
 
-  // Title
-  const title = String(d.title || "")
+  // Title. New images start untitled and show a grayed-out placeholder where the title goes.
+  const untitled = !String(d.title || "").trim()
+  const title = untitled ? PLACEHOLDER_TITLE : String(d.title)
   const marks: Mark[] = Array.from({ length: title.length }, () => ({ w: titleW, hl: false }))
   const hi = highlightIndex(d)
   if (hi.idx >= 0)
@@ -327,11 +330,14 @@ export function drawPost(ctx: CanvasRenderingContext2D, d: BlogDoc): DrawResult 
     maxW: W - PAD_X * 2,
     balance: true,
   }
+  ctx.save()
+  if (untitled) ctx.globalAlpha = 0.3
   const titleH = drawBlock(ctx, layoutBlock(title, marks, tOpts), PAD_X, PAD_Y, tOpts, {
     text: L.text,
     hl: L.hl,
     hlBox: L.hlBox,
   })
+  ctx.restore()
 
   // Subheading: one title line (134px) below the title.
   const sm = subMarks(d.sub, REGULAR, boldW)

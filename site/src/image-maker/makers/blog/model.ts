@@ -79,9 +79,60 @@ export interface BlogDoc extends Stamped {
   highlight: HlKey
   /** An SEO / AEO post: limited hoggies and colors. */
   seo?: boolean
+  /** The hoggie Auto falls back to when nothing in the title matches. Picked at random for each
+   *  new image, so unmatched titles don't all get the same hoggie. Older images: Hogpatch. */
+  fallbackHog?: string
 }
 
 export const MAX_AUTHORS = 3
+
+// New images start from a random look, so headers don't all come out the same. Only readable
+// combos: on Light, purple or blue highlights (blue only on a background that isn't blue); on Dark,
+// teal, green or white; Midtone only where the text holds up (white text on purple, violet and
+// cobalt; dark text with purple on lemon). Light is picked most often.
+type Look = Pick<BlogDoc, "color" | "tone" | "midText" | "highlight">
+const BLUES: ColorKey[] = ["blue", "corn-blue", "cobalt"]
+const MID_LOOKS: Look[] = [
+  { color: "purple", tone: "mid", midText: "white", highlight: "white" },
+  { color: "violet", tone: "mid", midText: "white", highlight: "white" },
+  { color: "cobalt", tone: "mid", midText: "white", highlight: "white" },
+  { color: "lemon", tone: "mid", midText: "dark", highlight: "purple" },
+]
+const TONE_ODDS = { light: 0.6, mid: 0.2 } // dark gets the rest (0.2)
+
+function pick<T>(list: readonly T[], rand: () => number): T {
+  return list[Math.floor(rand() * list.length)]!
+}
+
+export function randomLook(rand: () => number = Math.random): Look {
+  const r = rand()
+  if (r < TONE_ODDS.light) {
+    const color = pick(COLOR_KEYS, rand)
+    const hl: HlKey[] = BLUES.includes(color) ? ["purple"] : ["purple", "blue"]
+    return { color, tone: "light", midText: "dark", highlight: pick(hl, rand) }
+  }
+  if (r < TONE_ODDS.light + TONE_ODDS.mid) return { ...pick(MID_LOOKS, rand) }
+  return {
+    color: pick(COLOR_KEYS, rand),
+    tone: "dark",
+    midText: "dark",
+    highlight: pick(["teal", "green", "white"] as HlKey[], rand),
+  }
+}
+
+/** A random hoggie for Auto to fall back on: one with hand-picked blog topics, so it suits a post. */
+export function randomFallbackHog(rand: () => number = Math.random): string {
+  const all = hogs()
+  const pool = Object.keys(all).filter((n) => all[n]!.topics)
+  return pool.length ? pick(pool, rand) : FALLBACK_HOG
+}
+
+/** A new image from the New button. The fallback hoggie is set here, not in blank(): saved images
+ *  are restored over blank(), and one from before this field must keep falling back to Hogpatch. */
+export function fresh(): BlogDoc {
+  // Starts untitled: the hoggie asks for a title in a speech bubble until there is one.
+  return { ...blank(), title: "", hlText: "", fallbackHog: randomFallbackHog() }
+}
 
 export function blank(): BlogDoc {
   const now = Date.now()
@@ -96,10 +147,7 @@ export function blank(): BlogDoc {
     hogX: 0,
     hogY: 0,
     flip: false,
-    color: "lemon",
-    tone: "light",
-    midText: "dark",
-    highlight: "purple",
+    ...randomLook(),
     createdAt: now,
     updatedAt: now,
   }
@@ -157,7 +205,8 @@ export function autoHog(d: BlogDoc): string {
     .trim()} `
   const has = (k: string) => !!k && (text.includes(` ${k} `) || text.includes(` ${k}s `))
   const pool = d.seo ? seoHogs() : Object.keys(kw)
-  let best = d.seo ? (pool[0] ?? FALLBACK_HOG) : FALLBACK_HOG
+  const fallback = d.fallbackHog && kw[d.fallbackHog] ? d.fallbackHog : FALLBACK_HOG
+  let best = d.seo ? (pool[0] ?? FALLBACK_HOG) : fallback
   let bestScore = 0
   for (const name of pool) {
     const h = kw[name]
