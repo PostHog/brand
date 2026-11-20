@@ -44,6 +44,7 @@ import {
   authorLabel,
   authorsOf,
   blank,
+  fresh,
   highlightIndex,
   hlKeysFor,
   hogUrl,
@@ -195,7 +196,7 @@ export default function BlogMaker() {
           items={store.items}
           currentId={current.id}
           onSelect={store.select}
-          onNew={() => store.add(blank())}
+          onNew={() => store.add(fresh())}
           thumb={thumb}
           title={plainTitle}
           byline={authorLabel}
