@@ -33,7 +33,8 @@
     "0.17.0": "2026-10-30",
     "0.17.1": "2026-11-04",
     "0.17.2": "2026-11-05",
-    "0.17.3": "2026-11-19"
+    "0.17.3": "2026-11-19",
+    "0.17.4": "2026-11-20"
   },
   "assets": {
     "crests/full/a-default-crest": {
@@ -604,6 +605,10 @@
       "since": "0.1.0",
       "figmaNodeId": "404:176616"
     },
+    "hoggies/cello": {
+      "since": "0.17.4",
+      "figmaNodeId": "2724:3692"
+    },
     "hoggies/cereal": {
       "since": "0.1.0",
       "figmaNodeId": "404:134071"
@@ -916,6 +921,10 @@
       "since": "0.17.2",
       "figmaNodeId": "2466:951"
     },
+    "hoggies/maestro": {
+      "since": "0.17.4",
+      "figmaNodeId": "2724:3696"
+    },
     "hoggies/magnifying-glass": {
       "since": "0.1.0",
       "figmaNodeId": "404:132663"
@@ -923,6 +932,10 @@
     "hoggies/mailbox": {
       "since": "0.11.0",
       "figmaNodeId": "1164:10782"
+    },
+    "hoggies/make-it-rain": {
+      "since": "0.17.4",
+      "figmaNodeId": "2724:3694"
     },
     "hoggies/marathon": {
       "since": "0.13.1",
@@ -1015,6 +1028,14 @@
     "hoggies/peek-over": {
       "since": "0.13.1",
       "figmaNodeId": "2038:4003"
+    },
+    "hoggies/pepe-silvia-1": {
+      "since": "0.17.4",
+      "figmaNodeId": "2724:3693"
+    },
+    "hoggies/pepe-silvia-2": {
+      "since": "0.17.4",
+      "figmaNodeId": "2724:3695"
     },
     "hoggies/phone-call": {
       "since": "0.1.0",
