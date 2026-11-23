@@ -1,5 +1,17 @@
 # @posthog/brand
 
+## 0.17.6
+
+### Patch Changes
+
+- bee2791: Sync brand assets from Figma (4 added, 1 removed).
+
+  **hoggies**
+
+  - Added 4: Study, Toilet 1, Toilet 2, Waldo
+  - Removed 1: Toilet
+  - Updated 24: Coffee Cup, Success, Superhero, Surfer, Survey, Swimmer 1, Swole, Terminator, Tourist, Town Crier, Traffic Controller, Transformer, Trenchcoat, Two Player, Waiter, Will Smith, Wizard 1, Wizard 2, Wizard 3, Wizard 4, Wizard 5, Workflows, Workmaxxing, X-ray
+
 ## 0.17.5
 
 ### Patch Changes

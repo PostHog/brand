@@ -35,7 +35,8 @@
     "0.17.2": "2026-11-05",
     "0.17.3": "2026-11-19",
     "0.17.4": "2026-11-20",
-    "0.17.5": "2026-11-20"
+    "0.17.5": "2026-11-20",
+    "0.17.6": "2026-11-23"
   },
   "assets": {
     "crests/full/a-default-crest": {
@@ -1206,6 +1207,10 @@
       "since": "0.1.0",
       "figmaNodeId": "404:109392"
     },
+    "hoggies/study": {
+      "since": "0.17.6",
+      "figmaNodeId": "2734:8618"
+    },
     "hoggies/success": {
       "since": "0.12.2",
       "figmaNodeId": "1641:2812"
@@ -1250,9 +1255,13 @@
       "since": "0.2.0",
       "figmaNodeId": "404:101189"
     },
-    "hoggies/toilet": {
+    "hoggies/toilet-1": {
       "since": "0.12.1",
       "figmaNodeId": "1481:5254"
+    },
+    "hoggies/toilet-2": {
+      "since": "0.17.6",
+      "figmaNodeId": "2734:7812"
     },
     "hoggies/tourist": {
       "since": "0.11.2",
@@ -1285,6 +1294,10 @@
     "hoggies/waiter": {
       "since": "0.1.0",
       "figmaNodeId": "404:135928"
+    },
+    "hoggies/waldo": {
+      "since": "0.17.6",
+      "figmaNodeId": "2734:8619"
     },
     "hoggies/will-smith": {
       "since": "0.1.0",
