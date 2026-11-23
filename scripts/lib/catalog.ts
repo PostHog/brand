@@ -24,8 +24,14 @@ export interface Catalog {
 /** Per-asset bookkeeping used to skip unchanged assets on the next sync. */
 export interface SyncStateEntry {
   figmaNodeId: string
-  /** Hash of the asset's Figma node subtree (detects content changes). */
+  /** Hash of the asset's Figma node subtree, bounds left out (see scripts/lib/node-hash.ts). */
   nodeHash: string
+  /**
+   * The subtree's bounds as of the last render, folded into a few sums and compared within
+   * a tolerance. Kept from the render rather than refreshed each sync, so changes too small
+   * to trigger one still add up until they do.
+   */
+  geometry?: number[]
 }
 
 /** `assets/sync-state.json`. Entries keyed by `"<namespace>/<slug>"`. */

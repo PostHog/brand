@@ -11,7 +11,6 @@
 //   --check   Report drift vs the committed catalogs and exit 1 if any; render nothing.
 //   --force   Re-render every asset, ignoring sync-state (e.g. after a render-engine change).
 
-import { createHash } from "node:crypto"
 import { existsSync } from "node:fs"
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises"
 import { dirname, join } from "node:path"
@@ -21,6 +20,7 @@ import type { AssetMeta, CrestTier, Namespace } from "../src/types.ts"
 import { dedupeSlugs, slugify } from "../src/naming.ts"
 import { FigmaClient, type FigmaComponentMeta, type FigmaNode } from "./lib/figma.ts"
 import { parseTags } from "./lib/tags.ts"
+import { hashNode, legacyHashNode, nodeGeometry, sameGeometry } from "./lib/node-hash.ts"
 import { optimizeSvg } from "./lib/svg.ts"
 import { optimizePng } from "./lib/png.ts"
 import { FIGMA_FILE_KEY, ILLUSTRATION_PAGES, type IllustrationPage } from "./lib/figma-pages.ts"
@@ -35,8 +35,11 @@ const DOWNLOAD_CONCURRENCY = 8
 interface DiscoveredAsset {
   meta: AssetMeta
   node: FigmaNode
-  /** Hash of the node subtree, for change detection. */
+  /** Change detection, independent of canvas position (see node-hash.ts). */
   hash: string
+  geometry: number[]
+  /** The hash before that, still accepted from an entry without `geometry`. */
+  legacyHash: string
 }
 
 interface NamespaceSummary {
@@ -65,10 +68,6 @@ function assetKey(slug: string, tier?: CrestTier): string {
 
 function stateKey(namespace: Namespace, slug: string, tier?: CrestTier): string {
   return `${namespace}/${assetKey(slug, tier)}`
-}
-
-function hashNode(node: FigmaNode): string {
-  return createHash("sha256").update(JSON.stringify(node)).digest("hex").slice(0, 16)
 }
 
 function titleCase(s: string): string {
@@ -216,7 +215,13 @@ function discoverPage(
       ...(hasVariant ? { variant } : {}),
       ...(r.tags.length ? { tags: r.tags } : {}),
     }
-    return { meta, node: r.node, hash: hashNode(r.node) }
+    return {
+      meta,
+      node: r.node,
+      hash: hashNode(r.node),
+      geometry: nodeGeometry(r.node),
+      legacyHash: legacyHashNode(r.node),
+    }
   })
 }
 
@@ -371,14 +376,17 @@ async function main(): Promise<void> {
       const { slug, tier } = asset.meta
       const prior = prevState.entries[stateKey(page.namespace, slug, tier)]
       const prevEntry = prevCatalog.get(assetKey(slug, tier))
+      const sameNode = prior?.geometry
+        ? prior.nodeHash === asset.hash && sameGeometry(prior.geometry, asset.geometry)
+        : prior?.nodeHash === asset.legacyHash
       const unchanged =
-        !force &&
-        prior?.nodeHash === asset.hash &&
-        prevEntry != null &&
-        filesPresent(page.namespace, slug, tier)
+        !force && sameNode && prevEntry != null && filesPresent(page.namespace, slug, tier)
       newState.entries[stateKey(page.namespace, slug, tier)] = {
         figmaNodeId: asset.meta.figmaNodeId,
         nodeHash: asset.hash,
+        // An unchanged asset keeps the geometry it was rendered with, so drift below the
+        // tolerance can't creep along a sync at a time without ever triggering a render.
+        geometry: unchanged && prior?.geometry ? prior.geometry : asset.geometry,
       } satisfies SyncStateEntry
       if (unchanged) {
         // The rendered image is unchanged, but tags come from the component description,
