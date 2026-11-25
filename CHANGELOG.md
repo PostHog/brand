@@ -1,5 +1,15 @@
 # @posthog/brand
 
+## 0.17.7
+
+### Patch Changes
+
+- 6d9b723: Sync brand assets from Figma (1 added).
+
+  **hoggies**
+
+  - Added 1: Wheelchair User
+
 ## 0.17.6
 
 ### Patch Changes
