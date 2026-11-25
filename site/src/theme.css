@@ -1411,8 +1411,13 @@ button.asset:hover .asset-img.loaded {
   font-size: 14px;
   margin: 0;
 }
-.marketing-body .btn {
+.marketing-downloads {
   margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.marketing-body .btn {
   white-space: nowrap;
 }
 @media (max-width: 640px) {

@@ -49,8 +49,7 @@ import {
   MARKETING_ASSETS,
   MARKETING_ASSETS_PATH,
   type MarketingAssetGroup,
-  marketingAssetPath,
-  marketingAssetSize,
+  marketingAssetFiles,
 } from "../src/marketing-assets.ts"
 import { hoggieFamilies, hoggieJsx } from "../src/hoggie-families.ts"
 import { LOGO_FILES, LOGO_PRESETS, type LogoFile } from "../src/logo-files.ts"
@@ -148,12 +147,23 @@ export interface CatalogMarketingAsset {
   /** What its kind is for. */
   usedFor: string
   alt: string
+  /** The main PNG (the first of `files`). */
   png: string
   /** Pixel size of the PNG. */
   width: number
   height: number
+  /** Every PNG of it: the product heroes come in 16:11 (the main one) and 16:9. */
+  files: CatalogMarketingAssetFile[]
   /** The section of the Marketing assets page it is on. */
   page: string
+}
+
+export interface CatalogMarketingAssetFile {
+  /** Its aspect ratio (`16:9`), when the image comes in more than one. */
+  aspectRatio?: string
+  png: string
+  width: number
+  height: number
 }
 
 export interface CatalogColor {
@@ -399,18 +409,31 @@ function badges(files: Map<string, AgentFile>): CatalogBadge[] {
 }
 
 function marketingAssets(): CatalogMarketingAsset[] {
-  return MARKETING_ASSETS.map(({ group, ...image }) => ({
-    type: "marketing-asset",
-    id: image.id,
-    name: image.name,
-    group: group.id,
-    usedFor: group.what,
-    alt: image.alt,
+  return MARKETING_ASSETS.map(({ group, ...image }) => {
     // Committed to `site/public/`, so Vite copies them to dist/ itself: no AgentFile to add.
-    png: absoluteUrl(marketingAssetPath(image.id)),
-    ...marketingAssetSize(group),
-    page: `${absoluteUrl(MARKETING_ASSETS_PATH)}#${group.id}`,
-  }))
+    const files = marketingAssetFiles(image, group).map(
+      (file): CatalogMarketingAssetFile => ({
+        ...(file.ratio ? { aspectRatio: file.ratio } : {}),
+        png: absoluteUrl(file.path),
+        width: file.width,
+        height: file.height,
+      }),
+    )
+    const [main] = files
+    return {
+      type: "marketing-asset",
+      id: image.id,
+      name: image.name,
+      group: group.id,
+      usedFor: group.what,
+      alt: image.alt,
+      png: main!.png,
+      width: main!.width,
+      height: main!.height,
+      files,
+      page: `${absoluteUrl(MARKETING_ASSETS_PATH)}#${group.id}`,
+    }
+  })
 }
 
 function brandColors(files: Map<string, AgentFile>): CatalogColor[] {

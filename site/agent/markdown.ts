@@ -14,7 +14,12 @@ import { MAKER_CATALOG, makerPath } from "../src/image-maker/catalog.ts"
 import { inPresetOrder, LOGO_DONTS, LOGO_DOS } from "../src/logo-files.ts"
 import { PAGES } from "../src/seo.ts"
 import { TOOL_DEFINITIONS } from "../src/webmcp-tools.ts"
-import { type Catalog, type CatalogAsset, imageHeading } from "./data.ts"
+import {
+  type Catalog,
+  type CatalogAsset,
+  type CatalogMarketingAssetFile,
+  imageHeading,
+} from "./data.ts"
 
 type Vars = Record<string, string | number>
 
@@ -55,6 +60,11 @@ function link(label: string, url: string): string {
 
 function code(text: string): string {
   return `\`${text}\``
+}
+
+/** `PNG 1320×2868`, or `16:9 PNG 3200×1800` for an image that comes in several shapes. */
+function fileLabel(file: CatalogMarketingAssetFile): string {
+  return `${file.aspectRatio ? `${file.aspectRatio} ` : ""}PNG ${file.width}×${file.height}`
 }
 
 function list(items: readonly string[]): string {
@@ -160,7 +170,7 @@ const SECTION_VARS: Record<string, (catalog: Catalog) => Vars> = {
             .map((image) => [
               image.name,
               code(image.id),
-              link(`PNG ${image.width}×${image.height}`, image.png),
+              image.files.map((file) => link(fileLabel(file), file.png)).join(" · "),
             ]),
         ),
       ].join("\n"),
@@ -317,7 +327,13 @@ export function llmsTxt(catalog: Catalog): string {
     marketingAssets: list(
       MARKETING_ASSET_GROUPS.map((group) => {
         const images = catalog.marketingAssets.filter((image) => image.group === group.id)
-        return `${group.title} (${images.length}, PNG ${images[0]!.width}×${images[0]!.height}): ${images.map((image) => link(image.name, image.png)).join(", ")}`
+        const sizes = images[0]!.files.map(fileLabel).join(" or ")
+        const links = images.map((image) =>
+          [image.name, ...image.files.slice(1).map((file) => file.aspectRatio!)]
+            .map((label, index) => link(label, image.files[index]!.png))
+            .join(" / "),
+        )
+        return `${group.title} (${images.length}, ${sizes}): ${links.join(", ")}`
       }),
     ),
     hoggies: list(catalog.hoggies.map(assetLine)),

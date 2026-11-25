@@ -93,7 +93,7 @@ export const PAGES: PageSeo[] = [
     label: "Marketing assets",
     headline: "PostHog marketing assets",
     description:
-      "PostHog's marketing assets: product hero images for landing pages, launch posts and social, and the App Store screenshots for the iPhone app, each as a full-resolution PNG, with what it's for.",
+      "PostHog's marketing assets: product hero images (16:11 and 16:9) for landing pages, launch posts and social, and the App Store screenshots for the iPhone app, each as a full-resolution PNG, with what it's for.",
   },
   {
     path: "/crests",
