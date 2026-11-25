@@ -295,7 +295,12 @@ function staticShell({ page, asset, listing, badges, marketingAssets }: Route): 
         .filter((image) => image.group === group.id)
         .map(
           (image) =>
-            `<li><a href="${image.png}">${escape(image.name)}</a> (PNG ${image.width}×${image.height})</li>`,
+            `<li>${escape(image.name)}: ${image.files
+              .map(
+                (file) =>
+                  `<a href="${file.png}">${file.aspectRatio ? `${file.aspectRatio} ` : ""}PNG ${file.width}×${file.height}</a>`,
+              )
+              .join(", ")}</li>`,
         )
         .join("")
       const how = group.how.map((line) => `<li>${escape(line)}</li>`).join("")
@@ -379,7 +384,9 @@ export function brandSeo(): Plugin {
       const pageImages: Record<string, string[]> = {
         "/logo": catalog.logos.map((logo) => logo.png),
         "/badges": catalog.badges.map((badge) => badge.png),
-        "/marketing-assets": catalog.marketingAssets.map((image) => image.png),
+        "/marketing-assets": catalog.marketingAssets.flatMap((image) =>
+          image.files.map((file) => file.png),
+        ),
       }
       const assetRoute = (asset: CatalogAsset, page: PageSeo): Route => ({
         page,

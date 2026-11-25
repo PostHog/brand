@@ -1,6 +1,7 @@
 // Renders the marketing assets (`src/marketing-assets.ts`) from the brand book in Figma into
-// `site/public/marketing-assets/`: each frame as a full-resolution PNG (losslessly recompressed), plus
-// the smaller WebP preview the Marketing assets page shows.
+// `site/public/marketing-assets/`: each frame (one per image and format) as a full-resolution PNG
+// (losslessly recompressed), plus the smaller WebP preview of each image's first format that the
+// Marketing assets page shows.
 //
 // The output is COMMITTED: it's designed raster art, so a deploy can't re-make it, and the dev
 // server needs it too. Re-run this when the Figma page changes, or after adding an image to the
@@ -19,8 +20,7 @@ import sharp from "sharp"
 import {
   MARKETING_FIGMA_FILE,
   MARKETING_ASSET_GROUPS,
-  marketingAssetPath,
-  marketingAssetSize,
+  marketingAssetFiles,
   marketingPreviewPath,
 } from "../src/marketing-assets.ts"
 
@@ -49,10 +49,20 @@ async function figma<T>(path: string): Promise<T> {
   }
 }
 
+// The rendered files are a few MB each from S3, which now and then drops the connection mid-file.
+// Downloads are free (not rate limited), so just try again.
 async function download(url: string): Promise<Buffer> {
-  const res = await fetch(url)
-  if (!res.ok) throw new Error(`download ${res.status}: ${url}`)
-  return Buffer.from(await res.arrayBuffer())
+  for (let attempt = 0; ; attempt++) {
+    try {
+      const res = await fetch(url)
+      if (!res.ok) throw new Error(`download ${res.status}: ${url}`)
+      return Buffer.from(await res.arrayBuffer())
+    } catch (error) {
+      if (attempt >= 3) throw error
+      console.warn(`  download failed (${(error as Error).message}), retrying`)
+      await new Promise((resolve) => setTimeout(resolve, 2000 * (attempt + 1)))
+    }
+  }
 }
 
 function write(sitePath: string, data: Uint8Array) {
@@ -62,37 +72,48 @@ function write(sitePath: string, data: Uint8Array) {
 }
 
 for (const group of MARKETING_ASSET_GROUPS) {
-  const ids = group.images.map((image) => image.figmaNode).join(",")
+  for (const image of group.images) {
+    if (image.figmaNodes.length !== group.formats.length) {
+      throw new Error(
+        `${image.id} lists ${image.figmaNodes.length} Figma frames, but ${group.id} has ${group.formats.length} formats`,
+      )
+    }
+  }
+  const ids = group.images.flatMap((image) => image.figmaNodes).join(",")
   // `use_absolute_bounds` renders exactly the frame, never a shadow or overflow past its edge.
   const { images: urls } = await figma<{ images: Record<string, string | null> }>(
     `/images/${MARKETING_FIGMA_FILE}?ids=${encodeURIComponent(ids)}&format=png&scale=${group.scale}&use_absolute_bounds=true`,
   )
-  const expected = marketingAssetSize(group)
 
   for (const image of group.images) {
-    const url = urls[image.figmaNode]
-    if (!url) throw new Error(`Figma rendered nothing for ${image.id} (${image.figmaNode})`)
-    const rendered = await download(url)
+    for (const [index, file] of marketingAssetFiles(image, group).entries()) {
+      const label = `${image.id}${file.ratio ? ` ${file.ratio}` : ""}`
+      const url = urls[file.figmaNode]
+      if (!url) throw new Error(`Figma rendered nothing for ${label} (${file.figmaNode})`)
+      const rendered = await download(url)
 
-    const { width, height } = await sharp(rendered).metadata()
-    if (width !== expected.width || height !== expected.height) {
-      throw new Error(
-        `${image.id} rendered at ${width}×${height}, expected ${expected.width}×${expected.height}: did the frame change size? Update its group in src/marketing-assets.ts.`,
-      )
+      const { width, height } = await sharp(rendered).metadata()
+      if (width !== file.width || height !== file.height) {
+        throw new Error(
+          `${label} rendered at ${width}×${height}, expected ${file.width}×${file.height}: did the frame change size? Update its group in src/marketing-assets.ts.`,
+        )
+      }
+
+      // Lossless only: the garden scene and gradients would band under palette quantization.
+      const png = await losslessCompressPng(rendered)
+      const best = png.byteLength < rendered.byteLength ? png : rendered
+      write(file.path, best)
+      let line = `  ${label}: ${width}×${height} PNG ${(best.byteLength / 1e6).toFixed(1)} MB`
+
+      if (index === 0) {
+        const preview = await sharp(rendered)
+          .resize({ width: group.previewWidth })
+          .webp({ quality: 82 })
+          .toBuffer()
+        write(marketingPreviewPath(image.id), preview)
+        line += `, preview ${(preview.byteLength / 1e3).toFixed(0)} KB`
+      }
+      console.log(line)
     }
-
-    // Lossless only: the garden scene and gradients would band under palette quantization.
-    const png = await losslessCompressPng(rendered)
-    write(marketingAssetPath(image.id), png.byteLength < rendered.byteLength ? png : rendered)
-
-    const preview = await sharp(rendered)
-      .resize({ width: group.previewWidth })
-      .webp({ quality: 82 })
-      .toBuffer()
-    write(marketingPreviewPath(image.id), preview)
-
-    console.log(
-      `  ${image.id}: ${width}×${height} PNG ${(Math.min(png.byteLength, rendered.byteLength) / 1e6).toFixed(1)} MB, preview ${(preview.byteLength / 1e3).toFixed(0)} KB`,
-    )
   }
 }

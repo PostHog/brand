@@ -10,13 +10,35 @@
 export const MARKETING_FIGMA_FILE = "EqKxlSFoOCkRXCnHi4C3eE"
 
 export interface MarketingAsset {
-  /** File stem and stable id: `/marketing-assets/<id>.png`. */
+  /** File stem and stable id: `/marketing-assets/<id><format suffix>.png`. */
   id: string
   /** Its headline, as the image reads. */
   name: string
-  /** The frame in the Figma file it is rendered from. */
-  figmaNode: string
+  /** The frames in the Figma file it is rendered from: one per format of its group, in order. */
+  figmaNodes: readonly string[]
   alt: string
+}
+
+/** One shape a group's images come in, each its own Figma frame and PNG. */
+export interface MarketingAssetFormat {
+  /** Aspect ratio, as the page and docs name it (`16:9`). Only set when a group has several formats. */
+  ratio?: string
+  /** Appended to the image's id to name its file. The first format has none, so its URLs never move. */
+  suffix: string
+  /** Size of the frames in Figma, in px. */
+  frame: { readonly width: number; readonly height: number }
+}
+
+/** One downloadable PNG of an image. */
+export interface MarketingAssetFile {
+  ratio?: string
+  figmaNode: string
+  /** Site path of the full-resolution PNG. */
+  path: string
+  /** Base name a downloaded copy is saved as. */
+  fileName: string
+  width: number
+  height: number
 }
 
 export interface MarketingAssetGroup {
@@ -26,8 +48,8 @@ export interface MarketingAssetGroup {
   what: string
   /** How to use it. */
   how: readonly string[]
-  /** Size of the frames in Figma, in px. */
-  frame: { readonly width: number; readonly height: number }
+  /** The shapes every image in it comes in. The first is the one the page previews. */
+  formats: readonly MarketingAssetFormat[]
   /** The render scale: the PNG is `frame × scale`. Matches the art inside, so nothing is upscaled. */
   scale: number
   /** Width of the page's preview, in px. */
@@ -42,10 +64,14 @@ export const MARKETING_ASSET_GROUPS: readonly MarketingAssetGroup[] = [
     what: "Hero images that pitch one thing PostHog does: the top of a landing page, a launch or blog post, a newsletter, or a social post. Each one is a panel on the garden scene with a headline, a short pitch, a product window and a card with the next step.",
     how: [
       "Use one where you're introducing what PostHog does, with the image as the first thing people see.",
+      "Each comes in two shapes: 16:11, and 16:9 for slides, video and anywhere else that wants widescreen.",
       "The text is part of the image, so put the page's own heading in HTML near it rather than relying on the image.",
       "To make a new one, keep the same layout: a headline with one highlighted word, two or three short sentences, a real product window, then one card with the next step. Put product windows on the garden scene, never text on its own.",
     ],
-    frame: { width: 1600, height: 1100 },
+    formats: [
+      { ratio: "16:11", suffix: "", frame: { width: 1600, height: 1100 } },
+      { ratio: "16:9", suffix: "-16x9", frame: { width: 1600, height: 900 } },
+    ],
     // The garden art inside is drawn at about 2x the frame, so 2x is the full resolution.
     scale: 2,
     previewWidth: 1280,
@@ -53,25 +79,25 @@ export const MARKETING_ASSET_GROUPS: readonly MarketingAssetGroup[] = [
       {
         id: "context-layer",
         name: "Your product's context layer",
-        figmaNode: "2591:3",
+        figmaNodes: ["2591:3", "2782:2052"],
         alt: "“Your product's context layer”: the PostHog home screen beside a “Set up PostHog for free” card",
       },
       {
         id: "ask-posthog-anything",
         name: "Ask PostHog anything",
-        figmaNode: "2635:2100",
+        figmaNodes: ["2635:2100", "2782:2283"],
         alt: "“Ask PostHog anything”: PostHog AI tracing a drop in paid conversions across Google Ads, PostHog, Stripe and GitHub",
       },
       {
         id: "agents-product-context",
         name: "Give agents product context",
-        figmaNode: "2635:2538",
+        figmaNodes: ["2635:2538", "2782:2363"],
         alt: "“Give agents product context”: PostHog's products around “Your agents”, with the command to install the PostHog MCP",
       },
       {
         id: "ship-with-posthog",
         name: "Ship with PostHog",
-        figmaNode: "2635:2777",
+        figmaNodes: ["2635:2777", "2782:2445"],
         alt: "“Ship with PostHog”: three prioritized fixes in the PostHog inbox, beside the signals self-driving pulls from",
       },
     ],
@@ -84,7 +110,7 @@ export const MARKETING_ASSET_GROUPS: readonly MarketingAssetGroup[] = [
       "Upload them in this order. They're 1320×2868, the App Store's 6.9-inch iPhone size, which it scales down for smaller iPhones.",
       "They also work wherever you show the app on a phone: a launch post, a slide or a social post.",
     ],
-    frame: { width: 440, height: 956 },
+    formats: [{ suffix: "", frame: { width: 440, height: 956 } }],
     // 440×956 is the iPhone's size in points; 3x is the App Store's 1320×2868.
     scale: 3,
     previewWidth: 600,
@@ -92,61 +118,61 @@ export const MARKETING_ASSET_GROUPS: readonly MarketingAssetGroup[] = [
       {
         id: "app-hog-in-your-pocket",
         name: "Is that a hog in your pocket?",
-        figmaNode: "2630:751",
+        figmaNodes: ["2630:751"],
         alt: "“Is that a hog in your pocket?”: an iPhone home screen with the PostHog widget",
       },
       {
         id: "app-task-your-agents",
         name: "Task your agents",
-        figmaNode: "2630:852",
+        figmaNodes: ["2630:852"],
         alt: "“Task your agents”: the PostHog inbox of ideas and bugs",
       },
       {
         id: "app-ship-a-fix",
         name: "@PostHog can you ship a fix?",
-        figmaNode: "2630:1001",
+        figmaNodes: ["2630:1001"],
         alt: "“@PostHog can you ship a fix?”: a chat where PostHog finds the bug and starts a fix",
       },
       {
         id: "app-pull-request",
         name: "Ask it to fix things",
-        figmaNode: "2630:1023",
+        figmaNodes: ["2630:1023"],
         alt: "“Yes.” Ask it to fix things: PostHog opens a pull request",
       },
       {
         id: "app-see-what-worked",
         name: "See what worked",
-        figmaNode: "2630:1055",
+        figmaNodes: ["2630:1055"],
         alt: "“See what worked”: pinned dashboards and insights in the app",
       },
       {
         id: "app-track-your-data",
         name: "Track your data",
-        figmaNode: "2630:1136",
+        figmaNodes: ["2630:1136"],
         alt: "“Track your data”: web analytics on an iPhone",
       },
       {
         id: "app-watching-traffic",
         name: "Watching traffic has never been so interesting",
-        figmaNode: "2630:1180",
+        figmaNodes: ["2630:1180"],
         alt: "“Watching traffic has never been so interesting”: the live web analytics overview",
       },
       {
         id: "app-watch-user-reaction",
         name: "Watch user reaction",
-        figmaNode: "2630:1224",
+        figmaNodes: ["2630:1224"],
         alt: "“Watch user reaction”: a list of session recordings with one-line summaries",
       },
       {
         id: "app-find-what-to-fix",
         name: "Find what to fix next",
-        figmaNode: "2630:1314",
+        figmaNodes: ["2630:1314"],
         alt: "“Find what to fix next”: error tracking on an iPhone",
       },
       {
         id: "app-who-when-which-release",
         name: "Who, when, and which release",
-        figmaNode: "2630:1359",
+        figmaNodes: ["2630:1359"],
         alt: "“Who, when, and which release”: an error's impact, release and where it breaks",
       },
     ],
@@ -159,22 +185,22 @@ export const MARKETING_ASSETS_PATH = "/marketing-assets"
 export const MARKETING_ASSETS: readonly (MarketingAsset & { group: MarketingAssetGroup })[] =
   MARKETING_ASSET_GROUPS.flatMap((group) => group.images.map((image) => ({ ...image, group })))
 
-/** Size of an image's PNG, in px. */
-export function marketingAssetSize(group: MarketingAssetGroup): { width: number; height: number } {
-  return { width: group.frame.width * group.scale, height: group.frame.height * group.scale }
+/** Every PNG of an image, one per format of its group, in order. */
+export function marketingAssetFiles(
+  image: MarketingAsset,
+  group: MarketingAssetGroup,
+): MarketingAssetFile[] {
+  return group.formats.map((format, index) => ({
+    ratio: format.ratio,
+    figmaNode: image.figmaNodes[index]!,
+    path: `${MARKETING_ASSETS_PATH}/${image.id}${format.suffix}.png`,
+    fileName: `posthog-marketing-${image.id}${format.suffix}`,
+    width: format.frame.width * group.scale,
+    height: format.frame.height * group.scale,
+  }))
 }
 
-/** Site path of an image's full-resolution PNG. */
-export function marketingAssetPath(id: string): string {
-  return `${MARKETING_ASSETS_PATH}/${id}.png`
-}
-
-/** Site path of the smaller WebP the page shows. */
+/** Site path of the smaller WebP the page shows (of the group's first format). */
 export function marketingPreviewPath(id: string): string {
   return `${MARKETING_ASSETS_PATH}/previews/${id}.webp`
-}
-
-/** Base name a downloaded copy is saved as. */
-export function marketingFileName(id: string): string {
-  return `posthog-marketing-${id}`
 }

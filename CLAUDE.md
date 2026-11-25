@@ -266,16 +266,18 @@ height, 9.44 px at 80 px wide) sets the layout, so keep it when changing sizes. 
 badge (from its static file) linking to `/badges`; in the top nav it sits under Tools.
 
 **Marketing assets** (`/marketing-assets`, under Brand kit): finished, designed raster images from the brand
-book's "hero images" Figma page: 4 product heroes (1600×1100 frames → 3200×2200 PNG, 2x matches the
-garden art inside) and 10 App Store screenshots (440×956 → 1320×2868, the App Store's 6.9" iPhone
+book's "hero images" Figma page: 4 product heroes, each in two formats (`MarketingAssetGroup.formats`:
+16:11, 1600×1100 frames → 3200×2200 PNG at `<id>.png`, and 16:9, 1600×900 → 3200×1800 at `<id>-16x9.png`; 2x matches the
+garden art inside; the page previews the first format and has one download button per format) and 10 App Store screenshots (440×956 → 1320×2868, the App Store's 6.9" iPhone
 size). The page is kept short on purpose: one line (missing something → the Graphics team), then
 one sideways-scrolling row per kind; what each kind is for and how to use it is only in the
 markdown twin and the prerendered shell. NOT Figma-synced or in the npm package: one table,
 `site/src/marketing-assets.ts` (frame node ids, render scale, copy), feeds the page, the shell, the
 sitemap, the markdown (`agent/pages/marketing-assets.md`), llms.txt and `catalog.json` (`marketingAssets[]`).
-The files are committed to `site/public/marketing-assets/` (lossless PNG, ~31 MB, plus the page's WebP
+The files are committed to `site/public/marketing-assets/` (lossless PNG, ~39 MB, plus the page's WebP
 `previews/`), written by `FIGMA_TOKEN=… pnpm fetch:marketing-assets` (`site/scripts/fetch-marketing-assets.ts`,
-which fails if a frame changed size). Re-run it when the Figma page changes. The page's backgrounds
+which fails if a frame changed size). Re-run it when the Figma page changes, but only commit the files
+whose design actually changed: every Figma render differs from the last by a little noise. The page's backgrounds
 (core and garden) are left out on purpose.
 
 **Top nav** (`NAV` in `site/src/App.tsx`): Logo · Hoggies · Brand kit ▾ (Crests, Colors, Fonts, Marketing assets) ·
