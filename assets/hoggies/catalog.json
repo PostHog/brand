@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-23T21:13:20Z",
+  "generatedAt": "2026-11-24T17:52:37Z",
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2425174810109783053",
+  "figmaVersion": "2425494339000801054",
   "namespace": "hoggies",
   "entries": [
     {
@@ -3964,6 +3964,28 @@
       ],
       "svgBytes": 139486,
       "pngBytes": 50550
+    },
+    {
+      "slug": "wheelchair-user",
+      "name": "Wheelchair User",
+      "namespace": "hoggies",
+      "figmaNodeId": "2766:2190",
+      "aspectRatio": 1,
+      "tags": [
+        "hog",
+        "solo",
+        "hat",
+        "orange",
+        "teal",
+        "wheelchair",
+        "disability",
+        "waving",
+        "smile",
+        "wheel",
+        "chair"
+      ],
+      "svgBytes": 291449,
+      "pngBytes": 57299
     },
     {
       "slug": "will-smith",

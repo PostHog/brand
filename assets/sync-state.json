@@ -1,6 +1,6 @@
 {
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2425174810109783053",
+  "figmaVersion": "2425494339000801054",
   "entries": {
     "hoggies/70s-dance": {
       "figmaNodeId": "404:93626",
@@ -1970,6 +1970,16 @@
         29930.415,
         16661.598,
         -20834.584
+      ]
+    },
+    "hoggies/wheelchair-user": {
+      "figmaNodeId": "2766:2190",
+      "nodeHash": "52d8e99a329a3e1b",
+      "geometry": [
+        26805.935,
+        24442.871,
+        -57705.828,
+        12782.734
       ]
     },
     "hoggies/will-smith": {
