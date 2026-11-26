@@ -1,5 +1,15 @@
 # @posthog/brand
 
+## 0.17.8
+
+### Patch Changes
+
+- 2ff1603: Sync brand assets from Figma.
+
+  **hoggies**
+
+  - Updated 1: Haircut
+
 ## 0.17.7
 
 ### Patch Changes
