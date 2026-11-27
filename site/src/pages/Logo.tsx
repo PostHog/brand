@@ -3,7 +3,7 @@ import type { LogoLayout, LogomarkHandle } from "@posthog/brand/logo"
 import type { ReactNode } from "react"
 import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
-import { LICENSE_URL, LOGO_LICENSE } from "../agent-paths.ts"
+import { LICENSE_URL, LOGO_GUIDELINES_ANCHOR } from "../agent-paths.ts"
 import { Callout } from "../components/Callout.tsx"
 import { CodeBlock } from "../components/CodeBlock.tsx"
 import { CopyFlash } from "../components/CopyFlash.tsx"
@@ -13,8 +13,10 @@ import { PageHeader } from "../components/PageHeader.tsx"
 import {
   LOGO_DONTS,
   LOGO_DOS,
-  LOGO_LICENSE_TERMS,
+  LOGO_GUIDELINES_CONTACT,
+  LOGO_GUIDELINES_SCOPE,
   LOGO_PRESETS,
+  LOGO_USAGE_GUIDELINES,
   logoProps,
   type LogoFile,
   type LogoPreset,
@@ -563,7 +565,7 @@ export function LogoPage() {
   const { hash } = useLocation()
 
   // The page mounts from a lazy chunk after the browser's own jump to the fragment, so a link
-  // to /logo#license would otherwise land at the top.
+  // to /logo#using-the-logo would otherwise land at the top.
   useEffect(() => {
     if (hash) document.getElementById(decodeURIComponent(hash.slice(1)))?.scrollIntoView()
   }, [hash])
@@ -589,16 +591,20 @@ export function LogoPage() {
         <Guidelines />
       </section>
 
-      <section className="section" id="license">
-        <h2>License</h2>
+      <section className="section" id={LOGO_GUIDELINES_ANCHOR}>
+        <h2>Using the PostHog logo</h2>
         <ul>
-          {LOGO_LICENSE_TERMS.map((term, i) => (
-            <li key={i}>{term}</li>
+          {LOGO_USAGE_GUIDELINES.map((item, i) => (
+            <li key={i}>{item}</li>
           ))}
+          <li>
+            Questions? Email{" "}
+            <a href={`mailto:${LOGO_GUIDELINES_CONTACT}`}>{LOGO_GUIDELINES_CONTACT}</a>.
+          </li>
         </ul>
         <p className="section-lede">
-          Read the <a href={LOGO_LICENSE.url}>{LOGO_LICENSE.name} license</a> and the{" "}
-          <a href={LICENSE_URL}>repository license</a>, which lists the files each license covers.
+          {LOGO_GUIDELINES_SCOPE} The <a href={LICENSE_URL}>repository license</a> lists which files
+          each covers.
         </p>
       </section>
 

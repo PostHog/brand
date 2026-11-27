@@ -1,14 +1,21 @@
 Copyright (c) PostHog, Inc. All rights reserved.
 
-This repository is under two licenses. The scope below says which one covers
-which files.
+The PostHog logo is excluded from the PolyForm Strict License below and may be
+used under the PostHog logo usage guidelines. Everything else in this
+repository is under the PolyForm Strict License. The scope below says which
+files are which.
 
-## The PostHog logo: Creative Commons Attribution 4.0 (CC-BY-4.0)
+## The PostHog logo: logo usage guidelines
 
-The PostHog logo is licensed under the Creative Commons Attribution 4.0
-International License. This covers the logomark, the wordmark and every lockup
-of them (landscape and stacked), in every variant (full-color gradient,
-4-color print, mono, black and white), in these paths:
+The PostHog logo is not covered by the PolyForm Strict License 1.0.0, and it is
+not under an open copyright license either. PostHog grants permission to use it
+under the PostHog logo usage guidelines:
+
+https://brand.posthog.com/logo#using-the-logo
+
+This covers the logomark, the wordmark and every lockup of them (landscape and
+stacked), in every variant (full-color gradient, 4-color print, mono, black and
+white), in these paths:
 
 - src/logo/ (the logo's source, including its geometry)
 - dist/logo/ (the logo as built into the npm package)
@@ -16,18 +23,9 @@ of them (landscape and stacked), in every variant (full-color gradient,
   (rendered from src/logo/ by site/agent/logo-render.ts, file list in
   site/src/logo-files.ts), and any SVG or PNG exported from the logo page
 
-Legal code: https://creativecommons.org/licenses/by/4.0/legalcode
-Summary: https://creativecommons.org/licenses/by/4.0/
-
-Attribute it as "PostHog logo by PostHog, Inc., licensed under CC BY 4.0",
-with a link to the license.
-
-This license covers copyright only. It does not grant any trademark rights.
-The PostHog name and logo are trademarks of PostHog, Inc. You may use the logo
-to refer to PostHog, for example in an icon set or to show that your product
-works with PostHog. Do not use it in a way that suggests PostHog endorses or
-sponsors you or your product. The usage guidelines are at
-https://brand.posthog.com/logo.
+The PostHog name and logo are trademarks of PostHog, Inc. PostHog may withdraw
+permission for uses that don't follow the guidelines. Questions go to
+hey@posthog.com.
 
 ## Everything else: PolyForm Strict License 1.0.0
 

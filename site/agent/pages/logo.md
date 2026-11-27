@@ -42,8 +42,10 @@ Each lockup in full color (`gradient`), 4-color print, black and white; the word
 
 {{files}}
 
-## License
+## Using the PostHog logo
 
-{{logoLicense}}
+{{logoGuidelines}}
 
-{{logoLicenseName}}: {{logoLicenseUrl}} (legal code: {{logoLicenseLegalCode}}). Scope and full terms for the whole repository: {{licenseUrl}}
+{{logoGuidelinesScope}} The repository license lists which files each covers: {{licenseUrl}}
+
+Link to these guidelines: {{logoGuidelinesUrl}}

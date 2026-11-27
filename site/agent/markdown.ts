@@ -11,7 +11,14 @@ import { absoluteUrl, assetPagePath, markdownPath, SITE_URL } from "../src/agent
 import { BADGE_SIZE, BADGE_USAGE } from "../src/badge-files.ts"
 import { MARKETING_ASSET_GROUPS } from "../src/marketing-assets.ts"
 import { MAKER_CATALOG, makerPath } from "../src/image-maker/catalog.ts"
-import { inPresetOrder, LOGO_DONTS, LOGO_DOS, LOGO_LICENSE_TERMS } from "../src/logo-files.ts"
+import {
+  inPresetOrder,
+  LOGO_DONTS,
+  LOGO_DOS,
+  LOGO_GUIDELINES_CONTACT,
+  LOGO_GUIDELINES_SCOPE,
+  LOGO_USAGE_GUIDELINES,
+} from "../src/logo-files.ts"
 import { PAGES } from "../src/seo.ts"
 import { TOOL_DEFINITIONS } from "../src/webmcp-tools.ts"
 import {
@@ -117,10 +124,12 @@ const SECTION_VARS: Record<string, (catalog: Catalog) => Vars> = {
     ),
     dos: list(LOGO_DOS),
     donts: list(LOGO_DONTS),
-    logoLicense: list(LOGO_LICENSE_TERMS),
-    logoLicenseName: catalog.license.logo.name,
-    logoLicenseUrl: catalog.license.logo.url,
-    logoLicenseLegalCode: catalog.license.logo.legalCode,
+    logoGuidelines: list([
+      ...LOGO_USAGE_GUIDELINES,
+      `Questions? Email ${LOGO_GUIDELINES_CONTACT}.`,
+    ]),
+    logoGuidelinesScope: LOGO_GUIDELINES_SCOPE,
+    logoGuidelinesUrl: catalog.license.logoGuidelines,
     files: table(
       ["Id", "Title", "For", "SVG", "PNG", "JSX"],
       catalog.logos.map((logo) => [

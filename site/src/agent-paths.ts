@@ -15,21 +15,18 @@ import type { CrestTier } from "@posthog/brand"
 export const SITE_URL = "https://brand.posthog.com"
 
 /**
- * The repository's license file: CC BY 4.0 for the logo, PolyForm Strict for everything else.
- * Linked from the docs, the catalog and pages.
+ * The repository's license file: PolyForm Strict for everything but the logo, which it scopes
+ * out to the logo usage guidelines. Linked from the docs, the catalog and pages.
  */
 export const LICENSE_URL = "https://github.com/PostHog/brand/blob/main/LICENSE"
 
 /**
- * The logo's license, which covers `src/logo/`, the package's `dist/logo/` and the `/logo/*`
- * files. Keep it in step with the scope section at the top of `LICENSE`.
+ * The logo usage guidelines: the section of the logo page that grants permission to use the
+ * logo (`src/logo/`, the package's `dist/logo/` and the `/logo/*` files). `LICENSE` and other
+ * sites link to this anchor, so keep it stable.
  */
-export const LOGO_LICENSE = {
-  spdx: "CC-BY-4.0",
-  name: "Creative Commons Attribution 4.0",
-  url: "https://creativecommons.org/licenses/by/4.0/",
-  legalCode: "https://creativecommons.org/licenses/by/4.0/legalcode",
-} as const
+export const LOGO_GUIDELINES_ANCHOR = "using-the-logo"
+export const LOGO_GUIDELINES_URL = `${SITE_URL}/logo#${LOGO_GUIDELINES_ANCHOR}`
 
 export type ImageFormat = "svg" | "png"
 

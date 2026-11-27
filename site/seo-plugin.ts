@@ -34,9 +34,18 @@ import {
   LICENSE_URL,
   loadAgentData,
 } from "./agent/data.ts"
-import { absoluteUrl, assetPagePath, LOGO_LICENSE, markdownPath } from "./src/agent-paths.ts"
+import {
+  absoluteUrl,
+  assetPagePath,
+  LOGO_GUIDELINES_ANCHOR,
+  markdownPath,
+} from "./src/agent-paths.ts"
 import { BADGE_ALT, BADGE_USAGE } from "./src/badge-files.ts"
-import { LOGO_LICENSE_TERMS } from "./src/logo-files.ts"
+import {
+  LOGO_GUIDELINES_CONTACT,
+  LOGO_GUIDELINES_SCOPE,
+  LOGO_USAGE_GUIDELINES,
+} from "./src/logo-files.ts"
 import { MARKETING_ASSET_GROUPS } from "./src/marketing-assets.ts"
 import { formatReleaseDate } from "./src/release.ts"
 import {
@@ -121,8 +130,8 @@ function siteJsonLd(): string {
         codeRepository: "https://github.com/PostHog/brand",
         programmingLanguage: "TypeScript",
         runtimePlatform: "React",
-        // The logo is CC BY 4.0, everything else PolyForm Strict (see LICENSE).
-        license: ["https://polyformproject.org/licenses/strict/1.0.0/", LOGO_LICENSE.url],
+        // LICENSE, not the PolyForm URL alone: it scopes the logo out to its usage guidelines.
+        license: LICENSE_URL,
         author: { "@id": ORGANIZATION_ID },
       },
     ],
@@ -292,10 +301,11 @@ function staticShell({ page, asset, listing, badges, marketingAssets }: Route): 
   }
 
   if (page.path === "/logo") {
-    const terms = LOGO_LICENSE_TERMS.map((term) => `<li>${escape(term)}</li>`).join("")
+    const items = LOGO_USAGE_GUIDELINES.map((item) => `<li>${escape(item)}</li>`).join("")
+    const contact = `<li>Questions? Email <a href="mailto:${LOGO_GUIDELINES_CONTACT}">${LOGO_GUIDELINES_CONTACT}</a>.</li>`
     body =
-      `<h2 id="license">License</h2><ul>${terms}</ul>` +
-      `<p><a href="${LOGO_LICENSE.url}">${escape(LOGO_LICENSE.name)}</a> · <a href="${LICENSE_URL}">Repository license</a></p>`
+      `<h2 id="${LOGO_GUIDELINES_ANCHOR}">Using the PostHog logo</h2><ul>${items}${contact}</ul>` +
+      `<p>${escape(LOGO_GUIDELINES_SCOPE)} The <a href="${LICENSE_URL}">repository license</a> lists which files each covers.</p>`
   }
 
   if (marketingAssets) {
