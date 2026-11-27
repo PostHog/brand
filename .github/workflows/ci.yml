@@ -38,6 +38,11 @@ jobs:
       - name: Build
         run: pnpm build
 
+      # After the build: the edge code imports site modules, which resolve `@posthog/brand`
+      # through its built `dist/` types.
+      - name: Typecheck the edge code (MCP server)
+        run: pnpm --filter @posthog/brand-edge typecheck
+
       - name: Validate package exports
         run: |
           pnpm exec publint

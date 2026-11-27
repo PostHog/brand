@@ -8,10 +8,7 @@
 
 import posthog from "posthog-js"
 import type { AssetRef } from "./agent-paths.ts"
-
-/** posthog.com's project. A public, write-only token: safe to ship in the bundle. */
-const POSTHOG_KEY = "sTMFPsFhdP1Ssg"
-const POSTHOG_HOST = "https://us.i.posthog.com"
+import { POSTHOG_HOST, POSTHOG_KEY } from "./posthog-project.ts"
 
 /** An asset's identity, as every copy/download event describes it. */
 export function assetProperties(asset: AssetRef): Record<string, string | undefined> {

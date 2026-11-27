@@ -19,6 +19,12 @@ This site is the home of PostHog's brand assets: {{logoCount}} logo files, the R
 - Every HTML page has a markdown twin: add `.md` to its URL (`/hoggies/chart` → `/hoggies/chart.md`; the home page is `/index.md`).
 - [colors.json]({{site}}/colors.json) and [colors.css]({{site}}/colors.css): the palette as data and as CSS custom properties. [fonts/roundhog.css]({{site}}/fonts/roundhog.css): RoundHog's `@font-face` rules.
 
+### MCP server
+
+{{site}}/mcp is a remote MCP server (Streamable HTTP, no sign-in) with the same assets, for agents that don't browse the site. Add it to your MCP client, e.g. Claude Code: `claude mcp add --transport http posthog-brand {{site}}/mcp`. Its tools:
+
+{{mcpTools}}
+
 ### WebMCP
 
 In a browser with WebMCP (`document.modelContext`), this site registers these tools:

@@ -251,6 +251,24 @@ or the WebMCP origin trial: set the (public, origin-bound) trial token as the bu
 `WEBMCP_ORIGIN_TRIAL_TOKEN` (committed in `site/.env.production`, expires 2027-03-30; a Cloudflare Pages env var overrides it) and the `originTrials` plugin (`site/origin-trial-plugin.ts`) emits
 `<meta http-equiv="origin-trial">` on every page; unset, no tag.
 
+**MCP server** (`/mcp`, `edge/` + `functions/`): a remote MCP server (Streamable HTTP, stateless,
+JSON responses, no auth) for agents that don't browse the site. `functions/mcp.ts` is the Cloudflare
+Pages Function route (Pages builds every file under `functions/` into a route, so it only imports
+`edge/src/mcp.ts`, where the server lives; `edge/` is a private workspace package holding the
+server's dependencies). Its tools are `MCP_TOOL_DEFINITIONS` in `site/src/webmcp-tools.ts` (the
+WebMCP asset tools plus `get_brand_asset_file`, which returns an SVG as markup and a PNG as image
+content) and they answer with `site/src/brand-tools.ts`, the same code as the WebMCP tools, from
+`/catalog.json` and the asset files read through the Pages `ASSETS` binding. The asset tools'
+shared logic lives in `brand-tools.ts` (pure: no DOM, no fetching) for that reason, and the docs
+list the MCP tools from the same table (`{{mcpTools}}` in `agent/pages/index.md`). Calls are
+captured as `$mcp_tool_call` by `@posthog/mcp` (`instrument`, with the injected `context` intent)
+into posthog.com's project (`site/src/posthog-project.ts`), except from localhost; set the
+`POSTHOG_HOST` binding to send them to a local sink instead. `edge/` typechecks with the site's
+compiler settings (it imports site modules) and minimal hand-written Cloudflare types. Run it with
+`pnpm dev:edge` (builds the site, then `wrangler pages dev site/dist` on :8788) and check it with
+`node edge/scripts/smoke.ts [url]`, which calls every tool with the official MCP client (point it
+at `https://brand.posthog.com/mcp` after a deploy).
+
 **Website badges** (`/badges`): two "Built with PostHog" badges (a light and a dark plate) that
 other sites hotlink from `/badges/<id>.svg` (100×50, PNG 300×150). One table,
 `site/src/badge-files.ts`, holds the badges, their embed code (HTML and Markdown, linking

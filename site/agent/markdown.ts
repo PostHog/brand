@@ -13,7 +13,7 @@ import { MARKETING_ASSET_GROUPS } from "../src/marketing-assets.ts"
 import { MAKER_CATALOG, makerPath } from "../src/image-maker/catalog.ts"
 import { inPresetOrder, LOGO_DONTS, LOGO_DOS } from "../src/logo-files.ts"
 import { PAGES } from "../src/seo.ts"
-import { TOOL_DEFINITIONS } from "../src/webmcp-tools.ts"
+import { MCP_TOOL_DEFINITIONS, TOOL_DEFINITIONS } from "../src/webmcp-tools.ts"
 import {
   type Catalog,
   type CatalogAsset,
@@ -103,6 +103,7 @@ function sharedVars(catalog: Catalog): Vars {
 const SECTION_VARS: Record<string, (catalog: Catalog) => Vars> = {
   "/": () => ({
     tools: list(TOOL_DEFINITIONS.map((tool) => `${code(tool.name)}: ${tool.description}`)),
+    mcpTools: list(MCP_TOOL_DEFINITIONS.map((tool) => `${code(tool.name)}: ${tool.description}`)),
   }),
   "/logo": (catalog) => ({
     presets: table(

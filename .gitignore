@@ -6,3 +6,5 @@ src/generated
 *.log
 coverage
 .env
+# wrangler (pnpm dev:edge)
+.wrangler/

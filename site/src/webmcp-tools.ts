@@ -426,3 +426,28 @@ export const TOOL_DEFINITIONS: readonly ToolDefinition[] = [
   },
   ...imageMakerTools(),
 ]
+
+// ---- The remote MCP server (https://brand.posthog.com/mcp, edge/src/mcp.ts) ----
+// The same asset tools, for agents that don't run the site in a browser, plus the file itself
+// where the browser's download_brand_asset saves it.
+
+function named(name: string): ToolDefinition {
+  const found = TOOL_DEFINITIONS.find((tool) => tool.name === name)
+  if (!found) throw new Error(`No tool definition named ${name}`)
+  return found
+}
+
+export const MCP_TOOL_DEFINITIONS: readonly ToolDefinition[] = [
+  named("search_brand_assets"),
+  named("get_brand_asset"),
+  named("get_logo_guidelines"),
+  named("get_brand_colors"),
+  {
+    name: "get_brand_asset_file",
+    title: "Get a PostHog brand asset file",
+    description:
+      "One asset file's contents: an SVG comes back as its markup (write it to a file as-is), a PNG as an image, each with its file name and a URL to download it (e.g. with curl). For a hoggie variant family pass `variant`; for a crest's mini badge pass tier \"mini\".",
+    inputSchema: named("download_brand_asset").inputSchema,
+    annotations: { readOnlyHint: true },
+  },
+]
