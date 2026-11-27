@@ -38,8 +38,8 @@ import { MCP_IMAGE_TOOL_DEFINITIONS, MCP_TOOL_DEFINITIONS } from "../../site/src
 /** What the Pages Function hands over: the site's static files. */
 export interface Env {
   ASSETS: { fetch: (request: Request | string) => Promise<Response> }
-  /** The image render Worker (edge/src/render-worker.ts). Without it, no make_*_image tools. */
-  RENDER?: { fetch: (request: Request) => Promise<Response> }
+  /** The image makers Worker (edge/src/image-makers-worker.ts). Without it, no make_*_image tools. */
+  IMAGE_MAKERS?: { fetch: (request: Request) => Promise<Response> }
   /** The deployed commit (Pages sets it), recorded as `$mcp_server_build`. */
   CF_PAGES_COMMIT_SHA?: string
   /** Sends analytics somewhere else, e.g. a local sink while testing. Unset: posthog.com's. */
@@ -98,15 +98,16 @@ for (const slug of Object.values(IMAGE_TOOL_MAKERS))
 const INJECTED = ["context", "conversation_id", "llm_model"]
 
 /**
- * A make_*_image call: the render Worker draws it with the maker (the same `makeImage` as the
- * WebMCP tools, on the site's render page), and the answer points at the /render URL of the PNG.
+ * A make_*_image call: the image makers Worker makes it with the maker (the same `makeImage` as
+ * the WebMCP tools, on the site's headless image makers page), and the answer points at the PNG:
+ * the maker's link with `.png` added (/tools/images/<maker>.png?image=…).
  */
 function imageTool(env: Env, origin: string, request: Request, slug: MakerSlug): Run {
   return async (input) => {
     const { scale, size, ...settings } = input
     for (const key of INJECTED) delete settings[key]
-    const res = await env.RENDER!.fetch(
-      new Request("https://render.internal/make", {
+    const res = await env.IMAGE_MAKERS!.fetch(
+      new Request("https://image-makers.internal/make", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -121,7 +122,7 @@ function imageTool(env: Env, origin: string, request: Request, slug: MakerSlug):
     const { image, link, preview, opened: _o, downloaded: _d, ...decided } = answer
     const param = new URL(String(link)).searchParams.get("image") ?? ""
     const png = (extra = "") =>
-      `${origin}/render/${slug}.png?image=${param}${scale === 2 ? "&scale=2" : ""}${extra}`
+      `${origin}/tools/images/${slug}.png?image=${param}${scale === 2 ? "&scale=2" : ""}${extra}`
     const files =
       slug === "build-mode" && typeof size !== "string"
         ? {
@@ -179,7 +180,7 @@ function tools(env: Env, origin: string, request: Request): Record<string, Run> 
         ],
       }
     },
-    ...(env.RENDER
+    ...(env.IMAGE_MAKERS
       ? Object.fromEntries(
           Object.entries(IMAGE_TOOL_MAKERS).map(([name, slug]) => [
             name,
@@ -203,7 +204,7 @@ function createServer(env: Env, request: Request, posthog: PostHog | null) {
     })
   const run = tools(env, origin, request)
   server.setRequestHandler(ListToolsRequestSchema, () => ({
-    tools: [...MCP_TOOL_DEFINITIONS, ...(env.RENDER ? MCP_IMAGE_TOOL_DEFINITIONS : [])],
+    tools: [...MCP_TOOL_DEFINITIONS, ...(env.IMAGE_MAKERS ? MCP_IMAGE_TOOL_DEFINITIONS : [])],
   }))
   server.setRequestHandler(CallToolRequestSchema, async (request) => {
     const tool = run[request.params.name]

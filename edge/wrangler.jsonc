@@ -1,12 +1,13 @@
-// The image render Worker (src/render-worker.ts). Deployed by Cloudflare Workers Builds: a Workers
-// project named brand-render connected to this repo, root directory `edge`, deploy command
-// `npx wrangler deploy`, build watch paths `edge/*` and `site/src/image-maker/catalog.ts` (see
-// CLAUDE.md, "Image rendering"). Needs Workers Paid with Browser Run. The brand site reaches it
-// through a service binding named RENDER on the Pages project, so it has no public URL.
+// The image makers Worker (src/image-makers-worker.ts): makes and exports image maker images on
+// the server. Deployed by Cloudflare Workers Builds: a Workers project named brand-image-makers
+// connected to this repo, root directory `edge`, deploy command `npx wrangler deploy`, build watch
+// paths `edge/*` and `site/src/image-maker/catalog.ts` (see CLAUDE.md, "Image makers on the
+// server"). Needs Workers Paid with Browser Run. The brand site reaches it through a service
+// binding named IMAGE_MAKERS on the Pages project, so it has no public URL.
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "brand-render",
-  "main": "src/render-worker.ts",
+  "name": "brand-image-makers",
+  "main": "src/image-makers-worker.ts",
   "compatibility_date": "2026-11-01",
   "workers_dev": false,
   "browser": { "binding": "BROWSER" },
@@ -15,7 +16,11 @@
     "PICTURE_HOSTS": "res.cloudinary.com,posthog.com",
   },
   "ratelimits": [
-    { "name": "RENDER_LIMIT", "namespace_id": "1801", "simple": { "limit": 30, "period": 60 } },
+    {
+      "name": "IMAGE_MAKERS_LIMIT",
+      "namespace_id": "1801",
+      "simple": { "limit": 30, "period": 60 },
+    },
   ],
   "observability": { "enabled": true },
 }

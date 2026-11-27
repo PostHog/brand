@@ -148,7 +148,7 @@
     "format": "oxfmt --write .",
     "size": "node scripts/size-report.ts",
     "dev:site": "pnpm build && pnpm --filter @posthog/brand-site dev",
-    "dev:edge": "pnpm build:site && edge/node_modules/.bin/wrangler pages dev site/dist --port 8788 --service RENDER=brand-render",
+    "dev:edge": "pnpm build:site && edge/node_modules/.bin/wrangler pages dev site/dist --port 8788 --service IMAGE_MAKERS=brand-image-makers",
     "build:site": "pnpm build && pnpm --filter @posthog/brand-site build",
     "gen:site-icons": "pnpm --filter @posthog/brand-site gen:icons",
     "fetch:marketing-assets": "pnpm --filter @posthog/brand-site fetch:marketing-assets",

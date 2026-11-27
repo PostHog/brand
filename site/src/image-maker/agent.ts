@@ -396,7 +396,7 @@ export async function makeImage(slug: MakerSlug, request: Request, opts: MakeOpt
   }
 }
 
-export interface RenderedImage {
+export interface ExportedPng {
   /** The PNG, base64. */
   png: string
   filename: string
@@ -405,17 +405,17 @@ export interface RenderedImage {
 }
 
 /**
- * Draws a saved image (an `?image=` link's value) as the PNG its maker downloads: opened the way
+ * Exports a saved image (an `?image=` link's value) as the PNG its maker downloads: opened the way
  * the maker opens a link (its settings over the maker's `blank()`), with the same images and
- * fonts waited for and the same full-size drawing as `downloadPng`. Used by the render page
- * (src/render.ts) behind https://brand.posthog.com/render/<maker>.png. `size` picks a build mode
- * size (default LinkedIn).
+ * fonts waited for and the same full-size drawing as `downloadPng`. Used by the headless page
+ * (headless.ts) behind https://brand.posthog.com/tools/images/<maker>.png. `size` picks a build
+ * mode size (default LinkedIn).
  */
-export async function renderImage(
+export async function exportPng(
   slug: MakerSlug,
   param: string,
   opts: { scale?: 1 | 2; size?: string } = {},
-): Promise<RenderedImage> {
+): Promise<ExportedPng> {
   const engine = ENGINES[slug]
   if (!engine) throw new Error(`No image maker "${slug}".`)
   const saved = decodeImage(param)

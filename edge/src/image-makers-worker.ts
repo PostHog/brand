@@ -1,31 +1,33 @@
-// The image render Worker: draws image maker images on the server, for agents that can't run the
-// makers in a browser. It opens the site's render page (site/render.html → site/src/render.ts) in a
-// Browser Run headless browser and calls the makers' own code there, so a rendered PNG is the file
-// the maker downloads rather than a re-implementation of it.
+// The image makers on the server: makes and exports image maker images for agents that can't run
+// the makers in a browser. The makers only draw in a browser (canvas, web fonts, images), so this
+// Worker opens the site's headless image makers page (site/image-makers-headless.html →
+// site/src/image-maker/headless.ts) in a Browser Run browser and calls the makers' own code there:
+// an exported PNG is the file the maker downloads, not a re-implementation of it.
 //
-//   GET  /render/<maker>.png?image=<saved image>[&scale=2][&size=X]   the PNG (cached)
-//   POST /make  { maker, request, size? }                             a make_*_image result (JSON)
+//   GET  /tools/images/<maker>.png?image=<saved image>[&scale=2][&size=X]   the PNG (cached)
+//   POST /make  { maker, request, size? }                                   a make_*_image result
 //
-// Reached through the brand site: functions/render/[file].ts forwards /render/* here, and the MCP
-// server (edge/src/mcp.ts) calls /make. Both through the RENDER service binding; the Worker has no
-// public URL of its own (wrangler.jsonc: workers_dev false, no routes).
+// The PNG URL is the maker's own link (/tools/images/<maker>?image=…) with `.png` added. Reached
+// through the brand site: functions/tools/images/[file].ts forwards those PNG requests here, and the
+// MCP server (edge/src/mcp.ts) calls /make, both through the Pages project's IMAGE_MAKERS service
+// binding. The Worker has no public URL of its own (wrangler.jsonc: workers_dev false, no routes).
 //
-// Guarding a public renderer: the browser session may only reach the site and the hosts pictures
-// come from (`guardrails`, fixed for the session's life), saved images are size-capped, renders
-// are cached by URL, and uncached work is rate limited per client IP.
+// Guarding a public endpoint: the browser session may only reach the site and the hosts pictures
+// come from (`guardrails`, fixed for the session's life), saved images are size-capped, PNGs are
+// cached by URL, and uncached work is rate limited per client IP.
 
 import puppeteer, { type Browser } from "@cloudflare/puppeteer"
 import { MAKER_CATALOG, type MakerSlug } from "../../site/src/image-maker/catalog.ts"
 
-export interface RenderEnv {
+export interface ImageMakersEnv {
   /** Browser Run. */
   BROWSER: Parameters<typeof puppeteer.launch>[0]
-  /** Where the render page is served: https://brand.posthog.com (or the local dev server). */
+  /** The site, which serves the headless page: https://brand.posthog.com (or the local dev server). */
   SITE_ORIGIN: string
   /** Other hosts a picture in an image may come from, comma-separated. */
   PICTURE_HOSTS?: string
   /** Workers rate limiting, keyed by client IP. Optional so local runs work without it. */
-  RENDER_LIMIT?: { limit: (options: { key: string }) => Promise<{ success: boolean }> }
+  IMAGE_MAKERS_LIMIT?: { limit: (options: { key: string }) => Promise<{ success: boolean }> }
 }
 
 interface Ctx {
@@ -34,20 +36,20 @@ interface Ctx {
 
 const MAKERS = MAKER_CATALOG.map((maker) => maker.slug) as readonly string[]
 
-/** The longest saved image the renderer takes: real ones are well under 2 KB. */
+/** The longest saved image this takes: real ones are well under 2 KB. */
 const MAX_IMAGE_PARAM = 16_000
-/** How long a rendered PNG is cached: an image's drawing only changes with a deploy. */
+/** How long an exported PNG is cached: an image's drawing only changes with a deploy. */
 const CACHE_SECONDS = 60 * 60 * 24
 /** An idle browser session stays up this long for the next request (Browser Run's max is 10 min). */
 const KEEP_ALIVE_MS = 60_000
-/** A render that takes longer than this has stalled. */
-const RENDER_TIMEOUT_MS = 25_000
+/** Drawing an image that takes longer than this has stalled. */
+const DRAW_TIMEOUT_MS = 25_000
 
 function error(status: number, message: string): Response {
   return Response.json({ error: message }, { status, headers: { "Cache-Control": "no-store" } })
 }
 
-function allowedDomains(env: RenderEnv): string[] {
+function allowedDomains(env: ImageMakersEnv): string[] {
   const hosts = (env.PICTURE_HOSTS ?? "")
     .split(",")
     .map((host) => host.trim())
@@ -57,7 +59,7 @@ function allowedDomains(env: RenderEnv): string[] {
 
 /**
  * The first picture URL in an image's settings (any string value, at any depth) from a host the
- * renderer doesn't load from, or null. Paths on the site and `data:` images are fine. The session
+ * image makers don't load from on the server, or null. Paths on the site and `data:` images are fine. The session
  * guardrails block other hosts too; this says why up front (and holds where guardrails don't, in
  * local runs).
  */
@@ -87,15 +89,15 @@ function savedImage(param: string): unknown {
   }
 }
 
-function pictureError(url: string, env: RenderEnv): Response {
+function pictureError(url: string, env: ImageMakersEnv): Response {
   return error(
     422,
-    `The renderer doesn't load pictures from ${new URL(url).hostname}. Use a picture from ${allowedDomains(env).join(", ")}, a path on the site, or a data:image URL.`,
+    `The image makers on the server don't load pictures from ${new URL(url).hostname}. Use a picture from ${allowedDomains(env).join(", ")}, a path on the site, or a data:image URL.`,
   )
 }
 
 /** A free browser session to reuse, or a new one (closed by Browser Run after KEEP_ALIVE_MS idle). */
-async function browserFor(env: RenderEnv): Promise<Browser> {
+async function browserFor(env: ImageMakersEnv): Promise<Browser> {
   try {
     const sessions = await puppeteer.sessions(env.BROWSER)
     const free = sessions.find((session) => !session.connectionId)
@@ -109,25 +111,29 @@ async function browserFor(env: RenderEnv): Promise<Browser> {
   })
 }
 
-/** Runs `brandRender.<fn>(...args)` on the render page, in a reused browser session. */
-async function onRenderPage<T>(env: RenderEnv, fn: "png" | "make", args: unknown[]): Promise<T> {
+/** Runs `brandImageMakers.<fn>(...args)` on the headless page, in a reused browser session. */
+async function onHeadlessMakers<T>(
+  env: ImageMakersEnv,
+  fn: "png" | "make",
+  args: unknown[],
+): Promise<T> {
   const browser = await browserFor(env)
   const page = await browser.newPage()
   try {
     const work = (async () => {
-      // /render: Pages serves render.html there (and 308s /render.html to it).
-      await page.goto(`${env.SITE_ORIGIN}/render`, { waitUntil: "load" })
-      await page.waitForFunction(() => "brandRender" in window, { timeout: 10_000 })
+      // Pages serves image-makers-headless.html there (and 308s the .html URL to it).
+      await page.goto(`${env.SITE_ORIGIN}/image-makers-headless`, { waitUntil: "load" })
+      await page.waitForFunction(() => "brandImageMakers" in window, { timeout: 10_000 })
       return (await page.evaluate(
         (name, rest) =>
           // oxlint-disable-next-line typescript/no-explicit-any -- the page's own API, typed there
-          (window as any).brandRender[name](...rest),
+          (window as any).brandImageMakers[name](...rest),
         fn,
         args,
       )) as T
     })()
     const timeout = new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error("The render timed out.")), RENDER_TIMEOUT_MS),
+      setTimeout(() => reject(new Error("Drawing the image timed out.")), DRAW_TIMEOUT_MS),
     )
     return await Promise.race([work, timeout])
   } finally {
@@ -143,16 +149,16 @@ function reason(err: unknown): string {
   return message.replace(/^Error: /, "").split("\n")[0]!
 }
 
-async function limited(request: Request, env: RenderEnv): Promise<boolean> {
-  if (!env.RENDER_LIMIT) return false
+async function limited(request: Request, env: ImageMakersEnv): Promise<boolean> {
+  if (!env.IMAGE_MAKERS_LIMIT) return false
   const key = request.headers.get("cf-connecting-ip") ?? "unknown"
-  const { success } = await env.RENDER_LIMIT.limit({ key })
+  const { success } = await env.IMAGE_MAKERS_LIMIT.limit({ key })
   return !success
 }
 
-async function renderPng(request: Request, env: RenderEnv, ctx: Ctx): Promise<Response> {
+async function exportPng(request: Request, env: ImageMakersEnv, ctx: Ctx): Promise<Response> {
   const url = new URL(request.url)
-  const maker = /^\/render\/([a-z-]+)\.png$/.exec(url.pathname)?.[1]
+  const maker = /^\/tools\/images\/([a-z-]+)\.png$/.exec(url.pathname)?.[1]
   if (!maker || !MAKERS.includes(maker))
     return error(404, `No image maker there. Makers: ${MAKERS.join(", ")}.`)
   const image = url.searchParams.get("image")
@@ -174,18 +180,18 @@ async function renderPng(request: Request, env: RenderEnv, ctx: Ctx): Promise<Re
   const hit = await cache.match(key.toString())
   if (hit) return hit
 
-  if (await limited(request, env)) return error(429, "Too many renders. Try again in a minute.")
-  let rendered: { png: string; filename: string }
+  if (await limited(request, env)) return error(429, "Too many images. Try again in a minute.")
+  let exported: { png: string; filename: string }
   try {
-    rendered = await onRenderPage(env, "png", [maker as MakerSlug, image, { scale, size }])
+    exported = await onHeadlessMakers(env, "png", [maker as MakerSlug, image, { scale, size }])
   } catch (err) {
     return error(422, reason(err))
   }
-  const bytes = Uint8Array.from(atob(rendered.png), (c) => c.charCodeAt(0))
+  const bytes = Uint8Array.from(atob(exported.png), (c) => c.charCodeAt(0))
   const response = new Response(bytes, {
     headers: {
       "Content-Type": "image/png",
-      "Content-Disposition": `inline; filename="${rendered.filename}"`,
+      "Content-Disposition": `inline; filename="${exported.filename}"`,
       "Cache-Control": `public, max-age=${CACHE_SECONDS}`,
       "Access-Control-Allow-Origin": "*",
     },
@@ -194,7 +200,7 @@ async function renderPng(request: Request, env: RenderEnv, ctx: Ctx): Promise<Re
   return response
 }
 
-async function make(request: Request, env: RenderEnv): Promise<Response> {
+async function make(request: Request, env: ImageMakersEnv): Promise<Response> {
   let body: { maker?: string; request?: Record<string, unknown>; size?: string }
   try {
     body = await request.json()
@@ -209,7 +215,7 @@ async function make(request: Request, env: RenderEnv): Promise<Response> {
   if (blocked) return pictureError(blocked, env)
   if (await limited(request, env)) return error(429, "Too many images. Try again in a minute.")
   try {
-    const result = await onRenderPage<Record<string, unknown>>(env, "make", [
+    const result = await onHeadlessMakers<Record<string, unknown>>(env, "make", [
       body.maker,
       body.request ?? {},
       { size: body.size },
@@ -221,10 +227,10 @@ async function make(request: Request, env: RenderEnv): Promise<Response> {
 }
 
 export default {
-  async fetch(request: Request, env: RenderEnv, ctx: Ctx): Promise<Response> {
+  async fetch(request: Request, env: ImageMakersEnv, ctx: Ctx): Promise<Response> {
     const { pathname } = new URL(request.url)
-    if (request.method === "GET" && pathname.startsWith("/render/"))
-      return renderPng(request, env, ctx)
+    if (request.method === "GET" && pathname.startsWith("/tools/images/"))
+      return exportPng(request, env, ctx)
     if (request.method === "POST" && pathname === "/make") return make(request, env)
     return error(404, "Not found.")
   },

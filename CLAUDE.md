@@ -265,38 +265,41 @@ captured as `$mcp_tool_call` by `@posthog/mcp` (`instrument`, with the injected 
 into posthog.com's project (`site/src/posthog-project.ts`), except from localhost; set the
 `POSTHOG_HOST` binding to send them to a local sink instead. `edge/` typechecks with the site's
 compiler settings (it imports site modules) and minimal hand-written Cloudflare types. Run it with
-`pnpm dev:edge` (builds the site, then `wrangler pages dev site/dist --service RENDER=brand-render` on :8788) and check it with
+`pnpm dev:edge` (builds the site, then `wrangler pages dev site/dist --service IMAGE_MAKERS=brand-image-makers` on :8788) and check it with
 `node edge/scripts/smoke.ts [url]`, which calls every tool with the official MCP client (point it
 at `https://brand.posthog.com/mcp` after a deploy).
 
-**Image rendering** (`/render/<maker>.png?image=…`, and the MCP `make_*_image` tools): the image
-makers drawn on the server, so agents that don't browse get real PNGs. The makers only draw in a
-browser (canvas, fonts, images), so a headless one does it: the render Worker
-(`edge/src/render-worker.ts`, its own `edge/wrangler.jsonc`; needs Workers Paid with Browser Run)
-deploys through Cloudflare Workers Builds: the `brand-render` Workers project is connected to this
-repo with root directory `edge` (its `pnpm install` installs the whole workspace, and wrangler
-bundles the one site module it imports), the default deploy command `npx wrangler deploy`, build
-watch paths `edge/*` and `site/src/image-maker/catalog.ts` (other changes skip the build; the
-render page itself ships with the site), and preview builds off. The project's name must match
-`name` in `wrangler.jsonc`. `pnpm --filter @posthog/brand-edge deploy:render` deploys by hand. The Worker opens the
-site's render page (`site/render.html` → `site/src/render.ts`, a second Vite entry with no React or
-analytics that registers RoundHog like `main.tsx`) and calls `window.brandRender`, which is
-`renderImage`/`makeImage` in `site/src/image-maker/agent.ts`, i.e. the makers' own code.
-`renderImage` opens an `?image=` value the way the maker opens a link (its settings over the
-maker's `blank()`), waits for the same images and fonts, and draws at full size like
-`downloadPng`, so a render is the maker's download: in one browser build it is pixel-identical (checked against
-every `site/tests/makers/` case, with the GPU off on both sides; the GPU path anti-aliases a little
-differently, as machines already do). The Worker has no public URL: `functions/render/[file].ts`
-forwards `/render/*` to it, and the MCP server calls its `POST /make`, through the Pages project's
-`RENDER` service binding (set in the Pages dashboard; without it `/render` answers 503 and the MCP
-server lists no image tools). It reuses idle browser sessions (`keep_alive` 60 s), caches each PNG
-for a day by normalized URL, rate limits uncached work per client IP (`RENDER_LIMIT`), caps saved
-images at 16 KB, and only loads pictures from the site, `PICTURE_HOSTS` (res.cloudinary.com,
-posthog.com) and `data:` URLs: `disallowedPicture` rejects the rest up front, and the session's
-Browser Run `guardrails` block them at the network (local runs don't enforce guardrails). Run it all
-locally: `pnpm dev:edge` (site + functions on :8788) with `--service RENDER=brand-render` added, and
-`pnpm --filter @posthog/brand-edge dev:render` (the Worker on :8790, with a local Browser Run
-Chrome, rendering the :8788 site); the smoke test then covers the image tools too.
+**Image makers on the server** (`/tools/images/<maker>.png?image=…`, and the MCP `make_*_image`
+tools): agents that don't browse get real images from the makers. A saved image's PNG is its maker
+link plus `.png` (`/tools/images/blog?image=X` → `/tools/images/blog.png?image=X`). The makers only
+draw in a browser (canvas, fonts, images), so a headless one runs them: the image makers Worker
+(`edge/src/image-makers-worker.ts`, its own `edge/wrangler.jsonc`; needs Workers Paid with Browser
+Run) opens the headless image makers page (`site/image-makers-headless.html` →
+`site/src/image-maker/headless.ts`, a second Vite entry with no React or analytics that registers
+RoundHog like `main.tsx`, served at `/image-makers-headless`) and calls `window.brandImageMakers`,
+which is `exportPng`/`makeImage` in `site/src/image-maker/agent.ts`, i.e. the makers' own code.
+`exportPng` opens an `?image=` value the way the maker opens a link (its settings over the maker's
+`blank()`), waits for the same images and fonts, and draws at full size like `downloadPng`, so an
+export is the maker's download: in one browser build it is pixel-identical (checked against every
+`site/tests/makers/` case, with the GPU off on both sides; the GPU path anti-aliases a little
+differently, as machines already do). The Worker has no public URL: `functions/tools/images/[file].ts`
+forwards `.png` requests to it (and passes the maker pages and their `.md` twins on to the static
+files with `next()`), and the MCP server calls its `POST /make`, both through the Pages project's
+`IMAGE_MAKERS` service binding (set in the Pages dashboard; without it the PNG URLs answer 503 and
+the MCP server lists no image tools). It reuses idle browser sessions (`keep_alive` 60 s), caches
+each PNG for a day by normalized URL, rate limits uncached work per client IP
+(`IMAGE_MAKERS_LIMIT`), caps saved images at 16 KB, and only loads pictures from the site,
+`PICTURE_HOSTS` (res.cloudinary.com, posthog.com) and `data:` URLs: `disallowedPicture` rejects the
+rest up front, and the session's Browser Run `guardrails` block them at the network (local runs
+don't enforce guardrails). It deploys through Cloudflare Workers Builds: the `brand-image-makers`
+Workers project is connected to this repo with root directory `edge` (its `pnpm install` installs
+the whole workspace, and wrangler bundles the one site module it imports), the default deploy
+command `npx wrangler deploy`, build watch paths `edge/*` and `site/src/image-maker/catalog.ts`
+(other changes skip the build; the headless page ships with the site), and preview builds off. The
+project's name must match `name` in `wrangler.jsonc`; `pnpm --filter @posthog/brand-edge
+deploy:image-makers` deploys by hand. Run it all locally: `pnpm dev:edge` (site + functions on
+:8788) and `pnpm --filter @posthog/brand-edge dev:image-makers` (the Worker on :8790, with a local
+Browser Run Chrome, using the :8788 site); the smoke test then covers the image tools too.
 
 **Website badges** (`/badges`): two "Built with PostHog" badges (a light and a dark plate) that
 other sites hotlink from `/badges/<id>.svg` (100×50, PNG 300×150). One table,

@@ -457,8 +457,8 @@ const MCP_RETURNS =
 
 /**
  * The make_*_image tools on the remote MCP server: the same settings as the WebMCP tools, minus
- * what only a browser tab can do (`show`, `download`). Listed only where the server can render
- * (the RENDER binding, edge/src/mcp.ts).
+ * what only a browser tab can do (`show`, `download`). Listed only where the server can make
+ * images (the IMAGE_MAKERS binding, edge/src/mcp.ts).
  */
 export const MCP_IMAGE_TOOL_DEFINITIONS: readonly ToolDefinition[] = imageMakerTools().map(
   (tool) => {

@@ -78,7 +78,7 @@ check(
 const missing = await call("get_brand_asset", { type: "hoggie", slug: "no-such-hoggie" })
 check("unknown asset is an error result", missing.isError === true, firstText(missing.content))
 
-// The image tools, where the server can render (the RENDER binding).
+// The image tools, where the server can make images (the IMAGE_MAKERS binding).
 if (tools.some((t) => t.name === "make_customer_story_image")) {
   const pngOk = async (url: string) => {
     const res = await fetch(url)
@@ -118,7 +118,7 @@ if (tools.some((t) => t.name === "make_customer_story_image")) {
     bad.isError === true,
     firstText(bad.content),
   )
-} else console.log("(no image tools: the server has no RENDER binding)")
+} else console.log("(no image tools: the server has no IMAGE_MAKERS binding)")
 
 await client.close()
 console.log(failures ? `${failures} failed` : "All tools OK")
