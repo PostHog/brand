@@ -525,6 +525,8 @@ a:has(> code) {
 /* ---- Cards / grids ---- */
 .section {
   margin-top: 48px;
+  /* Clears the fixed top nav when a link jumps to a section, e.g. /logo#using-the-logo. */
+  scroll-margin-top: 88px;
 }
 .section h2 {
   font-size: 22px;

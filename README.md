@@ -285,7 +285,17 @@ external contributions — see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License
 
-Source-available under the [PolyForm Strict License 1.0.0](./LICENSE): you may read the source,
-but commercial use, use in your own projects, redistribution, and derivative works are not
-licensed. The illustrations, logos, and crests are PostHog trademarks and brand assets. For
-licensing, email hey@posthog.com.
+[`LICENSE`](./LICENSE) says which files fall under each of these.
+
+- **The PostHog logo** (the logomark, the wordmark and every lockup, in every variant: `src/logo/`,
+  the package's `dist/logo/`, and the logo files at
+  [brand.posthog.com/logo](https://brand.posthog.com/logo)) is not under the PolyForm Strict
+  License. You may use it to refer to PostHog, including in icon sets, under the
+  [logo usage guidelines](https://brand.posthog.com/logo#using-the-logo). The PostHog name and
+  logo are trademarks of PostHog, Inc.
+- **Everything else** (the hedgehog illustrations, crests, fonts, colors and the rest of the code)
+  is source-available under the [PolyForm Strict License 1.0.0](./LICENSE): you may read the
+  source, but commercial use, use in your own projects, redistribution, and derivative works are
+  not licensed. The illustrations and crests are PostHog trademarks and brand assets.
+
+For licensing, email hey@posthog.com.

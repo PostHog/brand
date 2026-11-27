@@ -199,6 +199,24 @@ export function inPresetOrder<T extends { id: string }>(logos: readonly T[]): T[
   return LOGO_PRESETS.flatMap((preset) => logos.filter((logo) => logo.id === preset.file.id))
 }
 
+/**
+ * The logo usage guidelines, the terms under which anyone may use the logo. Shown on the logo
+ * page, its markdown twin and its static shell; `LICENSE` points here.
+ */
+export const LOGO_USAGE_GUIDELINES: readonly string[] = [
+  "You may use the PostHog logo, including single-color versions, to refer to PostHog: in your product, docs, integrations lists, articles, and icon sets such as simple-icons.",
+  "Use it as published. You can resize it, or recolor it to a single solid color. Don't otherwise change its shape, proportions or colors, combine it with other marks, or animate it.",
+  "Don't use it in a way that suggests PostHog endorses, sponsors or is affiliated with you, and don't use it as your own product's logo or icon.",
+  "The PostHog name and logo are trademarks of PostHog, Inc. PostHog may withdraw permission for uses that don't follow these guidelines.",
+]
+
+/** Where questions about the logo usage guidelines go. */
+export const LOGO_GUIDELINES_CONTACT = "hey@posthog.com"
+
+/** What the guidelines don't cover, said after them on every surface. */
+export const LOGO_GUIDELINES_SCOPE =
+  "These guidelines cover the logo only. The hedgehogs, crests, fonts, colors, badges and the rest of the package stay under the PolyForm Strict License 1.0.0."
+
 export const LOGO_DOS: readonly string[] = [
   "Use the standard logo by default.",
   "Use a light (white) logo on dark backgrounds.",

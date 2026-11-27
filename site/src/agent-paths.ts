@@ -14,8 +14,19 @@ import type { CrestTier } from "@posthog/brand"
 /** Canonical origin. Deployed from `main` to Cloudflare Pages. */
 export const SITE_URL = "https://brand.posthog.com"
 
-/** The brand assets' license (PolyForm Strict), linked from the docs, the catalog and pages. */
+/**
+ * The repository's license file: PolyForm Strict for everything but the logo, which it scopes
+ * out to the logo usage guidelines. Linked from the docs, the catalog and pages.
+ */
 export const LICENSE_URL = "https://github.com/PostHog/brand/blob/main/LICENSE"
+
+/**
+ * The logo usage guidelines: the section of the logo page that grants permission to use the
+ * logo (`src/logo/`, the package's `dist/logo/` and the `/logo/*` files). `LICENSE` and other
+ * sites link to this anchor, so keep it stable.
+ */
+export const LOGO_GUIDELINES_ANCHOR = "using-the-logo"
+export const LOGO_GUIDELINES_URL = `${SITE_URL}/logo#${LOGO_GUIDELINES_ANCHOR}`
 
 export type ImageFormat = "svg" | "png"
 

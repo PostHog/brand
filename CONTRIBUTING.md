@@ -20,9 +20,11 @@ overwritten by the next sync.
 - **Brand/design changes happen in Figma.** New or updated illustrations and crests come from
   the brand-book Figma file and flow in through the daily sync — not through this repo. (The
   `<Logo>` component and the color palette are the exceptions: both are hand-maintained.)
-- **Licensing.** The brand assets are PostHog trademarks, source-available under the
-  [PolyForm Strict License 1.0.0](./LICENSE). They are not free to reuse, redistribute, or
-  build on. For licensing inquiries, contact **hey@posthog.com**.
+- **Licensing.** The PostHog logo may be used under the
+  [logo usage guidelines](https://brand.posthog.com/logo#using-the-logo). The other brand
+  assets are PostHog trademarks, source-available under the PolyForm Strict License 1.0.0, and
+  are not free to reuse, redistribute, or build on. [LICENSE](./LICENSE) lists which files fall
+  under each. For licensing inquiries, contact **hey@posthog.com**.
 
 If you're on the PostHog team and need to change how the sync, codegen, or release works, see
 [CLAUDE.md](./CLAUDE.md) for the data flow and conventions.

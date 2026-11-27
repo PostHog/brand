@@ -34,8 +34,18 @@ import {
   LICENSE_URL,
   loadAgentData,
 } from "./agent/data.ts"
-import { absoluteUrl, assetPagePath, markdownPath } from "./src/agent-paths.ts"
+import {
+  absoluteUrl,
+  assetPagePath,
+  LOGO_GUIDELINES_ANCHOR,
+  markdownPath,
+} from "./src/agent-paths.ts"
 import { BADGE_ALT, BADGE_USAGE } from "./src/badge-files.ts"
+import {
+  LOGO_GUIDELINES_CONTACT,
+  LOGO_GUIDELINES_SCOPE,
+  LOGO_USAGE_GUIDELINES,
+} from "./src/logo-files.ts"
 import { MARKETING_ASSET_GROUPS } from "./src/marketing-assets.ts"
 import { formatReleaseDate } from "./src/release.ts"
 import {
@@ -120,7 +130,8 @@ function siteJsonLd(): string {
         codeRepository: "https://github.com/PostHog/brand",
         programmingLanguage: "TypeScript",
         runtimePlatform: "React",
-        license: "https://polyformproject.org/licenses/strict/1.0.0/",
+        // LICENSE, not the PolyForm URL alone: it scopes the logo out to its usage guidelines.
+        license: LICENSE_URL,
         author: { "@id": ORGANIZATION_ID },
       },
     ],
@@ -287,6 +298,14 @@ function staticShell({ page, asset, listing, badges, marketingAssets }: Route): 
       .join("")
     const usage = BADGE_USAGE.map((item) => `<li>${escape(item)}</li>`).join("")
     body = `${sections}<h2 id="usage">Using the badges</h2><ul>${usage}</ul>`
+  }
+
+  if (page.path === "/logo") {
+    const items = LOGO_USAGE_GUIDELINES.map((item) => `<li>${escape(item)}</li>`).join("")
+    const contact = `<li>Questions? Email <a href="mailto:${LOGO_GUIDELINES_CONTACT}">${LOGO_GUIDELINES_CONTACT}</a>.</li>`
+    body =
+      `<h2 id="${LOGO_GUIDELINES_ANCHOR}">Using the PostHog logo</h2><ul>${items}${contact}</ul>` +
+      `<p>${escape(LOGO_GUIDELINES_SCOPE)} The <a href="${LICENSE_URL}">repository license</a> lists which files each covers.</p>`
   }
 
   if (marketingAssets) {

@@ -1,8 +1,9 @@
 import { Logo } from "@posthog/brand/logo"
 import type { LogoLayout, LogomarkHandle } from "@posthog/brand/logo"
 import type { ReactNode } from "react"
-import { useLayoutEffect, useRef, useState } from "react"
-import { Link } from "react-router-dom"
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
+import { Link, useLocation } from "react-router-dom"
+import { LICENSE_URL, LOGO_GUIDELINES_ANCHOR } from "../agent-paths.ts"
 import { Callout } from "../components/Callout.tsx"
 import { CodeBlock } from "../components/CodeBlock.tsx"
 import { CopyFlash } from "../components/CopyFlash.tsx"
@@ -12,7 +13,10 @@ import { PageHeader } from "../components/PageHeader.tsx"
 import {
   LOGO_DONTS,
   LOGO_DOS,
+  LOGO_GUIDELINES_CONTACT,
+  LOGO_GUIDELINES_SCOPE,
   LOGO_PRESETS,
+  LOGO_USAGE_GUIDELINES,
   logoProps,
   type LogoFile,
   type LogoPreset,
@@ -558,6 +562,13 @@ function ReactSection() {
 
 export function LogoPage() {
   useSeo("/logo")
+  const { hash } = useLocation()
+
+  // The page mounts from a lazy chunk after the browser's own jump to the fragment, so a link
+  // to /logo#using-the-logo would otherwise land at the top.
+  useEffect(() => {
+    if (hash) document.getElementById(decodeURIComponent(hash.slice(1)))?.scrollIntoView()
+  }, [hash])
 
   return (
     <div>
@@ -578,6 +589,23 @@ export function LogoPage() {
       <section className="section">
         <h2>Guidelines</h2>
         <Guidelines />
+      </section>
+
+      <section className="section" id={LOGO_GUIDELINES_ANCHOR}>
+        <h2>Using the PostHog logo</h2>
+        <ul>
+          {LOGO_USAGE_GUIDELINES.map((item, i) => (
+            <li key={i}>{item}</li>
+          ))}
+          <li>
+            Questions? Email{" "}
+            <a href={`mailto:${LOGO_GUIDELINES_CONTACT}`}>{LOGO_GUIDELINES_CONTACT}</a>.
+          </li>
+        </ul>
+        <p className="section-lede">
+          {LOGO_GUIDELINES_SCOPE} The <a href={LICENSE_URL}>repository license</a> lists which files
+          each covers.
+        </p>
       </section>
 
       <details className="logo-group section" open>
