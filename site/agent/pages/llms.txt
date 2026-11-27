@@ -6,7 +6,7 @@
 
 ## Docs
 
-- [Overview]({{site}}/index.md): both ways in, plus the WebMCP tools this site registers
+- [Overview]({{site}}/index.md): every way in, plus the tools of the MCP server ({{site}}/mcp) and of WebMCP
 {{sections}}
 - [catalog.json]({{site}}/catalog.json): every asset as JSON, with file URLs, PNG sizes, JSX, and package imports
 - [llms-full.txt]({{site}}/llms-full.txt): all of the above pages in one file

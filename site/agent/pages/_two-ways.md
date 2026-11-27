@@ -1,4 +1,4 @@
-## Two ways to get any asset
+## Ways to get any asset
 
 **1. In a JavaScript or TypeScript project, use the npm package.** It's the easiest route. `@posthog/brand` bundles every asset on this site as typed, tree-shakeable imports: React components, raw SVG strings and PNG URLs. It works offline without a CDN or an API key, and it won't break the way a hotlinked file can.
 
@@ -36,3 +36,9 @@ curl -O {{site}}/logo/posthog-logo.png
 ```
 
 Slugs, ids and exact PNG sizes are in the lists below and in the machine-readable catalog, {{site}}/catalog.json.
+
+**3. From an AI agent, connect the MCP server.** {{site}}/mcp serves the same assets over MCP (Streamable HTTP, no sign-in): search them, read their details and logo guidelines, and get any file, an SVG as markup and a PNG as an image.
+
+```sh
+claude mcp add --transport http posthog-brand {{site}}/mcp
+```

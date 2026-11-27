@@ -1,0 +1,21 @@
+{
+  "name": "@posthog/brand-edge",
+  "version": "0.0.1",
+  "private": true,
+  "description": "brand.posthog.com's server side: the remote MCP server (/mcp, a Pages Function) and the image render Worker.",
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "@posthog/brand": "workspace:*",
+    "@posthog/mcp": "^1.6.0",
+    "posthog-node": "^6.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.5",
+    "typescript": "^6.0.3",
+    "wrangler": "^4.166.0"
+  }
+}
