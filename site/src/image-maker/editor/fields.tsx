@@ -1,7 +1,8 @@
 // The settings panel's controls. They use the site's .input and .seg (theme.css); layout is in
 // maker.css.
 
-import { type ReactNode, useId } from "react"
+import { type ReactNode, useEffect, useId, useState } from "react"
+import { imageFailed, onAssetLoad } from "./canvas.ts"
 
 export function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -14,6 +15,50 @@ export function Section({ title, children }: { title: string; children: ReactNod
 
 export function Hint({ children, warn }: { children: ReactNode; warn?: boolean }) {
   return <span className={warn ? "hint warn" : "hint"}>{children}</span>
+}
+
+/** Re-renders when an image (or font) a drawing asked for finishes loading or fails. */
+function useAssetLoads(): void {
+  const [, bump] = useState(0)
+  useEffect(() => onAssetLoad(() => bump((n) => n + 1)), [])
+}
+
+/**
+ * A warning for pictures the drawing couldn't load, which it leaves out (a logo becomes the
+ * company name). The settings' own thumbnails still show them, since an <img> doesn't need the
+ * picture's server to allow other sites, so without this the image just looks broken. A picture
+ * from another site usually fails because that site doesn't allow it (CORS); the fix is to
+ * upload the file. `minWidth` must match what the drawing loads it at.
+ */
+export function PictureError({
+  urls,
+  what,
+  minWidth = 0,
+}: {
+  urls: readonly (string | null | undefined)[]
+  /** What the pictures are: "logo", "image". */
+  what: string
+  minWidth?: number
+}) {
+  useAssetLoads()
+  const failed = urls.filter((url): url is string => !!url && imageFailed(url, minWidth))
+  if (!failed.length) return null
+  const hosts = [
+    ...new Set(
+      failed
+        .filter((url) => /^https?:/i.test(url))
+        .map((url) => new URL(url).hostname)
+        .filter((host) => host !== window.location.hostname),
+    ),
+  ]
+  const which = failed.length > 1 ? `${failed.length} ${what}s` : `The ${what}`
+  return (
+    <Hint warn>
+      {hosts.length
+        ? `${which} from ${hosts.join(" and ")} can’t be drawn: that site doesn’t let other sites use its images, or the link is broken. Download the file and upload it here instead.`
+        : `${which} didn’t load. Try the file again, as a PNG, JPG or SVG.`}
+    </Hint>
+  )
 }
 
 /** A labelled control. `children` gets the id to put on the control the label names. */

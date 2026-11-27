@@ -138,11 +138,13 @@ const customerEngine: Engine<customer.CustomerDoc> = {
       facts: {
         company: customer.displayName(d),
         logo:
-          logo.src === "library"
-            ? "from posthog.com/customers"
-            : logo.src === "upload"
-              ? "from logoUrl"
-              : "none: the company name is drawn instead",
+          logo.src !== "none" && imageFailed(logo.id, customerDraw.MIN_WIDTH)
+            ? "didn't load: the company name is drawn instead (see warnings)"
+            : logo.src === "library"
+              ? "from posthog.com/customers"
+              : logo.src === "upload"
+                ? "from logoUrl"
+                : "none: the company name is drawn instead",
         logoColors: logo.mode === "match" ? "matched to the text color" : "the logo's own",
         hoggie: customer.resolvedHog(d),
         hoggieChosenBy: customer.isAuto(d) ? "matched to the company" : "you",

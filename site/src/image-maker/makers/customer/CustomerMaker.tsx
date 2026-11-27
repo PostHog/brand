@@ -18,6 +18,7 @@ import {
   Field,
   Hint,
   PictureCard,
+  PictureError,
   Range,
   Section,
   Segmented,
@@ -402,6 +403,7 @@ export default function CustomerMaker() {
                 }}
               />
               {uploadMsg ? <Hint>{uploadMsg}</Hint> : null}
+              <PictureError urls={[li.id]} what="logo" minWidth={MIN_WIDTH} />
             </div>
 
             <Segmented

@@ -16,6 +16,7 @@ import {
   Field,
   Hint,
   PictureCard,
+  PictureError,
   Range,
   Section,
   Segmented,
@@ -370,6 +371,7 @@ export default function EventMaker() {
               hidden
               onChange={onPhoto}
             />
+            <PictureError urls={[ph?.id]} what="image" />
             {ph ? (
               <div className="section-inner">
                 <Range
@@ -454,6 +456,7 @@ export default function EventMaker() {
               onChange={onLogo}
             />
             {full ? <Hint>That’s the maximum of 4 logos.</Hint> : null}
+            <PictureError urls={logos.map((lg) => lg.id)} what="logo" />
           </Section>
 
           <Section title="Colors">

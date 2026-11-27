@@ -16,6 +16,7 @@ import {
   Field,
   Hint,
   PictureCard,
+  PictureError,
   Range,
   Section,
   Swatches,
@@ -365,6 +366,7 @@ export default function BuildMaker() {
                 </button>
               ) : null}
             </PictureCard>
+            <PictureError urls={[imageUrl]} what="image" />
             <Range
               label="Size, all sizes"
               min={50}
