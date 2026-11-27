@@ -5,9 +5,12 @@
   "description": "brand.posthog.com's server side: the remote MCP server (/mcp, a Pages Function) and the image render Worker.",
   "type": "module",
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "dev:render": "wrangler dev --port 8790 --var SITE_ORIGIN:http://localhost:8788",
+    "deploy:render": "wrangler deploy"
   },
   "dependencies": {
+    "@cloudflare/puppeteer": "^2.0.1",
     "@modelcontextprotocol/sdk": "^1.32.2",
     "@posthog/brand": "workspace:*",
     "@posthog/mcp": "^1.6.0",

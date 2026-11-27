@@ -37,5 +37,9 @@ export default defineConfig({
   // "Cannot read properties of null (reading 'useRef')" and blanks the route.
   // `dedupe` forces every `react`/`react-dom` import in the graph to the site's single copy.
   resolve: { dedupe: ["react", "react-dom"] },
-  build: { outDir: "dist" },
+  // Two pages: the site, and the render page the image render Worker opens (src/render.ts).
+  build: {
+    outDir: "dist",
+    rollupOptions: { input: { main: "index.html", render: "render.html" } },
+  },
 })

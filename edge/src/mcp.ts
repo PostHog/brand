@@ -32,11 +32,14 @@ import {
   searchAssets,
 } from "../../site/src/brand-tools.ts"
 import { POSTHOG_HOST, POSTHOG_KEY } from "../../site/src/posthog-project.ts"
-import { MCP_TOOL_DEFINITIONS } from "../../site/src/webmcp-tools.ts"
+import { MAKER_CATALOG, type MakerSlug } from "../../site/src/image-maker/catalog.ts"
+import { MCP_IMAGE_TOOL_DEFINITIONS, MCP_TOOL_DEFINITIONS } from "../../site/src/webmcp-tools.ts"
 
 /** What the Pages Function hands over: the site's static files. */
 export interface Env {
   ASSETS: { fetch: (request: Request | string) => Promise<Response> }
+  /** The image render Worker (edge/src/render-worker.ts). Without it, no make_*_image tools. */
+  RENDER?: { fetch: (request: Request) => Promise<Response> }
   /** The deployed commit (Pages sets it), recorded as `$mcp_server_build`. */
   CF_PAGES_COMMIT_SHA?: string
   /** Sends analytics somewhere else, e.g. a local sink while testing. Unset: posthog.com's. */
@@ -48,6 +51,8 @@ export interface Ctx {
 }
 
 const INSTRUCTIONS = `PostHog's brand assets: the logo, the hedgehog illustrations ("hoggies"), team crests, brand colors and "Built with PostHog" website badges, from https://brand.posthog.com.
+
+Make images with PostHog's image makers (make_blog_image, make_event_image, make_build_mode_image, make_customer_story_image): each returns a preview to check, the full-size PNG's URL, and a link to the maker where a person can change the image. Check the preview and the warnings, and call again with changed settings until it looks right.
 
 Find assets with search_brand_assets, then get_brand_asset for every version of one, or get_brand_asset_file for the file itself: an SVG comes back as markup you can write to a file as-is, a PNG as an image, both with a URL to download. Call get_logo_guidelines before picking a logo. In a JavaScript or TypeScript project, prefer \`npm install @posthog/brand\` and the import each asset lists over copying files.
 
@@ -79,7 +84,69 @@ function loadCatalog(env: Env, origin: string): Promise<Catalog> {
 
 type Run = (input: Input) => Promise<CallToolResult>
 
-function tools(env: Env, origin: string): Record<string, Run> {
+/** make_<maker>_image's maker. */
+const IMAGE_TOOL_MAKERS: Record<string, MakerSlug> = {
+  make_blog_image: "blog",
+  make_event_image: "events",
+  make_build_mode_image: "build-mode",
+  make_customer_story_image: "customer-stories",
+}
+for (const slug of Object.values(IMAGE_TOOL_MAKERS))
+  if (!MAKER_CATALOG.some((maker) => maker.slug === slug)) throw new Error(`No maker ${slug}`)
+
+/** Arguments @posthog/mcp adds to every tool, which aren't image settings. */
+const INJECTED = ["context", "conversation_id", "llm_model"]
+
+/**
+ * A make_*_image call: the render Worker draws it with the maker (the same `makeImage` as the
+ * WebMCP tools, on the site's render page), and the answer points at the /render URL of the PNG.
+ */
+function imageTool(env: Env, origin: string, request: Request, slug: MakerSlug): Run {
+  return async (input) => {
+    const { scale, size, ...settings } = input
+    for (const key of INJECTED) delete settings[key]
+    const res = await env.RENDER!.fetch(
+      new Request("https://render.internal/make", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // So the Worker rate limits the agent's client, not this server.
+          "cf-connecting-ip": request.headers.get("cf-connecting-ip") ?? "unknown",
+        },
+        body: JSON.stringify({ maker: slug, request: settings, size }),
+      }),
+    )
+    const answer = (await res.json().catch(() => ({}))) as Record<string, unknown>
+    if (!res.ok) return failure(String(answer.error ?? `HTTP ${res.status}`)) as CallToolResult
+    const { image, link, preview, opened: _o, downloaded: _d, ...decided } = answer
+    const param = new URL(String(link)).searchParams.get("image") ?? ""
+    const png = (extra = "") =>
+      `${origin}/render/${slug}.png?image=${param}${scale === 2 ? "&scale=2" : ""}${extra}`
+    const files =
+      slug === "build-mode" && typeof size !== "string"
+        ? {
+            pngs: Object.fromEntries(
+              ["LinkedIn", "Website", "X", "Substack"].map((s) => [s, png(`&size=${s}`)]),
+            ),
+          }
+        : { png: png(typeof size === "string" ? `&size=${size}` : "") }
+    const result = {
+      maker: slug,
+      ...files,
+      link: `${origin}${new URL(String(link)).pathname}?image=${param}`,
+      preview,
+      ...decided,
+    }
+    return {
+      content: [
+        { type: "text", text: JSON.stringify(result, null, 2) },
+        { type: "image", data: String(image), mimeType: "image/jpeg" },
+      ],
+    }
+  }
+}
+
+function tools(env: Env, origin: string, request: Request): Record<string, Run> {
   const catalog = () => loadCatalog(env, origin)
   const answer = (value: unknown): CallToolResult =>
     isFailure(value) ? (value as CallToolResult) : json(value)
@@ -112,10 +179,19 @@ function tools(env: Env, origin: string): Record<string, Run> {
         ],
       }
     },
+    ...(env.RENDER
+      ? Object.fromEntries(
+          Object.entries(IMAGE_TOOL_MAKERS).map(([name, slug]) => [
+            name,
+            imageTool(env, origin, request, slug),
+          ]),
+        )
+      : {}),
   }
 }
 
-function createServer(env: Env, origin: string, posthog: PostHog | null) {
+function createServer(env: Env, request: Request, posthog: PostHog | null) {
+  const origin = new URL(request.url).origin
   const server = new Server(
     { name: "posthog-brand", title: "PostHog Brand", version: release.version },
     { capabilities: { tools: {} }, instructions: INSTRUCTIONS },
@@ -125,8 +201,10 @@ function createServer(env: Env, origin: string, posthog: PostHog | null) {
       context: true,
       ...(env.CF_PAGES_COMMIT_SHA ? { serverBuild: env.CF_PAGES_COMMIT_SHA } : {}),
     })
-  const run = tools(env, origin)
-  server.setRequestHandler(ListToolsRequestSchema, () => ({ tools: [...MCP_TOOL_DEFINITIONS] }))
+  const run = tools(env, origin, request)
+  server.setRequestHandler(ListToolsRequestSchema, () => ({
+    tools: [...MCP_TOOL_DEFINITIONS, ...(env.RENDER ? MCP_IMAGE_TOOL_DEFINITIONS : [])],
+  }))
   server.setRequestHandler(CallToolRequestSchema, async (request) => {
     const tool = run[request.params.name]
     if (!tool) return failure(`No tool named ${request.params.name}.`) as CallToolResult
@@ -184,7 +262,7 @@ export async function handleMcp(request: Request, env: Env, ctx: Ctx): Promise<R
           flushAt: 1,
           flushInterval: 0,
         })
-  const server = createServer(env, url.origin, posthog)
+  const server = createServer(env, request, posthog)
   const transport = new WebStandardStreamableHTTPServerTransport({
     sessionIdGenerator: undefined,
     enableJsonResponse: true,

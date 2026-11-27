@@ -1,0 +1,19 @@
+// The image render Worker (src/render-worker.ts). Deploy: `pnpm --filter @posthog/brand-edge
+// deploy:render` (needs a Cloudflare account on Workers Paid with Browser Run). The brand site
+// reaches it through a service binding named RENDER on the Pages project, so it has no public URL.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "brand-render",
+  "main": "src/render-worker.ts",
+  "compatibility_date": "2026-11-01",
+  "workers_dev": false,
+  "browser": { "binding": "BROWSER" },
+  "vars": {
+    "SITE_ORIGIN": "https://brand.posthog.com",
+    "PICTURE_HOSTS": "res.cloudinary.com,posthog.com",
+  },
+  "ratelimits": [
+    { "name": "RENDER_LIMIT", "namespace_id": "1801", "simple": { "limit": 30, "period": 60 } },
+  ],
+  "observability": { "enabled": true },
+}
