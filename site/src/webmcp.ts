@@ -20,6 +20,7 @@ import type {
 } from "../agent/data.ts"
 import { absoluteUrl, assetFileName, assetFilePath, type AssetRef } from "./agent-paths.ts"
 import { assetProperties } from "./analytics.ts"
+import type { MakerSlug } from "./image-maker/catalog.ts"
 import { inPresetOrder, LOGO_DONTS, LOGO_DOS } from "./logo-files.ts"
 import { PAGES } from "./seo.ts"
 import { TOOL_DEFINITIONS, type ToolDefinition } from "./webmcp-tools.ts"
@@ -233,7 +234,35 @@ async function openPage(input: Record<string, unknown>): Promise<{ opened: strin
   return { opened: url }
 }
 
+/**
+ * A make_*_image tool: draws the image with the maker (image-maker/agent.ts, loaded on the first
+ * call) and answers in MCP's content shape, so the agent gets the preview as an image it can see.
+ */
+function imageMaker(slug: MakerSlug) {
+  return async (input: Record<string, unknown>) => {
+    const { show, download, scale, size, ...request } = input
+    const { makeImage } = await import("./image-maker/agent.ts")
+    const { image, ...result } = await makeImage(slug, request, {
+      show: show === true,
+      download: download === true,
+      scale: scale === 2 ? 2 : 1,
+      size: typeof size === "string" ? size : undefined,
+      navigate,
+    })
+    return {
+      content: [
+        { type: "text", text: JSON.stringify(result, null, 2) },
+        { type: "image", data: image, mimeType: "image/jpeg" },
+      ],
+    }
+  }
+}
+
 const EXECUTE: Record<string, (input: Record<string, unknown>) => Promise<unknown>> = {
+  make_customer_story_image: imageMaker("customer-stories"),
+  make_blog_image: imageMaker("blog"),
+  make_event_image: imageMaker("events"),
+  make_build_mode_image: imageMaker("build-mode"),
   search_brand_assets: search,
   get_brand_asset: getAsset,
   get_logo_guidelines: logoGuidelines,

@@ -6,6 +6,14 @@
 // `context` (intent) and `llm_model` fields to schemas of exactly that shape when it wraps a
 // tool for `$mcp_tool_call` capture.
 
+import type {
+  ColorKey as BlogColor,
+  HlKey as BlogHighlight,
+} from "./image-maker/makers/blog/model.ts"
+import type { FormatKey, HlKey as BuildHighlight } from "./image-maker/makers/build/model.ts"
+import type { ColorKey as CustomerColor } from "./image-maker/makers/customer/model.ts"
+import type { ColorKey as EventColor } from "./image-maker/makers/event/model.ts"
+
 export interface ToolDefinition {
   name: string
   title: string
@@ -24,6 +32,298 @@ const ASSET_TYPE = {
   enum: ["hoggie", "crest", "logo", "badge"],
   description:
     'Which kind of asset: "hoggie" (a hedgehog illustration), "crest" (a team crest), "logo" (a logo file) or "badge" (a "Built with PostHog" website badge for other sites to embed, whose entry includes ready-to-paste HTML and Markdown embed code and the terms of use).',
+}
+
+// ---- Image makers ----
+// One tool per maker, each taking the same settings as its `#new-<hex JSON>` link (the maker's
+// `fromRequest`) plus what to do with the result. The value lists are checked against each
+// maker's own types below, so a new color can't be missing here.
+
+/** Every value of a string union, checked to be complete: `all<T>()([...])`. */
+const all =
+  <T extends string>() =>
+  <L extends readonly T[]>(list: L & ([T] extends [L[number]] ? unknown : "missing a value")) =>
+    list
+
+const COLORS = all<BlogColor & CustomerColor & EventColor>()([
+  "blue",
+  "yellow",
+  "teal",
+  "purple",
+  "corn-blue",
+  "coral",
+  "tangerine",
+  "lime",
+  "green",
+  "violet",
+  "cobalt",
+  "lemon",
+] as const)
+const BLOG_HIGHLIGHTS = all<BlogHighlight>()([
+  "blue",
+  "teal",
+  "purple",
+  "tangerine",
+  "green",
+  "white",
+] as const)
+const BUILD_HIGHLIGHTS = all<BuildHighlight>()(["teal", "purple", "tangerine", "blue"] as const)
+const BUILD_SIZES = all<FormatKey>()(["LinkedIn", "Website", "X", "Substack"] as const)
+
+const color = (description: string) => ({ type: "string", enum: COLORS, description })
+
+const HOGGIE = {
+  type: "string",
+  description:
+    'A hoggie by name or slug, as search_brand_assets returns them ("Burning Money" or "burning-money"; a variant family\'s later members add their key: "Noir 2" or "noir-2").',
+}
+
+/** The hoggie placement settings, in a maker's own slider ranges. */
+function placement(size: readonly [number, number], move: number, extra = "") {
+  return {
+    hoggieSize: {
+      type: "number",
+      minimum: size[0],
+      maximum: size[1],
+      description: `The hoggie's size in percent (${size[0]}–${size[1]}, default 100).${extra}`,
+    },
+    hoggieX: {
+      type: "number",
+      minimum: -move,
+      maximum: move,
+      description: `Moves the hoggie sideways (-${move}–${move}, right is positive, default 0).`,
+    },
+    hoggieY: {
+      type: "number",
+      minimum: -move,
+      maximum: move,
+      description: `Moves the hoggie up or down (-${move}–${move}, up is positive, default 0).`,
+    },
+    flip: { type: "boolean", description: "Mirrors the hoggie." },
+  }
+}
+
+const PICTURE =
+  "an https URL whose server allows cross-origin requests (res.cloudinary.com, where posthog.com keeps its images, does), a data:image URL, or a path on this site (/logo/…, /hoggies/…)"
+
+const OUTPUT = {
+  show: {
+    type: "boolean",
+    description:
+      "Also open the image in the maker on this page, saved in the user's list, where they can change it and download it. Leave it off while trying ideas; turn it on for the one to keep.",
+  },
+  download: {
+    type: "boolean",
+    description: "Also save the PNG to the user's computer, as a normal browser download.",
+  },
+}
+const SCALE = {
+  type: "integer",
+  enum: [1, 2],
+  description: "Download at 1x (default) or 2x.",
+}
+
+const RETURNS =
+  "Returns a preview of the image to check, the link that reopens it in the maker (`?image=`), what the maker decided (the hoggie it matched, where the logo came from…) and `warnings` to fix. Nothing is saved or downloaded unless you ask with `show` or `download`."
+
+function imageMakerTools(): ToolDefinition[] {
+  return [
+    {
+      name: "make_customer_story_image",
+      title: "Make a PostHog customer story image",
+      description: `Make a 1920 × 1080 customer story header: the company's logo, a hoggie and a brand color. The logo comes from the posthog.com/customers logos when the company is there; otherwise pass \`logoUrl\`. ${RETURNS}`,
+      inputSchema: {
+        type: "object",
+        properties: {
+          company: {
+            type: "string",
+            description:
+              'The company\'s name or website, e.g. "Supabase" or "supabase.com". Looked up in the posthog.com/customers logos.',
+          },
+          logoUrl: {
+            type: "string",
+            description: `The logo, when the maker doesn't have it: ${PICTURE}. A transparent PNG or an SVG of the full-color or dark logo works best.`,
+          },
+          logoMode: {
+            type: "string",
+            enum: ["match", "original"],
+            description:
+              '"match" draws the logo in one color, the text color (the default for most logos); "original" keeps its own colors. Use "original" for a logo on a filled plate or badge, which "match" paints as a solid block.',
+          },
+          hoggie: {
+            ...HOGGIE,
+            description: `${HOGGIE.description} Leave it out to pick one for the company.`,
+          },
+          ...placement([75, 125], 20),
+          color: color("Background color. Default blue."),
+          tone: {
+            type: "string",
+            enum: ["light", "mid", "dark"],
+            description: "Background tone. Default mid (full color).",
+          },
+          ink: {
+            type: "string",
+            enum: ["light", "dark"],
+            description: "Text and logo color: light (white, the default) or dark.",
+          },
+          ...OUTPUT,
+          scale: SCALE,
+        },
+        required: ["company"],
+        additionalProperties: false,
+      },
+    },
+    {
+      name: "make_blog_image",
+      title: "Make a PostHog blog image",
+      description: `Make a 1920 × 1080 blog or newsletter header: the title with a highlighted phrase, up to 3 authors and a hoggie matched to the title. ${RETURNS}`,
+      inputSchema: {
+        type: "object",
+        properties: {
+          title: {
+            type: "string",
+            description: "The post title. It wraps on its own; `|` forces a line break.",
+          },
+          highlight: {
+            type: "string",
+            description: "A word or phrase from the title to highlight.",
+          },
+          description: {
+            type: "string",
+            description:
+              "One or two sentences about the post. Not drawn: it helps match the hoggie.",
+          },
+          authors: {
+            type: "array",
+            items: { type: "string" },
+            maxItems: 3,
+            description: "Up to 3 author names.",
+          },
+          hoggie: {
+            ...HOGGIE,
+            description: `${HOGGIE.description} Leave it out to match one to the title.`,
+          },
+          ...placement([75, 125], 20),
+          color: color("Background color. Random when left out."),
+          tone: { type: "string", enum: ["light", "mid", "dark"], description: "Background tone." },
+          textColor: {
+            type: "string",
+            enum: ["dark", "white"],
+            description: "Text color on the mid tone.",
+          },
+          highlightColor: {
+            type: "string",
+            enum: BLOG_HIGHLIGHTS,
+            description:
+              "Highlight color. white only works on white text (dark tone, or mid with white text).",
+          },
+          seo: {
+            type: "boolean",
+            description: "An SEO / AEO post: limits the hoggies and colors to that set.",
+          },
+          ...OUTPUT,
+          scale: SCALE,
+        },
+        required: ["title"],
+        additionalProperties: false,
+      },
+    },
+    {
+      name: "make_event_image",
+      title: "Make a PostHog event image",
+      description: `Make a 1080 × 1080 event post: a headline, a calendar tile with the date, the time and place, a hoggie or a photo, and up to 4 partner logos. ${RETURNS}`,
+      inputSchema: {
+        type: "object",
+        properties: {
+          title: {
+            type: "string",
+            description:
+              "The headline. A new line (\\n) breaks it; **words** are bold, and with any marked, the rest go lighter and smaller.",
+          },
+          headline: {
+            type: "string",
+            enum: ["fit", "even"],
+            description:
+              '"fit" (default): each line fills the width. "even": the lines share one size.',
+          },
+          date: { type: "string", description: "YYYY-MM-DD. Default: two weeks from today." },
+          start: { type: "string", description: "Start time, 24-hour HH:MM." },
+          end: { type: "string", description: "End time, 24-hour HH:MM." },
+          timezone: { type: "string", description: 'Shown after the time, e.g. "PT" or "GMT".' },
+          location: { type: "string", description: 'e.g. "Venue, City".' },
+          color: color("Background color. Default blue."),
+          calendarColor: color("Calendar tile color. Default tangerine."),
+          footerColor: {
+            type: "string",
+            enum: [...COLORS, "white"],
+            description: "Footer color. Default white.",
+          },
+          darkText: { type: "boolean", description: "Dark text instead of white." },
+          hoggie: { ...HOGGIE, description: `${HOGGIE.description} Leave it out for none.` },
+          ...placement(
+            [50, 200],
+            50,
+            " Leave hoggieSize, hoggieX and hoggieY out to have the hoggie placed clear of the date, time and location.",
+          ),
+          photoUrl: {
+            type: "string",
+            description: `A photo, drawn in front of the hoggie: ${PICTURE}.`,
+          },
+          logos: {
+            type: "array",
+            items: { type: "string" },
+            maxItems: 4,
+            description: `Partner logos for the footer, next to PostHog's: each ${PICTURE}.`,
+          },
+          logoColor: {
+            type: "string",
+            enum: ["auto", "white", "black"],
+            description: "The footer logos' color. auto suits the footer color.",
+          },
+          ...OUTPUT,
+          scale: SCALE,
+        },
+        required: ["title"],
+        additionalProperties: false,
+      },
+    },
+    {
+      name: "make_build_mode_image",
+      title: "Make a PostHog build mode image",
+      description: `Make build mode art on the blueprint grid: a title with a highlighted phrase, a picture and the authors, at four sizes (LinkedIn 1920 × 1080, Website 1920 × 1080, X 1500 × 600, Substack 1200 × 630). The preview is the LinkedIn size, or \`size\`. ${RETURNS}`,
+      inputSchema: {
+        type: "object",
+        properties: {
+          title: { type: "string", description: "The title. `|` or a new line forces a break." },
+          highlight: {
+            type: "string",
+            description: "A word or phrase from the title to highlight.",
+          },
+          highlightColor: {
+            type: "string",
+            enum: BUILD_HIGHLIGHTS,
+            description: "Highlight color.",
+          },
+          authors: {
+            type: "array",
+            items: { type: "string" },
+            maxItems: 3,
+            description:
+              "Up to 3 authors; only people with a photo on this site (the error lists them).",
+          },
+          imageUrl: { type: "string", description: `The picture on the grid: ${PICTURE}.` },
+          size: {
+            type: "string",
+            enum: BUILD_SIZES,
+            description: "Preview (and download) only this size. Downloads all four when left out.",
+          },
+          ...OUTPUT,
+        },
+        required: ["title"],
+        additionalProperties: false,
+      },
+    },
+  ]
 }
 
 export const TOOL_DEFINITIONS: readonly ToolDefinition[] = [
@@ -124,4 +424,5 @@ export const TOOL_DEFINITIONS: readonly ToolDefinition[] = [
       additionalProperties: false,
     },
   },
+  ...imageMakerTools(),
 ]

@@ -25,7 +25,7 @@ import {
   Switch,
 } from "../../editor/fields.tsx"
 import { DownloadIcon } from "../../editor/icons.tsx"
-import { useImageStore } from "../../editor/store.ts"
+import { useImageStore, useNewImageLinks } from "../../editor/store.ts"
 import { makerHoggies } from "../../hoggies.ts"
 import { MIN_WIDTH, drawPost, imagesOf } from "./draw.ts"
 import {
@@ -159,32 +159,8 @@ export default function CustomerMaker() {
     runFind()
   }, [current.id, edit, runFind])
 
-  // ---- Links that make an image: #new-<hex JSON> ----
-  const itemsRef = useRef(store.items)
-  itemsRef.current = store.items
-  useEffect(() => {
-    const apply = () => {
-      const req = readLinkRequest(window.location.hash)
-      if (!req) return
-      window.history.replaceState(
-        window.history.state,
-        "",
-        window.location.pathname + window.location.search,
-      )
-      // Opening the same link again selects the image it already made instead of making a copy.
-      const existing = itemsRef.current.find((it) => it.data.linkKey === req.linkKey)
-      if (existing) {
-        select(existing.id)
-        setStatus("Opened the image made from this link")
-      } else {
-        add(req)
-        setStatus(`Made from link: ${displayName(req)}`)
-      }
-    }
-    apply()
-    window.addEventListener("hashchange", apply)
-    return () => window.removeEventListener("hashchange", apply)
-  }, [select, add, setStatus])
+  // ---- `#new-<hex>` links make an image, or open the one they made before ----
+  useNewImageLinks(store, readLinkRequest, displayName)
 
   const onCompany = (value: string) => {
     const patch: Partial<CustomerDoc> = { company: value }

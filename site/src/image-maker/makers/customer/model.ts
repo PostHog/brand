@@ -2,7 +2,16 @@
 // and brand colors on one 1920 × 1080 header. This is the document a customer story image saves,
 // the company lookup and the automatic hoggie.
 
-import { makerHoggies } from "../../hoggies.ts"
+import { findHoggie, makerHoggies } from "../../hoggies.ts"
+import {
+  oneOf,
+  placeHoggie,
+  pictureName,
+  pictureUrl,
+  readHashRequest,
+  type Request,
+  str,
+} from "../../editor/request.ts"
 import type { Stamped } from "../../editor/store.ts"
 import data from "../../data/customer.json"
 
@@ -254,39 +263,38 @@ export function look(d: CustomerDoc): Look {
   }
 }
 
-// ---- Links that make an image (for agents and scripts) ----
+// ---- Requests: a new image from a JSON object of settings (for agents and scripts) ----
+// Keys: company (required), logoUrl, logoMode, hoggie, color, tone, ink. They arrive as a
+// `#new-<hex>` link (documented in site/agent/pages/tools/images/customer-stories.md) or as the
+// make_customer_story_image WebMCP tool's input.
 
-function hashStr(s: string): string {
-  let h = 5381
-  for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0
-  return `${(h >>> 0).toString(36)}-${s.length.toString(36)}`
+/** The image a request asks for, or why it can't make one. */
+export function fromRequest(r: Request): CustomerDoc | string {
+  const company = str(r.company, 200)
+  if (!company) return "A company name or website is required."
+  const d = blank()
+  d.company = company
+  // The posthog.com/customers logo, when there's one: the same lookup as Find logo.
+  const found = searchCustomers(company).exact
+  d.lib = found?.light ? found.slug : ""
+  const logo = pictureUrl(r.logoUrl)
+  if (logo) d.upload = { id: logo, name: pictureName(logo, company) }
+  // A link without a logo looks the company up again when it opens, to say what it found.
+  else d.findOnOpen = true
+  d.logoMode = oneOf(r.logoMode, ["match", "original"] as const) ?? ""
+  d.hog = findHoggie(r.hoggie) || d.hog // an unknown name stays on Auto
+  placeHoggie(d, r, [75, 125], 20)
+  d.color = oneOf(r.color, COLOR_KEYS) ?? d.color
+  d.tone = oneOf(r.tone, ["light", "mid", "dark"] as const) ?? d.tone
+  d.ink = oneOf(r.ink, ["light", "dark"] as const) ?? d.ink
+  return d
 }
 
-/**
- * `#new-<hex>`: hex-encoded UTF-8 JSON that makes a new image when the page opens. Keys: company
- * (required), hoggie, color, tone, ink. The company is looked up when the image opens.
- */
+/** The image a `#new-…` hash asks for, or null. Its linkKey finds the image on a second visit. */
 export function readLinkRequest(hash: string): CustomerDoc | null {
-  const m = /^#new-([0-9a-fA-F]+)$/.exec(hash)
-  if (!m || m[1]!.length % 2) return null
-  try {
-    const hex = m[1]!.toLowerCase()
-    const bytes = new Uint8Array(hex.length / 2)
-    for (let i = 0; i < bytes.length; i++) bytes[i] = parseInt(hex.substr(i * 2, 2), 16)
-    const o = JSON.parse(new TextDecoder().decode(bytes)) as Record<string, unknown> | null
-    if (!o || typeof o !== "object" || typeof o.company !== "string" || !o.company.trim())
-      return null
-    const d = blank()
-    d.company = o.company.trim().slice(0, 200)
-    d.lib = ""
-    d.findOnOpen = true
-    if (typeof o.hoggie === "string" && o.hoggie.trim()) d.hog = o.hoggie.trim()
-    if (typeof o.color === "string" && o.color in TONES) d.color = o.color as ColorKey
-    if (o.tone === "light" || o.tone === "mid" || o.tone === "dark") d.tone = o.tone
-    if (o.ink === "light" || o.ink === "dark") d.ink = o.ink
-    d.linkKey = hashStr(hex)
-    return d
-  } catch {
-    return null
-  }
+  const link = readHashRequest(hash)
+  const d = link && fromRequest(link.request)
+  if (!d || typeof d === "string") return null
+  d.linkKey = link.linkKey
+  return d
 }

@@ -24,9 +24,9 @@ import {
   TextField,
 } from "../../editor/fields.tsx"
 import { CloseIcon, DownloadIcon, PlusIcon } from "../../editor/icons.tsx"
-import { useImageStore } from "../../editor/store.ts"
+import { useImageStore, useNewImageLinks } from "../../editor/store.ts"
 import { makerHoggies } from "../../hoggies.ts"
-import { FOOTER_TOP, SIZE, addSqueak, drawPost, hogUrl, imagesOf } from "./draw.ts"
+import { FIXED_TEXT, FOOTER_TOP, SIZE, addSqueak, drawPost, hogUrl, imagesOf } from "./draw.ts"
 import {
   COLOR_KEYS,
   type EventDoc,
@@ -37,6 +37,7 @@ import {
   firstLine,
   footSwatch,
   hasPhoto,
+  readLinkRequest,
   shortDate,
   swatch,
 } from "./model.ts"
@@ -51,7 +52,6 @@ const thumb = (d: EventDoc) => ({
 })
 
 // Everything the drawings write besides what people type (month names, digits, the pill).
-const FIXED_TEXT = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789:,–… "
 
 function fileName(d: EventDoc, scale: number) {
   return `${slugify(firstLine(d), "event")}${d.date ? `-${d.date}` : ""}${scale === 2 ? "@2x" : ""}.png`
@@ -77,6 +77,9 @@ export default function EventMaker() {
     requestFonts([700], titles + FIXED_TEXT, "Squeak")
   }, [titles])
   useEffect(() => requestFonts([SEMIBOLD, BOLD], details + FIXED_TEXT), [details])
+
+  // `#new-<hex>` links make an image, or open the one they made before.
+  useNewImageLinks(store, readLinkRequest, firstLine)
 
   // ---- Stage ----
   const hit = useRef<Rect | null>(null)

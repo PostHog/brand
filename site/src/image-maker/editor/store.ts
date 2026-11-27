@@ -239,6 +239,20 @@ export function useImageStore<D extends Stamped>(maker: string, blank: () => D):
     setStatus("Image deleted")
   }, [maker, blank, commit])
 
+  // Images handed over by the WebMCP tools (`openInMaker`): queued until this maker is open.
+  useEffect(() => {
+    const drain = () => {
+      const docs = handedOver.get(maker)
+      if (!docs) return
+      handedOver.delete(maker)
+      for (const doc of docs) add({ ...blank(), ...doc } as D)
+      setStatus(docs.length > 1 ? `${docs.length} images made by an agent` : "Made by an agent")
+    }
+    drain()
+    window.addEventListener(HANDOVER_EVENT, drain)
+    return () => window.removeEventListener(HANDOVER_EVENT, drain)
+  }, [maker, blank, add])
+
   const current = useMemo(
     () => state.items.find((it) => it.id === state.currentId) ?? state.items[0]!,
     [state.items, state.currentId],
@@ -256,4 +270,56 @@ export function useImageStore<D extends Stamped>(maker: string, blank: () => D):
   }, [current, isSample])
 
   return { items: state.items, current, select, edit, add, duplicate, remove, status, setStatus }
+}
+
+// ---- Images made elsewhere: `#new-…` links and agents ----
+
+const HANDOVER_EVENT = "brand-image-maker:handover"
+const handedOver = new Map<string, Doc[]>()
+
+/**
+ * Adds an image to a maker's list and opens it: at once if the maker is on screen, else when it
+ * next opens (the caller navigates there). Used by the WebMCP tools.
+ */
+export function openInMaker(maker: string, doc: Doc) {
+  handedOver.set(maker, [...(handedOver.get(maker) ?? []), cloneDoc(doc)])
+  window.dispatchEvent(new Event(HANDOVER_EVENT))
+}
+
+/**
+ * Makes an image from a `#new-<hex JSON>` link when the page opens (or the hash changes), or
+ * opens the one the same link made before. `read` is the maker's `readLinkRequest`.
+ */
+export function useNewImageLinks<D extends Stamped>(
+  store: ImageStore<D>,
+  read: (hash: string) => D | null,
+  label: (data: D) => string,
+) {
+  const { add, select, setStatus } = store
+  const items = useRef(store.items)
+  items.current = store.items
+  const labelRef = useRef(label)
+  labelRef.current = label
+  useEffect(() => {
+    const apply = () => {
+      const req = read(window.location.hash)
+      if (!req) return
+      window.history.replaceState(
+        window.history.state,
+        "",
+        window.location.pathname + window.location.search,
+      )
+      const existing = items.current.find((it) => it.data.linkKey === req.linkKey)
+      if (existing) {
+        select(existing.id)
+        setStatus("Opened the image made from this link")
+      } else {
+        add(req)
+        setStatus(`Made from link: ${labelRef.current(req)}`)
+      }
+    }
+    apply()
+    window.addEventListener("hashchange", apply)
+    return () => window.removeEventListener("hashchange", apply)
+  }, [read, add, select, setStatus])
 }

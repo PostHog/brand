@@ -2,6 +2,15 @@
 // document a build mode image saves, and the facts about each size.
 
 import { clamp } from "../../editor/canvas.ts"
+import {
+  names,
+  oneOf,
+  pictureName,
+  pictureUrl,
+  readHashRequest,
+  type Request,
+  str,
+} from "../../editor/request.ts"
 import type { Stamped } from "../../editor/store.ts"
 import data from "../../data/build.json"
 
@@ -167,4 +176,43 @@ export function sizeNote(fmt: FormatKey): string {
   if (!F.rip) hide.push("paper rip")
   if (!F.logo) hide.push("logo")
   return hide.length ? `No ${hide.join(", ").replace(/, ([^,]*)$/, " or $1")} on this size` : ""
+}
+
+// ---- Requests: a new image from a JSON object of settings (for agents and scripts) ----
+// Keys: title (required), highlight, highlightColor, author (or authors: [..] up to 3), imageUrl.
+// They arrive as a `#new-<hex>` link (documented in site/agent/pages/tools/images/build-mode.md)
+// or as the make_build_mode_image WebMCP tool's input.
+
+/** The image a request asks for, or why it can't make one. */
+export function fromRequest(r: Request): BuildDoc | string {
+  const title = typeof r.title === "string" ? r.title.trim().slice(0, 300) : ""
+  if (!title) return "A title is required."
+  const d = blank()
+  d.title = title
+  d.hlText = str(r.highlight, 120)
+  d.highlight = oneOf(r.highlightColor, HL_KEYS) ?? d.highlight
+  if (r.author !== undefined || r.authors !== undefined) {
+    const people = authorNames()
+    const asked = names(r, MAX_AUTHORS)
+    const unknown = asked.filter((a) => !people.includes(a))
+    if (unknown.length)
+      return `Build mode authors need a photo on this site: ${people.join(", ")}. Not: ${unknown.join(", ")}.`
+    d.author = asked[0] ?? ""
+    d.coAuthors = asked.slice(1)
+  }
+  const image = pictureUrl(r.imageUrl)
+  if (image) {
+    d.imgId = image
+    d.imgName = pictureName(image, "Image")
+  }
+  return d
+}
+
+/** The image a `#new-…` hash asks for, or null. Its linkKey finds the image on a second visit. */
+export function readLinkRequest(hash: string): BuildDoc | null {
+  const link = readHashRequest(hash)
+  const d = link && fromRequest(link.request)
+  if (!d || typeof d === "string") return null
+  d.linkKey = link.linkKey
+  return d
 }
