@@ -34,6 +34,7 @@ import {
   assetPagePath,
   hoggieStem,
   LICENSE_URL,
+  LOGO_LICENSE,
   markdownPath,
 } from "../src/agent-paths.ts"
 import {
@@ -111,6 +112,8 @@ export interface CatalogLogo {
   jsx?: string
   /** Set when this file is one of the handbook's approved presets. */
   preset?: { name: string; when: string }
+  /** SPDX id of the file's license (the logo is CC BY 4.0, unlike the rest of the brand). */
+  license: string
 }
 
 /** A "Built with PostHog" badge for other sites to embed (see src/badge-files.ts). */
@@ -200,7 +203,12 @@ export interface Catalog {
     npm: string
     repository: string
   }
-  license: { summary: string; url: string }
+  license: {
+    summary: string
+    url: string
+    /** The logo's own license, which covers every file in `logos`. */
+    logo: { spdx: string; name: string; url: string; legalCode: string }
+  }
   logos: CatalogLogo[]
   badges: CatalogBadge[]
   marketingAssets: CatalogMarketingAsset[]
@@ -228,7 +236,7 @@ const PNG = "image/png"
 
 export { LICENSE_URL }
 export const LICENSE_SUMMARY =
-  "PostHog's brand assets are PostHog trademarks, made available under the PolyForm Strict License 1.0.0 (source-available, not open source: commercial use, use in your own projects, distribution and derivative works are not licensed). For licensing inquiries, contact hey@posthog.com."
+  "The PostHog logo (logomark, wordmark and lockups, in every variant) is licensed under Creative Commons Attribution 4.0 (CC BY 4.0). That license covers copyright only: the PostHog name and logo stay PostHog trademarks, and using them must not suggest that PostHog endorses or sponsors your product. Everything else (the hedgehog illustrations, crests, fonts, colors and code) is made available under the PolyForm Strict License 1.0.0 (source-available, not open source: commercial use, use in your own projects, distribution and derivative works are not licensed). For licensing inquiries, contact hey@posthog.com."
 
 /** A leaf module of the package, as consumers import it, e.g. `@posthog/brand/hoggies/svg/chart`. */
 function leafModule(group: string, kind: "svg" | "png", slug: string): string {
@@ -382,6 +390,7 @@ function logos(files: Map<string, AgentFile>): CatalogLogo[] {
       ...logoPngSize(file),
       jsx: file.jsx,
       preset: preset ? { name: preset.name, when: preset.when } : undefined,
+      license: LOGO_LICENSE.spdx,
     }
   })
 }
@@ -513,7 +522,7 @@ async function build(): Promise<AgentData> {
       npm: "https://www.npmjs.com/package/@posthog/brand",
       repository: "https://github.com/PostHog/brand",
     },
-    license: { summary: LICENSE_SUMMARY, url: LICENSE_URL },
+    license: { summary: LICENSE_SUMMARY, url: LICENSE_URL, logo: { ...LOGO_LICENSE } },
     logos: logos(files),
     badges: badges(files),
     marketingAssets: marketingAssets(),

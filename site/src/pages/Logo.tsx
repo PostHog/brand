@@ -1,8 +1,9 @@
 import { Logo } from "@posthog/brand/logo"
 import type { LogoLayout, LogomarkHandle } from "@posthog/brand/logo"
 import type { ReactNode } from "react"
-import { useLayoutEffect, useRef, useState } from "react"
-import { Link } from "react-router-dom"
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
+import { Link, useLocation } from "react-router-dom"
+import { LICENSE_URL, LOGO_LICENSE } from "../agent-paths.ts"
 import { Callout } from "../components/Callout.tsx"
 import { CodeBlock } from "../components/CodeBlock.tsx"
 import { CopyFlash } from "../components/CopyFlash.tsx"
@@ -12,6 +13,7 @@ import { PageHeader } from "../components/PageHeader.tsx"
 import {
   LOGO_DONTS,
   LOGO_DOS,
+  LOGO_LICENSE_TERMS,
   LOGO_PRESETS,
   logoProps,
   type LogoFile,
@@ -558,6 +560,13 @@ function ReactSection() {
 
 export function LogoPage() {
   useSeo("/logo")
+  const { hash } = useLocation()
+
+  // The page mounts from a lazy chunk after the browser's own jump to the fragment, so a link
+  // to /logo#license would otherwise land at the top.
+  useEffect(() => {
+    if (hash) document.getElementById(decodeURIComponent(hash.slice(1)))?.scrollIntoView()
+  }, [hash])
 
   return (
     <div>
@@ -578,6 +587,19 @@ export function LogoPage() {
       <section className="section">
         <h2>Guidelines</h2>
         <Guidelines />
+      </section>
+
+      <section className="section" id="license">
+        <h2>License</h2>
+        <ul>
+          {LOGO_LICENSE_TERMS.map((term, i) => (
+            <li key={i}>{term}</li>
+          ))}
+        </ul>
+        <p className="section-lede">
+          Read the <a href={LOGO_LICENSE.url}>{LOGO_LICENSE.name} license</a> and the{" "}
+          <a href={LICENSE_URL}>repository license</a>, which lists the files each license covers.
+        </p>
       </section>
 
       <details className="logo-group section" open>

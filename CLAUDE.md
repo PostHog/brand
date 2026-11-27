@@ -48,6 +48,9 @@ Figma brand book  --sync.ts-->  assets/<namespace>/  --codegen.ts-->  src/genera
   the logo is a small, stable mark, so its SVG geometry is inlined in `src/logo/geometry.ts`
   and exposed as one generic, parametric compound component (`variant`/`layout`/`color`,
   plus `Logo.Logomark`/`Logo.Wordmark`). Hand-maintained — edit it directly (with a changeset).
+  The logo is licensed CC BY 4.0, unlike the rest of the repo (PolyForm Strict). The scope
+  section at the top of `LICENSE` lists the logo paths; the README, `LOGO_LICENSE` in
+  `site/src/agent-paths.ts` and `LOGO_LICENSE_TERMS` in `site/src/logo-files.ts` must agree with it.
 - **`src/fonts/`** — RoundHog, the brand typeface (`./fonts` + `./fonts/css` exports). NOT
   Figma-synced or codegen'd: the eight `woff2` faces live in `assets/fonts/*.woff2` (committed,
   hand-maintained) and are copied by `tsdown` to `dist/fonts/` next to the font modules, so the

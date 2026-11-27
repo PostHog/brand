@@ -14,8 +14,22 @@ import type { CrestTier } from "@posthog/brand"
 /** Canonical origin. Deployed from `main` to Cloudflare Pages. */
 export const SITE_URL = "https://brand.posthog.com"
 
-/** The brand assets' license (PolyForm Strict), linked from the docs, the catalog and pages. */
+/**
+ * The repository's license file: CC BY 4.0 for the logo, PolyForm Strict for everything else.
+ * Linked from the docs, the catalog and pages.
+ */
 export const LICENSE_URL = "https://github.com/PostHog/brand/blob/main/LICENSE"
+
+/**
+ * The logo's license, which covers `src/logo/`, the package's `dist/logo/` and the `/logo/*`
+ * files. Keep it in step with the scope section at the top of `LICENSE`.
+ */
+export const LOGO_LICENSE = {
+  spdx: "CC-BY-4.0",
+  name: "Creative Commons Attribution 4.0",
+  url: "https://creativecommons.org/licenses/by/4.0/",
+  legalCode: "https://creativecommons.org/licenses/by/4.0/legalcode",
+} as const
 
 export type ImageFormat = "svg" | "png"
 

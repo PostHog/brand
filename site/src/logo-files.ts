@@ -199,6 +199,14 @@ export function inPresetOrder<T extends { id: string }>(logos: readonly T[]): T[
   return LOGO_PRESETS.flatMap((preset) => logos.filter((logo) => logo.id === preset.file.id))
 }
 
+/** The logo's license terms, shown on the logo page, its markdown twin and its static shell. */
+export const LOGO_LICENSE_TERMS: readonly string[] = [
+  "The PostHog logo (the logomark, the wordmark and every lockup, in every color) is licensed under Creative Commons Attribution 4.0 (CC BY 4.0). You can use it to refer to PostHog, including in icon sets.",
+  "Credit it as “PostHog logo by PostHog, Inc., licensed under CC BY 4.0” with a link to the license.",
+  "The license covers copyright only. The PostHog name and logo are still trademarks of PostHog, Inc., and using them must not suggest that PostHog endorses or sponsors your product.",
+  "The hedgehogs, crests, fonts, colors, badges and the rest of the package stay under the PolyForm Strict License 1.0.0.",
+]
+
 export const LOGO_DOS: readonly string[] = [
   "Use the standard logo by default.",
   "Use a light (white) logo on dark backgrounds.",

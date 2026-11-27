@@ -42,4 +42,8 @@ Each lockup in full color (`gradient`), 4-color print, black and white; the word
 
 {{files}}
 
-{{license}}
+## License
+
+{{logoLicense}}
+
+{{logoLicenseName}}: {{logoLicenseUrl}} (legal code: {{logoLicenseLegalCode}}). Scope and full terms for the whole repository: {{licenseUrl}}
