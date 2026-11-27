@@ -78,6 +78,48 @@ check(
 const missing = await call("get_brand_asset", { type: "hoggie", slug: "no-such-hoggie" })
 check("unknown asset is an error result", missing.isError === true, firstText(missing.content))
 
+// The image tools, where the server can make images (the IMAGE_MAKERS binding).
+if (tools.some((t) => t.name === "make_customer_story_image")) {
+  const pngOk = async (url: string) => {
+    const res = await fetch(url)
+    const bytes = new Uint8Array(await res.arrayBuffer())
+    return res.ok && res.headers.get("content-type") === "image/png" && bytes[1] === 0x50
+  }
+  const story = await call("make_customer_story_image", { company: "Supabase", color: "green" })
+  const made = JSON.parse(firstText(story.content)) as { png: string; logo: string; link: string }
+  check(
+    "make_customer_story_image",
+    !story.isError &&
+      story.content.some((c) => c.type === "image") &&
+      made.logo === "from posthog.com/customers",
+    made.png.slice(0, 80),
+  )
+  check("its png URL serves the PNG", await pngOk(made.png))
+  const build = await call("make_build_mode_image", {
+    title: "Agents that ship",
+    imageUrl: "/hoggies/robot.svg",
+  })
+  const sizes = JSON.parse(firstText(build.content)) as { pngs: Record<string, string> }
+  check("make_build_mode_image lists every size", Object.keys(sizes.pngs ?? {}).length === 4)
+  check("its X size serves the PNG", await pngOk(sizes.pngs.X!))
+  const event = await call("make_event_image", {
+    title: "Hog meetup",
+    hoggie: "party",
+    location: "A long venue name, London",
+  })
+  check(
+    "make_event_image",
+    !event.isError,
+    firstText(event.content).match(/"adjusted": "[^"]*"/)?.[0] ?? "no adjustment",
+  )
+  const bad = await call("make_blog_image", { title: "" })
+  check(
+    "a request without a title is an error result",
+    bad.isError === true,
+    firstText(bad.content),
+  )
+} else console.log("(no image tools: the server has no IMAGE_MAKERS binding)")
+
 await client.close()
 console.log(failures ? `${failures} failed` : "All tools OK")
 process.exit(failures ? 1 : 0)

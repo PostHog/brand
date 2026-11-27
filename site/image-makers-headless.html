@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="noindex" />
+    <title>PostHog Brand image makers (headless)</title>
+    <!-- The image makers without their editor, for the server: the image makers Worker
+         (edge/src/image-makers-worker.ts) opens this in a headless browser to make and export
+         images with the makers' own code. Not a page for people. See src/image-maker/headless.ts. -->
+  </head>
+  <body>
+    <script type="module" src="/src/image-maker/headless.ts"></script>
+  </body>
+</html>

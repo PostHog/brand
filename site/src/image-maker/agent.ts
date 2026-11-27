@@ -21,7 +21,7 @@ import {
   slugify,
 } from "./editor/canvas.ts"
 import { downloadPng } from "./editor/download.ts"
-import { type Doc, encodeImage } from "./editor/link.ts"
+import { decodeImage, type Doc, encodeImage, withoutUploads } from "./editor/link.ts"
 import { placesHoggie, type Request } from "./editor/request.ts"
 import { openInMaker, type Stamped } from "./editor/store.ts"
 import { findHoggie } from "./hoggies.ts"
@@ -44,6 +44,8 @@ interface Frame {
 }
 
 interface Engine<D extends Stamped> {
+  /** The maker's new document, which a saved one (an `?image=` link) is opened over. */
+  blank: () => D
   fromRequest: (r: Request) => D | string
   /** The files, the preview first. `size` picks one where there are several. */
   frames: (d: D, size?: string) => Frame[]
@@ -73,6 +75,7 @@ function unknownHoggie(r: Request, fallback: string): string[] {
 }
 
 const blogEngine: Engine<blog.BlogDoc> = {
+  blank: blog.blank,
   fromRequest: blog.fromRequest,
   frames: (d) => [
     {
@@ -105,6 +108,7 @@ const blogEngine: Engine<blog.BlogDoc> = {
 }
 
 const customerEngine: Engine<customer.CustomerDoc> = {
+  blank: customer.blank,
   fromRequest: customer.fromRequest,
   frames: (d) => [
     {
@@ -201,6 +205,7 @@ function hoggieOverDetails(d: event.EventDoc): { covered: number; hog: Rect | nu
 const EVENT_MIN_FIT_SIZE = 60
 
 const eventEngine: Engine<event.EventDoc> = {
+  blank: event.blank,
   fromRequest: event.fromRequest,
   frames: (d) => [
     {
@@ -267,6 +272,7 @@ const eventEngine: Engine<event.EventDoc> = {
 }
 
 const buildEngine: Engine<build.BuildDoc> = {
+  blank: build.blank,
   fromRequest: build.fromRequest,
   frames: (d, size) =>
     build.ORDER.filter((fmt) => !size || fmt === size).map((fmt) => ({
@@ -387,5 +393,59 @@ export async function makeImage(slug: MakerSlug, request: Request, opts: MakeOpt
     adjusted: fitted.note,
     warnings,
     image,
+  }
+}
+
+export interface ExportedPng {
+  /** The PNG, base64. */
+  png: string
+  filename: string
+  width: number
+  height: number
+}
+
+/**
+ * Exports a saved image (an `?image=` link's value) as the PNG its maker downloads: opened the way
+ * the maker opens a link (its settings over the maker's `blank()`), with the same images and
+ * fonts waited for and the same full-size drawing as `downloadPng`. Used by the headless page
+ * (headless.ts) behind https://brand.posthog.com/tools/images/<maker>.png. `size` picks a build
+ * mode size (default LinkedIn).
+ */
+export async function exportPng(
+  slug: MakerSlug,
+  param: string,
+  opts: { scale?: 1 | 2; size?: string } = {},
+): Promise<ExportedPng> {
+  const engine = ENGINES[slug]
+  if (!engine) throw new Error(`No image maker "${slug}".`)
+  const saved = decodeImage(param)
+  if (!saved) throw new Error("The image parameter isn't a saved image (base64url JSON).")
+  const doc = { ...engine.blank(), ...(withoutUploads(saved) as Doc) } as Stamped
+  if (slug === "build-mode" && opts.size && !build.ORDER.includes(opts.size as build.FormatKey))
+    throw new Error(`size must be one of ${build.ORDER.join(", ")}.`)
+
+  engine.fonts(doc)
+  await Promise.all([imagesReady(engine.images(doc), engine.minWidth), document.fonts.ready])
+  const frame = engine.frames(doc, opts.size)[0]!
+  const scale = opts.scale === 2 ? 2 : 1
+  const canvas = document.createElement("canvas")
+  canvas.width = Math.round(frame.width * scale)
+  canvas.height = Math.round(frame.height * scale)
+  const ctx = canvas.getContext("2d")!
+  ctx.scale(scale, scale)
+  frame.draw(ctx)
+  let png: string
+  try {
+    png = canvas.toDataURL("image/png").replace(/^data:image\/png;base64,/, "")
+  } catch {
+    throw new Error(
+      "A picture's server doesn't allow cross-origin use, so the image can't be exported.",
+    )
+  }
+  return {
+    png,
+    filename: scale === 2 ? frame.filename.replace(/\.png$/, "@2x.png") : frame.filename,
+    width: canvas.width,
+    height: canvas.height,
   }
 }

@@ -451,3 +451,23 @@ export const MCP_TOOL_DEFINITIONS: readonly ToolDefinition[] = [
     annotations: { readOnlyHint: true },
   },
 ]
+
+const MCP_RETURNS =
+  "Drawn on brand.posthog.com by the maker itself. Returns a preview of the image to check, `png`: the URL of the full-size PNG (download it, embed it or hand it on; build mode lists one per size), `link`: the maker with the image open, where a person can change it, what the maker decided (the hoggie it matched, where the logo came from…) and `warnings` to fix."
+
+/**
+ * The make_*_image tools on the remote MCP server: the same settings as the WebMCP tools, minus
+ * what only a browser tab can do (`show`, `download`). Listed only where the server can make
+ * images (the IMAGE_MAKERS binding, edge/src/mcp.ts).
+ */
+export const MCP_IMAGE_TOOL_DEFINITIONS: readonly ToolDefinition[] = imageMakerTools().map(
+  (tool) => {
+    const { show: _show, download: _download, ...properties } = tool.inputSchema.properties
+    return {
+      ...tool,
+      description: tool.description.replace(RETURNS, MCP_RETURNS),
+      inputSchema: { ...tool.inputSchema, properties },
+      annotations: { readOnlyHint: true },
+    }
+  },
+)

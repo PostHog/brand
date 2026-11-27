@@ -2,12 +2,15 @@
   "name": "@posthog/brand-edge",
   "version": "0.0.1",
   "private": true,
-  "description": "brand.posthog.com's server side: the remote MCP server (/mcp, a Pages Function) and the image render Worker.",
+  "description": "brand.posthog.com's server side: the remote MCP server (/mcp, a Pages Function) and the image makers Worker (makes and exports image maker images).",
   "type": "module",
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "dev:image-makers": "wrangler dev --port 8790 --var SITE_ORIGIN:http://localhost:8788",
+    "deploy:image-makers": "wrangler deploy"
   },
   "dependencies": {
+    "@cloudflare/puppeteer": "^2.0.1",
     "@modelcontextprotocol/sdk": "^1.32.2",
     "@posthog/brand": "workspace:*",
     "@posthog/mcp": "^1.6.0",
