@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-26T05:30:12Z",
+  "generatedAt": "2026-11-27T02:12:46Z",
   "figmaFileKey": "EqKxlSFoOCkRXCnHi4C3eE",
-  "figmaVersion": "2426032665357321824",
+  "figmaVersion": "2426344712470519634",
   "namespace": "hoggies",
   "entries": [
     {
@@ -4133,8 +4133,8 @@
         "blue pants",
         "happy"
       ],
-      "svgBytes": 244582,
-      "pngBytes": 40900
+      "svgBytes": 244524,
+      "pngBytes": 40243
     },
     {
       "slug": "workmaxxing",
