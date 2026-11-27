@@ -1,6 +1,8 @@
-// The image render Worker (src/render-worker.ts). Deploy: `pnpm --filter @posthog/brand-edge
-// deploy:render` (needs a Cloudflare account on Workers Paid with Browser Run). The brand site
-// reaches it through a service binding named RENDER on the Pages project, so it has no public URL.
+// The image render Worker (src/render-worker.ts). Deployed by Cloudflare Workers Builds: a Workers
+// project named brand-render connected to this repo, root directory `edge`, deploy command
+// `npx wrangler deploy`, build watch paths `edge/*` and `site/src/image-maker/catalog.ts` (see
+// CLAUDE.md, "Image rendering"). Needs Workers Paid with Browser Run. The brand site reaches it
+// through a service binding named RENDER on the Pages project, so it has no public URL.
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "brand-render",

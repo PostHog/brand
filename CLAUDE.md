@@ -272,8 +272,13 @@ at `https://brand.posthog.com/mcp` after a deploy).
 **Image rendering** (`/render/<maker>.png?image=…`, and the MCP `make_*_image` tools): the image
 makers drawn on the server, so agents that don't browse get real PNGs. The makers only draw in a
 browser (canvas, fonts, images), so a headless one does it: the render Worker
-(`edge/src/render-worker.ts`, its own `edge/wrangler.jsonc`, deployed by `deploy-render.yml` or
-`pnpm --filter @posthog/brand-edge deploy:render`; needs Workers Paid with Browser Run) opens the
+(`edge/src/render-worker.ts`, its own `edge/wrangler.jsonc`; needs Workers Paid with Browser Run)
+deploys through Cloudflare Workers Builds: the `brand-render` Workers project is connected to this
+repo with root directory `edge` (its `pnpm install` installs the whole workspace, and wrangler
+bundles the one site module it imports), the default deploy command `npx wrangler deploy`, build
+watch paths `edge/*` and `site/src/image-maker/catalog.ts` (other changes skip the build; the
+render page itself ships with the site), and preview builds off. The project's name must match
+`name` in `wrangler.jsonc`. `pnpm --filter @posthog/brand-edge deploy:render` deploys by hand. The Worker opens the
 site's render page (`site/render.html` → `site/src/render.ts`, a second Vite entry with no React or
 analytics that registers RoundHog like `main.tsx`) and calls `window.brandRender`, which is
 `renderImage`/`makeImage` in `site/src/image-maker/agent.ts`, i.e. the makers' own code.
