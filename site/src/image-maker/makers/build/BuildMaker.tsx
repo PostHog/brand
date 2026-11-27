@@ -16,6 +16,7 @@ import {
   Field,
   Hint,
   PictureCard,
+  PictureError,
   Range,
   Section,
   Swatches,
@@ -23,7 +24,7 @@ import {
   TextField,
 } from "../../editor/fields.tsx"
 import { CloseIcon, DownloadIcon, ImageIcon } from "../../editor/icons.tsx"
-import { useImageStore } from "../../editor/store.ts"
+import { useImageStore, useNewImageLinks } from "../../editor/store.ts"
 import { drawPost, imagesOf } from "./draw.ts"
 import {
   ASSETS,
@@ -41,6 +42,7 @@ import {
   blank,
   fitOf,
   plainTitle,
+  readLinkRequest,
   sizeNote,
 } from "./model.ts"
 
@@ -72,6 +74,9 @@ export default function BuildMaker() {
   // The text the drawings use, so RoundHog's faces for it are loaded.
   const allText = store.items.map((it) => it.data.title + authorsOf(it.data).join("")).join("")
   useEffect(() => requestFonts([SEMIBOLD, MEDIUM], allText), [allText])
+
+  // `#new-<hex>` links make an image, or open the one they made before.
+  useNewImageLinks(store, readLinkRequest, plainTitle)
 
   // ---- Stage ----
   const hit = useRef<Rect | null>(null)
@@ -361,6 +366,7 @@ export default function BuildMaker() {
                 </button>
               ) : null}
             </PictureCard>
+            <PictureError urls={[imageUrl]} what="image" />
             <Range
               label="Size, all sizes"
               min={50}

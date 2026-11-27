@@ -56,3 +56,21 @@ export function makerHoggies(): Record<string, MakerHoggie> {
   cached = hogs
   return hogs
 }
+
+/**
+ * The maker name of the hoggie a request names, or "" if there's none: its name ("Burning
+ * Money", "Noir 2"), in any case, or its file stem ("burning-money", "noir-2").
+ */
+export function findHoggie(query: unknown): string {
+  if (typeof query !== "string" || !query.trim()) return ""
+  const hogs = makerHoggies()
+  const q = query.trim()
+  if (hogs[q]) return q
+  const lower = q.toLowerCase()
+  const stem = lower.replace(/\.(svg|png)$/, "").replace(/^.*\//, "")
+  for (const [name, hog] of Object.entries(hogs)) {
+    if (name.toLowerCase() === lower) return name
+    if (hog.id.endsWith(`/${stem}.svg`)) return name
+  }
+  return ""
+}

@@ -330,7 +330,21 @@ already in the list selects it rather than adding a copy. Uploads are object URL
 document for the session and dropped from links and storage (`withoutUploads`); downloads wait
 for the drawing's images, then save through a plain `<a download>`. The blog maker also makes a new
 image from `#new-<hex JSON>` (title, description, highlight, authors, hoggie, colors; documented
-in `site/agent/pages/tools/images/blog.md`), which is how agents hand a v0 header to an author. On maker routes
+in `site/agent/pages/tools/images/blog.md`), which is how agents hand a v0 header to an author.
+Every maker takes such a link: its `model.ts` `fromRequest` turns a plain JSON object of settings
+into a document (shared helpers in `editor/request.ts`), `readLinkRequest` reads it from the hash,
+and `useNewImageLinks` (`editor/store.ts`) adds it to the list. The same `fromRequest` backs the
+`make_<maker>_image` WebMCP tools (`webmcp-tools.ts` schemas, whose value lists `tsc` checks
+against each model's types; behavior in `src/image-maker/agent.ts`, lazy-loaded on the first call):
+they draw the document with the maker's `draw.ts`, return a 960px JPEG preview as MCP `image`
+content plus the `?image=` link, what the maker decided and `warnings`, and optionally `show` it
+(`openInMaker` hands it to the maker's store, navigating there) or `download` it. The event tool also places a
+hoggie the agent didn't place (`fit` in `agent.ts`): it moves it right, then shrinks it, until
+drawing it changes no pixel in the date/time/location lines' boxes (`drawPost`'s `layout` out-param). Pictures an agent
+passes (logos, photos) are URLs, not uploads, so links carry them; `loadedImage` loads cross-origin
+ones in CORS mode so the canvas still exports (posthog.com's res.cloudinary.com images allow it).
+To test the tools, Chrome needs `--enable-experimental-web-platform-features` for
+`document.modelContext` (e.g. `agent-browser --args …`, then `agent-browser webmcp invoke`). On maker routes
 the page panel is wider (`.page-wide`) and there is no footer, and from 901px wide the editor fills
 the window instead of scrolling (`.app-fit` in theme.css, set by `Layout` for the catalog's maker
 paths, min height 600px): the list and settings scroll inside it and the stage scales the image to

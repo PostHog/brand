@@ -1,7 +1,15 @@
 // Blog images: post and newsletter headers, 1920 × 1080. This is the document a blog image saves,
 // its colors, and how the hoggie is picked when the author leaves it to the maker.
 
-import { type MakerHoggie, makerHoggies } from "../../hoggies.ts"
+import { findHoggie, type MakerHoggie, makerHoggies } from "../../hoggies.ts"
+import {
+  names,
+  oneOf,
+  placeHoggie,
+  readHashRequest,
+  type Request,
+  str,
+} from "../../editor/request.ts"
 import type { Stamped } from "../../editor/store.ts"
 
 export const W = 1920
@@ -285,53 +293,39 @@ export function highlightIndex(d: BlogDoc): { idx: number; len: number; found: b
   return { idx, len: w.length, found: idx >= 0 || !w }
 }
 
-// ---- `#new-<hex>` links: a new image from hex-encoded UTF-8 JSON (for agents and scripts) ----
+// ---- Requests: a new image from a JSON object of settings (for agents and scripts) ----
 // Keys: title (required), description, highlight, author (or authors: [..] up to 3), hoggie,
-// color, tone, highlightColor. Documented in site/agent/pages/tools/images/blog.md.
+// color, tone, textColor, highlightColor, seo. They arrive as a `#new-<hex>` link (documented in
+// site/agent/pages/tools/images/blog.md) or as the make_blog_image WebMCP tool's input.
 
-function hashStr(s: string): string {
-  let h = 5381
-  for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0
-  return `${(h >>> 0).toString(36)}-${s.length.toString(36)}`
+/** The image a request asks for, or why it can't make one. */
+export function fromRequest(r: Request): BlogDoc | string {
+  const title = str(r.title, 300)
+  if (!title) return "A title is required."
+  const d = blank()
+  d.title = title
+  d.hlText = str(r.highlight, 120)
+  d.description = str(r.description, 600)
+  const authors = names(r, MAX_AUTHORS)
+  d.author = authors[0] ?? ""
+  if (authors.length > 1) d.coAuthors = authors.slice(1)
+  d.hog = findHoggie(r.hoggie) || d.hog // an unknown name stays on Auto
+  placeHoggie(d, r, [75, 125], 20)
+  d.color = oneOf(r.color, COLOR_KEYS) ?? d.color
+  d.tone = oneOf(r.tone, ["light", "mid", "dark"] as const) ?? d.tone
+  d.midText = oneOf(r.textColor, ["dark", "white"] as const) ?? d.midText
+  d.highlight = oneOf(r.highlightColor, HL_KEYS) ?? d.highlight
+  if (r.seo === true) d.seo = true
+  // White only reads on white text.
+  if (d.highlight === "white" && !whiteHlAllowed(d)) d.highlight = "purple"
+  return d
 }
 
 /** The image a `#new-…` hash asks for, or null. Its linkKey finds the image on a second visit. */
 export function readLinkRequest(hash: string): BlogDoc | null {
-  const m = /^#new-([0-9a-fA-F]+)$/.exec(hash || "")
-  if (!m || m[1]!.length % 2) return null
-  try {
-    const hex = m[1]!.toLowerCase()
-    const bytes = new Uint8Array(hex.length / 2)
-    for (let i = 0; i < bytes.length; i++) bytes[i] = parseInt(hex.slice(i * 2, i * 2 + 2), 16)
-    const o = JSON.parse(new TextDecoder().decode(bytes)) as unknown
-    if (!o || typeof o !== "object") return null
-    const r = o as Record<string, unknown>
-    const str = (v: unknown, max: number) => (typeof v === "string" ? v.slice(0, max) : "")
-    const title = str(r.title, 300).trim()
-    if (!title) return null
-    const d = blank()
-    d.title = title
-    d.hlText = str(r.highlight, 120).trim()
-    d.description = str(r.description, 600).trim()
-    d.author = str(r.author, 120).trim()
-    if (Array.isArray(r.authors)) {
-      const au = r.authors
-        .map((x) => str(x, 120).trim())
-        .filter(Boolean)
-        .slice(0, MAX_AUTHORS)
-      if (au.length) {
-        d.author = au[0]!
-        d.coAuthors = au.slice(1)
-      }
-    }
-    if (typeof r.hoggie === "string" && r.hoggie.trim()) d.hog = r.hoggie.trim() // an unknown name falls back to Auto
-    if (typeof r.color === "string" && r.color in TONES) d.color = r.color as ColorKey
-    if (r.tone === "light" || r.tone === "mid" || r.tone === "dark") d.tone = r.tone
-    if (typeof r.highlightColor === "string" && r.highlightColor in HL)
-      d.highlight = r.highlightColor as HlKey
-    d.linkKey = hashStr(hex)
-    return d
-  } catch {
-    return null
-  }
+  const link = readHashRequest(hash)
+  const d = link && fromRequest(link.request)
+  if (!d || typeof d === "string") return null
+  d.linkKey = link.linkKey
+  return d
 }

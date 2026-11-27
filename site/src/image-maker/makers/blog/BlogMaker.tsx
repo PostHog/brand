@@ -27,7 +27,7 @@ import {
   TextField,
 } from "../../editor/fields.tsx"
 import { CloseIcon, DownloadIcon } from "../../editor/icons.tsx"
-import { type Item, useImageStore } from "../../editor/store.ts"
+import { useImageStore, useNewImageLinks } from "../../editor/store.ts"
 import { drawPost, imagesOf } from "./draw.ts"
 import {
   AUTO,
@@ -87,31 +87,7 @@ export default function BlogMaker() {
   useEffect(() => requestFonts([REGULAR, MEDIUM, SEMIBOLD, BOLD], allText), [allText])
 
   // ---- `#new-<hex>` links make an image, or open the one they made before ----
-  const items = useRef<Item<BlogDoc>[]>(store.items)
-  items.current = store.items
-  const { add, select } = store
-  useEffect(() => {
-    const apply = () => {
-      const req = readLinkRequest(window.location.hash)
-      if (!req) return
-      window.history.replaceState(
-        window.history.state,
-        "",
-        window.location.pathname + window.location.search,
-      )
-      const existing = items.current.find((it) => it.data.linkKey === req.linkKey)
-      if (existing) {
-        select(existing.id)
-        setStatus("Opened the image made from this link")
-      } else {
-        add(req)
-        setStatus(`Made from link: ${plainTitle(req)}`)
-      }
-    }
-    apply()
-    window.addEventListener("hashchange", apply)
-    return () => window.removeEventListener("hashchange", apply)
-  }, [add, select, setStatus])
+  useNewImageLinks(store, readLinkRequest, plainTitle)
 
   // ---- Stage ----
   const hit = useRef<Rect | null>(null)

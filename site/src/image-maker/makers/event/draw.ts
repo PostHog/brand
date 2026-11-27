@@ -36,6 +36,9 @@ export function hogUrl(name: string): string {
   return makerHoggies()[name]?.id ?? ""
 }
 
+/** Characters every event image can draw (calendar, times), so their font faces load up front. */
+export const FIXED_TEXT = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789:,–… "
+
 let squeakAdded = false
 /** Registers Squeak Bold (the site doesn't), once. `requestFonts` then loads it. */
 export function addSqueak() {
@@ -267,7 +270,15 @@ export function imagesOf(d: EventDoc): string[] {
  * Draws the image. `editor` adds the stage-only "Choose hoggie" placeholder. Returns the
  * hoggie's rectangle (or the placeholder's) so the stage can make it clickable.
  */
-export function drawPost(ctx: CanvasRenderingContext2D, d: EventDoc, editor = false): Rect | null {
+export function drawPost(
+  ctx: CanvasRenderingContext2D,
+  d: EventDoc,
+  editor = false,
+  /** Filled with the boxes of the detail lines (date, time, location), for overlap checks. */
+  layout?: { details: Rect[] },
+): Rect | null {
+  const detail = (text: string, top: number, h: number) =>
+    layout?.details.push({ x: 88, y: top, w: ctx.measureText(text).width, h })
   const bg = swatch(d.bg, 500)
   const cal = swatch(d.cal, 700)
   const foot = footSwatch(d.footer)
@@ -363,16 +374,17 @@ export function drawPost(ctx: CanvasRenderingContext2D, d: EventDoc, editor = fa
   y += 56
   ctx.fillStyle = fg
   ctx.font = fontStr(SEMIBOLD, 48)
-  ctx.fillText(
-    dt ? `${DAYS[dt.getDay()]}, ${MONTHS[dt.getMonth()]} ${dt.getDate()}` : "Day, Month DD",
-    88,
-    y + 42,
-  )
+  const dateLine = dt
+    ? `${DAYS[dt.getDay()]}, ${MONTHS[dt.getMonth()]} ${dt.getDate()}`
+    : "Day, Month DD"
+  ctx.fillText(dateLine, 88, y + 42)
+  detail(dateLine, y, 55)
   y += 55 + 12
   if (tl) {
     ctx.fillStyle = fgMuted
     ctx.font = fontStr(SEMIBOLD, 40)
     ctx.fillText(tl, 88, y + 36)
+    detail(tl, y, 48)
     y += 48
   }
   y += 40
@@ -383,6 +395,7 @@ export function drawPost(ctx: CanvasRenderingContext2D, d: EventDoc, editor = fa
   ctx.font = fontStr(SEMIBOLD, 40)
   for (const line of loc) {
     ctx.fillText(line, 88, y + 36)
+    detail(line, y, 48)
     y += 48
   }
 

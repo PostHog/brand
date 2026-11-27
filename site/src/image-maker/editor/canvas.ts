@@ -175,6 +175,10 @@ export function loadedImage(url: string | undefined | null, minWidth = 0): HTMLI
   const cached = images.get(key)
   if (cached) return cached.ok ? cached.el : null
   const el = new Image()
+  // A picture from another site (a logo URL an agent passed) loads in CORS mode, so the canvas it's
+  // drawn on can still be exported. Its server must allow it; if not, it fails and isn't drawn.
+  if (/^https?:/i.test(url) && new URL(url).origin !== window.location.origin)
+    el.crossOrigin = "anonymous"
   const entry: CachedImage = { el, ok: false, settled: false }
   images.set(key, entry)
   el.onload = () => {

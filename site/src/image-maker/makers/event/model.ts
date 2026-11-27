@@ -1,6 +1,16 @@
 // Event images: a square post with a headline, a calendar tile, the time and place, a hoggie or
 // your own picture, and partner logos in the footer. This is the document an event image saves.
 
+import { findHoggie } from "../../hoggies.ts"
+import {
+  oneOf,
+  placeHoggie,
+  pictureName,
+  pictureUrl,
+  readHashRequest,
+  type Request,
+  str,
+} from "../../editor/request.ts"
 import type { Stamped } from "../../editor/store.ts"
 import data from "../../data/event.json"
 
@@ -203,4 +213,69 @@ export function shortDate(d: EventDoc): string {
 
 export function hasPhoto(d: EventDoc): d is EventDoc & { photo: EventPhoto } {
   return !!d.photo?.id
+}
+
+// ---- Requests: a new image from a JSON object of settings (for agents and scripts) ----
+// Keys: title (required), headline, date, start, end, timezone, location, color, calendarColor,
+// footerColor, darkText, hoggie, photoUrl, logos, logoColor. They arrive as a `#new-<hex>` link
+// (documented in site/agent/pages/tools/images/events.md) or as the make_event_image WebMCP
+// tool's input.
+
+const TIME = /^([01]?\d|2[0-3]):[0-5]\d$/
+
+/** The image a request asks for, or why it can't make one. */
+export function fromRequest(r: Request): EventDoc | string {
+  const title = typeof r.title === "string" ? r.title.trim().slice(0, 200) : ""
+  if (!title) return "A title is required."
+  const d = blank()
+  d.title = title
+  d.headline = oneOf(r.headline, ["fit", "even"] as const) ?? d.headline
+  const date = str(r.date, 10)
+  if (date) {
+    if (!parseDate(date)) return `date must be YYYY-MM-DD, not "${date}".`
+    d.date = date
+  }
+  for (const k of ["start", "end"] as const) {
+    if (r[k] === undefined) continue
+    const t = str(r[k], 5)
+    if (t && !TIME.test(t)) return `${k} must be a 24-hour HH:MM time, not "${t}".`
+    d[k] = t
+  }
+  d.tz = str(r.timezone, 12)
+  if (r.location !== undefined) d.location = str(r.location, 120)
+  d.bg = oneOf(r.color, COLOR_KEYS) ?? d.bg
+  d.cal = oneOf(r.calendarColor, COLOR_KEYS) ?? d.cal
+  d.footer = oneOf<FooterKey>(r.footerColor, [...COLOR_KEYS, "white"]) ?? d.footer
+  if (r.darkText === true) d.darkText = true
+  if (typeof r.hoggie === "string") d.hog = findHoggie(r.hoggie)
+  placeHoggie(d, r, [50, 200], 50)
+  const photo = pictureUrl(r.photoUrl)
+  if (photo)
+    // Placed like an upload: in front of the hoggie, shifted left so both show.
+    d.photo = {
+      id: photo,
+      name: pictureName(photo, "Photo"),
+      size: 70,
+      x: d.hog ? -25 : 0,
+      y: 0,
+      flip: false,
+      front: true,
+    }
+  if (Array.isArray(r.logos))
+    d.logos = r.logos
+      .map(pictureUrl)
+      .filter(Boolean)
+      .slice(0, MAX_LOGOS)
+      .map((url) => ({ id: url, name: pictureName(url, "Logo") }))
+  d.logoColor = oneOf(r.logoColor, ["auto", "white", "black"] as const) ?? d.logoColor
+  return d
+}
+
+/** The image a `#new-…` hash asks for, or null. Its linkKey finds the image on a second visit. */
+export function readLinkRequest(hash: string): EventDoc | null {
+  const link = readHashRequest(hash)
+  const d = link && fromRequest(link.request)
+  if (!d || typeof d === "string") return null
+  d.linkKey = link.linkKey
+  return d
 }
