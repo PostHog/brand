@@ -91,7 +91,7 @@ if (tools.some((t) => t.name === "make_customer_story_image")) {
     "make_customer_story_image",
     !story.isError &&
       story.content.some((c) => c.type === "image") &&
-      made.logo.includes("posthog.com"),
+      made.logo === "from posthog.com/customers",
     made.png.slice(0, 80),
   )
   check("its png URL serves the PNG", await pngOk(made.png))
