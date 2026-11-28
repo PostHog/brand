@@ -1,6 +1,6 @@
 {
   "name": "@posthog/brand-edge",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "description": "brand.posthog.com's server side: the remote MCP server (/mcp, a Pages Function) and the image makers Worker (makes and exports image maker images).",
   "type": "module",
